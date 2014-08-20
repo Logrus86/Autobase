@@ -1,6 +1,6 @@
 package com.epam.bp.autobase.entity;
 
-public abstract class TruckBuilder extends VehicleBuilder{
+public abstract class TruckBuilder extends VehicleBuilder {
     protected Truck truck;
 
     public Truck getTruck() {

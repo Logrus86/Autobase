@@ -33,7 +33,4 @@ public class ConnectionPool {
     public void closeConnection(ProxyConnection connection) {
         connectionQueue.offer(connection);
     }
-
-    //
-    //ConnectionPool pool = new ConnectionPool(poolCapacity);
 }

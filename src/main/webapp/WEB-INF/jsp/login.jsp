@@ -10,6 +10,7 @@
     <button type="submit">Login</button>
 </form>
 <form action="register">
-    <button>Register</button></form>
+    <button>Register</button>
+</form>
 </body>
 </html>

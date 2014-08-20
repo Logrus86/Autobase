@@ -6,6 +6,12 @@ import java.util.Comparator;
 
 public abstract class Vehicle implements Cloneable, Comparable<Vehicle> {
     private BigDecimal rentPrice;
+    public static final Comparator<Vehicle> PRICE_COMPARATOR = new Comparator<Vehicle>() {
+        @Override
+        public int compare(Vehicle vehicle1, Vehicle vehicle2) {
+            return vehicle1.rentPrice.compareTo(vehicle2.rentPrice);
+        }
+    };
     private boolean operable;
     private String model;
     private String manufacturer; //private Manufacturer manufacturer;
@@ -14,13 +20,6 @@ public abstract class Vehicle implements Cloneable, Comparable<Vehicle> {
     private String color;
     private BigDecimal mileage;
     private Fuel fuelType;
-
-    public static final Comparator<Vehicle> PRICE_COMPARATOR = new Comparator<Vehicle>() {
-        @Override
-        public int compare(Vehicle vehicle1, Vehicle vehicle2) {
-            return vehicle1.rentPrice.compareTo(vehicle2.rentPrice);
-        }
-    };
 
     public Year getProductionYear() {
         return productionYear;
@@ -115,20 +114,4 @@ public abstract class Vehicle implements Cloneable, Comparable<Vehicle> {
     public enum Fuel {
         PETROL, DIESEL, GAS, GAS_PETROL, ELECTRICITY
     }
-
-  /*  private class Manufacturer {
-        private List<String> manufacturers = new ArrayList<>();
-
-        public List<String> getManufacturers() {
-            return manufacturers;
-        }
-
-        public void setManufacturers(List<String> manufacturers) {
-            this.manufacturers = manufacturers;
-        }
-
-        public String getManufacturer(int index) {
-            return manufacturers.get(index);
-        }
-    }*/
 }

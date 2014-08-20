@@ -32,7 +32,6 @@ public class CarBuilderRandom extends CarBuilder {
 
     @Override
     public void buildModel() {
-        car.setModel("Model_" + (String.valueOf(VehicleFactory.minMaxRandom(1, 100))));
         car.setModel(vhModels[VehicleFactory.minMaxRandom(0, vhModels.length - 1)]);
     }
 
