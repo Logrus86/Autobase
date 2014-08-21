@@ -2,12 +2,11 @@ package com.epam.bp.autobase.connectionPool;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class ConnectionPool {
-    private static final ResourceBundle rb = ResourceBundle.getBundle("db", Locale.ENGLISH);
+    private static final ResourceBundle rb = ResourceBundle.getBundle("db"); //property manager
     private String driver = rb.getString("db.driver");
     private String url = rb.getString("db.url");
     private String user = rb.getString("db.user");

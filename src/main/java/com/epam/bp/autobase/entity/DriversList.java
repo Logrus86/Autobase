@@ -3,7 +3,7 @@ package com.epam.bp.autobase.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DriversBase {
+public class DriversList {
     private static List<User> driversBase = new ArrayList<>();
 
     public static List<User> getDriversBase() {

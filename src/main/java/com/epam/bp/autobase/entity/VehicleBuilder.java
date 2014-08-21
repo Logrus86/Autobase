@@ -1,11 +1,10 @@
 package com.epam.bp.autobase.entity;
 
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public abstract class VehicleBuilder {
 
-    private static final ResourceBundle rb = ResourceBundle.getBundle("vehicles", Locale.ENGLISH);
+    private static final ResourceBundle rb = ResourceBundle.getBundle("vehicles");
     static final String[] vhColors = rb.getString("vh.colorList").split(",");
     static final String[] vhManufacturers = rb.getString("vh.manufacturerList").split(",");
     static final String[] vhModels = rb.getString("vh.modelList").split(",");

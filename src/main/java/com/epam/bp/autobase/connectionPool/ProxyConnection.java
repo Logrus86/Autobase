@@ -55,6 +55,7 @@ public class ProxyConnection implements Connection {
     @Override
     public void close() throws SQLException {
         connection.close();
+        //TODO: return to pool by itself, make it inner class of connection pool
     }
 
     @Override
