@@ -2,12 +2,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>index.jsp</title>
+    <title></title>
 </head>
 <body>
 <%
-    response.sendRedirect(request.getContextPath() + "/do/login");
-//    redirect to mainpage
+    response.sendRedirect(request.getContextPath() + "/do/main");
 %>
 </body>
 </html>

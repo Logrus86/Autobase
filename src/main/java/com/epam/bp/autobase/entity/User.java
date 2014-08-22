@@ -8,7 +8,7 @@ public class User {
     private String firstname;
     private String lastname;
     private Date dob;
-    private String login;
+    private String username;
     private String password;
     private String email;
     private Role role;
@@ -63,12 +63,12 @@ public class User {
         this.firstname = firstname;
     }
 
-    public String getLogin() {
-        return login;
+    public String getUsername() {
+        return username;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -102,7 +102,7 @@ public class User {
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", dob=" + dob +
-                ", login='" + login + '\'' +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", role=" + role +
