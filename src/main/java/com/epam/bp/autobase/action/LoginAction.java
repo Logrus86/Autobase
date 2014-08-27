@@ -25,15 +25,11 @@ public class LoginAction extends Logger implements Action {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         LOGGER.info("username: "+username+", pass: "+password);
-        H2UserDao h2UserDao = DaoFactory.getH2UserDao();
-        User user = null;
+        H2UserDao h2UserDao = DaoFactory.getInstance().getH2UserDao();
+        User user = new User();
         try {
             user = h2UserDao.findByCredentials(username, password);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (SQLException | InterruptedException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         LOGGER.info(user.toString());
