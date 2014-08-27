@@ -90,9 +90,9 @@
                         <input type="text" class="form-control" name="firstname" placeholder="<fmt:message key="default.firstname"/>">
                         <input type="text" class="form-control" name="lastname" placeholder="<fmt:message key="default.lastname"/>">
                         <input type="date" class="form-control" name="dob" placeholder="<fmt:message key="default.dob"/>">
-                        <input type="text" class="form-control" name="new-username" placeholder="<fmt:message key="default.username"/>">
-                        <input type="password" class="form-control" name="password-one" placeholder="<fmt:message key="default.password"/>">
-                        <input type="password" class="form-control" name="password-two" placeholder="<fmt:message key="default.passwordrepeat"/>">
+                        <input type="text" class="form-control" name="username" placeholder="<fmt:message key="default.username"/>">
+                        <input type="password" class="form-control" name="password" placeholder="<fmt:message key="default.password"/>">
+                        <input type="password" class="form-control" name="password-repeat" placeholder="<fmt:message key="default.passwordrepeat"/>">
                         <input type="email" class="form-control" name="email" placeholder="<fmt:message key="default.email"/>">
                         <button type="submit" class="btn btn-primary"><fmt:message key="default.doregister"/></button>
                     </div>

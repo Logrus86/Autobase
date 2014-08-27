@@ -22,7 +22,7 @@
         </a>
         <div class="btn-group" id="userbar" align="right">
             <p>
-                <fmt:message key="default.welcome"></fmt:message> ${user.username}! На вашем счете ${user.balance} тг.
+                <fmt:message key="default.welcome"/> ${user.username}! На вашем счете ${user.balance} тг.
             <button type="button" class="btn btn-default" onclick='location.href="/do/quit"'><fmt:message key="default.doexit"/>
             </button>
             </p>
