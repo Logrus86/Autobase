@@ -13,9 +13,9 @@ public abstract class H2AbstractDao<PK extends Integer, T extends Identifiable<P
     public abstract String getUpdateQuery(); //  UPDATE [Table] SET [column = ?, column = ?, ...] WHERE id = ?;     U
     public abstract String getDeleteQuery(); //  DELETE FROM [Table] WHERE id= ?;                                   D
     public abstract List<T> parseResultSetList(ResultSet rs);   // parse resultSet to list of T
-    public abstract T parseResultSetInctance(ResultSet rs);     // parse resultSet to one instance of T
-    protected abstract void prepareStatementForInsert(PreparedStatement ps, T object); // set fields of T to Insert query argues
-    protected abstract void prepareStatementForUpdate(PreparedStatement ps, T object); // set fields of T to Update query argues
+    public abstract T parseResultSetInstance(ResultSet rs);     // parse resultSet to one instance of T
+    protected abstract void prepareStatementForInsert(PreparedStatement ps, T object);// set fields of T to Insert query
+    protected abstract void prepareStatementForUpdate(PreparedStatement ps, T object);// set fields of T to Update query
 
     @Override
     public void create(T object) {
@@ -37,7 +37,7 @@ public abstract class H2AbstractDao<PK extends Integer, T extends Identifiable<P
         try (PreparedStatement ps = proxyConnection.prepareStatement(query);) {
             ps.setInt(1, (Integer) id);
             ResultSet rs = ps.executeQuery();
-            object = parseResultSetInctance(rs);
+            object = parseResultSetInstance(rs);
             rs.close();
             ps.close();
         } catch (SQLException e) {

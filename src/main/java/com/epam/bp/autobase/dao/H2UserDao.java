@@ -24,7 +24,7 @@ public class H2UserDao extends H2AbstractDao<Integer,User> {
         preparedStatement.setString(1, username.toUpperCase());
         preparedStatement.setString(2, password.toUpperCase());
         ResultSet resultSet = preparedStatement.executeQuery();
-        User user = parseResultSetInctance(resultSet);
+        User user = parseResultSetInstance(resultSet);
         resultSet.close();
         preparedStatement.close();
         cp.returnConnection(proxyConnection);
@@ -84,7 +84,7 @@ public class H2UserDao extends H2AbstractDao<Integer,User> {
     }
 
     @Override
-    public User parseResultSetInctance(ResultSet rs) {
+    public User parseResultSetInstance(ResultSet rs) {
         User user = new User();
         try {
             while (rs.next()) {
