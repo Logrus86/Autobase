@@ -41,16 +41,38 @@
         </div>
     </div>
 </div>
-<form method="post" id="registration-form">
-    Форма поиска
-    <div class="input-group">
-        <input type="text" class="form-control" name="firstname" placeholder="<fmt:message key="default.firstname"/>">
-        <input type="text" class="form-control" name="lastname" placeholder="<fmt:message key="default.lastname"/>">
-        <input type="date" class="form-control" name="dob" placeholder="<fmt:message key="default.dob"/>">
-        <input type="text" class="form-control" name="username" placeholder="<fmt:message key="default.username"/>">
-        <input type="password" class="form-control" name="password" placeholder="<fmt:message key="default.password"/>">
-        <input type="email" class="form-control" name="email" placeholder="<fmt:message key="default.email"/>">
-        <button type="submit">Найти</button>
+<form method="post" id="search-form">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title"><fmt:message key="default.search"/></h3>
+        </div>
+        <div class="panel-body">
+            <div class="input-group">
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary active">
+                        <input type="radio" name="vehicle-type" id="bus"> <fmt:message key="default.bus"/>
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="vehicle-type" id="car" checked> <fmt:message key="default.car"/>
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="vehicle-type" id="truck"> <fmt:message key="default.truck"/>
+                    </label>
+                </div>
+                <input type="text" class="form-control" name="manufacturer" placeholder="Марка">
+                <input type="text" class="form-control" name="model" placeholder="Модель"/>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <span class="input-group-addon"><input type="checkbox" checked> <fmt:message
+                                    key="deafult.notolder"/></span>
+                            <input type="text" class="form-control" name="production-year-max" placeholder="1990">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit"><fmt:message key="default.dosearch"/></button>
+            </div>
+        </div>
     </div>
 </form>
 </fmt:bundle>
