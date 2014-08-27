@@ -11,7 +11,7 @@
 
 <fmt:bundle basename="i18n.text">
 <head>
-    <title><fmt:message key="default.registration"/> - autobase.com</title>
+    <title>autobase.com</title>
 </head>
 <body>
 <div id="header">
@@ -20,6 +20,13 @@
            href="http://localhost:8080/do/main">
             <img itemprop="logo" src="/static/img/logo.jpg" alt="<fmt:message key="default.ordering"/>">
         </a>
+        <div class="btn-group" id="userbar" align="right">
+            <p>
+                <fmt:message key="default.welcome"></fmt:message> ${user.username}! На вашем счете ${user.balance} тг.
+            <button type="button" class="btn btn-default" onclick='location.href="/do/quit"'><fmt:message key="default.doexit"/>
+            </button>
+            </p>
+        </div>
     </div>
 </div>
 <div id="sub" class="lifestyle_img">
@@ -35,19 +42,16 @@
     </div>
 </div>
 <form method="post" id="registration-form">
-    <fmt:message key="default.registration"/>
+    Форма поиска
     <div class="input-group">
         <input type="text" class="form-control" name="firstname" placeholder="<fmt:message key="default.firstname"/>">
         <input type="text" class="form-control" name="lastname" placeholder="<fmt:message key="default.lastname"/>">
         <input type="date" class="form-control" name="dob" placeholder="<fmt:message key="default.dob"/>">
         <input type="text" class="form-control" name="username" placeholder="<fmt:message key="default.username"/>">
         <input type="password" class="form-control" name="password" placeholder="<fmt:message key="default.password"/>">
-        <input type="password" class="form-control" name="password-two" placeholder="<fmt:message key="default.passwordrepeat"/>">
         <input type="email" class="form-control" name="email" placeholder="<fmt:message key="default.email"/>">
-
-        <button type="submit"><fmt:message key="default.doregister"/></button>
+        <button type="submit">Найти</button>
     </div>
 </form>
 </fmt:bundle>
 </html>
-
