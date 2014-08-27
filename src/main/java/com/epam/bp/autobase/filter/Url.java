@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class urlFilter extends Logger implements Filter{
+public class Url extends Logger implements Filter{
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
