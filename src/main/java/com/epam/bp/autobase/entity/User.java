@@ -1,9 +1,11 @@
 package com.epam.bp.autobase.entity;
 
+import com.epam.bp.autobase.dao.Identifiable;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class User {
+public class User implements Identifiable<Integer> {
     private int id;
     private String firstname;
     private String lastname;
@@ -12,7 +14,7 @@ public class User {
     private String password;
     private String email;
     private Role role;
-    private BigDecimal creditBalance;
+    private BigDecimal balance;
 
     public String getFirstname() {
         return firstname;
@@ -38,18 +40,14 @@ public class User {
         this.dob = dob;
     }
 
-    public BigDecimal getCreditBalance() {
-        return creditBalance;
+    public BigDecimal getBalance() {
+        return balance;
     }
 
-    public void setCreditBalance(BigDecimal creditBalance) {
-        this.creditBalance = creditBalance;
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 
-    public int getId() {
-
-        return id;
-    }
 
     public void setId(int id) {
         this.id = id;
@@ -97,17 +95,31 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", dob=" + dob +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", role=" + role +
-                ", creditBalance=" + creditBalance +
-                '}';
+        StringBuilder sb = new StringBuilder()
+                .append("User {ID: ")
+                .append(id)
+                .append(", firstname: ")
+                .append(firstname)
+                .append(", lastname: ")
+                .append(lastname)
+                .append(", dob: ")
+                .append(dob)
+                .append(", username: ")
+                .append(username)
+                .append(", password: ")
+                .append(password)
+                .append(", email: ")
+                .append(email)
+                .append(", role: ")
+                .append(role)
+                .append(", balance: ")
+                .append(balance);
+        return sb.toString();
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
     }
 
     public enum Role {

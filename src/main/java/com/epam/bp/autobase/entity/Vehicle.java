@@ -1,25 +1,37 @@
 package com.epam.bp.autobase.entity;
 
+import com.epam.bp.autobase.dao.Identifiable;
+
 import java.math.BigDecimal;
 import java.time.Year;
 import java.util.Comparator;
 
-public abstract class Vehicle implements Cloneable, Comparable<Vehicle> {
-    private BigDecimal rentPrice;
+public abstract class Vehicle implements Cloneable, Comparable<Vehicle>, Identifiable<Integer> {
     public static final Comparator<Vehicle> PRICE_COMPARATOR = new Comparator<Vehicle>() {
         @Override
         public int compare(Vehicle vehicle1, Vehicle vehicle2) {
             return vehicle1.rentPrice.compareTo(vehicle2.rentPrice);
         }
     };
-    private boolean operable;
+    private BigDecimal rentPrice;
+    private int id;
     private String model;
-    private String manufacturer; //private Manufacturer manufacturer;
-    private User driver;
+    private String manufacturer;
     private Year productionYear;
     private String color;
     private BigDecimal mileage;
     private Fuel fuelType;
+    private boolean operable;
+    private User driver;
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Year getProductionYear() {
         return productionYear;
