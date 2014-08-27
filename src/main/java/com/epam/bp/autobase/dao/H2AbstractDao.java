@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public abstract class H2abstractDao<PK extends Integer, T extends Identifiable<PK>> implements BaseDao<PK, T> {
+public abstract class H2AbstractDao<PK extends Integer, T extends Identifiable<PK>> implements BaseDao<PK, T> {
 
     private ConnectionPool.ProxyConnection proxyConnection;
     public abstract String getCreateQuery(); //  INSERT INTO [Table] ([columns]) VALUES ([values]);                 C
@@ -96,7 +96,7 @@ public abstract class H2abstractDao<PK extends Integer, T extends Identifiable<P
         return list;
     }
 
-    public H2abstractDao(ConnectionPool.ProxyConnection proxyConnection) {
+    public H2AbstractDao(ConnectionPool.ProxyConnection proxyConnection) {
         this.proxyConnection = proxyConnection;
     }
 }

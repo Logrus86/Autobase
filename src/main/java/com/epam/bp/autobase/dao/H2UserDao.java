@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class H2UserDao extends H2abstractDao<Integer,User> {
+public class H2UserDao extends H2AbstractDao<Integer,User> {
     ConnectionPool.ProxyConnection proxyConnection;
 
     public H2UserDao(ConnectionPool.ProxyConnection proxyConnection) {
