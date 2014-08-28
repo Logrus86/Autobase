@@ -1,6 +1,7 @@
 package com.epam.bp.autobase.dao;
 
 import com.epam.bp.autobase.entity.User;
+import com.epam.bp.autobase.pool.ConnectionPool;
 import com.epam.bp.autobase.util.DateParser;
 
 import java.sql.PreparedStatement;
@@ -8,37 +9,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
-public class H2UserDao extends H2AbstractDao<Integer,User> {
-    ConnectionPool.ProxyConnection proxyConnection;
-
-    public H2UserDao(ConnectionPool.ProxyConnection proxyConnection) {
-        super(proxyConnection);
+public class H2UserDao extends AbstractJDBCDao<Integer, User> implements UserDao {
+    // TODO userDao interface, ????? ?????????? userDao (H2, oracle) ?????????? daoFactory, ?????????? ?? ?????????
+    // TODO AbstractDbDao interface
+    // TODO DaoException
+    public H2UserDao(ConnectionPool.ProxyConnection connection) {
+        super(connection);
     }
-
-    public User findByCredentials(String username, String password) throws SQLException, ClassNotFoundException, InterruptedException {
-        ConnectionPool cp = ConnectionPool.getInstance();
-        proxyConnection = cp.getConnection();
-        String query = getReadQuery()+" WHERE USERNAME = ? AND PASSWORD = ?;";
-        PreparedStatement preparedStatement = proxyConnection.prepareStatement(query);
-        preparedStatement.setString(1, username.toUpperCase());
-        preparedStatement.setString(2, password.toUpperCase());
-        ResultSet resultSet = preparedStatement.executeQuery();
-        User user = parseResultSetInstance(resultSet);
-        resultSet.close();
-        preparedStatement.close();
-        cp.returnConnection(proxyConnection);
-        return user;
-    }
-
-    public void add(User user) throws SQLException, ClassNotFoundException, InterruptedException {
-        ConnectionPool cp = ConnectionPool.getInstance();
-        proxyConnection = cp.getConnection();
-        create(user);
-        cp.returnConnection(proxyConnection);
-    }
-
-    //=======================================================================================================
 
     @Override
     public String getCreateQuery() {
@@ -136,5 +115,47 @@ public class H2UserDao extends H2AbstractDao<Integer,User> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public User findByCredentials(String username, String password) throws SQLException, ClassNotFoundException, InterruptedException {
+        String query = getReadQuery() + " WHERE USERNAME = ? AND PASSWORD = ?;";
+        PreparedStatement ps = connection.prepareStatement(query);
+        ps.setString(1, username.toUpperCase());
+        ps.setString(2, password.toUpperCase());
+        ResultSet rs = ps.executeQuery();
+        User user = parseResultSetInstance(rs);
+        rs.close();
+        ps.close();
+        connection.close();
+        return user;
+    }
+
+    @Override
+    public User findByParameters(Map<String, String> paramMap) {
+        StringBuilder query = new StringBuilder();
+        query.append(getReadQuery()).append(" WHERE ");
+        for (String key : paramMap.keySet()) {
+            query.append(key.toUpperCase()).append(" = ? AND ");
+        }
+        query.delete(query.length() - 5, query.length()); //delete last one useless " AND "
+        query.append(";");
+        PreparedStatement ps;
+        User user = null;
+        try {
+            ps = connection.prepareStatement(query.toString());
+            int i = 1;
+            for (String key : paramMap.keySet()) {
+                ps.setString(i, paramMap.get(key));
+                i++;
+            }
+            ResultSet rs = ps.executeQuery();
+            user = parseResultSetInstance(rs);
+            rs.close();
+            ps.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 }

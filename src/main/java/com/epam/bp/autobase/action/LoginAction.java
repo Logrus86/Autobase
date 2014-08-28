@@ -4,9 +4,11 @@ import com.epam.bp.autobase.dao.DaoFactory;
 import com.epam.bp.autobase.dao.H2UserDao;
 import com.epam.bp.autobase.entity.User;
 import com.epam.bp.autobase.util.Logger;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.sql.SQLException;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class LoginAction extends Logger implements Action {
     private ActionResult loginClient = new ActionResult("main-client");
@@ -20,18 +22,12 @@ public class LoginAction extends Logger implements Action {
     @Override
     public ActionResult execute(HttpServletRequest request) {
 
-      //  session.getAttribute("user");
-
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        LOGGER.info("username: "+username+", pass: "+password);
         H2UserDao h2UserDao = DaoFactory.getInstance().getH2UserDao();
-        User user = new User();
-        try {
-            user = h2UserDao.findByCredentials(username, password);
-        } catch (SQLException | InterruptedException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        Map<String,String> params = new TreeMap<>();
+        params.put("username",request.getParameter("username"));
+        params.put("password",request.getParameter("password"));
+        User user = h2UserDao.findByParameters(params);
+
         LOGGER.info(user.toString());
 
         HttpSession session = request.getSession();

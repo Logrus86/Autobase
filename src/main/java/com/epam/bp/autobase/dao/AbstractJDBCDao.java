@@ -1,13 +1,15 @@
 package com.epam.bp.autobase.dao;
 
+import com.epam.bp.autobase.pool.ConnectionPool;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public abstract class H2AbstractDao<PK extends Integer, T extends Identifiable<PK>> implements BaseDao<PK, T> {
+public abstract class AbstractJDBCDao<PK extends Integer, T extends Identifiable<PK>> implements BaseDao<PK, T> {
 
-    private ConnectionPool.ProxyConnection proxyConnection;
+    protected ConnectionPool.ProxyConnection connection;
     public abstract String getCreateQuery(); //  INSERT INTO [Table] ([columns]) VALUES ([values]);                 C
     public abstract String getReadQuery();   //  SELECT * FROM [Table];                                             R
     public abstract String getUpdateQuery(); //  UPDATE [Table] SET [column = ?, column = ?, ...] WHERE id = ?;     U
@@ -20,10 +22,11 @@ public abstract class H2AbstractDao<PK extends Integer, T extends Identifiable<P
     @Override
     public void create(T object) {
         String query = getCreateQuery();
-        try (PreparedStatement ps = proxyConnection.prepareStatement(query);) {
+        try (PreparedStatement ps = connection.prepareStatement(query);) {
             prepareStatementForInsert(ps, object);
             ps.executeUpdate();
             ps.close();
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -34,7 +37,7 @@ public abstract class H2AbstractDao<PK extends Integer, T extends Identifiable<P
         T object = null;
         String query = getReadQuery();
         query += " WHERE id = ?";
-        try (PreparedStatement ps = proxyConnection.prepareStatement(query);) {
+        try (PreparedStatement ps = connection.prepareStatement(query);) {
             ps.setInt(1, (Integer) id);
             ResultSet rs = ps.executeQuery();
             object = parseResultSetInstance(rs);
@@ -49,7 +52,7 @@ public abstract class H2AbstractDao<PK extends Integer, T extends Identifiable<P
     @Override
     public void update(T object) {
         String query = getUpdateQuery();
-        try (PreparedStatement ps = proxyConnection.prepareStatement(query);){
+        try (PreparedStatement ps = connection.prepareStatement(query);){
             prepareStatementForUpdate(ps,object);
             ps.executeUpdate();
             ps.close();
@@ -61,7 +64,7 @@ public abstract class H2AbstractDao<PK extends Integer, T extends Identifiable<P
     @Override
     public void delete(PK id) {
         String query = getDeleteQuery();
-        try (PreparedStatement ps = proxyConnection.prepareStatement(query);){
+        try (PreparedStatement ps = connection.prepareStatement(query);){
             ps.setObject(1,id);
             ps.executeUpdate();
             ps.close();
@@ -73,7 +76,7 @@ public abstract class H2AbstractDao<PK extends Integer, T extends Identifiable<P
     @Override
     public void delete(T object) {
         String query = getDeleteQuery();
-        try (PreparedStatement ps = proxyConnection.prepareStatement(query);){
+        try (PreparedStatement ps = connection.prepareStatement(query);){
             ps.setObject(1,object.getId());
             ps.executeUpdate();
             ps.close();
@@ -87,7 +90,7 @@ public abstract class H2AbstractDao<PK extends Integer, T extends Identifiable<P
         List<T> list = null;
         String sql = getReadQuery();
         try {
-            PreparedStatement ps = proxyConnection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             list = parseResultSetList(rs);
         } catch (SQLException e) {
@@ -96,7 +99,7 @@ public abstract class H2AbstractDao<PK extends Integer, T extends Identifiable<P
         return list;
     }
 
-    public H2AbstractDao(ConnectionPool.ProxyConnection proxyConnection) {
-        this.proxyConnection = proxyConnection;
+    public AbstractJDBCDao(ConnectionPool.ProxyConnection connection) {
+        this.connection = connection;
     }
 }

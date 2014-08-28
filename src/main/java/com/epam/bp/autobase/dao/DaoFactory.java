@@ -1,5 +1,7 @@
 package com.epam.bp.autobase.dao;
 
+import com.epam.bp.autobase.pool.ConnectionPool;
+
 import java.sql.SQLException;
 
 public class DaoFactory {
@@ -9,11 +11,11 @@ public class DaoFactory {
     private ConnectionPool.ProxyConnection proxyConnection;
 
     public static DaoFactory getInstance() {
-        instance.getContext();
+        instance.getConnection();
         return instance;
     }
 
-    public ConnectionPool.ProxyConnection getContext() {
+    public ConnectionPool.ProxyConnection getConnection() {
         ConnectionPool.ProxyConnection result = null;
         try {
             ConnectionPool cp = ConnectionPool.getInstance();
@@ -24,16 +26,6 @@ public class DaoFactory {
         this.proxyConnection = result;
         return result;
     }
-
-    public void releaseContext() {
-        try {
-            ConnectionPool cp = ConnectionPool.getInstance();
-            cp.returnConnection(proxyConnection);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     private DaoFactory() {
 
