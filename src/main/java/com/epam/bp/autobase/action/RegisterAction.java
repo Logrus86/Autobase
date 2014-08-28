@@ -8,7 +8,6 @@ import com.epam.bp.autobase.util.DateParser;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
-import java.sql.SQLException;
 
 public class RegisterAction implements Action {
 
@@ -29,11 +28,7 @@ public class RegisterAction implements Action {
         newUser.setBalance(BigDecimal.ZERO);
         //TODO checks
         H2UserDao h2UserDao = DaoFactory.getInstance().getH2UserDao();
-        try {
-            h2UserDao.add(newUser);
-        } catch (SQLException | InterruptedException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        h2UserDao.create(newUser);
         HttpSession session = request.getSession();
         session.setAttribute("user", newUser);
         return new ActionResult("registered");

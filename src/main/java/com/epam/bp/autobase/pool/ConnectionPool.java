@@ -1,4 +1,4 @@
-package com.epam.bp.autobase.dao;
+package com.epam.bp.autobase.pool;
 
 import java.sql.*;
 import java.util.Map;
@@ -47,7 +47,7 @@ public class ConnectionPool {
         return connection;
     }
 
-    public void returnConnection(ProxyConnection connection) {
+    public static void returnConnection(ProxyConnection connection) {
         connectionQueue.offer(connection);
     }
 
@@ -101,7 +101,7 @@ public class ConnectionPool {
 
         @Override
         public void close() throws SQLException {
-            connection.close();
+            ConnectionPool.returnConnection(this);
         }
 
         @Override
