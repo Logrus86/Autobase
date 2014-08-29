@@ -1,6 +1,7 @@
 package com.epam.bp.autobase.servlet;
 
 import com.epam.bp.autobase.action.Action;
+import com.epam.bp.autobase.action.ActionException;
 import com.epam.bp.autobase.action.ActionFactory;
 import com.epam.bp.autobase.action.ActionResult;
 import org.slf4j.Logger;
@@ -16,7 +17,7 @@ public class Controller extends javax.servlet.http.HttpServlet {
     private static final Logger LOGGER = LoggerFactory.getLogger(Controller.class);
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String actionName = req.getMethod() + req.getPathInfo();
         LOGGER.info("method/actionName: " + actionName);
         Action action = ActionFactory.getAction(actionName);
@@ -25,7 +26,12 @@ public class Controller extends javax.servlet.http.HttpServlet {
             resp.sendError(404, "Such action not found.");
             return;
         }
-        ActionResult result = action.execute(req);
+        ActionResult result = null;
+        try {
+            result = action.execute(req);
+        } catch (ActionException e) {
+            e.printStackTrace();
+        }
         if (result.isRedirection()) {
             LOGGER.info("redirect to: " + req.getContextPath() + "/do/" + result.getView());
             resp.sendRedirect(req.getContextPath() + "/do/" + result.getView());

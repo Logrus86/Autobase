@@ -1,13 +1,15 @@
 package com.epam.bp.autobase.filter;
 
-import com.epam.bp.autobase.util.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class UrlFilter extends Logger implements Filter{
+public class UrlFilter implements Filter{
+    public final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(super.getClass());
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
@@ -21,7 +23,7 @@ public class UrlFilter extends Logger implements Filter{
         String pathInfo = req.getRequestURI().substring(req.getContextPath().length());
 
         if (pathInfo.startsWith("/static/")||pathInfo.startsWith("/webjars/")) {
-    //        LOGGER.info("url starts with '/static/' or '/webjars/', filtered off.");
+            LOGGER.debug("url starts with '/static/' or '/webjars/', filtered off.");
             chain.doFilter(req, resp);
             return;
         }
