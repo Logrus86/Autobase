@@ -1,11 +1,12 @@
 package com.epam.bp.autobase.action;
 
-import com.epam.bp.autobase.util.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-public class LogoutAction extends Logger implements Action {
+public class LogoutAction implements Action {
+    public final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(super.getClass());
     private ActionResult result = new ActionResult("main");
 
     public LogoutAction() {

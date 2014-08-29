@@ -15,7 +15,7 @@ public class RegisterAction implements Action {
     }
 
     @Override
-    public ActionResult execute(HttpServletRequest request) {
+    public ActionResult execute(HttpServletRequest request) throws ActionException {
         User newUser = new User();
         newUser.setId(4);
         newUser.setFirstname(request.getParameter("firstname"));
@@ -27,8 +27,14 @@ public class RegisterAction implements Action {
         newUser.setRole(User.Role.CLIENT);
         newUser.setBalance(BigDecimal.ZERO);
         //TODO checks
-        H2UserDao h2UserDao = DaoFactory.getInstance().getH2UserDao();
-        h2UserDao.create(newUser);
+        H2UserDao h2UserDao = null;
+        try {
+            h2UserDao = DaoFactory.getInstance().getH2UserDao();
+            h2UserDao.create(newUser);
+        } catch (Exception e) {
+            throw new ActionException(e.getCause());
+        }
+
         HttpSession session = request.getSession();
         session.setAttribute("user", newUser);
         return new ActionResult("registered");
