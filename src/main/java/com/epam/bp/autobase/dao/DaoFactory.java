@@ -2,26 +2,23 @@ package com.epam.bp.autobase.dao;
 
 import com.epam.bp.autobase.pool.ConnectionPool;
 
-import java.sql.SQLException;
-
 public class DaoFactory {
-    private static H2UserDao h2UserDao;
 
     private static DaoFactory instance = new DaoFactory();
     private ConnectionPool.ProxyConnection proxyConnection;
 
-    public static DaoFactory getInstance() {
+    public static DaoFactory getInstance() throws DaoException {
         instance.getConnection();
         return instance;
     }
 
-    public ConnectionPool.ProxyConnection getConnection() {
+    public ConnectionPool.ProxyConnection getConnection() throws DaoException {
         ConnectionPool.ProxyConnection result = null;
         try {
             ConnectionPool cp = ConnectionPool.getInstance();
             result = cp.getConnection();
-        } catch (SQLException | InterruptedException | ClassNotFoundException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new DaoException(e.getCause());
         }
         this.proxyConnection = result;
         return result;
@@ -32,7 +29,7 @@ public class DaoFactory {
     }
 
     public H2UserDao getH2UserDao() {
-        h2UserDao = new H2UserDao(proxyConnection);
+        H2UserDao h2UserDao = new H2UserDao(proxyConnection);
         return h2UserDao;
     }
 

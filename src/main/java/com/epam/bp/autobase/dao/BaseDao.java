@@ -5,16 +5,16 @@ import java.util.List;
 public interface BaseDao<PK, T extends Identifiable<PK>> {
 
 
-    public void create(T object);
+    public void create(T object) throws DaoException;
 
-    public T getById(PK id);
+    public T getById(PK id) throws DaoException;
 
-    public void update(T object);
+    public void update(T object) throws DaoException;
 
-    public void delete(PK id);
+    public void delete(PK id) throws DaoException;
 
-    public void delete(T object);
+    public void delete(T object) throws DaoException;
 
-    public List<T> getAll();
+    public List<T> getAll() throws DaoException;
 
 }

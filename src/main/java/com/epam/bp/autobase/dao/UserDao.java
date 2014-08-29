@@ -5,5 +5,5 @@ import com.epam.bp.autobase.entity.User;
 import java.util.Map;
 
 public interface UserDao {
-    public User findByParameters(Map<String,String> parameters);
+    public User findByParameters(Map<String,String> parameters) throws DaoException;
 }

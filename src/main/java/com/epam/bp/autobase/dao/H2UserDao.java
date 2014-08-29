@@ -3,18 +3,19 @@ package com.epam.bp.autobase.dao;
 import com.epam.bp.autobase.entity.User;
 import com.epam.bp.autobase.pool.ConnectionPool;
 import com.epam.bp.autobase.util.DateParser;
+import org.slf4j.LoggerFactory;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class H2UserDao extends AbstractJDBCDao<Integer, User> implements UserDao {
-    // TODO userDao interface, ????? ?????????? userDao (H2, oracle) ?????????? daoFactory, ?????????? ?? ?????????
+    // TODO userDao interface, userDao (H2, oracle), daoFactory
     // TODO AbstractDbDao interface
     // TODO DaoException
+    public final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(super.getClass());
     public H2UserDao(ConnectionPool.ProxyConnection connection) {
         super(connection);
     }
@@ -40,7 +41,7 @@ public class H2UserDao extends AbstractJDBCDao<Integer, User> implements UserDao
     }
 
     @Override
-    public List<User> parseResultSetList(ResultSet rs) {
+    public List<User> parseResultSetList(ResultSet rs) throws DaoException {
         List<User> users = new LinkedList<>();
         try {
             while (rs.next()) {
@@ -56,14 +57,14 @@ public class H2UserDao extends AbstractJDBCDao<Integer, User> implements UserDao
                 user.setBalance(rs.getBigDecimal("BALANCE"));
                 users.add(user);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new DaoException(e.getCause());
         }
         return users;
     }
 
     @Override
-    public User parseResultSetInstance(ResultSet rs) {
+    public User parseResultSetInstance(ResultSet rs) throws DaoException {
         User user = new User();
         try {
             while (rs.next()) {
@@ -77,14 +78,14 @@ public class H2UserDao extends AbstractJDBCDao<Integer, User> implements UserDao
                 user.setRole(User.Role.valueOf(rs.getString("ROLE")));
                 user.setBalance(rs.getBigDecimal("BALANCE"));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new DaoException(e.getCause());
         }
         return user;
     }
 
     @Override
-    protected void prepareStatementForInsert(PreparedStatement ps, User user) {
+    protected void prepareStatementForInsert(PreparedStatement ps, User user) throws DaoException {
         try {
             ps.setString(1, user.getfirstName());
             ps.setString(2, user.getLastname());
@@ -94,14 +95,14 @@ public class H2UserDao extends AbstractJDBCDao<Integer, User> implements UserDao
             ps.setString(6, user.getEmail());
             ps.setString(7, String.valueOf(user.getRole()));
             ps.setString(8, String.valueOf(user.getBalance()));
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new DaoException(e.getCause());
         }
 
     }
 
     @Override
-    protected void prepareStatementForUpdate(PreparedStatement ps, User user) {
+    protected void prepareStatementForUpdate(PreparedStatement ps, User user) throws DaoException {
         try {
             ps.setString(1, String.valueOf(user.getId()));
             ps.setString(2, user.getfirstName());
@@ -112,35 +113,22 @@ public class H2UserDao extends AbstractJDBCDao<Integer, User> implements UserDao
             ps.setString(7, user.getEmail());
             ps.setString(8, String.valueOf(user.getRole()));
             ps.setString(9, String.valueOf(user.getBalance()));
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new DaoException(e.getCause());
         }
-    }
-
-    public User findByCredentials(String username, String password) throws SQLException, ClassNotFoundException, InterruptedException {
-        String query = getReadQuery() + " WHERE USERNAME = ? AND PASSWORD = ?;";
-        PreparedStatement ps = connection.prepareStatement(query);
-        ps.setString(1, username.toUpperCase());
-        ps.setString(2, password.toUpperCase());
-        ResultSet rs = ps.executeQuery();
-        User user = parseResultSetInstance(rs);
-        rs.close();
-        ps.close();
-        connection.close();
-        return user;
     }
 
     @Override
-    public User findByParameters(Map<String, String> paramMap) {
+    public User findByParameters(Map<String, String> paramMap) throws DaoException {
         StringBuilder query = new StringBuilder();
-        query.append(getReadQuery()).append(" WHERE ");
+        query.append(getReadQuery()).append(" WHERE 1 = 1");
         for (String key : paramMap.keySet()) {
-            query.append(key.toUpperCase()).append(" = ? AND ");
+            query.append(" AND ").append(key.toUpperCase()).append(" = ?");
         }
-        query.delete(query.length() - 5, query.length()); //delete last one useless " AND "
         query.append(";");
+        LOGGER.debug(query.toString());
         PreparedStatement ps;
-        User user = null;
+        User user;
         try {
             ps = connection.prepareStatement(query.toString());
             int i = 1;
@@ -153,8 +141,8 @@ public class H2UserDao extends AbstractJDBCDao<Integer, User> implements UserDao
             rs.close();
             ps.close();
             connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new DaoException(e.getCause());
         }
         return user;
     }
