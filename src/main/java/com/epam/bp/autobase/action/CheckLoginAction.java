@@ -14,6 +14,7 @@ public class CheckLoginAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
+        session.setAttribute("errormsg","");
         if (session.getAttribute("user") == null) return loginFalse;
         User user = (User) session.getAttribute("user");
         if (user.getRole() == User.Role.ADMIN) return loginAdmin;

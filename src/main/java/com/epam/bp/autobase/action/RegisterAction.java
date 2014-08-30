@@ -39,6 +39,7 @@ public class RegisterAction implements Action {
 
         HttpSession session = request.getSession();
         session.setAttribute("user", newUser);
+        session.setAttribute("errormsg","");
         LOGGER.info(newUser.toString());
         return new ActionResult("registered");
     }
