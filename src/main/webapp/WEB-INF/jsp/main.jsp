@@ -5,8 +5,8 @@
 
 <script type='text/javascript' src='<c:url value="/webjars/jquery/1.11.1/jquery.js"/>'></script>
 <script type='text/javascript' src='<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.js"/>'></script>
-<link href='<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.css"/>' rel="stylesheet" media="screen">
 <link href='<c:url value="/static/css/style.css"/>' rel="stylesheet" media="screen">
+<link href='<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.css"/>' rel="stylesheet" media="screen">
 <link href='<c:url value="/static/img/favicon.ico"/>' rel="icon" type="image/png">
 
 <fmt:bundle basename="i18n.text">
@@ -27,6 +27,7 @@
                 <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal"><fmt:message key="default.doregister"/></button>
             </form>
         </div>
+        <div id="msg-error">${errormsg}</div>
     </div>
 </div>
     <%--<button type="button" class="btn btn-default" onclick='location.href="/do/register"'><fmt:message key="default.doregister"/></button>--%>
@@ -37,7 +38,7 @@
             <h1 style="font-size: 45px;"><fmt:message key="default.bestprices"/></h1>
         </div>
         <div id="sub-title">
-            <p id="h1sub" style="font-size: 16px;"><fmt:message key="default.servicedesc"/></p>
+            <p id="h1sub" style="font-size: 16px;"><fmt:message key="default.service-desc"/></p>
         </div>
     </div>
 </div>
@@ -48,16 +49,23 @@
         </div>
         <div class="panel-body">
             <div class="input-group">
-                <div class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-primary active">
-                        <input type="radio" name="vehicle-type" id="bus"> <fmt:message key="default.bus"/>
-                    </label>
-                    <label class="btn btn-primary">
-                        <input type="radio" name="vehicle-type" id="car" checked> <fmt:message key="default.car"/>
-                    </label>
-                    <label class="btn btn-primary">
-                        <input type="radio" name="vehicle-type" id="truck"> <fmt:message key="default.truck"/>
-                    </label>
+                <div class="bs-example bs-example-tabs">
+                    <ul id="myTab" class="nav nav-tabs" role="tablist">
+                        <li class=""><a href="#bus-tab" role="tab" data-toggle="tab"><fmt:message key="default.bus"/></a></li>
+                        <li class="active"><a href="#car-tab" role="tab" data-toggle="tab"><fmt:message key="default.car"/></a></li>
+                        <li class=""><a href="#truck-tab" role="tab" data-toggle="tab"><fmt:message key="default.truck"/></a></li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane fade" id="bus-tab">
+                            <p>bus fields</p>
+                        </div>
+                        <div class="tab-pane fade active in" id="car-tab">
+                            <p>car fields</p>
+                        </div>
+                        <div class="tab-pane fade" id="truck-tab">
+                            <p>truck fields</p>
+                        </div>
+                    </div>
                 </div>
                 <input type="text" class="form-control" name="manufacturer" placeholder="Марка">
                 <input type="text" class="form-control" name="model" placeholder="Модель"/>
@@ -65,12 +73,12 @@
                     <div class="col-lg-6">
                         <div class="input-group">
                             <span class="input-group-addon"><input type="checkbox" checked> <fmt:message
-                                    key="deafult.notolder"/></span>
+                                    key="deafult.not-older"/></span>
                             <input type="text" class="form-control" name="production-year-max" placeholder="1990">
                         </div>
                     </div>
                 </div>
-                <button type="submit"><fmt:message key="default.dosearch"/></button>
+                <button type="submit" class="btn btn-primary"><fmt:message key="default.dosearch"/></button>
             </div>
         </div>
     </div>
@@ -101,34 +109,6 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><fmt:message key="default.cancel"/></button>
             </div>
-        </div>
-    </div>
-</div>
-
-<div class="bs-example bs-example-tabs">
-    <ul id="myTab" class="nav nav-tabs" role="tablist">
-        <li class=""><a href="#home" role="tab" data-toggle="tab">Home</a></li>
-        <li class="active"><a href="#profile" role="tab" data-toggle="tab">Profile</a></li>
-        <li class="dropdown">
-            <a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
-                <li class=""><a href="#dropdown1" tabindex="-1" role="tab" data-toggle="tab">@fat</a></li>
-                <li class=""><a href="#dropdown2" tabindex="-1" role="tab" data-toggle="tab">@mdo</a></li>
-            </ul>
-        </li>
-    </ul>
-    <div id="myTabContent" class="tab-content">
-        <div class="tab-pane fade" id="home">
-            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master ...</p>
-        </div>
-        <div class="tab-pane fade active in" id="profile">
-            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore veli...</p>
-        </div>
-        <div class="tab-pane fade" id="dropdown1">
-            <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-...</p>
-        </div>
-        <div class="tab-pane fade" id="dropdown2">
-            <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-f...</p>
         </div>
     </div>
 </div>
