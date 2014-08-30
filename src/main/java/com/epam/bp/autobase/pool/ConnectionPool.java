@@ -42,7 +42,7 @@ public class ConnectionPool {
     }
 
     public ProxyConnection getConnection() throws InterruptedException {
-        ProxyConnection connection = null;
+        ProxyConnection connection;
         connection = connectionQueue.take();
         return connection;
     }

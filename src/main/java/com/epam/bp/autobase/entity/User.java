@@ -1,6 +1,7 @@
 package com.epam.bp.autobase.entity;
 
 import com.epam.bp.autobase.dao.Identifiable;
+import com.epam.bp.autobase.util.DateParser;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -48,17 +49,8 @@ public class User implements Identifiable<Integer> {
         this.balance = balance;
     }
 
-
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getfirstName() {
-        return firstname;
-    }
-
-    public void setfirstName(String firstname) {
-        this.firstname = firstname;
     }
 
     public String getUsername() {
@@ -103,7 +95,7 @@ public class User implements Identifiable<Integer> {
                 .append(", lastname: ")
                 .append(lastname)
                 .append(", dob: ")
-                .append(dob)
+                .append(DateParser.DateToString(dob))
                 .append(", username: ")
                 .append(username)
                 .append(", password: ")
@@ -113,7 +105,8 @@ public class User implements Identifiable<Integer> {
                 .append(", role: ")
                 .append(role)
                 .append(", balance: ")
-                .append(balance);
+                .append(balance)
+                .append("}");
         return sb.toString();
     }
 

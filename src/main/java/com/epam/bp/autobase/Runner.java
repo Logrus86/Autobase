@@ -5,7 +5,7 @@ import com.epam.bp.autobase.entity.AutobaseFactory;
 
 import java.sql.SQLException;
 
-public class Runner {
+public class Runner { //TODO delete this class later
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException, InterruptedException {
         Autobase ab = AutobaseFactory.createRandomAutobase(10);
