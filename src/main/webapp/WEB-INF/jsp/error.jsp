@@ -15,11 +15,10 @@
 </head>
 <body>
 <div align="center" id="error-box">
-    <img itemprop="logo" src="/static/img/error.jpg"/>
-    <H1>Неверный поворот: ${statuscode}</H1>
-    <p>Запрошенная страница не найдена. Простите, это все, что мы знаем.</p>
-    <p><a href="/">Назад на autobase.com</a></p>
-    <%--${message}--%>
+    <img itemprop="logo" src="<c:url value="/static/img/error.jpg"/>"/>
+    <H1><fmt:message key="default.wrongturn"/> ${statuscode}</H1>
+    <p><fmt:message key="default.page404"/></p>
+    <p><a href="/"><fmt:message key="default.backto"/> autobase.com</a></p>
 </div>
 </body>
 </fmt:bundle>
