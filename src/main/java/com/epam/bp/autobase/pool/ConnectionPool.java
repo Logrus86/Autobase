@@ -10,22 +10,22 @@ import java.util.concurrent.Executor;
 public class ConnectionPool {
     private static volatile ConnectionPool instance;
     private static final ResourceBundle rb = ResourceBundle.getBundle("db"); //property manager
-    private String driver = rb.getString("db.driver");
-    private static String url = rb.getString("db.url");
-    private static String user = rb.getString("db.user");
-    private static String password = rb.getString("db.password");
-    private static int poolSize = Integer.parseInt(rb.getString("db.pool_size"));
+    private static final String DRIVER = rb.getString("db.driver");
+    private static final String URL = rb.getString("db.url");
+    private static final String USER = rb.getString("db.user");
+    private static final String PASSWORD = rb.getString("db.password");
+    private static final int POOL_SIZE = Integer.parseInt(rb.getString("db.pool_size"));
     private static ArrayBlockingQueue<ProxyConnection> connectionQueue;
 
     private ConnectionPool() throws SQLException{
-        connectionQueue = new ArrayBlockingQueue<>(poolSize);
+        connectionQueue = new ArrayBlockingQueue<>(POOL_SIZE);
         try {
-            Class.forName(driver);
+            Class.forName(DRIVER);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        for (int i = 0; i < poolSize; i++) {
-            ProxyConnection connection = new ProxyConnection(DriverManager.getConnection(url, user, password));
+        for (int i = 0; i < POOL_SIZE; i++) {
+            ProxyConnection connection = new ProxyConnection(DriverManager.getConnection(URL, USER, PASSWORD));
             connectionQueue.offer(connection);
         }
     }

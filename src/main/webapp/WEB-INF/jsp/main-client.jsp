@@ -37,7 +37,7 @@
             <h1 style="font-size: 45px;"><fmt:message key="default.bestprices"/></h1>
         </div>
         <div id="sub-title">
-            <p id="h1sub" style="font-size: 16px;"><fmt:message key="default.servicedesc"/></p>
+            <p id="h1sub" style="font-size: 16px;"><fmt:message key="default.service-desc"/></p>
         </div>
     </div>
 </div>
@@ -65,7 +65,7 @@
                     <div class="col-lg-6">
                         <div class="input-group">
                             <span class="input-group-addon"><input type="checkbox" checked> <fmt:message
-                                    key="deafult.notolder"/></span>
+                                    key="deafult.not-older"/></span>
                             <input type="text" class="form-control" name="production-year-max" placeholder="1990">
                         </div>
                     </div>

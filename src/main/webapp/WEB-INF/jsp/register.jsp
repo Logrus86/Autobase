@@ -30,7 +30,7 @@
             <h1 style="font-size: 45px;"><fmt:message key="default.bestprices"/></h1>
         </div>
         <div id="sub-title">
-            <p id="h1sub" style="font-size: 16px;"><fmt:message key="default.servicedesc"/></p>
+            <p id="h1sub" style="font-size: 16px;"><fmt:message key="default.service-desc"/></p>
         </div>
     </div>
 </div>
