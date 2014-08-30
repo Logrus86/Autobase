@@ -1,5 +1,6 @@
 package com.epam.bp.autobase.action;
 
+import com.epam.bp.autobase.entity.User;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,7 @@ public class LogoutAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        LOGGER.info("User log-out");
+        LOGGER.info("User '"+((User) session.getAttribute("user")).getUsername()+"' have logged-out");
         session.setAttribute("user", null);
         return result;
     }

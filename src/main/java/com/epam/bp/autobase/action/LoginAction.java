@@ -22,20 +22,22 @@ public class LoginAction implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
-
-        H2UserDao h2UserDao;
         User user;
         try {
-            h2UserDao = DaoFactory.getInstance().getH2UserDao();
+            H2UserDao h2UserDao = DaoFactory.getInstance().getH2UserDao();
             Map<String,String> params = new TreeMap<>();
             params.put("username",request.getParameter("username"));
             params.put("password",request.getParameter("password"));
             user = h2UserDao.findByParameters(params);
         } catch (Exception e) {
-            throw new ActionException(e.getCause());
+            throw new ActionException("Error at LoginAction while searching for user", e.getCause());
         }
 
-        LOGGER.debug(user.toString());
+        if (user == null) {
+            LOGGER.info("User '"+request.getParameter("username")+"' with password '"+request.getParameter("password")+"' wasn't found.");
+            return loginFailed;
+        }
+        LOGGER.info("User '"+user.getUsername()+"' have logged-in");
 
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
@@ -43,7 +45,7 @@ public class LoginAction implements Action {
         if (user.getRole() == User.Role.ADMIN) return loginAdmin;
         if (user.getRole() == User.Role.CLIENT) return loginClient;
         if (user.getRole() == User.Role.DRIVER) return loginDriver;
-        LOGGER.info("User '"+request.getParameter("username")+"' with password '"+request.getParameter("password")+"' wasn't found.");
+
         return loginFailed;
     }
 }

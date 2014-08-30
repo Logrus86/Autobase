@@ -11,10 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class H2UserDao extends AbstractJDBCDao<Integer, User> implements UserDao {
-    // TODO userDao interface, userDao (H2, oracle), daoFactory
-    // TODO AbstractDbDao interface
-    // TODO DaoException
+public class H2UserDao extends H2AbstractDao<Integer, User> implements UserDao {
     public final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(super.getClass());
     public H2UserDao(ConnectionPool.ProxyConnection connection) {
         super(connection);
@@ -58,7 +55,7 @@ public class H2UserDao extends AbstractJDBCDao<Integer, User> implements UserDao
                 users.add(user);
             }
         } catch (Exception e) {
-            throw new DaoException(e.getCause());
+            throw new DaoException("Parsing resultSet to list of users error", e.getCause());
         }
         return users;
     }
@@ -79,15 +76,15 @@ public class H2UserDao extends AbstractJDBCDao<Integer, User> implements UserDao
                 user.setBalance(rs.getBigDecimal("BALANCE"));
             }
         } catch (Exception e) {
-            throw new DaoException(e.getCause());
+            throw new DaoException("Parsing resultSet to user error", e.getCause());
         }
         return user;
     }
 
     @Override
-    protected void prepareStatementForInsert(PreparedStatement ps, User user) throws DaoException {
+    public void prepareStatementForInsert(PreparedStatement ps, User user) throws DaoException {
         try {
-            ps.setString(1, user.getfirstName());
+            ps.setString(1, user.getFirstname());
             ps.setString(2, user.getLastname());
             ps.setString(3, DateParser.DateToString(user.getDob()));
             ps.setString(4, user.getUsername());
@@ -96,16 +93,16 @@ public class H2UserDao extends AbstractJDBCDao<Integer, User> implements UserDao
             ps.setString(7, String.valueOf(user.getRole()));
             ps.setString(8, String.valueOf(user.getBalance()));
         } catch (Exception e) {
-            throw new DaoException(e.getCause());
+            throw new DaoException("Preparing statement for Insert error", e.getCause());
         }
 
     }
 
     @Override
-    protected void prepareStatementForUpdate(PreparedStatement ps, User user) throws DaoException {
+    public void prepareStatementForUpdate(PreparedStatement ps, User user) throws DaoException {
         try {
             ps.setString(1, String.valueOf(user.getId()));
-            ps.setString(2, user.getfirstName());
+            ps.setString(2, user.getFirstname());
             ps.setString(3, user.getLastname());
             ps.setString(4, DateParser.DateToString(user.getDob()));
             ps.setString(5, user.getUsername());
@@ -114,7 +111,7 @@ public class H2UserDao extends AbstractJDBCDao<Integer, User> implements UserDao
             ps.setString(8, String.valueOf(user.getRole()));
             ps.setString(9, String.valueOf(user.getBalance()));
         } catch (Exception e) {
-            throw new DaoException(e.getCause());
+            throw new DaoException("Preparing statement for Update error", e.getCause());
         }
     }
 
@@ -142,8 +139,9 @@ public class H2UserDao extends AbstractJDBCDao<Integer, User> implements UserDao
             ps.close();
             connection.close();
         } catch (Exception e) {
-            throw new DaoException(e.getCause());
+            throw new DaoException("Finding user by parameters error", e.getCause());
         }
+        if (user.getUsername() == null) {user = null;}
         return user;
     }
 }

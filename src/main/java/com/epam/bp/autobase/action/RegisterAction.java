@@ -4,12 +4,14 @@ import com.epam.bp.autobase.dao.DaoFactory;
 import com.epam.bp.autobase.dao.H2UserDao;
 import com.epam.bp.autobase.entity.User;
 import com.epam.bp.autobase.util.DateParser;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 
 public class RegisterAction implements Action {
+    public final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(super.getClass());
 
     public RegisterAction() {
     }
@@ -32,11 +34,12 @@ public class RegisterAction implements Action {
             h2UserDao = DaoFactory.getInstance().getH2UserDao();
             h2UserDao.create(newUser);
         } catch (Exception e) {
-            throw new ActionException(e.getCause());
+            throw new ActionException("Error at RegisterAction while creating user", e.getCause());
         }
 
         HttpSession session = request.getSession();
         session.setAttribute("user", newUser);
+        LOGGER.info(newUser.toString());
         return new ActionResult("registered");
     }
 }

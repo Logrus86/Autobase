@@ -13,12 +13,12 @@ public class DaoFactory {
     }
 
     public ConnectionPool.ProxyConnection getConnection() throws DaoException {
-        ConnectionPool.ProxyConnection result = null;
+        ConnectionPool.ProxyConnection result;
         try {
             ConnectionPool cp = ConnectionPool.getInstance();
             result = cp.getConnection();
         } catch (Exception e) {
-            throw new DaoException(e.getCause());
+            throw new DaoException("DaoFactory error while get connection from pool.",e.getCause());
         }
         this.proxyConnection = result;
         return result;
