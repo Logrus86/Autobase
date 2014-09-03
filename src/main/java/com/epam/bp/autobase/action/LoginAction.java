@@ -19,31 +19,13 @@ public class LoginAction implements Action {
     private ActionResult loginFailed = new ActionResult("main");
     private static final ResourceBundle RB = ResourceBundle.getBundle("i18n.text");
     private static final String ERROR_LOGIN = RB.getString("error.login");
-    private static final String ERROR_EMPTY_IN = RB.getString("error.empty-input");
-    private static final String ERROR_EMPTY_LOGIN = RB.getString("error.empty-login");
-    private static final String ERROR_EMPTY_PASS = RB.getString("error.empty-pass");
 
     public LoginAction() {
     }
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
-        //check for data inputs
-        HttpSession session = request.getSession();
-        if (request.getParameter("username").equals("") & request.getParameter("password").equals("")) {
-            session.setAttribute("errormsg", ERROR_EMPTY_IN);
-            return loginFailed;
-        }
-        if (request.getParameter("username").equals("")) {
-            session.setAttribute("errormsg", ERROR_EMPTY_LOGIN);
-            return loginFailed;
-        }
-        if (request.getParameter("password").equals("")) {
-            session.setAttribute("errormsg", ERROR_EMPTY_PASS);
-            return loginFailed;
-        }
-
-        //username & password were entered, looking for user
+        //looking for user
         User user;
         try {
             H2UserDao h2UserDao = DaoFactory.getInstance().getH2UserDao();
@@ -55,6 +37,7 @@ public class LoginAction implements Action {
             throw new ActionException("Error at LoginAction while searching for user", e.getCause());
         }
 
+        HttpSession session = request.getSession();
         //user was not found (== null)
         if (user == null) {
             LOGGER.info("User '" + request.getParameter("username") + "' with password '" + request.getParameter("password") + "' wasn't found.");

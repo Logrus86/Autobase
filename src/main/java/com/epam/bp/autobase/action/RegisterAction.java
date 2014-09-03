@@ -12,12 +12,20 @@ import java.math.BigDecimal;
 
 public class RegisterAction implements Action {
     public final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(super.getClass());
+    private ActionResult registerSuccess = new ActionResult("registered");
 
     public RegisterAction() {
     }
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
+
+//check for passwords
+//        if (!request.getParameter("password").equals(request.getParameter("password-repeat"))) {
+//            session.setAttribute("errormsg", ERROR_PASSES_NOT_EQUALS);
+//            return registerFailed;
+//        }
+
         User newUser = new User();
         newUser.setId(4);
         newUser.setFirstname(request.getParameter("firstname"));
@@ -28,8 +36,8 @@ public class RegisterAction implements Action {
         newUser.setEmail(request.getParameter("email"));
         newUser.setRole(User.Role.CLIENT);
         newUser.setBalance(BigDecimal.ZERO);
-        //TODO checks
-        H2UserDao h2UserDao = null;
+
+        H2UserDao h2UserDao;
         try {
             h2UserDao = DaoFactory.getInstance().getH2UserDao();
             h2UserDao.create(newUser);
@@ -41,6 +49,6 @@ public class RegisterAction implements Action {
         session.setAttribute("user", newUser);
         session.setAttribute("errormsg","");
         LOGGER.info(newUser.toString());
-        return new ActionResult("registered");
+        return registerSuccess;
     }
 }

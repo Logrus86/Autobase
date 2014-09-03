@@ -3,7 +3,6 @@ package com.epam.bp.autobase.entity;
 import com.epam.bp.autobase.dao.Identifiable;
 
 import java.math.BigDecimal;
-import java.time.Year;
 import java.util.Comparator;
 
 public abstract class Vehicle implements Cloneable, Comparable<Vehicle>, Identifiable<Integer> {
@@ -13,16 +12,16 @@ public abstract class Vehicle implements Cloneable, Comparable<Vehicle>, Identif
             return vehicle1.rentPrice.compareTo(vehicle2.rentPrice);
         }
     };
+    private Integer id;
     private BigDecimal rentPrice;
-    private int id;
     private String model;
     private String manufacturer;
-    private Year productionYear;
+    private int productionYear;
     private String color;
     private BigDecimal mileage;
     private Fuel fuelType;
     private boolean operable;
-    private User driver;
+    private Integer driverId;
 
     @Override
     public Integer getId() {
@@ -33,11 +32,11 @@ public abstract class Vehicle implements Cloneable, Comparable<Vehicle>, Identif
         this.id = id;
     }
 
-    public Year getProductionYear() {
+    public int getProductionYear() {
         return productionYear;
     }
 
-    public void setProductionYear(Year productionYear) {
+    public void setProductionYear(int productionYear) {
         this.productionYear = productionYear;
     }
 
@@ -97,15 +96,12 @@ public abstract class Vehicle implements Cloneable, Comparable<Vehicle>, Identif
         this.manufacturer = manufacturer;
     }
 
-    public User getDriver() {
-        return driver;
+    public Integer getDriverId() {
+        return driverId;
     }
 
-    public boolean setDriver(User driver) {
-        if (driver.getRole() != User.Role.DRIVER) {
-            return false;
-        }
-        this.driver = driver;
+    public boolean setDriverId (Integer driverId) {
+        this.driverId = driverId;
         return true;
     }
 

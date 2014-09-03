@@ -9,24 +9,27 @@ public class Car extends Vehicle {
         return passengerSeatsNumber;
     }
 
-    public void setPassengerSeatsNumber(int passengerSeatsNumber) {
+    public Car setPassengerSeatsNumber(int passengerSeatsNumber) {
         this.passengerSeatsNumber = passengerSeatsNumber;
+        return this;
     }
 
     public int getDoorsNumber() {
         return doorsNumber;
     }
 
-    public void setDoorsNumber(int doorsNumber) {
+    public Car setDoorsNumber(int doorsNumber) {
         this.doorsNumber = doorsNumber;
+        return this;
     }
 
     public boolean isWithConditioner() {
         return withConditioner;
     }
 
-    public void setWithConditioner(boolean withConditioner) {
+    public Car setWithConditioner(boolean withConditioner) {
         this.withConditioner = withConditioner;
+        return this;
     }
 
     @Override
@@ -47,7 +50,7 @@ public class Car extends Vehicle {
                 .append(", manufacturer: ")
                 .append(getManufacturer())
                 .append(", driver: ")
-                .append(getDriver())
+                .append(getDriverId())
                 .append(", productionYear: ")
                 .append(getProductionYear())
                 .append(", color: ")

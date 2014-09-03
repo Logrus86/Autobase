@@ -11,24 +11,27 @@ public class Truck extends Vehicle {
         return maxPayload;
     }
 
-    public void setMaxPayload(BigDecimal maxPayload) {
+    public Truck setMaxPayload(BigDecimal maxPayload) {
         this.maxPayload = maxPayload;
+        return this;
     }
 
     public boolean isEnclosed() {
         return enclosed;
     }
 
-    public void setEnclosed(boolean enclosed) {
+    public Truck setEnclosed(boolean enclosed) {
         this.enclosed = enclosed;
+        return this;
     }
 
     public boolean isTipper() {
         return tipper;
     }
 
-    public void setTipper(boolean tipper) {
+    public Truck setTipper(boolean tipper) {
         this.tipper = tipper;
+        return this;
     }
 
     @Override
@@ -49,7 +52,7 @@ public class Truck extends Vehicle {
                 .append(", manufacturer: ")
                 .append(getManufacturer())
                 .append(", driver: ")
-                .append(getDriver())
+                .append(getDriverId())
                 .append(", productionYear: ")
                 .append(getProductionYear())
                 .append(", color: ")

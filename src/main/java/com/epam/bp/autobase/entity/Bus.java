@@ -9,24 +9,27 @@ public class Bus extends Vehicle {
         return passengerSeatsNumber;
     }
 
-    public void setPassengerSeatsNumber(int passengerSeatsNumber) {
+    public Bus setPassengerSeatsNumber(int passengerSeatsNumber) {
         this.passengerSeatsNumber = passengerSeatsNumber;
+        return this;
     }
 
     public int getStandingPlacesNumber() {
         return standingPlacesNumber;
     }
 
-    public void setStandingPlacesNumber(int standingPlacesNumber) {
+    public Bus setStandingPlacesNumber(int standingPlacesNumber) {
         this.standingPlacesNumber = standingPlacesNumber;
+        return this;
     }
 
     public int getDoorsNumber() {
         return doorsNumber;
     }
 
-    public void setDoorsNumber(int doorsNumber) {
+    public Bus setDoorsNumber(int doorsNumber) {
         this.doorsNumber = doorsNumber;
+        return this;
     }
 
     @Override
@@ -47,7 +50,7 @@ public class Bus extends Vehicle {
                 .append(", manufacturer: ")
                 .append(getManufacturer())
                 .append(", driver: ")
-                .append(getDriver())
+                .append(getDriverId())
                 .append(", productionYear: ")
                 .append(getProductionYear())
                 .append(", color: ")
