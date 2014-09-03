@@ -15,7 +15,7 @@
 </head>
 <body>
 <div align="center" id="error-box">
-    <img itemprop="logo" src="<c:url value="/static/img/error.jpg"/>"/>
+    <img src="<c:url value="/static/img/error.jpg"/>"/>
     <H1><fmt:message key="default.wrongturn"/> ${statuscode}</H1>
     <p><fmt:message key="default.page404"/></p>
     <p><a href="/"><fmt:message key="default.backto"/> autobase.com</a></p>

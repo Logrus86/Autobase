@@ -41,7 +41,7 @@
     <session-config>
         <session-timeout>5</session-timeout>
         <cookie-config>
-            <name>ls</name>
+            <name>bp</name>
         </cookie-config>
     </session-config>
 

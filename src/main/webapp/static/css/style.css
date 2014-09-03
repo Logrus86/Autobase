@@ -73,7 +73,6 @@ form#registration-form {
 form#search-form {
     width: 400;
     margin: auto;
-    text-align: center;
 }
 div#error-box {
     padding-top: 50px;
