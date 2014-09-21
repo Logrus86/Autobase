@@ -9,7 +9,7 @@ import java.util.concurrent.Executor;
 
 public class ConnectionPool {
     private static volatile ConnectionPool instance;
-    private static final ResourceBundle rb = ResourceBundle.getBundle("db"); //property manager
+    private static final ResourceBundle rb = ResourceBundle.getBundle("db");
     private static final String DRIVER = rb.getString("db.driver");
     private static final String URL = rb.getString("db.url");
     private static final String USER = rb.getString("db.user");
@@ -17,7 +17,7 @@ public class ConnectionPool {
     private static final int POOL_SIZE = Integer.parseInt(rb.getString("db.pool_size"));
     private static ArrayBlockingQueue<ProxyConnection> connectionQueue;
 
-    private ConnectionPool() throws SQLException{
+    private ConnectionPool() {
         connectionQueue = new ArrayBlockingQueue<>(POOL_SIZE);
         try {
             Class.forName(DRIVER);
@@ -25,20 +25,22 @@ public class ConnectionPool {
             e.printStackTrace();
         }
         for (int i = 0; i < POOL_SIZE; i++) {
-            ProxyConnection connection = new ProxyConnection(DriverManager.getConnection(URL, USER, PASSWORD));
+            ProxyConnection connection = null;
+            try {
+                connection = new ProxyConnection(DriverManager.getConnection(URL, USER, PASSWORD));
+            } catch (SQLException e) {
+                throw new ConnectionPoolException("CoonectionPool exception while creating connection", e);
+            }
             connectionQueue.offer(connection);
         }
     }
 
-    public static ConnectionPool getInstance() throws SQLException, ClassNotFoundException {
-        if (instance==null) {
-            synchronized (ConnectionPool.class) {
-                if (instance == null) {
-                   instance = new ConnectionPool();
-                }
-            }
-        }
-        return instance;
+    public static ConnectionPool getInstance() {
+        return InstanceHolder.instance;
+    }
+
+    private static class InstanceHolder {
+        private static ConnectionPool instance = new ConnectionPool();
     }
 
     public ProxyConnection getConnection() throws InterruptedException {
@@ -51,8 +53,8 @@ public class ConnectionPool {
         connectionQueue.offer(connection);
     }
 
-    //nested class, wrapper around Connection to avoid "wild" connections
-    public class ProxyConnection implements Connection {
+    //inner class, wrapper around Connection to avoid "wild" connections
+    public static class ProxyConnection implements Connection {
         private Connection connection;
 
         public ProxyConnection(Connection connection) {
