@@ -22,6 +22,11 @@ public abstract class Vehicle implements Cloneable, Comparable<Vehicle>, Identif
     private Fuel fuelType;
     private boolean operable;
     private Integer driverId;
+    private final String vehicleType = this.getClass().getSimpleName();
+
+    public String getVehicleType() {
+        return vehicleType;
+    }
 
     @Override
     public Integer getId() {
@@ -56,8 +61,8 @@ public abstract class Vehicle implements Cloneable, Comparable<Vehicle>, Identif
         this.mileage = mileage;
     }
 
-    public Fuel getFuelType() {
-        return fuelType;
+    public String getFuelType() {
+        return fuelType.toString();
     }
 
     public void setFuelType(Fuel fuelType) {

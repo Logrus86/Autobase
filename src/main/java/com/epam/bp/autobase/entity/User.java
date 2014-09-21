@@ -1,9 +1,10 @@
 package com.epam.bp.autobase.entity;
 
 import com.epam.bp.autobase.dao.Identifiable;
-import com.epam.bp.autobase.util.DateParser;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class User implements Identifiable<Integer> {
@@ -12,7 +13,7 @@ public class User implements Identifiable<Integer> {
     private String lastname;
     private Date dob;
     private String username;
-    private String password;
+    private String password; //TODO save hash, not pass, md5 for example
     private String email;
     private Role role;
     private BigDecimal balance;
@@ -33,12 +34,18 @@ public class User implements Identifiable<Integer> {
         this.lastname = lastname;
     }
 
-    public Date getDob() {
-        return dob;
+    public String getDob() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(dob);
     }
 
-    public void setDob(Date dob) {
-        this.dob = dob;
+    public void setDob(String dob) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            this.dob = sdf.parse(dob);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public BigDecimal getBalance() {
@@ -95,7 +102,7 @@ public class User implements Identifiable<Integer> {
                 .append(", lastname: ")
                 .append(lastname)
                 .append(", dob: ")
-                .append(DateParser.DateToString(dob))
+                .append(dob)
                 .append(", username: ")
                 .append(username)
                 .append(", password: ")

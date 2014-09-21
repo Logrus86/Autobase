@@ -1,7 +1,6 @@
 package com.epam.bp.autobase.entity;
 
 import java.math.BigDecimal;
-import java.time.Year;
 
 public class BusBuilderRandom extends BusBuider {
     @Override
@@ -46,7 +45,7 @@ public class BusBuilderRandom extends BusBuider {
 
     @Override
     public void buildProductionYear() {
-        bus.setProductionYear(Year.of(VehicleFactory.minMaxRandom(1950, 2014)));
+        bus.setProductionYear(VehicleFactory.minMaxRandom(1950, 2014));
     }
 
     @Override

@@ -37,7 +37,7 @@ public class Truck extends Vehicle {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder()
-                .append("Truck {maxPayload: ")
+                .append("Truck {Payload: ")
                 .append(getMaxPayload())
                 .append(", enclosed: ")
                 .append(isEnclosed())
@@ -49,11 +49,11 @@ public class Truck extends Vehicle {
                 .append(isOperable())
                 .append(", model: ")
                 .append(getModel())
-                .append(", manufacturer: ")
+                .append(", manufact: ")
                 .append(getManufacturer())
                 .append(", driver: ")
                 .append(getDriverId())
-                .append(", productionYear: ")
+                .append(", prodYear: ")
                 .append(getProductionYear())
                 .append(", color: ")
                 .append(getColor())

@@ -35,9 +35,9 @@ public class Bus extends Vehicle {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder()
-                .append("Bus {PassengerSeatsNumber: ")
+                .append("Bus {PassSeatsNumber: ")
                 .append(getPassengerSeatsNumber())
-                .append(", standingPlacesNumber: ")
+                .append(", stPlacesNumber: ")
                 .append(getStandingPlacesNumber())
                 .append(", doorsNumber: ")
                 .append(getDoorsNumber())  //vehicle
@@ -47,11 +47,11 @@ public class Bus extends Vehicle {
                 .append(isOperable())
                 .append(", model: ")
                 .append(getModel())
-                .append(", manufacturer: ")
+                .append(", manufact: ")
                 .append(getManufacturer())
                 .append(", driver: ")
                 .append(getDriverId())
-                .append(", productionYear: ")
+                .append(", prodYear: ")
                 .append(getProductionYear())
                 .append(", color: ")
                 .append(getColor())
