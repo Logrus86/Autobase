@@ -170,8 +170,8 @@
                         <td><input type="checkbox" name="tipper" <c:if test="${vehicle.tipper}">checked</c:if>></td>
                     </c:if>
 
-                    <td><button class="btn btn-primary" name="save-${vehicle.id}" type="submit">save changes</button></td>
-                    <td><button class="btn btn-danger" name="delete-${vehicle.id}" type="submit">delete</button></td>
+                    <td><button class="btn btn-primary" name="save" value="${vehicle.id}" type="submit">save changes</button></td>
+                    <td><button class="btn btn-danger" name="delete" value="${vehicle.id}" type="submit">delete</button></td>
                 </form>
             </tr>
         </c:forEach>

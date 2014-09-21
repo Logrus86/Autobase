@@ -64,10 +64,10 @@
                     <td><input type="text" class="form-control" name="valueEn" value=${color.valueEn}></td>
                     <td><input type="text" class="form-control" name="valueRu" value=${color.valueRu}></td>
                     <td>
-                        <button class="btn btn-primary" name="save" type="submit">save changes</button>
+                        <button class="btn btn-primary" name="save" value="color.id" type="submit">save changes</button>
                     </td>
                     <td>
-                        <button class="btn btn-danger" name="delete" type="submit">delete</button>
+                        <button class="btn btn-danger" name="delete" value="color.id" type="submit">delete</button>
                     </td>
                 </form>
             </tr>

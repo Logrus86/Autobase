@@ -25,6 +25,7 @@ public class CheckLoginAction implements Action {
         HttpSession session = request.getSession();
         session.setAttribute("errormsg", "");
         session.setAttribute("search_error", "");
+    //    session.setAttribute("change_error", "");
 
         //TODO WHERE IT MUST BE DONE ?
         if (session.getAttribute("manufacturerList") == null) {

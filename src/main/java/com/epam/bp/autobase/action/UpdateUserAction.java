@@ -1,7 +1,6 @@
 package com.epam.bp.autobase.action;
 
 import com.epam.bp.autobase.dao.DaoFactory;
-import com.epam.bp.autobase.dao.H2.H2UserDao;
 import com.epam.bp.autobase.dao.UserDao;
 import com.epam.bp.autobase.entity.User;
 import com.epam.bp.autobase.util.Validator;
@@ -27,6 +26,7 @@ public class UpdateUserAction implements Action {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         String error = Validator.validateRequestParametersMap(request);
+
         if (!error.isEmpty()) {
             session.setAttribute("cab_error", error);
             if (user.getRole()==User.Role.CLIENT) return cabinet_user;
@@ -57,7 +57,6 @@ public class UpdateUserAction implements Action {
         user.setEmail(request.getParameter("email"));
         //TODO add money to balance with unique number card
         if (user.getRole()==User.Role.CLIENT) user.setBalance(BigDecimal.valueOf(Double.valueOf(request.getParameter("balance"))));
-        H2UserDao h2UserDao;
         try {
             UserDao userDao = DaoFactory.getInstance().getDaoManager().getUserDao();
             userDao.update(user);
