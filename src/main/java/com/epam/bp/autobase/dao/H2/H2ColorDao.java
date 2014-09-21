@@ -1,5 +1,7 @@
-package com.epam.bp.autobase.dao;
+package com.epam.bp.autobase.dao.H2;
 
+import com.epam.bp.autobase.dao.ColorDao;
+import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.entity.props.Color;
 import com.epam.bp.autobase.pool.ConnectionPool;
 import org.slf4j.LoggerFactory;
@@ -32,7 +34,7 @@ public class H2ColorDao extends H2AbstractDao<Integer, Color> implements ColorDa
 
     @Override
     public String getDeleteQuery() {
-        return "DELETE FROM COLOR WHERE ID= ?;";
+        return "DELETE FROM COLOR WHERE ID = ?;";
     }
 
     @Override

@@ -1,5 +1,8 @@
-package com.epam.bp.autobase.dao;
+package com.epam.bp.autobase.dao.H2;
 
+import com.epam.bp.autobase.dao.DaoException;
+import com.epam.bp.autobase.dao.DaoFactory;
+import com.epam.bp.autobase.dao.DaoManager;
 import com.epam.bp.autobase.pool.ConnectionPool;
 
 import java.sql.SQLException;

@@ -1,5 +1,7 @@
-package com.epam.bp.autobase.dao;
+package com.epam.bp.autobase.dao.H2;
 
+import com.epam.bp.autobase.dao.DaoException;
+import com.epam.bp.autobase.dao.VehicleDao;
 import com.epam.bp.autobase.entity.Bus;
 import com.epam.bp.autobase.entity.Car;
 import com.epam.bp.autobase.entity.Truck;
@@ -12,7 +14,7 @@ import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 
-public class H2VehicleDao extends H2AbstractDao<Integer, Vehicle> implements VehicleDao{
+public class H2VehicleDao extends H2AbstractDao<Integer, Vehicle> implements VehicleDao {
     public final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(super.getClass());
 
     public H2VehicleDao(ConnectionPool.ProxyConnection connection) {
