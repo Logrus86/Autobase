@@ -4,10 +4,13 @@ import com.epam.bp.autobase.pool.ConnectionPool;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public abstract class H2AbstractDao<PK extends Integer,T extends Identifiable<PK>> implements JDBCDao<PK,T>{
+public abstract class H2AbstractDao<PK extends Integer, T extends Identifiable<PK>> implements JDBCDao<PK, T> {
     protected ConnectionPool.ProxyConnection connection;
+
     public H2AbstractDao(ConnectionPool.ProxyConnection connection) {
         this.connection = connection;
     }
@@ -21,7 +24,7 @@ public abstract class H2AbstractDao<PK extends Integer,T extends Identifiable<PK
             ps.close();
             connection.close();
         } catch (Exception e) {
-            throw new DaoException("Error while preparing statement at 'create' method", e.getCause());
+            throw new DaoException("Error while preparing statement at 'create' method", e);
         }
     }
 
@@ -37,7 +40,7 @@ public abstract class H2AbstractDao<PK extends Integer,T extends Identifiable<PK
             rs.close();
             ps.close();
         } catch (Exception e) {
-            throw new DaoException("Error while preparing statement at 'getById' method", e.getCause());
+            throw new DaoException("Error while preparing statement at 'getById' method", e);
         }
         return object;
     }
@@ -45,36 +48,37 @@ public abstract class H2AbstractDao<PK extends Integer,T extends Identifiable<PK
     @Override
     public void update(T object) throws DaoException {
         String query = getUpdateQuery();
-        try (PreparedStatement ps = connection.prepareStatement(query)){
-            prepareStatementForUpdate(ps,object);
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            prepareStatementForUpdate(ps, object);
             ps.executeUpdate();
             ps.close();
         } catch (Exception e) {
-            throw new DaoException("Error while preparing statement at 'update' method", e.getCause());
+            throw new DaoException("Error while preparing statement at 'update' method", e);
         }
     }
 
     @Override
     public void delete(PK id) throws DaoException {
         String query = getDeleteQuery();
-        try (PreparedStatement ps = connection.prepareStatement(query)){
-            ps.setObject(1,id);
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setObject(1, id);
             ps.executeUpdate();
             ps.close();
         } catch (Exception e) {
-            throw new DaoException("Error while preparing statement at 'delete(id)' method", e.getCause());
+            throw new DaoException("Error while preparing statement at 'delete(by id)' method", e);
         }
     }
 
     @Override
     public void delete(T object) throws DaoException {
         String query = getDeleteQuery();
-        try (PreparedStatement ps = connection.prepareStatement(query)){
-            ps.setObject(1,object.getId());
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setObject(1, object.getId());
             ps.executeUpdate();
             ps.close();
         } catch (Exception e) {
-            throw new DaoException("Error while preparing statement at 'delete(object)' method", e.getCause());
+            throw new DaoException("Error while preparing statement at 'delete(by object)' method", e);
         }
     }
 
@@ -87,8 +91,38 @@ public abstract class H2AbstractDao<PK extends Integer,T extends Identifiable<PK
             ResultSet rs = ps.executeQuery();
             list = parseResultSetList(rs);
         } catch (Exception e) {
-            throw new DaoException("Error while preparing statement at 'getAll' method", e.getCause());
+            throw new DaoException("Error while preparing statement at 'getAll' method", e);
         }
         return list;
+    }
+
+    @Override
+    public List<T> findByParams(Map<String, String> params) throws DaoException {
+        StringBuilder query = new StringBuilder();
+        query.append(getReadQuery()).append(" WHERE 1 = 1");
+        for (String key : params.keySet()) {
+            query.append(" AND ").append(key.toUpperCase()).append(" = ?");
+        }
+        query.append(";");
+        PreparedStatement ps;
+        List<T> result = new ArrayList<>();
+        try {
+            ps = connection.prepareStatement(query.toString());
+            int i = 1;
+            for (String key : params.keySet()) {
+                ps.setString(i, params.get(key));
+                i++;
+            }
+            ResultSet rs = ps.executeQuery();
+            result = parseResultSetList(rs);
+            rs.close();
+            ps.close();
+            connection.close();
+        } catch (Exception e) {
+            if (result != null) {
+                throw new DaoException("Finding " + result.getClass().getSimpleName() + " by parameters error", e);
+            }
+        }
+        return result;
     }
 }

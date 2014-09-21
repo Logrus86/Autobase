@@ -6,7 +6,6 @@ import java.util.List;
 
 public interface JDBCDao<PK, T extends Identifiable<PK>> extends BaseDao<PK, T> {
 
-   // public ConnectionPool.ProxyConnection connection = null;
     public abstract String getCreateQuery(); //  INSERT INTO [Table] ([columns]) VALUES ([values]);                 C
     public abstract String getReadQuery();   //  SELECT * FROM [Table];                                             R
     public abstract String getUpdateQuery(); //  UPDATE [Table] SET [column = ?, column = ?, ...] WHERE id = ?;     U
