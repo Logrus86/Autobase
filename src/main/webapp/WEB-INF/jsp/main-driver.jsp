@@ -141,8 +141,8 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="default.model"/></span>
                                 <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true" name="model">
-                                    <c:forEach items="${list_models}" var="model">
-                                        <option <c:if test="${vehicle.model==model}">selected</c:if>>${model}</option>
+                                    <c:forEach items="${modelList}" var="model">
+                                        <option <c:if test="${vehicle.model==model.value}">selected</c:if>>${model}</option>
                                     </c:forEach>
                                 </select>
                             </div>
@@ -153,8 +153,8 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="default.manufacturer"/></span>
                                 <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true" name="manufacturer">
-                                    <c:forEach items="${list_manufacturers}" var="manufacturer">
-                                        <option <c:if test="${vehicle.manufacturer==manufacturer}">selected</c:if>>${manufacturer}</option>
+                                    <c:forEach items="${manufacturerList}" var="manufacturer">
+                                        <option <c:if test="${vehicle.manufacturer==manufacturer.value}">selected</c:if>>${manufacturer}</option>
                                     </c:forEach>
                                 </select>
                             </div>

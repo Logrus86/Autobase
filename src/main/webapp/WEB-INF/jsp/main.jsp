@@ -162,8 +162,8 @@
                         <div class="input-group">
                             <span class="input-group-addon"><input type="checkbox" name="isMODEL"> <fmt:message key="default.model"/></span>
                             <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true" name="MODEL">
-                                <c:forEach items="${list_models}" var="model">
-                                    <option>${model}</option>
+                                <c:forEach items="${modelList}" var="model">
+                                    <option>${model.value}</option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -175,8 +175,8 @@
                             <span class="input-group-addon"><input type="checkbox" name="isMANUFACTURER"> <fmt:message key="default.manufacturer"/></span>
                             <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true"
                                     name="MANUFACTURER" >
-                                <c:forEach items="${list_manufacturers}" var="manufacturer">
-                                    <option>${manufacturer}</option>
+                                <c:forEach items="${manufacturerList}" var="manufacturer">
+                                    <option>${manufacturer.value}</option>
                                 </c:forEach>
                             </select>
                         </div>

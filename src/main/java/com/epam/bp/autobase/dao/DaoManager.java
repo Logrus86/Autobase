@@ -1,5 +1,6 @@
 package com.epam.bp.autobase.dao;
 
+import com.epam.bp.autobase.dao.H2.*;
 import com.epam.bp.autobase.pool.ConnectionPool;
 
 import java.util.ResourceBundle;
@@ -11,6 +12,8 @@ public class DaoManager {
     private UserDao userDao;
     private VehicleDao vehicleDao;
     private ColorDao colorDao;
+    private ModelDao modelDao;
+    private ManufacturerDao manufacturerDao;
 
     public DaoManager(ConnectionPool.ProxyConnection connection) {
         this.connection = connection;
@@ -35,5 +38,19 @@ public class DaoManager {
             if (DAOTYPE.equals("h2")) this.colorDao = new H2ColorDao(this.connection);
         }
         return colorDao;
+    }
+
+    public ModelDao getModelDao() {
+        if (this.modelDao == null) {
+            if (DAOTYPE.equals("h2")) this.modelDao = new H2ModelDao(this.connection);
+        }
+        return modelDao;
+    }
+
+    public ManufacturerDao getManufacturerDao() {
+        if (this.manufacturerDao == null) {
+            if (DAOTYPE.equals("h2")) this.manufacturerDao = new H2ManufacturerDao(this.connection);
+        }
+        return manufacturerDao;
     }
 }

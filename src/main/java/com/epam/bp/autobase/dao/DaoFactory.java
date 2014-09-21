@@ -1,5 +1,7 @@
 package com.epam.bp.autobase.dao;
 
+import com.epam.bp.autobase.dao.H2.H2DaoFactory;
+
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 

@@ -47,8 +47,8 @@
     <a class="btn btn-default" href='<c:url value="/"/>'>Users</a>
     <a class="btn btn-default" href='<c:url value="/do/admin-vehicles"/>'>Vehicles</a>
     <a class="btn btn-default" href='<c:url value="/do/admin-colors"/>'>Colors</a>
-    <button type="button" class="btn btn-default">Models base</button>
-    <button type="button" class="btn btn-default">Manufacturers bas</button>
+    <a class="btn btn-default" href='<c:url value="/do/admin-models"/>'>Models</a>
+    <a class="btn btn-default" href='<c:url value="/do/admin-manufacturers"/>'>Manufacturers</a>
 </div>
 <div id="vehicles">
     <table>
@@ -87,15 +87,15 @@
                     <td><input type="checkbox" class="form-control" name="operable" <c:if test="${vehicle.operable}">checked</c:if>></td>
                     <td>
                         <select class="selectpicker show-menu-arrow" data-width="150px" data-live-search="true" name="model">
-                            <c:forEach items="${list_models}" var="model">
-                                <option <c:if test="${vehicle.model==model}">selected</c:if>>${model}</option>
+                            <c:forEach items="${modelList}" var="model">
+                                <option <c:if test="${vehicle.model==model.value}">selected</c:if>>${model.value}</option>
                             </c:forEach>
                         </select>
                     </td>
                     <td>
                         <select class="selectpicker show-menu-arrow" data-width="150px" data-live-search="true" name="manufacturer">
-                            <c:forEach items="${list_manufacturers}" var="manufacturer">
-                                <option <c:if test="${vehicle.manufacturer==manufacturer}">selected</c:if>>${manufacturer}</option>
+                            <c:forEach items="${manufacturerList}" var="manufacturer">
+                                <option <c:if test="${vehicle.manufacturer==manufacturer.value}">selected</c:if>>${manufacturer.value}</option>
                             </c:forEach>
                         </select>
                     </td>

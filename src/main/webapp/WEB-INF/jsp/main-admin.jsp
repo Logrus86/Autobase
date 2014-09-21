@@ -47,8 +47,8 @@
         <a class="btn btn-default" href='<c:url value="/"/>'>Users</a>
         <a class="btn btn-default" href='<c:url value="/do/admin-vehicles"/>'>Vehicles</a>
         <a class="btn btn-default" href='<c:url value="/do/admin-colors"/>'>Colors</a>
-        <button type="button" class="btn btn-default">Models base</button>
-        <button type="button" class="btn btn-default">Manufacturers bas</button>
+        <a class="btn btn-default" href='<c:url value="/do/admin-models"/>'>Models</a>
+        <a class="btn btn-default" href='<c:url value="/do/admin-manufacturers"/>'>Manufacturers</a>
     </div>
     <div id="users">
         <table>

@@ -47,8 +47,8 @@
     <a class="btn btn-default" href='<c:url value="/"/>'>Users</a>
     <a class="btn btn-default" href='<c:url value="/do/admin-vehicles"/>'>Vehicles</a>
     <a class="btn btn-default" href='<c:url value="/do/admin-colors"/>'>Colors</a>
-    <button type="button" class="btn btn-default">Models base</button>
-    <button type="button" class="btn btn-default">Manufacturers bas</button>
+    <a class="btn btn-default" href='<c:url value="/do/admin-models"/>'>Models</a>
+    <a class="btn btn-default" href='<c:url value="/do/admin-manufacturers"/>'>Manufacturers</a>
 </div>
 <div id="colors">
     <table>
@@ -61,8 +61,8 @@
             <tr>
                 <form method="get" action="change_color">
                     <td><input id="N" type="number" class="form-control" name="id" value=${i.count} readonly></td>
-                    <td><input type="text" class="form-control" name="colorEng" value=${color.valueEn}></td>
-                    <td><input type="text" class="form-control" name="colorRus" value=${color.valueRu}></td>
+                    <td><input type="text" class="form-control" name="valueEn" value=${color.valueEn}></td>
+                    <td><input type="text" class="form-control" name="valueRu" value=${color.valueRu}></td>
                     <td>
                         <button class="btn btn-primary" name="save" type="submit">save changes</button>
                     </td>
