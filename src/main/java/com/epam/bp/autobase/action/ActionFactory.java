@@ -22,6 +22,8 @@ public class ActionFactory {
         actions.put("GET/change_user", new ChangeUserAction());
         actions.put("GET/admin-vehicles", new ShowPageAction("admin-vehicles"));
         actions.put("GET/admin-colors", new ShowPageAction("admin-colors"));
+        actions.put("GET/admin-models", new ShowPageAction("admin-models"));
+        actions.put("GET/admin-manufacturers", new ShowPageAction("admin-manufacturers"));
     }
 
     public static Action getAction(String actionName) {
