@@ -1,8 +1,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--<jsp:useBean id="colorList" scope="application" class="com.epam.bp.autobase.entity.props.ColorsBase"></>--%>
 <html>
-
 <script type='text/javascript' src='<c:url value="/webjars/jquery/1.11.1/jquery.js"/>'></script>
 <script type='text/javascript' src='<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.js"/>'></script>
 <script type='text/javascript' src='<c:url value="/static/js/bootstrap-select.js"/>'></script>
@@ -29,12 +29,13 @@
                     <fmt:message key="default.doregister"/></button>
             </form>
         </div>
-        <div id="msg-error">${errormsg}</div>
+        <div class="msg-error">${errormsg}</div>
     </div>
 </div>
 <div id="sub" class="lifestyle_img">
     <div class="content">
         <p id="count"><fmt:message key="default.vhcount"/></p>
+
         <div id="title">
             <h1 style="font-size: 45px;"><fmt:message key="default.bestprices"/></h1>
         </div>
@@ -43,150 +44,209 @@
         </div>
     </div>
 </div>
-<form method="post" id="search-form">
+<form method="get" id="search-form" action="search">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title"><fmt:message key="default.search"/></h3>
         </div>
+        <div class="msg-error">${search_error}</div>
         <div class="panel-body">
             <div class="input-group">
                 <div class="bs-example bs-example-tabs">
                     <ul id="myTab" class="nav nav-tabs" role="tablist">
-                        <li class=""><a href="#bus-tab" role="tab" data-toggle="tab"><fmt:message
-                                key="default.bus"/></a></li>
-                        <li class="active"><a href="#car-tab" role="tab" data-toggle="tab"><fmt:message
-                                key="default.car"/></a></li>
-                        <li class=""><a href="#truck-tab" role="tab" data-toggle="tab"><fmt:message
-                                key="default.truck"/></a></li>
+                        <li class=""><a href="#bus-tab" role="tab" data-toggle="tab"><fmt:message key="default.bus"/></a></li>
+                        <li class="active"><a href="#car-tab" role="tab" data-toggle="tab"><fmt:message key="default.car"/></a></li>
+                        <li class=""><a href="#truck-tab" role="tab" data-toggle="tab"><fmt:message key="default.truck"/></a></li>
                     </ul>
                     <div id="myTabContent" class="tab-content">
                         <div class="tab-pane fade" id="bus-tab">
-                            <p>
-                                <fmt:message key="default.passengerSeatsNumber"/>
-                                <select class="selectpicker show-menu-arrow" data-width="60">
-                                    <option>20</option>
-                                    <option>30</option>
-                                    <option>40</option>
-                                    <option>50</option>
-                                </select><br>
-                                <fmt:message key="default.standingPlacesNumber"/>
-                                <select class="selectpicker show-menu-arrow" data-width="60">
-                                    <option>20</option>
-                                    <option>30</option>
-                                    <option>40</option>
-                                    <option>50</option>
-                                </select><br>
-                                <fmt:message key="default.doorsNumber"/>
-                                <select class="selectpicker show-menu-arrow" data-width="60">
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-                            </p>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><input type="checkbox" name="isPASSENGER_SEATS_NUMBER_BUS"> <fmt:message key="default.passengerSeatsNumber"/></span>
+                                        <input type="number" class="form-control" name="PASSENGER_SEATS_NUMBER_BUS" value="20">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><input type="checkbox" name="isSTANDING_PLACES_NUMBER"> <fmt:message key="default.standingPlacesNumber"/></span>
+                                        <input type="number" class="form-control" name="STANDING_PLACES_NUMBER" value="20">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><input type="checkbox" name="isDOORS_NUMBER_BUS"> <fmt:message key="default.doorsNumber"/></span>
+                                        <select class="selectpicker show-menu-arrow" data-width="auto" name="DOORS_NUMBER_BUS">
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="tab-pane fade active in" id="car-tab">
-                            <p><fmt:message key="default.passengerSeatsNumber"/>
-                                <select class="selectpicker show-menu-arrow" data-width="60">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option>6</option>
-                                    <option>7</option>
-                                </select><br><fmt:message key="default.doorsNumber"/>
-                                <select class="selectpicker show-menu-arrow" data-width="60">
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-                                <br><input type="checkbox"> <fmt:message key="default.conditioner"/>
-                            </p>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><input type="checkbox" name="isPASSENGER_SEATS_NUMBER_CAR"> <fmt:message key="default.passengerSeatsNumber"/></span>
+                                        <select class="selectpicker show-menu-arrow" data-width="auto" name="PASSENGER_SEATS_NUMBER_CAR">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                            <option>6</option>
+                                            <option>7</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><input type="checkbox" name="isDOORS_NUMBER_CAR"> <fmt:message key="default.doorsNumber"/></span>
+                                        <select class="selectpicker show-menu-arrow" data-width="auto" name="DOORS_NUMBER_CAR">
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><input type="checkbox" name="isCONDITIONER"></span>
+                                        <span class="form-control"><fmt:message key="default.conditioner"/></span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="tab-pane fade" id="truck-tab">
-                            <p>
-                                <fmt:message key="default.maxPayload"/> <input type="number"><br>
-                                <input type="checkbox"> <fmt:message key="default.enclosed"/><br>
-                                <input type="checkbox"> <fmt:message key="default.tipper"/>
-                            </p>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><input type="checkbox" name="isMAX_PAYLOAD"> <fmt:message key="default.maxPayload"/></span>
+                                        <input type="number" class="form-control" placeholder="..." value="10" name="MAX_PAYLOAD">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><input type="checkbox" name="isENCLOSED"></span>
+                                        <span class="form-control"><fmt:message key="default.enclosed"/></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><input type="checkbox" name="isTIPPER"></span>
+                                        <span class="form-control"><fmt:message key="default.tipper"/></span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <p><fmt:message key="default.model"/>
-                    <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true">
-                        <option>model 1</option>
-                        <option>model 2</option>
-                        <option>model 3</option>
-                        <option>model 4</option>
-                        <option>model 5</option>
-                        <option>model 6</option>
-                        <option>model 7</option>
-                    </select><br>
-                    <fmt:message key="default.manufacturer"/>
-                    <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true">
-                        <option>manufacturer 1</option>
-                        <option>manufacturer 2</option>
-                        <option>manufacturer 3</option>
-                        <option>manufacturer 4</option>
-                        <option>manufacturer 5</option>
-                        <option>manufacturer 6</option>
-                        <option>manufacturer 7</option>
-                    </select><br>
-                    <fmt:message key="default.color"/>
-                    <select class="selectpicker show-menu-arrow" data-width="auto">
-                        <option>color 1</option>
-                        <option>color 2</option>
-                        <option>color 3</option>
-                        <option>color 4</option>
-                        <option>color 5</option>
-                        <option>color 6</option>
-                        <option>color 7</option>
-                    </select><br>
-                    <fmt:message key="default.fuel"/>
-                    <select class="selectpicker show-menu-arrow" data-width="auto">
-                        <option><fmt:message key="default.petrol"/></option>
-                        <option><fmt:message key="default.diesel"/></option>
-                        <option><fmt:message key="default.gas"/></option>
-                        <option><fmt:message key="default.gas-petrol"/></option>
-                        <option><fmt:message key="default.electricity"/></option>
-                    </select><br>
-                </p>
                 <div class="row">
-                    <div class="col-lg-10">
+                    <div class="col-lg-12">
                         <div class="input-group">
-                            <span class="input-group-addon"><input type="checkbox" checked> <fmt:message
-                                    key="default.mileage-max"/></span>
-                            <input type="text" class="form-control" name="mileage-max" placeholder="50">
+                            <span class="input-group-addon"><input type="checkbox" name="isMODEL"> <fmt:message key="default.model"/></span>
+                            <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true" name="MODEL">
+                                <c:forEach items="${list_models}" var="model">
+                                    <option>${model}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="input-group">
+                            <span class="input-group-addon"><input type="checkbox" name="isMANUFACTURER"> <fmt:message key="default.manufacturer"/></span>
+                            <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true"
+                                    name="MANUFACTURER" >
+                                <c:forEach items="${list_manufacturers}" var="manufacturer">
+                                    <option>${manufacturer}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="input-group">
+                            <span class="input-group-addon"><input type="checkbox" name="isCOLOR"> <fmt:message key="default.color"/></span>
+                            <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true"
+                                    name="COLOR">
+                                <c:forEach items="${colorList}" var="color">
+                                    <option value="${color.valueEn}">${color.valueRu}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="input-group">
+                            <span class="input-group-addon"><input type="checkbox" name="isFUELTYPE"> <fmt:message key="default.fuel"/></span>
+                            <select class="selectpicker show-menu-arrow" data-width="auto" name="FUELTYPE">
+                                <option value="PETROL"><fmt:message key="default.petrol"/></option>
+                                <option value="DIESEL"><fmt:message key="default.diesel"/></option>
+                                <option value="GAS"><fmt:message key="default.gas"/></option>
+                                <option value="GAS-PETROL"><fmt:message key="default.gas-petrol"/></option>
+                                <option value="ELECTRICITY"><fmt:message key="default.electricity"/></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="input-group">
+                            <span class="input-group-addon"><input type="checkbox" name="isMILEAGE"> <fmt:message key="default.mileage-max"/></span>
+                            <input type="number" class="form-control" name="MILEAGE" placeholder="..." value="50">
                             <span class="input-group-addon"> <fmt:message key="default.kilometers"/></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-10">
+                    <div class="col-lg-12">
                         <div class="input-group">
-                            <span class="input-group-addon"><input type="checkbox" checked> <fmt:message
-                                    key="default.not-older"/></span>
-                            <input type="text" class="form-control" name="production-year-max" placeholder="1990">
-                            <span class="input-group-addon"> <fmt:message key="default.year-prod"/></span>
+                            <span class="input-group-addon"><input type="checkbox" name="isNOTOLDER"> <fmt:message key="default.not-older"/></span>
+                            <input type="number" class="form-control" name="NOTOLDER" placeholder="..." value="1990">
+                            <span class="input-group-addon"> <fmt:message key="default.of-year-prod"/></span>
                         </div>
                     </div>
                 </div>
-                <br>
-                <button type="submit" class="btn btn-primary"><fmt:message key="default.dosearch"/></button>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="input-group">
+                            <span class="input-group-addon"><input type="checkbox" name="isRENTPRICE"> <fmt:message key="default.not-pricey"/></span>
+                            <input type="number" class="form-control" name="RENTPRICE" placeholder="..." value="10000">
+                            <span class="input-group-addon"> <fmt:message key="default.currency"/></span>
+                        </div>
+                    </div>
+                </div><br>
+                <button type="submit" class="btn btn-primary" ><fmt:message key="default.dosearch"/></button>
             </div>
         </div>
     </div>
 </form>
-
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
-                        class="sr-only">Close</span></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" align="center" id="myModalLabel"><fmt:message key="default.registration"/></h4>
             </div>
             <div class="modal-body">
@@ -196,20 +256,25 @@
                         <input type="text" class="form-control" name="lastname" placeholder="<fmt:message key="default.lastname"/>" required>
                         <input type="date" class="form-control" name="dob" placeholder="<fmt:message key="default.dob"/>" required>
                         <input type="text" class="form-control" name="username" placeholder="<fmt:message key="default.username"/>" required>
-                        <input type="password" class="form-control" name="password" placeholder="<fmt:message key="default.password"/>" required>
-                        <%--<input type="password" class="form-control" name="password-repeat" placeholder="<fmt:message key="default.passwordrepeat"/>" required>--%>
+                        <input type="password" class="form-control" name="password" placeholder="<fmt:message key="default.password"/>" required title="<fmt:message key="ttip.password8"/>">
+                        <input type="password" class="form-control" name="password-repeat" placeholder="<fmt:message key="default.passwordrepeat"/>" required title="<fmt:message key="ttip.password8"/>">
                         <input type="email" class="form-control" name="email" placeholder="<fmt:message key="default.email"/>" required>
+                        <br>
                         <button type="submit" class="btn btn-primary"><fmt:message key="default.doregister"/></button>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <br>
                 <button type="button" class="btn btn-default" data-dismiss="modal"><fmt:message
                         key="default.cancel"/></button>
             </div>
         </div>
     </div>
 </div>
+<div id="footer" align="center">
+    EPAM Systems © 2014<br>
+    Bobylev P.R. © 2014
+</div>
+</body>
 </fmt:bundle>
 </html>

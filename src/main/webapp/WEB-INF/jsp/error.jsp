@@ -17,8 +17,9 @@
 <div align="center" id="error-box">
     <img src="<c:url value="/static/img/error.jpg"/>"/>
     <H1><fmt:message key="default.wrongturn"/> ${statuscode}</H1>
-    <p><fmt:message key="default.page404"/></p>
-    <p><a href="/"><fmt:message key="default.backto"/> autobase.com</a></p>
+    <c:if test="${statuscode=='404'}"><p><fmt:message key="default.page404"/></p></c:if>
+    <c:if test="${statuscode=='500'}"><p>Server error.</p></c:if>
+    <p><a href='<c:url value="/"/>'><fmt:message key="default.backto"/> autobase.com</a></p>
 </div>
 </body>
 </fmt:bundle>

@@ -17,14 +17,13 @@
     <fmt:message key="default.registered"/><br>
     <fmt:message key="default.firstname"/>: ${user.firstname}<br>
     <fmt:message key="default.lastname"/>: ${user.lastname}<br>
-    <%--<fmt:message key="default.dob"/>: ${user.dob}<br>--%>
-    <fmt:message key="default.dob"/>: <%= request.getParameter("dob") %><br>
+    <fmt:message key="default.dob"/>: ${user.dob}<br>
     <fmt:message key="default.username"/>: ${user.username}<br>
     <fmt:message key="default.password"/>: ${user.password}<br>
     <fmt:message key="default.email"/>: ${user.email}<br>
-    <fmt:message key="default.balance"/>: ${user.balance} тг.<br>
+    <fmt:message key="default.balance"/>: ${user.balance} <fmt:message key="default.currency"/><br>
 
-    <p><a href="/">Назад на autobase.com</a></p>
+    <p><a href="/"><fmt:message key="default.backto"/> autobase.com</a></p>
     </body>
 </fmt:bundle>
 </html>
