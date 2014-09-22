@@ -122,9 +122,8 @@ public abstract class H2AbstractDao<PK extends Integer, T extends Identifiable<P
             ps.close();
             connection.close();
         } catch (Exception e) {
-            if (result != null) {
-                throw new DaoException("Finding " + result.getClass().getSimpleName() + " by parameters error", e);
-            }
+            if (result != null) throw new DaoException("Finding " + result.getClass().getSimpleName() + " by parameters error", e);
+            else throw new DaoException("Finding entity by parameters error, entity result = null", e);
         }
         return result;
     }
