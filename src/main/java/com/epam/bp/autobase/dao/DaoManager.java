@@ -7,8 +7,7 @@ import java.util.ResourceBundle;
 
 public class DaoManager {
     private ConnectionPool.ProxyConnection connection;
-    private static final ResourceBundle RB = ResourceBundle.getBundle("db");
-    private static final String DAOTYPE = RB.getString("dao.type");
+    private static final String DAOTYPE = ResourceBundle.getBundle("db").getString("dao.type");
     private UserDao userDao;
     private VehicleDao vehicleDao;
     private ColorDao colorDao;

@@ -30,12 +30,12 @@ public class BusBuilderRandom extends BusBuider {
 
     @Override
     public void buildModel() {
-        bus.setModel(vhModels[VehicleFactory.minMaxRandom(0, vhModels.length - 1)]);
+  //      bus.setModel(vhModels[VehicleFactory.minMaxRandom(0, vhModels.length - 1)]);
     }
 
     @Override
     public void buildManufacturer() {
-        bus.setManufacturer(vhManufacturers[VehicleFactory.minMaxRandom(0, vhManufacturers.length - 1)]);
+    //    bus.setManufacturer(vhManufacturers[VehicleFactory.minMaxRandom(0, vhManufacturers.length - 1)]);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class BusBuilderRandom extends BusBuider {
 
     @Override
     public void buildColor() {
-        bus.setColor(vhColors[VehicleFactory.minMaxRandom(0, vhColors.length - 1)]);
+  //      bus.setColor(vhColors[VehicleFactory.minMaxRandom(0, vhColors.length - 1)]);
     }
 
     @Override

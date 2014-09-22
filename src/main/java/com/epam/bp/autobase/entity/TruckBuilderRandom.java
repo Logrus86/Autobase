@@ -3,6 +3,7 @@ package com.epam.bp.autobase.entity;
 import java.math.BigDecimal;
 
 public class TruckBuilderRandom extends TruckBuilder {
+
     @Override
     public void buildMaxPayload() {
         truck.setMaxPayload(BigDecimal.valueOf(VehicleFactory.minMaxStepRandom(5000, 30000, 1000)));
@@ -30,12 +31,12 @@ public class TruckBuilderRandom extends TruckBuilder {
 
     @Override
     public void buildModel() {
-        truck.setModel(vhModels[VehicleFactory.minMaxRandom(0, vhModels.length - 1)]);
+  //      truck.setModel(vhModels[VehicleFactory.minMaxRandom(0, vhModels.length - 1)]);
     }
 
     @Override
     public void buildManufacturer() {
-        truck.setManufacturer(vhManufacturers[VehicleFactory.minMaxRandom(0, vhManufacturers.length - 1)]);
+   //     truck.setManufacturer(vhManufacturers[VehicleFactory.minMaxRandom(0, vhManufacturers.length - 1)]);
     }
 
     @Override
@@ -50,7 +51,7 @@ public class TruckBuilderRandom extends TruckBuilder {
 
     @Override
     public void buildColor() {
-        truck.setColor(vhColors[VehicleFactory.minMaxRandom(0, vhColors.length - 1)]);
+   //     truck.setColor(vhColors[VehicleFactory.minMaxRandom(0, vhColors.length - 1)]);
     }
 
     @Override

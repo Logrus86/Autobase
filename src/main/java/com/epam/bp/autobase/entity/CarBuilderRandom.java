@@ -31,12 +31,12 @@ public class CarBuilderRandom extends CarBuilder {
 
     @Override
     public void buildModel() {
-        car.setModel(vhModels[VehicleFactory.minMaxRandom(0, vhModels.length - 1)]);
+  //      car.setModel(vhModels[VehicleFactory.minMaxRandom(0, vhModels.length - 1)]);
     }
 
     @Override
     public void buildManufacturer() {
-        car.setManufacturer(vhManufacturers[VehicleFactory.minMaxRandom(0, vhManufacturers.length - 1)]);
+   //     car.setManufacturer(vhManufacturers[VehicleFactory.minMaxRandom(0, vhManufacturers.length - 1)]);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class CarBuilderRandom extends CarBuilder {
 
     @Override
     public void buildColor() {
-        car.setColor(vhColors[VehicleFactory.minMaxRandom(0, vhColors.length - 1)]);
+   //     car.setColor(vhColors[VehicleFactory.minMaxRandom(0, vhColors.length - 1)]);
     }
 
     @Override
