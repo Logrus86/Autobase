@@ -106,4 +106,24 @@ public class H2UserDao extends H2AbstractDao<Integer, User> implements UserDao {
             throw new DaoException("Preparing statement for Update user error", e);
         }
     }
+
+    @Override
+    public User getByUsername(String username) throws DaoException {
+        StringBuilder query = new StringBuilder();
+        query.append(getReadQuery()).append(" WHERE USERNAME = ?;");
+        PreparedStatement ps;
+        User result;
+        try {
+            ps = connection.prepareStatement(query.toString());
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            result = parseResultSetInstance(rs);
+            rs.close();
+            ps.close();
+            connection.close();
+        } catch (Exception e) {
+            throw new DaoException("Finding user by parameters error", e);
+        }
+        return result;
+    }
 }
