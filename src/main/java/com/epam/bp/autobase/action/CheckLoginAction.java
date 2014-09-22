@@ -1,6 +1,5 @@
 package com.epam.bp.autobase.action;
 
-import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.DaoFactory;
 import com.epam.bp.autobase.entity.User;
 import com.epam.bp.autobase.entity.Vehicle;
@@ -21,7 +20,7 @@ public class CheckLoginAction implements Action {
     private ActionResult loginFalse = new ActionResult("main");
 
     @Override
-    public ActionResult execute(HttpServletRequest request) {
+    public ActionResult execute(HttpServletRequest request) throws ActionException {
         HttpSession session = request.getSession();
         session.setAttribute("errormsg", "");
         session.setAttribute("search_error", "");
@@ -41,8 +40,8 @@ public class CheckLoginAction implements Action {
                 colorList = DaoFactory.getInstance().getDaoManager().getColorDao().getAll();
                 modelList = DaoFactory.getInstance().getDaoManager().getModelDao().getAll();
                 manufacturerList = DaoFactory.getInstance().getDaoManager().getManufacturerDao().getAll();
-            } catch (DaoException | ClassNotFoundException | InterruptedException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                throw new ActionException("Error while CheckLoginAction", e);
             }
             session.setAttribute("userList", userList);
             session.setAttribute("vehicleList", vehicleList);

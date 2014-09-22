@@ -1,6 +1,5 @@
 package com.epam.bp.autobase.action;
 
-import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.DaoFactory;
 import com.epam.bp.autobase.dao.UserDao;
 import com.epam.bp.autobase.dao.VehicleDao;
@@ -23,7 +22,6 @@ public class ChangeUserAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
         HttpSession session = request.getSession();
-        String change_result = "";
         if (request.getParameter("save") != null) {
             String error = Validator.validateRequestParametersMap(request);
             if (!error.isEmpty()) {
@@ -82,8 +80,8 @@ public class ChangeUserAction implements Action {
                 //and we can delete our user now
                 userDao.delete(Integer.valueOf(request.getParameter("delete")));
                 return main_admin;
-            } catch (DaoException | InterruptedException | ClassNotFoundException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                throw new ActionException("Error while ChangeUserAction", e);
             }
         }
         return main_admin;
