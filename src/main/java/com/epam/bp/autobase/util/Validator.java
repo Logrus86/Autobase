@@ -33,7 +33,7 @@ public class Validator {
                 if (result.length() != 0) result.append(", ");
                 else result.append(INCORRECT_VALUE);
                 result.append(RB.getString("default." + key));
-                LOGGER.info(RB.getString("default." + key) + ": " + parametersMap.get(key)[0]);
+                LOGGER.info("Incorrect input: "+RB.getString("default." + key) + ": " + parametersMap.get(key)[0]);
             }
         }
         if ((parametersMap.containsKey("password")) & (parametersMap.containsKey("password-repeat")) && !parametersMap.get("password")[0].equals(parametersMap.get("password-repeat")[0])) {
