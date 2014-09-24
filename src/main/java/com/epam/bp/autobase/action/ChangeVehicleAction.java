@@ -16,6 +16,9 @@ public class ChangeVehicleAction implements Action {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ChangeVehicleAction.class);
     private static final ActionResult MAIN_DRIVER = new ActionResult("main-driver");
     private static final ActionResult ADMIN_VEHICLES = new ActionResult("admin-vehicles", true);
+    private static final ActionResult ADMIN_CARS = new ActionResult("admin-cars", true);
+    private static final ActionResult ADMIN_BUSES = new ActionResult("admin-buses", true);
+    private static final ActionResult ADMIN_TRUCKS = new ActionResult("admin-trucks", true);
     private static final String ON = "on";
     private static final String ERROR = "vh_change_error";
     private static final String VEHICLE = "vehicle";
@@ -132,18 +135,20 @@ public class ChangeVehicleAction implements Action {
                         ((Bus) vehicle).setPassengerSeatsNumber(passSeatsNum);
                         ((Bus) vehicle).setDoorsNumber(doorsNum);
                         ((Bus) vehicle).setStandingPlacesNumber(standPlacesNum);
+                        if (user.getRole().equals(User.Role.ADMIN)) result = ADMIN_BUSES;
                     }
                     if (CAR.equals(vehicle.getVehicleType())) {
                         ((Car) vehicle).setPassengerSeatsNumber(passSeatsNum);
                         ((Car) vehicle).setDoorsNumber(doorsNum);
                         ((Car) vehicle).setWithConditioner(withConder);
+                        if (user.getRole().equals(User.Role.ADMIN)) result = ADMIN_CARS;
                     }
                     if (TRUCK.equals(vehicle.getVehicleType())) {
                         ((Truck) vehicle).setMaxPayload(maxPayload);
                         ((Truck) vehicle).setEnclosed(enclosed);
                         ((Truck) vehicle).setTipper(tipper);
+                        if (user.getRole().equals(User.Role.ADMIN)) result = ADMIN_TRUCKS;
                     }
-
                     vehicleDao.update(vehicle);
                     if (user.getRole().equals(User.Role.DRIVER)) session.setAttribute(VEHICLE, vehicle);
                     session.setAttribute(ERROR, "");
@@ -155,8 +160,7 @@ public class ChangeVehicleAction implements Action {
             LOGGER.error("Error at changeVehicle() while performing transaction");
             throw new ActionException("Error at changeVehicle() while performing transaction", e);
         }
-        if (user.getRole().equals(User.Role.ADMIN)) result = ADMIN_VEHICLES;
-        else result = MAIN_DRIVER;
+        if (user.getRole().equals(User.Role.DRIVER)) result = MAIN_DRIVER;
     }
 
     private void deleteVehicle() throws ActionException {
@@ -168,6 +172,10 @@ public class ChangeVehicleAction implements Action {
                 public void execute(DaoManager daoManager) throws DaoException {
                     Integer id = Integer.valueOf(request.getParameter(DELETE));
                     VehicleDao vehicleDao = daoManager.getVehicleDao();
+                    Vehicle vehicle = vehicleDao.getById(id);
+                    if (vehicle.getVehicleType().equals("Car")) result = ADMIN_CARS;
+                    if (vehicle.getVehicleType().equals("Bus")) result = ADMIN_BUSES;
+                    if (vehicle.getVehicleType().equals("Truck")) result = ADMIN_TRUCKS;
                     vehicleDao.delete(id);
                     session.setAttribute(ENTITY_CHANGES_FLAG, VEHICLE);
                 }
@@ -177,6 +185,5 @@ public class ChangeVehicleAction implements Action {
             LOGGER.error("Error at deleteVehicle() while performing transaction");
             throw new ActionException("Error at deleteVehicle() while performing transaction", e);
         }
-        result = ADMIN_VEHICLES;
     }
 }
