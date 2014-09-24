@@ -45,37 +45,37 @@ public class H2VehicleDao extends H2AbstractDao<Integer, Vehicle> implements Veh
     public Vehicle parseResultSetInstance(ResultSet rs) throws DaoException {
         Vehicle vehicle = null;
         try {
-            String vehicleType = rs.getString("VEHICLETYPE");
-            if ("BUS".equals(vehicleType.toUpperCase())) {
-                vehicle = new Bus()
-                        .setPassengerSeatsNumber(rs.getInt("PASSENGER_SEATS_NUMBER"))
-                        .setStandingPlacesNumber(rs.getInt("STANDING_PLACES_NUMBER"))
-                        .setDoorsNumber(rs.getInt("DOORS_NUMBER"));
-            }
-            if ("CAR".equals(vehicleType.toUpperCase())) {
-                vehicle = new Car()
-                        .setPassengerSeatsNumber(rs.getInt("PASSENGER_SEATS_NUMBER"))
-                        .setDoorsNumber(rs.getInt("DOORS_NUMBER"))
-                        .setWithConditioner(rs.getBoolean("CONDITIONER"));
-            }
-            if ("TRUCK".equals(vehicleType.toUpperCase())) {
-                vehicle = new Truck()
-                        .setMaxPayload(rs.getBigDecimal("MAX_PAYLOAD"))
-                        .setEnclosed(rs.getBoolean("ENCLOSED"))
-                        .setTipper(rs.getBoolean("TIPPER"));
-            }
-            if (vehicle != null) {
-                vehicle.setId(rs.getInt("ID"));
-            }
-            vehicle.setModel(rs.getString("MODEL"));
-            vehicle.setManufacturer(rs.getString("MANUFACTURER"));
-            vehicle.setProductionYear(rs.getInt("PRODUCTIONYEAR"));
-            vehicle.setColor(rs.getString("COLOR"));
-            vehicle.setMileage(rs.getBigDecimal("MILEAGE"));
-            vehicle.setFuelType(Vehicle.Fuel.valueOf(rs.getString("FUELTYPE")));
-            vehicle.setOperable(rs.getBoolean("OPERABLE"));
-            vehicle.setRentPrice(rs.getBigDecimal("RENTPRICE"));
-            vehicle.setDriverId(rs.getInt("DRIVERID"));
+                String vehicleType = rs.getString("VEHICLETYPE");
+                if ("BUS".equals(vehicleType.toUpperCase())) {
+                    vehicle = new Bus()
+                            .setPassengerSeatsNumber(rs.getInt("PASSENGER_SEATS_NUMBER"))
+                            .setStandingPlacesNumber(rs.getInt("STANDING_PLACES_NUMBER"))
+                            .setDoorsNumber(rs.getInt("DOORS_NUMBER"));
+                }
+                if ("CAR".equals(vehicleType.toUpperCase())) {
+                    vehicle = new Car()
+                            .setPassengerSeatsNumber(rs.getInt("PASSENGER_SEATS_NUMBER"))
+                            .setDoorsNumber(rs.getInt("DOORS_NUMBER"))
+                            .setWithConditioner(rs.getBoolean("CONDITIONER"));
+                }
+                if ("TRUCK".equals(vehicleType.toUpperCase())) {
+                    vehicle = new Truck()
+                            .setMaxPayload(rs.getBigDecimal("MAX_PAYLOAD"))
+                            .setEnclosed(rs.getBoolean("ENCLOSED"))
+                            .setTipper(rs.getBoolean("TIPPER"));
+                }
+                if (vehicle != null) {
+                    vehicle.setId(rs.getInt("ID"));
+                }
+                vehicle.setModel(rs.getString("MODEL"));
+                vehicle.setManufacturer(rs.getString("MANUFACTURER"));
+                vehicle.setProductionYear(rs.getInt("PRODUCTIONYEAR"));
+                vehicle.setColor(rs.getString("COLOR"));
+                vehicle.setMileage(rs.getBigDecimal("MILEAGE"));
+                vehicle.setFuelType(Vehicle.Fuel.valueOf(rs.getString("FUELTYPE")));
+                vehicle.setOperable(rs.getBoolean("OPERABLE"));
+                vehicle.setRentPrice(rs.getBigDecimal("RENTPRICE"));
+                vehicle.setDriverId(rs.getInt("DRIVERID"));
         } catch (Exception e) {
             LOGGER.error("Parsing resultSet to vehicle error");
             throw new DaoException("Parsing resultSet to vehicle error", e);
@@ -107,7 +107,7 @@ public class H2VehicleDao extends H2AbstractDao<Integer, Vehicle> implements Veh
             ps.setString(7, String.valueOf(vehicle.getFuelType()));
             ps.setString(8, String.valueOf(vehicle.isOperable()));
             ps.setString(9, String.valueOf(vehicle.getRentPrice()));
-            if (vehicle.getDriverId()==null) ps.setString(10, null);
+            if (vehicle.getDriverId() == null) ps.setString(10, null);
             else ps.setString(10, String.valueOf(vehicle.getDriverId()));
             ps.setString(11, null);
             ps.setString(12, null);
@@ -149,5 +149,26 @@ public class H2VehicleDao extends H2AbstractDao<Integer, Vehicle> implements Veh
             LOGGER.error("Preparing statement for Update error");
             throw new DaoException("Preparing statement for Update error", e);
         }
+    }
+
+    @Override
+    public Vehicle getByDriverId(Integer driverId) throws DaoException {
+        StringBuilder query = new StringBuilder();
+        query.append(getReadQuery()).append(" WHERE DRIVERID = ?;");
+        PreparedStatement ps;
+        Vehicle result;
+        try {
+            ps = connection.prepareStatement(query.toString());
+            ps.setString(1, String.valueOf(driverId));
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) result = parseResultSetInstance(rs);
+            else result = null;
+            rs.close();
+            ps.close();
+            connection.close();
+        } catch (Exception e) {
+            throw new DaoException("Finding vehicle by driverId error", e);
+        }
+        return result;
     }
 }
