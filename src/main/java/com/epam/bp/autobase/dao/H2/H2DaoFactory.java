@@ -29,8 +29,8 @@ public class H2DaoFactory extends DaoFactory<ConnectionPool.ProxyConnection> {
         }
     }
 
-    public H2DaoManager getDaoManager() {
-        return new H2DaoManager(connection);
+    public DaoManager getDaoManager() {
+        return new DaoManager(connection);
     }
 
     public static DaoFactory getInstance() throws DaoException {

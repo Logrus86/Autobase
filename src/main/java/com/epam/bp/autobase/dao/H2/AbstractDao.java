@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class H2AbstractDao<PK extends Integer, T extends Identifiable<PK>> implements JDBCDao<PK, T> {
+public abstract class AbstractDao<PK extends Integer, T extends Identifiable<PK>> implements JDBCDao<PK, T> {
     protected ConnectionPool.ProxyConnection connection;
 
-    public H2AbstractDao(ConnectionPool.ProxyConnection connection) {
+    public AbstractDao(ConnectionPool.ProxyConnection connection) {
         this.connection = connection;
     }
 

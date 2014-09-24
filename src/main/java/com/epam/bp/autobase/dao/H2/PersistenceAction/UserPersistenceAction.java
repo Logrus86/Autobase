@@ -2,33 +2,33 @@ package com.epam.bp.autobase.dao.H2.PersistenceAction;
 
 import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.DaoFactory;
-import com.epam.bp.autobase.dao.H2.H2DaoManager;
+import com.epam.bp.autobase.dao.H2.DaoManager;
 import com.epam.bp.autobase.entity.User;
 
 public class UserPersistenceAction extends PersistenceActionBase {
     private User user;
 
-    public UserPersistenceAction(H2DaoManager manager) {
+    public UserPersistenceAction(DaoManager manager) {
         super(manager);
     }
 
-    public UserPersistenceAction(H2DaoManager manager, User user) {
+    public UserPersistenceAction(DaoManager manager, User user) {
         super(manager);
         this.user = user;
     }
 
     @Override
-    protected void doPersistenceAction(H2DaoManager manager) throws DaoException {
+    protected void doPersistenceAction(DaoManager manager) throws DaoException {
 
     }
 
     @Override
-    protected void doPersistenceCreate(H2DaoManager manager) throws DaoException {
+    protected void doPersistenceCreate(DaoManager manager) throws DaoException {
         DaoFactory.getInstance().getDaoManager().getUserDao().create(this.user);
     }
 
     @Override
-    protected void doPersistenceUpdate(H2DaoManager DaoManager) throws DaoException {
+    protected void doPersistenceUpdate(DaoManager DaoManager) throws DaoException {
         User userToUpdate = DaoFactory.getInstance().getDaoManager().getUserDao().getById(this.user.getId());
         if (!userToUpdate.getFirstname().equals(this.user.getFirstname())) userToUpdate.setFirstname(this.user.getFirstname());
         if (!userToUpdate.getLastname().equals(this.user.getLastname())) userToUpdate.setLastname(this.user.getLastname());
@@ -42,7 +42,7 @@ public class UserPersistenceAction extends PersistenceActionBase {
     }
 
     @Override
-    protected void doPersistenceDelete(H2DaoManager manager) throws DaoException {
+    protected void doPersistenceDelete(DaoManager manager) throws DaoException {
 
     }
 }

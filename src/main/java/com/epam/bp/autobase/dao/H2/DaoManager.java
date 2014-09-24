@@ -3,55 +3,60 @@ package com.epam.bp.autobase.dao.H2;
 import com.epam.bp.autobase.dao.*;
 import com.epam.bp.autobase.pool.ConnectionPool;
 
-public class H2DaoManager {
+public class DaoManager implements com.epam.bp.autobase.dao.DaoManager {
     protected ConnectionPool.ProxyConnection connection = null;
-    protected UserDao userDao = null;
-    protected VehicleDao vehicleDao = null;
-    protected ColorDao colorDao = null;
-    protected ModelDao modelDao = null;
-    protected ManufacturerDao manufacturerDao = null;
+    protected com.epam.bp.autobase.dao.UserDao userDao = null;
+    protected com.epam.bp.autobase.dao.VehicleDao vehicleDao = null;
+    protected com.epam.bp.autobase.dao.ColorDao colorDao = null;
+    protected com.epam.bp.autobase.dao.ModelDao modelDao = null;
+    protected com.epam.bp.autobase.dao.ManufacturerDao manufacturerDao = null;
 
-    public H2DaoManager(ConnectionPool.ProxyConnection connection) {
+    public DaoManager(ConnectionPool.ProxyConnection connection) {
         this.connection = connection;
     }
 
-    public UserDao getUserDao() {
+    @Override
+    public com.epam.bp.autobase.dao.UserDao getUserDao() {
         if (this.userDao == null) {
-            this.userDao = new H2UserDao(this.connection);
+            this.userDao = new UserDao(this.connection);
         }
         return userDao;
     }
 
-    public VehicleDao getVehicleDao() {
+    @Override
+    public com.epam.bp.autobase.dao.VehicleDao getVehicleDao() {
         if (this.vehicleDao == null) {
-            this.vehicleDao = new H2VehicleDao(this.connection);
+            this.vehicleDao = new VehicleDao(this.connection);
         }
         return vehicleDao;
     }
 
-    public ColorDao getColorDao() {
+    @Override
+    public com.epam.bp.autobase.dao.ColorDao getColorDao() {
         if (this.colorDao == null) {
-            this.colorDao = new H2ColorDao(this.connection);
+            this.colorDao = new ColorDao(this.connection);
         }
         return colorDao;
     }
 
-    public ModelDao getModelDao() {
+    @Override
+    public com.epam.bp.autobase.dao.ModelDao getModelDao() {
         if (this.modelDao == null) {
-            this.modelDao = new H2ModelDao(this.connection);
+            this.modelDao = new ModelDao(this.connection);
         }
         return modelDao;
     }
 
-    public ManufacturerDao getManufacturerDao() {
+    @Override
+    public com.epam.bp.autobase.dao.ManufacturerDao getManufacturerDao() {
         if (this.manufacturerDao == null) {
-            this.manufacturerDao = new H2ManufacturerDao(this.connection);
+            this.manufacturerDao = new ManufacturerDao(this.connection);
         }
         return manufacturerDao;
     }
 
     public interface DaoCommand {
-        public void execute(H2DaoManager daoManager) throws DaoException;
+        public void execute(DaoManager daoManager) throws DaoException;
     }
 
     @SuppressWarnings("ThrowFromFinallyBlock")
@@ -93,7 +98,7 @@ public class H2DaoManager {
 
     public void transactionAndClose(DaoCommand command) throws DaoException {
         executeAndClose(new DaoCommand() {
-            public void execute(H2DaoManager daoManager) throws DaoException {
+            public void execute(DaoManager daoManager) throws DaoException {
                 daoManager.transaction(command);
             }
         });

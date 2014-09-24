@@ -1,6 +1,5 @@
 package com.epam.bp.autobase.dao.H2;
 
-import com.epam.bp.autobase.dao.ColorDao;
 import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.entity.props.Color;
 import com.epam.bp.autobase.pool.ConnectionPool;
@@ -11,15 +10,16 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class H2ColorDao extends H2AbstractDao<Integer, Color> implements ColorDao {
-    public final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(super.getClass());
-    public H2ColorDao(ConnectionPool.ProxyConnection connection) {
+public class ColorDao extends AbstractDao<Integer, Color> implements com.epam.bp.autobase.dao.ColorDao {
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ColorDao.class);
+
+    public ColorDao(ConnectionPool.ProxyConnection connection) {
         super(connection);
     }
 
     @Override
     public String getCreateQuery() {
-        return "INSERT INTO COLOR(COLOR_EN, COLOR_RU) VALUES(?, ?);";
+        return "INSERT INTO COLOR(VALUE_EN, VALUE_RU) VALUES(?, ?);";
     }
 
     @Override
@@ -29,7 +29,7 @@ public class H2ColorDao extends H2AbstractDao<Integer, Color> implements ColorDa
 
     @Override
     public String getUpdateQuery() {
-        return "UPDATE COLOR SET COLOR_EN = ?, COLOR_RU = ? WHERE ID = ?;";
+        return "UPDATE COLOR SET VALUE_EN = ?, VALUE_RU = ? WHERE ID = ?;";
     }
 
     @Override
@@ -87,5 +87,47 @@ public class H2ColorDao extends H2AbstractDao<Integer, Color> implements ColorDa
             LOGGER.error("Preparing statement for Update color error");
             throw new DaoException("Preparing statement for Update color error", e);
         }
+    }
+
+    @Override
+    public Color getByValueEn(String valueEn) throws DaoException {
+        StringBuilder query = new StringBuilder();
+        query.append(getReadQuery()).append(" WHERE VALUE_EN = ?;");
+        PreparedStatement ps;
+        Color result;
+        try {
+            ps = connection.prepareStatement(query.toString());
+            ps.setString(1, valueEn);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) result = parseResultSetInstance(rs);
+            else result = null;
+            rs.close();
+            ps.close();
+            connection.close();
+        } catch (Exception e) {
+            throw new DaoException("Finding color by valueEn error", e);
+        }
+        return result;
+    }
+
+    @Override
+    public Color getByValueRu(String valueRu) throws DaoException {
+        StringBuilder query = new StringBuilder();
+        query.append(getReadQuery()).append(" WHERE VALUE_RU = ?;");
+        PreparedStatement ps;
+        Color result;
+        try {
+            ps = connection.prepareStatement(query.toString());
+            ps.setString(1, valueRu);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) result = parseResultSetInstance(rs);
+            else result = null;
+            rs.close();
+            ps.close();
+            connection.close();
+        } catch (Exception e) {
+            throw new DaoException("Finding color by valueRu error", e);
+        }
+        return result;
     }
 }

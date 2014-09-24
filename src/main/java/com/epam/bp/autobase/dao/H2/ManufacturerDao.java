@@ -1,7 +1,6 @@
 package com.epam.bp.autobase.dao.H2;
 
 import com.epam.bp.autobase.dao.DaoException;
-import com.epam.bp.autobase.dao.ManufacturerDao;
 import com.epam.bp.autobase.entity.props.Manufacturer;
 import com.epam.bp.autobase.pool.ConnectionPool;
 import org.slf4j.LoggerFactory;
@@ -11,9 +10,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class H2ManufacturerDao extends H2AbstractDao<Integer, Manufacturer> implements ManufacturerDao {
-    public final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(super.getClass());
-    public H2ManufacturerDao(ConnectionPool.ProxyConnection connection) {
+public class ManufacturerDao extends AbstractDao<Integer, Manufacturer> implements com.epam.bp.autobase.dao.ManufacturerDao {
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ManufacturerDao.class);
+
+    public ManufacturerDao(ConnectionPool.ProxyConnection connection) {
         super(connection);
     }
 
@@ -84,5 +84,26 @@ public class H2ManufacturerDao extends H2AbstractDao<Integer, Manufacturer> impl
             LOGGER.error("Preparing statement for Update manufacturer error");
             throw new DaoException("Preparing statement for Update manufacturer error", e);
         }
+    }
+
+    @Override
+    public Manufacturer getByValue(String value) throws DaoException {
+        StringBuilder query = new StringBuilder();
+        query.append(getReadQuery()).append(" WHERE VALUE = ?;");
+        PreparedStatement ps;
+        Manufacturer result;
+        try {
+            ps = connection.prepareStatement(query.toString());
+            ps.setString(1, value);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) result = parseResultSetInstance(rs);
+            else result = null;
+            rs.close();
+            ps.close();
+            connection.close();
+        } catch (Exception e) {
+            throw new DaoException("Finding manufacturer by value error", e);
+        }
+        return result;
     }
 }

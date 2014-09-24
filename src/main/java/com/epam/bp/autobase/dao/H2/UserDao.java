@@ -1,7 +1,6 @@
 package com.epam.bp.autobase.dao.H2;
 
 import com.epam.bp.autobase.dao.DaoException;
-import com.epam.bp.autobase.dao.UserDao;
 import com.epam.bp.autobase.entity.User;
 import com.epam.bp.autobase.pool.ConnectionPool;
 import org.slf4j.LoggerFactory;
@@ -11,10 +10,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class H2UserDao extends H2AbstractDao<Integer, User> implements UserDao {
-    public final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(super.getClass());
+public class UserDao extends AbstractDao<Integer, User> implements com.epam.bp.autobase.dao.UserDao {
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(UserDao.class);
 
-    public H2UserDao(ConnectionPool.ProxyConnection connection) {
+    public UserDao(ConnectionPool.ProxyConnection connection) {
         super(connection);
     }
 

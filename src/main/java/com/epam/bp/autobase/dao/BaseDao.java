@@ -5,7 +5,6 @@ import java.util.Map;
 
 public interface BaseDao<PK, T extends Identifiable<PK>> {
 
-
     public void create(T object) throws DaoException;
 
     public T getById(PK id) throws DaoException;
