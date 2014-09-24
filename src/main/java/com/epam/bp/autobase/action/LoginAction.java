@@ -12,10 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.TreeMap;
 
 public class LoginAction implements Action {
     public final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(super.getClass());
@@ -25,12 +22,11 @@ public class LoginAction implements Action {
     private ActionResult loginFailed = new ActionResult("main");
     private ActionResult result;
     private static final String LOGIN_ERR_MSG = ResourceBundle.getBundle("i18n.text").getString("error.login");
-    private static final String PARAM_USERNAME = "username";
-    private static final String PARAM_PASSWORD = "password";
-    private static final String PARAM_DRIVERID = "DRIVERID";
-    private static final String ATTR_ERROR = "errormsg";
-    private static final String ATTR_USER = "user";
-    private static final String ATTR_VEHICLE = "vehicle";
+    private static final String USERNAME = "username";
+    private static final String PASSWORD = "password";
+    private static final String USER = "user";
+    private static final String VEHICLE = "vehicle";
+    private static final String LOGIN_ERROR = "errormsg";
 
     public LoginAction() {
     }
@@ -41,7 +37,7 @@ public class LoginAction implements Action {
         HttpSession session = request.getSession();
         String error = Validator.validateRequestParametersMap(request);
         if (!error.isEmpty()) {
-            session.setAttribute(ATTR_ERROR, error);
+            session.setAttribute(LOGIN_ERROR, error);
             return loginFailed;
         }
         try {
@@ -49,24 +45,21 @@ public class LoginAction implements Action {
             H2DaoManager daoManager = daoFactory.getDaoManager();
             daoManager.transactionAndClose(new H2DaoManager.DaoCommand() {
                 @Override
-                public Object execute(H2DaoManager daoManager) throws DaoException {
-                    String username = request.getParameter(PARAM_USERNAME);
-                    String password = request.getParameter(PARAM_PASSWORD);
-                    Map<String, String> params = new TreeMap<>();
-                    params.put(PARAM_USERNAME, username);
-                    params.put(PARAM_PASSWORD, password);
+                public void execute(H2DaoManager daoManager) throws DaoException {
+                    String username = request.getParameter(USERNAME);
+                    String password = request.getParameter(PASSWORD);
                     UserDao userDao = daoManager.getUserDao();
-                    List<User> users = userDao.findByParams(params);
-                    if (users.isEmpty()) { //user was not found
+                    User user = userDao.getByCredentials(username, password);
+                    // user was not found:
+                    if (user == null) {
                         LOGGER.info("User '" + username + "' with password '" + password + "' wasn't found.");
-                        session.setAttribute(ATTR_ERROR, LOGIN_ERR_MSG);
+                        session.setAttribute(LOGIN_ERROR, LOGIN_ERR_MSG);
                         result = loginFailed;
+                    // user was found, all is ok:
                     } else {
-                        //user was found, all is ok
-                        User user = users.get(0);
                         LOGGER.info("User '" + user.getUsername() + "' have logged-in");
-                        session.setAttribute(ATTR_USER, user);
-                        session.setAttribute(ATTR_ERROR, "");
+                        session.setAttribute(USER, user);
+                        session.setAttribute(LOGIN_ERROR, "");
                         //check user roles
                         if (user.getRole() == User.Role.ADMIN) result = loginAdmin;
                         if (user.getRole() == User.Role.CLIENT) result = loginClient;
@@ -74,19 +67,17 @@ public class LoginAction implements Action {
                             //if user is driver, we must find his vehicle also:
                             try {
                                 VehicleDao vehicleDao = daoManager.getVehicleDao();
-                                params = new TreeMap<>();
-                                params.put(PARAM_DRIVERID, user.getId().toString());
-                                Vehicle vehicle = vehicleDao.findByParams(params).get(0);
-                                session.setAttribute(ATTR_VEHICLE, vehicle);
+                                Vehicle vehicle = vehicleDao.getByDriverId(user.getId());
+                                session.setAttribute(VEHICLE, vehicle);
                             } catch (Exception e) {
-                                throw new DaoException("Error while ge vehicle for log-ined driver",e);
+                                throw new DaoException("Error while get vehicle for logined driver",e);
                             }
                             result = loginDriver;
                         }
                     }
-                    return result;
                 }
             });
+            daoFactory.releaseContext();
         } catch (DaoException e) {
             LOGGER.error("Error at LoginAction while performing transaction");
             throw new ActionException("Error at LoginAction while performing transaction", e);

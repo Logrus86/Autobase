@@ -12,7 +12,7 @@ public abstract class DaoFactory<Context> {
 
     public abstract Context getContext() throws DaoException;
 
-//    public abstract void releaseContext() throws DaoException;
+    public abstract void releaseContext() throws DaoException;
 
     public static DaoFactory getInstance() throws DaoException {
         try {

@@ -43,12 +43,12 @@
         </div>
     </div>
 </div>
-<form id="driver-form" method="post" action="update_user">
+<form id="driver-form" method="post" action="change_user">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title"><fmt:message key="default.profile-edit"/></h3>
             </div>
-            <div class="msg-error">${cab_error}</div>
+            <div class="msg-error">${user_change_error}</div>
             <div class="panel-body">
                 <div class="input-group">
                     <div class="row">
@@ -120,12 +120,12 @@
             </div>
         </div>
     </form>
-<form id="vehicle-form" method="post" action="update_vehicle">
+<form id="vehicle-form" method="post" action="change_vehicle">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title"><fmt:message key="default.vehicle-edit"/></h3>
             </div>
-            <div class="msg-error">${upd_vh_error}</div>
+            <div class="msg-error">${vh_change_error}</div>
             <div class="panel-body">
                 <div class="input-group">
                     <div class="row">
@@ -142,7 +142,7 @@
                                 <span class="input-group-addon"><fmt:message key="default.model"/></span>
                                 <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true" name="model">
                                     <c:forEach items="${modelList}" var="model">
-                                        <option <c:if test="${vehicle.model==model.value}">selected</c:if>>${model}</option>
+                                        <option <c:if test="${vehicle.model==model.value}">selected</c:if>>${model.value}</option>
                                     </c:forEach>
                                 </select>
                             </div>
@@ -154,7 +154,7 @@
                                 <span class="input-group-addon"><fmt:message key="default.manufacturer"/></span>
                                 <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true" name="manufacturer">
                                     <c:forEach items="${manufacturerList}" var="manufacturer">
-                                        <option <c:if test="${vehicle.manufacturer==manufacturer.value}">selected</c:if>>${manufacturer}</option>
+                                        <option <c:if test="${vehicle.manufacturer==manufacturer.value}">selected</c:if>>${manufacturer.value}</option>
                                     </c:forEach>
                                 </select>
                             </div>

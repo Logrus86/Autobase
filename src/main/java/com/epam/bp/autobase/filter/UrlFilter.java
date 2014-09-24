@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class UrlFilter implements Filter{
+public class UrlFilter implements Filter {
     public final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(super.getClass());
 
     @Override
@@ -16,14 +16,13 @@ public class UrlFilter implements Filter{
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        doFilter((HttpServletRequest) request, (HttpServletResponse) response, chain);
+        doFilter0((HttpServletRequest) request, (HttpServletResponse) response, chain);
     }
 
-    private void doFilter(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException, ServletException {
+    private void doFilter0(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException, ServletException {
         String pathInfo = req.getRequestURI().substring(req.getContextPath().length());
 
-        if (pathInfo.startsWith("/static/")||pathInfo.startsWith("/webjars/")) {
-            LOGGER.debug("url starts with '/static/' or '/webjars/', filtered off.");
+        if (pathInfo.startsWith("/static/") || pathInfo.startsWith("/webjars/")) {
             chain.doFilter(req, resp);
             return;
         }

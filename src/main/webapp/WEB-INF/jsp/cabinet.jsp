@@ -47,12 +47,12 @@
             </div>
         </div>
     </div>
-    <form id="user-form" method="post" action="update_user">
+    <form id="user-form" method="post" action="change_user">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title"><fmt:message key="default.profile-edit"/></h3>
             </div>
-            <div class="msg-error">${cab_error}</div>
+            <div class="msg-error">${user_change_error}</div>
             <div class="panel-body">
                 <div class="input-group">
                     <div class="row">

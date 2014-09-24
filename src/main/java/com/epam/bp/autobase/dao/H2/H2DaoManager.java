@@ -51,13 +51,13 @@ public class H2DaoManager {
     }
 
     public interface DaoCommand {
-        public Object execute(H2DaoManager daoManager) throws DaoException;
+        public void execute(H2DaoManager daoManager) throws DaoException;
     }
 
     @SuppressWarnings("ThrowFromFinallyBlock")
-    public Object executeAndClose(DaoCommand command) throws DaoException {
+    public void executeAndClose(DaoCommand command) throws DaoException {
         try {
-            return command.execute(this);
+            command.execute(this);
         } catch (Exception e) {
             throw new DaoException("Error while executing command", e);
         } finally {
@@ -70,12 +70,11 @@ public class H2DaoManager {
     }
 
     @SuppressWarnings("ThrowFromFinallyBlock")
-    public Object transaction(DaoCommand command) throws DaoException {
+    public void transaction(DaoCommand command) throws DaoException {
         try {
             this.connection.setAutoCommit(false);
-            Object returnValue = command.execute(this);
+            command.execute(this);
             this.connection.commit();
-            return returnValue;
         } catch (Exception e) {
             try {
                 this.connection.rollback();
@@ -92,19 +91,10 @@ public class H2DaoManager {
         }
     }
 
-// TODO: DECIDE WHICH OF THESE TWO METHODS TO USE
-    public Object transactionAndClose2(DaoCommand command) throws DaoException {
-        return executeAndClose(new DaoCommand() {
-            public Object execute(H2DaoManager manager) throws DaoException {
-                return manager.transaction(command);
-            }
-        });
-    }
-
     public void transactionAndClose(DaoCommand command) throws DaoException {
         executeAndClose(new DaoCommand() {
-            public Object execute(H2DaoManager daoManager) throws DaoException {
-                return daoManager.transaction(command);
+            public void execute(H2DaoManager daoManager) throws DaoException {
+                daoManager.transaction(command);
             }
         });
     }

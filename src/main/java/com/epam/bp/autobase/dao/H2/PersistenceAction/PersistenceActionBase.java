@@ -17,35 +17,31 @@ public abstract class PersistenceActionBase {
 
     public void doAction() throws DaoException {
         this.daoManager.transactionAndClose(new H2DaoManager.DaoCommand(){
-            public Object execute(H2DaoManager manager) throws DaoException {
+            public void execute(H2DaoManager manager) throws DaoException {
                 doPersistenceAction(manager);
-                return null; // TODO: REALLY NULL ? this line was empty in Jenkov' tutorial
             }
         });
     }
 
     public void doCreate() throws DaoException {
         this.daoManager.transactionAndClose(new H2DaoManager.DaoCommand(){
-            public Object execute(H2DaoManager manager) throws DaoException {
+            public void execute(H2DaoManager manager) throws DaoException {
                 doPersistenceCreate(manager);
-                return null;
             }
         });
     }
 
     public void doUpdate() throws DaoException {
         this.daoManager.transactionAndClose(new H2DaoManager.DaoCommand(){
-            public Object execute(H2DaoManager manager) throws DaoException {
+            public void execute(H2DaoManager manager) throws DaoException {
                 doPersistenceUpdate(manager);
-                return null;
             }
         });
     }
     public void doDelete() throws DaoException {
         this.daoManager.transactionAndClose(new H2DaoManager.DaoCommand(){
-            public Object execute(H2DaoManager manager) throws DaoException {
+            public void execute(H2DaoManager manager) throws DaoException {
                 doPersistenceDelete(manager);
-                return null;
             }
         });
     }

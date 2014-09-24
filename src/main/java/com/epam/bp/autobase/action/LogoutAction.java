@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 public class LogoutAction implements Action {
     public final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(super.getClass());
     private ActionResult result = new ActionResult("main");
+    private static final String ATTR_USER = "user";
 
     public LogoutAction() {
     }
@@ -16,8 +17,8 @@ public class LogoutAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        LOGGER.info("User '"+((User) session.getAttribute("user")).getUsername()+"' have logged-out");
-        session.setAttribute("user", null);
+        LOGGER.info("User '"+((User) session.getAttribute(ATTR_USER)).getUsername()+"' have logged-out");
+        session.setAttribute(ATTR_USER, null);
         return result;
     }
 }

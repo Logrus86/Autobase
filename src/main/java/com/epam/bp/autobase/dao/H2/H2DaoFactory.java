@@ -20,14 +20,14 @@ public class H2DaoFactory extends DaoFactory<ConnectionPool.ProxyConnection> {
         return result;
     }
 
-//    @Override
-//    public void releaseContext() throws DaoException {
-//        try {
-//            this.connection.close();
-//        } catch (Exception e) {
-//            throw new DaoException("Error while H2DaoFactory release context (return connection to pool)", e);
-//        }
-//    }
+    @Override
+    public void releaseContext() throws DaoException {
+        try {
+            this.connection.close();
+        } catch (Exception e) {
+            throw new DaoException("Error while H2DaoFactory release context (return connection to pool)", e);
+        }
+    }
 
     public H2DaoManager getDaoManager() {
         return new H2DaoManager(connection);

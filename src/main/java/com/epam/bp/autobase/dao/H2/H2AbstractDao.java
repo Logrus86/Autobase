@@ -39,7 +39,8 @@ public abstract class H2AbstractDao<PK extends Integer, T extends Identifiable<P
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, (Integer) id);
             ResultSet rs = ps.executeQuery();
-            object = parseResultSetInstance(rs);
+            if (rs.next()) object = parseResultSetInstance(rs);
+            else object = null;
             rs.close();
             ps.close();
         } catch (Exception e) {

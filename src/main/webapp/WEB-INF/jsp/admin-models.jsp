@@ -59,7 +59,7 @@
             </tr>
             <c:forEach items="${modelList}" var="model" varStatus="i">
                 <tr>
-                    <form method="get" action="change_model">
+                    <form method="post" action="change_model">
                         <td><input id="N" type="number" class="form-control" name="id" value=${i.count} readonly></td>
                         <td><input type="text" class="form-control" name="value" value=${model.value}></td>
                         <td>

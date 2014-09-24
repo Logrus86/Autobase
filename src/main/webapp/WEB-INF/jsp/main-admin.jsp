@@ -52,7 +52,7 @@
     </div>
     <div id="users">
         <table>
-            <div class="msg-error">${change_error}</div>
+            <div class="msg-error">${user_change_error}</div>
             <tr align="center">
                 <td>№</td>
                 <td>firstname</td>
@@ -66,7 +66,7 @@
             </tr>
             <c:forEach items="${userList}" var="user" varStatus="i">
                 <tr>
-                    <form method="get" action="change_user">
+                    <form method="post" action="change_user">
                         <td><input id="N" type="number" class="form-control" value=${i.count} readonly></td>
                         <td><input type="text" class="form-control" name="firstname" value=${user.firstname}></td>
                         <td><input type="text" class="form-control" name="lastname" value=${user.lastname}></td>
@@ -89,7 +89,6 @@
             </c:forEach>
             <tr>
                 <td><button class="btn btn-success" name="add-user" type="button">add</button></td>
-                <td><button class="btn btn-info" name="save-all-users" type="button">save all</button></td>
             </tr>
         </table>
     </div>

@@ -59,7 +59,7 @@
         </tr>
         <c:forEach items="${colorList}" var="color" varStatus="i">
             <tr>
-                <form method="get" action="change_color">
+                <form method="post" action="change_color">
                     <td><input id="N" type="number" class="form-control" name="id" value=${i.count} readonly></td>
                     <td><input type="text" class="form-control" name="valueEn" value=${color.valueEn}></td>
                     <td><input type="text" class="form-control" name="valueRu" value=${color.valueRu}></td>

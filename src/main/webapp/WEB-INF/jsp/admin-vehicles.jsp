@@ -52,6 +52,7 @@
 </div>
 <div id="vehicles">
     <table>
+        <div class="msg-error">${vh_change_error}</div>
         <tr align="center">
             <td>№</td>
             <td>type</td>
@@ -74,7 +75,7 @@
         </tr>
         <c:forEach items="${vehicleList}" var="vehicle" varStatus="i">
             <tr>
-                <form method="get" action="change_vehicle">
+                <form method="post" action="change_vehicle">
                     <td><input id="N" type="number" class="form-control" value=${i.count} readonly></td>
                     <td>
                         <select class="selectpicker show-menu-arrow" data-width="auto" name="vehicle_type">
@@ -119,9 +120,9 @@
                     </td>
                     <td><input type="number" class="form-control" name="mileage" value="${vehicle.mileage}"></td>
                     <td><input id="rent" type="number" class="form-control" name="rentPrice" value="${vehicle.rentPrice}"></td>
-                    <td><select class="selectpicker show-menu-arrow" data-width="60" data-live-search="true" name="driverId">
+                    <td><select class="selectpicker show-menu-arrow" data-width="80" data-live-search="true" name="driverId">
                         <c:forEach items="${userList}" var="user">
-                            <option <c:if test="${vehicle.driverId==user.id}">selected</c:if>>${user.id}</option>
+                            <option <c:if test="${vehicle.driverId==user.id}">selected</c:if> value="${user.id}">${user.username}</option>
                         </c:forEach>
                     </select></td>
                     <c:if test="${vehicle.vehicleType=='Bus'}">
@@ -177,7 +178,6 @@
         </c:forEach>
         <tr>
             <td><button class="btn btn-success" name="add-vehicle" type="button">add</button></td>
-            <td><button class="btn btn-info" name="save-all-vehicles" type="button">save all</button></td>
         </tr>
     </table>
 </div>

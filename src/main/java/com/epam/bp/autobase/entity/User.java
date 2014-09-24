@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class User implements Identifiable<Integer> {
-    private int id;
+    private Integer id;
     private String firstname;
     private String lastname;
     private Date dob;
@@ -56,7 +56,7 @@ public class User implements Identifiable<Integer> {
         this.balance = balance;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -102,7 +102,7 @@ public class User implements Identifiable<Integer> {
                 .append(", lastname: ")
                 .append(lastname)
                 .append(", dob: ")
-                .append(dob)
+                .append(getDob())
                 .append(", username: ")
                 .append(username)
                 .append(", password: ")

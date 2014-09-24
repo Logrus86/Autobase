@@ -59,7 +59,7 @@
             </tr>
             <c:forEach items="${manufacturerList}" var="manufacturer" varStatus="i">
                 <tr>
-                    <form method="get" action="change_manufacturer">
+                    <form method="post" action="change_manufacturer">
                         <td><input id="N" type="number" class="form-control" name="id" value=${i.count} readonly></td>
                         <td><input type="text" class="form-control" name="value" value=${manufacturer.value}></td>
                         <td>
