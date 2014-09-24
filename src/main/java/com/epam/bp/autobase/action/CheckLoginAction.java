@@ -7,11 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class CheckLoginAction implements Action {
-    public final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(super.getClass());
-    private ActionResult loginAdmin = new ActionResult("main-admin");
-    private ActionResult loginClient = new ActionResult("main-client");
-    private ActionResult loginDriver = new ActionResult("main-driver");
-    private ActionResult loginFalse = new ActionResult("main");
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CheckLoginAction.class);
+    private static final ActionResult LOGIN_ADMIN = new ActionResult("main-admin");
+    private static final ActionResult LOGIN_CLIENT = new ActionResult("main-client");
+    private static final ActionResult LOGIN_DRIVER = new ActionResult("main-driver");
+    private static final ActionResult LOGIN_FALSE = new ActionResult("main");
     private static final String LOGIN_ERROR = "errormsg";
     private static final String SEARCH_ERROR = "search_error";
     private static final String USER = "user";
@@ -21,15 +21,14 @@ public class CheckLoginAction implements Action {
         HttpSession session = request.getSession();
         session.setAttribute(LOGIN_ERROR, "");
         session.setAttribute(SEARCH_ERROR, "");
-        //    session.setAttribute("change_error", "");
-
-        if (session.getAttribute(USER) == null) return loginFalse;
+        if (session.getAttribute(USER) == null) {
+            LOGGER.info("User not logined, going to main page");
+            return LOGIN_FALSE;
+        }
         User user = (User) session.getAttribute(USER);
-
-        if (user.getRole() == User.Role.ADMIN) return loginAdmin;
-        if (user.getRole() == User.Role.CLIENT) return loginClient;
-        if (user.getRole() == User.Role.DRIVER) return loginDriver;
-
-        return loginFalse;
+        if (user.getRole() == User.Role.ADMIN) return LOGIN_ADMIN;
+        if (user.getRole() == User.Role.CLIENT) return LOGIN_CLIENT;
+        if (user.getRole() == User.Role.DRIVER) return LOGIN_DRIVER;
+        return LOGIN_FALSE;
     }
 }

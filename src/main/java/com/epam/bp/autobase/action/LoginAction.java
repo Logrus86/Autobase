@@ -2,7 +2,7 @@ package com.epam.bp.autobase.action;
 
 import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.DaoFactory;
-import com.epam.bp.autobase.dao.H2.H2DaoManager;
+import com.epam.bp.autobase.dao.H2.DaoManager;
 import com.epam.bp.autobase.dao.UserDao;
 import com.epam.bp.autobase.dao.VehicleDao;
 import com.epam.bp.autobase.entity.User;
@@ -15,18 +15,18 @@ import javax.servlet.http.HttpSession;
 import java.util.ResourceBundle;
 
 public class LoginAction implements Action {
-    public final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(super.getClass());
-    private ActionResult loginClient = new ActionResult("main-client");
-    private ActionResult loginAdmin = new ActionResult("main-admin");
-    private ActionResult loginDriver = new ActionResult("main-driver");
-    private ActionResult loginFailed = new ActionResult("main");
-    private ActionResult result;
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(LoginAction.class);
+    private static final ActionResult LOGIN_ADMIN = new ActionResult("main-admin");
+    private static final ActionResult LOGIN_CLIENT = new ActionResult("main-client");
+    private static final ActionResult LOGIN_DRIVER = new ActionResult("main-driver");
+    private static final ActionResult LOGIN_FALSE = new ActionResult("main");
     private static final String LOGIN_ERR_MSG = ResourceBundle.getBundle("i18n.text").getString("error.login");
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
     private static final String USER = "user";
     private static final String VEHICLE = "vehicle";
     private static final String LOGIN_ERROR = "errormsg";
+    private ActionResult result;
 
     public LoginAction() {
     }
@@ -38,14 +38,14 @@ public class LoginAction implements Action {
         String error = Validator.validateRequestParametersMap(request);
         if (!error.isEmpty()) {
             session.setAttribute(LOGIN_ERROR, error);
-            return loginFailed;
+            return LOGIN_FALSE;
         }
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
-            H2DaoManager daoManager = daoFactory.getDaoManager();
-            daoManager.transactionAndClose(new H2DaoManager.DaoCommand() {
+            DaoManager daoManager = daoFactory.getDaoManager();
+            daoManager.transactionAndClose(new DaoManager.DaoCommand() {
                 @Override
-                public void execute(H2DaoManager daoManager) throws DaoException {
+                public void execute(DaoManager daoManager) throws DaoException {
                     String username = request.getParameter(USERNAME);
                     String password = request.getParameter(PASSWORD);
                     UserDao userDao = daoManager.getUserDao();
@@ -54,25 +54,21 @@ public class LoginAction implements Action {
                     if (user == null) {
                         LOGGER.info("User '" + username + "' with password '" + password + "' wasn't found.");
                         session.setAttribute(LOGIN_ERROR, LOGIN_ERR_MSG);
-                        result = loginFailed;
-                    // user was found, all is ok:
+                        result = LOGIN_FALSE;
+                        // user was found, all is ok:
                     } else {
                         LOGGER.info("User '" + user.getUsername() + "' have logged-in");
                         session.setAttribute(USER, user);
                         session.setAttribute(LOGIN_ERROR, "");
                         //check user roles
-                        if (user.getRole() == User.Role.ADMIN) result = loginAdmin;
-                        if (user.getRole() == User.Role.CLIENT) result = loginClient;
+                        if (user.getRole() == User.Role.ADMIN) result = LOGIN_ADMIN;
+                        if (user.getRole() == User.Role.CLIENT) result = LOGIN_CLIENT;
                         if (user.getRole() == User.Role.DRIVER) {
                             //if user is driver, we must find his vehicle also:
-                            try {
-                                VehicleDao vehicleDao = daoManager.getVehicleDao();
-                                Vehicle vehicle = vehicleDao.getByDriverId(user.getId());
-                                session.setAttribute(VEHICLE, vehicle);
-                            } catch (Exception e) {
-                                throw new DaoException("Error while get vehicle for logined driver",e);
-                            }
-                            result = loginDriver;
+                            VehicleDao vehicleDao = daoManager.getVehicleDao();
+                            Vehicle vehicle = vehicleDao.getByDriverId(user.getId());
+                            session.setAttribute(VEHICLE, vehicle);
+                            result = LOGIN_DRIVER;
                         }
                     }
                 }

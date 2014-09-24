@@ -4,30 +4,36 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ActionFactory {
-    private static final Map<String, Action> actions = new HashMap<>();
+    private static final Map<String, Action> ACTIONS = new HashMap<>();
 
     static {
-        actions.put("GET/login", new ShowPageAction("main"));
-        actions.put("GET/register", new ShowPageAction("register"));
-        actions.put("GET/registered", new ShowPageAction("registered"));
-   //     actions.put("GET/search", new ShowPageAction("main-client"));
-        actions.put("GET/admin-vehicles", new ShowPageAction("admin-vehicles"));
-        actions.put("GET/admin-colors", new ShowPageAction("admin-colors"));
-        actions.put("GET/admin-models", new ShowPageAction("admin-models"));
-        actions.put("GET/admin-manufacturers", new ShowPageAction("admin-manufacturers"));
+        ACTIONS.put("GET/login", new ShowPageAction("main"));
+        ACTIONS.put("GET/register", new ShowPageAction("register"));
+        ACTIONS.put("GET/registered", new ShowPageAction("registered"));
+        ACTIONS.put("GET/admin-vehicles", new ShowPageAction("admin-vehicles"));
+        ACTIONS.put("GET/admin-colors", new ShowPageAction("admin-colors"));
+        ACTIONS.put("GET/admin-models", new ShowPageAction("admin-models"));
+        ACTIONS.put("GET/admin-manufacturers", new ShowPageAction("admin-manufacturers"));
+        ACTIONS.put("GET/admin-cars", new ShowPageAction("admin-cars"));
+        ACTIONS.put("GET/admin-buses", new ShowPageAction("admin-buses"));
+        ACTIONS.put("GET/admin-trucks", new ShowPageAction("admin-trucks"));
 
-        actions.put("GET/main", new CheckLoginAction());
-        actions.put("GET/quit", new LogoutAction());
-        actions.put("GET/search", new SearchAction());
-        actions.put("GET/cabinet", new ClearCabinetAction());
 
-        actions.put("POST/login", new LoginAction());
-        actions.put("POST/register", new RegisterAction());
-        actions.put("POST/change_user", new ChangeUserAction());
-        actions.put("POST/change_vehicle", new ChangeVehicleAction());
+        ACTIONS.put("GET/main", new CheckLoginAction());
+        ACTIONS.put("GET/search", new SearchAction());
+        ACTIONS.put("GET/cabinet", new CabinetAction());
+        ACTIONS.put("GET/quit", new LogoutAction());
+
+        ACTIONS.put("POST/login", new LoginAction());
+        ACTIONS.put("POST/register", new RegisterAction());
+        ACTIONS.put("POST/change_user", new ChangeUserAction());
+        ACTIONS.put("POST/change_vehicle", new ChangeVehicleAction());
+        ACTIONS.put("POST/change_color", new ChangePropAction("color"));
+        ACTIONS.put("POST/change_model", new ChangePropAction("model"));
+        ACTIONS.put("POST/change_manufacturer", new ChangePropAction("manufacturer"));
     }
 
     public static Action getAction(String actionName) {
-        return actions.get(actionName);
+        return ACTIONS.get(actionName);
     }
 }

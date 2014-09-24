@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class LogoutAction implements Action {
-    public final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(super.getClass());
-    private ActionResult result = new ActionResult("main");
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(LogoutAction.class);
+    private static final ActionResult MAIN = new ActionResult("main");
     private static final String ATTR_USER = "user";
 
     public LogoutAction() {
@@ -18,7 +18,7 @@ public class LogoutAction implements Action {
     public ActionResult execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
         LOGGER.info("User '"+((User) session.getAttribute(ATTR_USER)).getUsername()+"' have logged-out");
-        session.setAttribute(ATTR_USER, null);
-        return result;
+        session.removeAttribute(ATTR_USER);
+        return MAIN;
     }
 }

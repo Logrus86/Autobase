@@ -3,14 +3,14 @@ package com.epam.bp.autobase.action;
 import javax.servlet.http.HttpServletRequest;
 
 public class ShowPageAction implements Action {
-    private ActionResult actionResult;
+    private ActionResult result;
 
     public ShowPageAction(String page) {
-        actionResult = new ActionResult(page);
+        result = new ActionResult(page);
     }
 
     @Override
     public ActionResult execute(HttpServletRequest req) {
-        return actionResult;
+        return result;
     }
 }

@@ -2,7 +2,7 @@ package com.epam.bp.autobase.action;
 
 import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.DaoFactory;
-import com.epam.bp.autobase.dao.H2.H2DaoManager;
+import com.epam.bp.autobase.dao.H2.DaoManager;
 import com.epam.bp.autobase.dao.UserDao;
 import com.epam.bp.autobase.entity.User;
 import com.epam.bp.autobase.util.Validator;
@@ -15,10 +15,9 @@ import java.util.ResourceBundle;
 
 public class RegisterAction implements Action {
 
-    public final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(super.getClass());
-    private ActionResult registerSuccess = new ActionResult("registered");
-    private ActionResult registerFailed = new ActionResult("register");
-    private ActionResult result;
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(RegisterAction.class);
+    private static final ActionResult REG_SUCCESS = new ActionResult("registered");
+    private static final ActionResult REG_FAILED = new ActionResult("register");
     private static final String ERROR_BUSY_USERNAME = ResourceBundle.getBundle("i18n.text").getString("error.busy-username");
     private static final String ERROR = "reg_error";
     private static final String USER = "user";
@@ -29,6 +28,7 @@ public class RegisterAction implements Action {
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
     private static final String ENTITY_CHANGES_FLAG = "listsChanged";
+    private ActionResult result;
 
     public RegisterAction() {
     }
@@ -40,16 +40,16 @@ public class RegisterAction implements Action {
         String error = Validator.validateRequestParametersMap(request);
         if (!error.isEmpty()) {
             session.setAttribute(ERROR, error);
-            forwardEnteredData(request,session);
-            return registerFailed;
+            forwardEnteredData(request, session);
+            return REG_FAILED;
         }
 
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
-            H2DaoManager daoManager = daoFactory.getDaoManager();
-            daoManager.transactionAndClose(new H2DaoManager.DaoCommand() {
+            DaoManager daoManager = daoFactory.getDaoManager();
+            daoManager.transactionAndClose(new DaoManager.DaoCommand() {
                 @Override
-                public void execute(H2DaoManager daoManager) throws DaoException {
+                public void execute(DaoManager daoManager) throws DaoException {
                     UserDao userDao = daoManager.getUserDao();
                     String firstname = request.getParameter(FIRSTNAME);
                     String lastname = request.getParameter(LASTNAME);
@@ -60,8 +60,8 @@ public class RegisterAction implements Action {
                     // check username not busy
                     if (userDao.getUsersListByUsername(username).size() > 1) {
                         session.setAttribute(ERROR, ERROR_BUSY_USERNAME);
-                        forwardEnteredData(request,session);
-                        result = registerFailed;
+                        forwardEnteredData(request, session);
+                        result = REG_FAILED;
                     } //data was entered correctly and username not busy, proceed
                     else {
                         User user = new User();
@@ -77,11 +77,11 @@ public class RegisterAction implements Action {
                         //get user from db to get his db ID to entity
                         user = userDao.getUsersListByUsername(username).get(0);
                         session.setAttribute(USER, user);
-                        session.setAttribute(ERROR,"");
+                        session.setAttribute(ERROR, "");
                         clearEnteredData(session);
-                        LOGGER.info("Newly registered user: "+user.toString());
-                        result = registerSuccess;
-                        session.setAttribute(ENTITY_CHANGES_FLAG,"true");
+                        LOGGER.info("Newly registered user: " + user.toString());
+                        result = REG_SUCCESS;
+                        session.setAttribute(ENTITY_CHANGES_FLAG, "true");
                     }
                 }
             });
@@ -96,11 +96,12 @@ public class RegisterAction implements Action {
     //forward entered registration data if some of it was entered wrong
     private void forwardEnteredData(HttpServletRequest request, HttpSession session) {
         session.setAttribute(FIRSTNAME, request.getParameter(FIRSTNAME));
-        session.setAttribute(LASTNAME,request.getParameter(LASTNAME));
-        session.setAttribute(DOB,request.getParameter(DOB));
-        session.setAttribute(USERNAME,request.getParameter(USERNAME));
-        session.setAttribute(EMAIL,request.getParameter(EMAIL));
+        session.setAttribute(LASTNAME, request.getParameter(LASTNAME));
+        session.setAttribute(DOB, request.getParameter(DOB));
+        session.setAttribute(USERNAME, request.getParameter(USERNAME));
+        session.setAttribute(EMAIL, request.getParameter(EMAIL));
     }
+
     private void clearEnteredData(HttpSession session) {
         session.removeAttribute(FIRSTNAME);
         session.removeAttribute(LASTNAME);

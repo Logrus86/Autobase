@@ -2,7 +2,7 @@ package com.epam.bp.autobase.action;
 
 import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.DaoFactory;
-import com.epam.bp.autobase.dao.H2.H2DaoManager;
+import com.epam.bp.autobase.dao.H2.DaoManager;
 import com.epam.bp.autobase.dao.UserDao;
 import com.epam.bp.autobase.dao.VehicleDao;
 import com.epam.bp.autobase.entity.User;
@@ -16,11 +16,10 @@ import java.math.BigDecimal;
 import java.util.ResourceBundle;
 
 public class ChangeUserAction implements Action {
-    public final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(super.getClass());
-    private ActionResult cabinet_user = new ActionResult("cabinet");
-    private ActionResult cabinet_driver = new ActionResult("main-driver");
-    private ActionResult main_admin = new ActionResult("main", true);
-    private ActionResult result;
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ChangeUserAction.class);
+    private static final ActionResult CABINET_USER = new ActionResult("cabinet");
+    private static final ActionResult CABINET_DRIVER = new ActionResult("main-driver");
+    private static final ActionResult MAIN_ADMIN = new ActionResult("main", true);
     private static final String ERROR_BUSY_USERNAME = ResourceBundle.getBundle("i18n.text").getString("error.busy-username");
     private static final String ERROR = "user_change_error";
     private static final String USER = "user";
@@ -35,6 +34,7 @@ public class ChangeUserAction implements Action {
     private static final String SAVE = "save";
     private static final String DELETE = "delete";
     private static final String ENTITY_CHANGES_FLAG = "listsChanged";
+    private ActionResult result;
     private User user;
     private HttpServletRequest request;
     private HttpSession session;
@@ -48,9 +48,9 @@ public class ChangeUserAction implements Action {
         String error = Validator.validateRequestParametersMap(request);
         if (!error.isEmpty()) {
             session.setAttribute(ERROR, error);
-            if (user.getRole() == User.Role.CLIENT) return cabinet_user;
-            if (user.getRole() == User.Role.DRIVER) return cabinet_driver;
-            return main_admin;
+            if (user.getRole() == User.Role.CLIENT) return CABINET_USER;
+            if (user.getRole() == User.Role.DRIVER) return CABINET_DRIVER;
+            return MAIN_ADMIN;
         }
         //changing user if we are client or driver; if we are admin, do it if SAVE parameter not null only
         if (!user.getRole().equals(User.Role.ADMIN) || request.getParameter(SAVE) != null) {
@@ -66,10 +66,10 @@ public class ChangeUserAction implements Action {
     private void changeUser() throws ActionException {
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
-            H2DaoManager daoManager = daoFactory.getDaoManager();
-            daoManager.transactionAndClose(new H2DaoManager.DaoCommand() {
+            DaoManager daoManager = daoFactory.getDaoManager();
+            daoManager.transactionAndClose(new DaoManager.DaoCommand() {
                 @Override
-                public void execute(H2DaoManager daoManager) throws DaoException {
+                public void execute(DaoManager daoManager) throws DaoException {
                     UserDao userDao = daoManager.getUserDao();
                     //if save not null it means we are admin changing user, set this case fields:
                     Integer id = null;
@@ -112,7 +112,7 @@ public class ChangeUserAction implements Action {
                         userDao.update(user);
 
                         session.setAttribute(ERROR, "");
-                        session.setAttribute(ENTITY_CHANGES_FLAG, "true");
+                        session.setAttribute(ENTITY_CHANGES_FLAG, USER);
                     }
                 }
             });
@@ -121,19 +121,18 @@ public class ChangeUserAction implements Action {
             LOGGER.error("Error at changeUser() while performing transaction");
             throw new ActionException("Error at changeUser() while performing transaction", e);
         }
-        if (User.Role.CLIENT.equals(user.getRole())) result = cabinet_user;
-        if (User.Role.DRIVER.equals(user.getRole())) result = cabinet_driver;
-        if (request.getParameter(SAVE) != null) result = main_admin;
-        session.setAttribute(ENTITY_CHANGES_FLAG, "true");
+        if (User.Role.CLIENT.equals(user.getRole())) result = CABINET_USER;
+        if (User.Role.DRIVER.equals(user.getRole())) result = CABINET_DRIVER;
+        if (request.getParameter(SAVE) != null) result = MAIN_ADMIN;
     }
 
-    private void deleteUser() throws ActionException{
+    private void deleteUser() throws ActionException {
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
-            H2DaoManager daoManager = daoFactory.getDaoManager();
-            daoManager.transactionAndClose(new H2DaoManager.DaoCommand() {
+            DaoManager daoManager = daoFactory.getDaoManager();
+            daoManager.transactionAndClose(new DaoManager.DaoCommand() {
                 @Override
-                public void execute(H2DaoManager daoManager) throws DaoException {
+                public void execute(DaoManager daoManager) throws DaoException {
                     Integer id = Integer.valueOf(request.getParameter(DELETE));
                     //find vehicle linked with our user by driver-id field and set its field DRIVERID to null
                     VehicleDao vehicleDao = daoManager.getVehicleDao();
@@ -145,7 +144,7 @@ public class ChangeUserAction implements Action {
                     //and we can delete our user now
                     UserDao userDao = daoManager.getUserDao();
                     userDao.delete(id);
-                    session.setAttribute(ENTITY_CHANGES_FLAG, "true");
+                    session.setAttribute(ENTITY_CHANGES_FLAG, USER);
                 }
             });
             daoFactory.releaseContext();
@@ -153,6 +152,6 @@ public class ChangeUserAction implements Action {
             LOGGER.error("Error at deleteUser() while performing transaction");
             throw new ActionException("Error at deleteUser() while performing transaction", e);
         }
-        result = main_admin;
+        result = MAIN_ADMIN;
     }
 }

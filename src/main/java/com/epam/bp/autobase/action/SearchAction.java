@@ -13,15 +13,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class SearchAction implements Action { //TODO post -> get
-    public final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(super.getClass());
-    private ActionResult search_result_logined = new ActionResult("search-result");
-    private ActionResult search_result_guest = new ActionResult("search-result-guest");
-    private ActionResult search_err_logined = new ActionResult("main-client");
-    private ActionResult search_err_guest = new ActionResult("main");
-
-    private static final ResourceBundle RB = ResourceBundle.getBundle("i18n.text");
-    private static final String ERROR_NOTHING_CHECKED = RB.getString("error.nothing-checked");
+public class SearchAction implements Action {
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SearchAction.class);
+    private static final ActionResult FIND_LOGINED = new ActionResult("search-result");
+    private static final ActionResult FIND_GUEST = new ActionResult("search-result-guest");
+    private static final ActionResult ERR_LOGINED = new ActionResult("main-client");
+    private static final ActionResult ERR_GUEST = new ActionResult("main");
+    private static final String ERROR_NOTHING_CHECKED = ResourceBundle.getBundle("i18n.text").getString("error.nothing-checked");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
@@ -32,8 +30,8 @@ public class SearchAction implements Action { //TODO post -> get
         if (!error.isEmpty()) {
             session.setAttribute("search_error", error);
             session.setAttribute("vehicleList", null);
-            if (session.getAttribute("user") == null) return search_err_guest;
-            return search_err_logined;
+            if (session.getAttribute("user") == null) return ERR_GUEST;
+            return ERR_LOGINED;
         }
 
         //looking for vehicle
@@ -73,8 +71,8 @@ public class SearchAction implements Action { //TODO post -> get
                 LOGGER.info("Nothing was checked.");
                 session.setAttribute("search_error", ERROR_NOTHING_CHECKED);
                 session.setAttribute("vehicleList", null);
-                if (session.getAttribute("user") == null) return search_err_guest;
-                return search_err_logined;
+                if (session.getAttribute("user") == null) return ERR_GUEST;
+                return ERR_LOGINED;
             }
             List<Vehicle> vehicles = vehicleDao.findByParams(params);
             //delete not operable
@@ -97,8 +95,8 @@ public class SearchAction implements Action { //TODO post -> get
                 session.setAttribute("search_result", "Nothing was found.");
                 session.setAttribute("search_error", "");
                 session.setAttribute("vehicleList", null);
-                if (session.getAttribute("user") == null) return search_result_guest;
-                return search_result_logined;
+                if (session.getAttribute("user") == null) return FIND_GUEST;
+                return FIND_LOGINED;
             }
             //vehicle was found, all is ok
             LOGGER.info("Vehicle was found.");
@@ -109,7 +107,7 @@ public class SearchAction implements Action { //TODO post -> get
             LOGGER.error("Error at SearchAction while searching for vehicle");
             throw new ActionException("Error at SearchAction while searching for vehicle", e);
         }
-        if (session.getAttribute("user") == null) return search_result_guest;
-        return search_result_logined;
+        if (session.getAttribute("user") == null) return FIND_GUEST;
+        return FIND_LOGINED;
     }
 }

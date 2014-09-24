@@ -1,6 +1,6 @@
 package com.epam.bp.autobase.action;
 
-public class ActionException extends Exception{
+public class ActionException extends Exception {
     public ActionException() {
     }
 

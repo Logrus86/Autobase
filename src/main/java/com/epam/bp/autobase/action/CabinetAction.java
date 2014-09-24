@@ -3,11 +3,14 @@ package com.epam.bp.autobase.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-public class ClearCabinetAction implements Action {
+public class CabinetAction implements Action {
+    private static final String ERROR = "user_change_error";
+    private static final ActionResult CABINET = new ActionResult("cabinet");
+
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
         HttpSession session = request.getSession();
-        session.setAttribute("cab_error","");
-        return new ActionResult("cabinet");
+        session.setAttribute(ERROR,"");
+        return CABINET;
     }
 }
