@@ -9,12 +9,12 @@ import java.util.concurrent.Executor;
 
 public class ConnectionPool {
     private static volatile ConnectionPool instance;
-    private static final ResourceBundle rb = ResourceBundle.getBundle("db");
-    private static final String DRIVER = rb.getString("db.driver");
-    private static final String URL = rb.getString("db.url");
-    private static final String USER = rb.getString("db.user");
-    private static final String PASSWORD = rb.getString("db.password");
-    private static final int POOL_SIZE = Integer.parseInt(rb.getString("db.pool_size"));
+    private static final ResourceBundle RB = ResourceBundle.getBundle("db");
+    private static final String DRIVER = RB.getString("db.driver");
+    private static final String URL = RB.getString("db.url");
+    private static final String USER = RB.getString("db.user");
+    private static final String PASSWORD = RB.getString("db.password");
+    private static final int POOL_SIZE = Integer.parseInt(RB.getString("db.pool_size"));
     private static ArrayBlockingQueue<ProxyConnection> connectionQueue;
 
     private ConnectionPool() {
@@ -39,14 +39,14 @@ public class ConnectionPool {
         return InstanceHolder.instance;
     }
 
-    private static class InstanceHolder {
-        private static ConnectionPool instance = new ConnectionPool();
-    }
-
     public ProxyConnection getConnection() throws InterruptedException {
         ProxyConnection connection;
         connection = connectionQueue.take();
         return connection;
+    }
+
+    private static class InstanceHolder {
+        private static ConnectionPool instance = new ConnectionPool();
     }
 
     public static void returnConnection(ProxyConnection connection) {
