@@ -75,6 +75,11 @@ form#registration-form {
     margin: auto;
     text-align: center;
 }
+form#reg_info {
+    width: 500px;
+    margin: auto;
+    text-align: center;
+}
 form#search-form {
     width: 427px;
     margin: auto;
@@ -84,13 +89,6 @@ form#user-form {
     width: 400px;
     margin: auto;
     text-align: center;
-}
-form#driver-form {
-    width: 400px;
-    margin: auto;
-    text-align: center;
-    display: inline;
-    float: left;
 }
 form#vehicle-form {
     width: 500px;
