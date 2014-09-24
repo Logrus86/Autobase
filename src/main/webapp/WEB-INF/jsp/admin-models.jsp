@@ -45,6 +45,9 @@
     </div>
     <div class="btn-group" align="center">
         <a class="btn btn-default" href='<c:url value="/"/>'>Users</a>
+        <a class="btn btn-default" href='<c:url value="/do/admin-cars"/>'>Cars</a>
+        <a class="btn btn-default" href='<c:url value="/do/admin-buses"/>'>Buses</a>
+        <a class="btn btn-default" href='<c:url value="/do/admin-trucks"/>'>Trucks</a>
         <a class="btn btn-default" href='<c:url value="/do/admin-vehicles"/>'>Vehicles</a>
         <a class="btn btn-default" href='<c:url value="/do/admin-colors"/>'>Colors</a>
         <a class="btn btn-default" href='<c:url value="/do/admin-models"/>'>Models</a>
@@ -52,16 +55,16 @@
     </div>
     <div id="colors">
         <table>
+            <div class="msg-error">${model_change_error}</div>
             <tr align="center">
                 <td>id</td>
-                <td>valueEn</td>
-                <td>valueRu</td>
+                <td>value</td>
             </tr>
             <c:forEach items="${modelList}" var="model" varStatus="i">
                 <tr>
                     <form method="post" action="change_model">
-                        <td><input id="N" type="number" class="form-control" name="id" value=${i.count} readonly></td>
-                        <td><input type="text" class="form-control" name="value" value=${model.value}></td>
+                        <td><input id="N" type="number" class="form-control" value=${i.count} readonly></td>
+                        <td><input required type="text" class="form-control" name="value" value=${model.value}></td>
                         <td>
                             <button class="btn btn-primary" name="save" value=${model.id} type="submit">save changes</button>
                         </td>
@@ -72,7 +75,6 @@
                 </tr>
             </c:forEach>
             <tr>
-                <td><button class="btn btn-info" name="save-all" type="button">save all</button></td>
                 <td><button class="btn btn-success" name="add" type="button">add</button></td>
             </tr>
         </table>

@@ -45,6 +45,9 @@
 </div>
 <div class="btn-group" align="center">
     <a class="btn btn-default" href='<c:url value="/"/>'>Users</a>
+    <a class="btn btn-default" href='<c:url value="/do/admin-cars"/>'>Cars</a>
+    <a class="btn btn-default" href='<c:url value="/do/admin-buses"/>'>Buses</a>
+    <a class="btn btn-default" href='<c:url value="/do/admin-trucks"/>'>Trucks</a>
     <a class="btn btn-default" href='<c:url value="/do/admin-vehicles"/>'>Vehicles</a>
     <a class="btn btn-default" href='<c:url value="/do/admin-colors"/>'>Colors</a>
     <a class="btn btn-default" href='<c:url value="/do/admin-models"/>'>Models</a>
@@ -82,7 +85,6 @@
                             <option value="Bus" <c:if test="${vehicle.vehicleType=='Bus'}">selected</c:if>>Bus</option>
                             <option value="Car" <c:if test="${vehicle.vehicleType=='Car'}">selected</c:if>>Car</option>
                             <option value="Truck" <c:if test="${vehicle.vehicleType=='Truck'}">selected</c:if>>Truck</option>
-
                         </select>
                     </td>
                     <td><input type="checkbox" class="form-control" name="operable" <c:if test="${vehicle.operable}">checked</c:if>></td>

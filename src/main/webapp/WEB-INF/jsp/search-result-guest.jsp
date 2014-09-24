@@ -67,7 +67,7 @@
                         <input type="date" class="form-control" name="dob" placeholder="<fmt:message key="default.dob"/>" required>
                         <input type="text" class="form-control" name="username" placeholder="<fmt:message key="default.username"/>" required>
                         <input type="password" class="form-control" name="password" placeholder="<fmt:message key="default.password"/>" required title="<fmt:message key="ttip.password8"/>">
-                        <input type="password" class="form-control" name="password-repeat" placeholder="<fmt:message key="default.passwordrepeat"/>" required title="<fmt:message key="ttip.password8"/>">
+                        <input type="password" class="form-control" name="password-repeat" placeholder="<fmt:message key="default.password-repeat"/>" required title="<fmt:message key="ttip.password8"/>">
                         <input type="email" class="form-control" name="email" placeholder="<fmt:message key="default.email"/>" required>
                         <br>
                         <button type="submit" class="btn btn-primary"><fmt:message key="default.doregister"/></button>

@@ -1,6 +1,14 @@
+<%--suppress ALL --%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:useBean id="carList" scope="session" type="java.util.List<com.epam.bp.autobase.entity.Vehicle>"/>
+<jsp:useBean id="busList" scope="session" type="java.util.List<com.epam.bp.autobase.entity.Vehicle>"/>
+<jsp:useBean id="truckList" scope="session" type="java.util.List<com.epam.bp.autobase.entity.Vehicle>"/>
+<jsp:useBean id="modelList" scope="session" type="java.util.List<com.epam.bp.autobase.entity.props.Model>"/>
+<jsp:useBean id="manufacturerList" scope="session" type="java.util.List<com.epam.bp.autobase.entity.props.Manufacturer>"/>
+<jsp:useBean id="colorList" scope="session" type="java.util.List<com.epam.bp.autobase.entity.props.Color>"/>
+<jsp:useBean id="userList" scope="session" type="java.util.List<com.epam.bp.autobase.entity.User>"/>
 <html>
 
 <script type='text/javascript' src='<c:url value="/webjars/jquery/1.11.1/jquery.js"/>'></script>
@@ -12,6 +20,7 @@
 <link href='<c:url value="/static/img/favicon.ico"/>' rel="icon" type="image/png">
 
 <fmt:bundle basename="i18n.text">
+
     <head>
         <title>autobase.com</title>
     </head>
@@ -45,6 +54,9 @@
     </div>
     <div class="btn-group" align="center">
         <a class="btn btn-default" href='<c:url value="/"/>'>Users</a>
+        <a class="btn btn-default" href='<c:url value="/do/admin-cars"/>'>Cars</a>
+        <a class="btn btn-default" href='<c:url value="/do/admin-buses"/>'>Buses</a>
+        <a class="btn btn-default" href='<c:url value="/do/admin-trucks"/>'>Trucks</a>
         <a class="btn btn-default" href='<c:url value="/do/admin-vehicles"/>'>Vehicles</a>
         <a class="btn btn-default" href='<c:url value="/do/admin-colors"/>'>Colors</a>
         <a class="btn btn-default" href='<c:url value="/do/admin-models"/>'>Models</a>
@@ -71,8 +83,8 @@
                         <td><input type="text" class="form-control" name="firstname" value=${user.firstname}></td>
                         <td><input type="text" class="form-control" name="lastname" value=${user.lastname}></td>
                         <td><input type="date" class="form-control" name="dob" value=${user.dob}></td>
-                        <td><input type="text" class="form-control" name="username" value=${user.username}></td>
-                        <td><input type="password" class="form-control" name="password" value=${user.password}></td>
+                        <td><input required type="text" class="form-control" name="username" value=${user.username}></td>
+                        <td><input required type="password" class="form-control" name="password" value=${user.password}></td>
                         <td><input type="email" class="form-control" name="email" value=${user.email}></td>
                         <td>
                             <select class="selectpicker show-menu-arrow" data-width="auto" name="role">

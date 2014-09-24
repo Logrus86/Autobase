@@ -45,6 +45,9 @@
 </div>
 <div class="btn-group" align="center">
     <a class="btn btn-default" href='<c:url value="/"/>'>Users</a>
+    <a class="btn btn-default" href='<c:url value="/do/admin-cars"/>'>Cars</a>
+    <a class="btn btn-default" href='<c:url value="/do/admin-buses"/>'>Buses</a>
+    <a class="btn btn-default" href='<c:url value="/do/admin-trucks"/>'>Trucks</a>
     <a class="btn btn-default" href='<c:url value="/do/admin-vehicles"/>'>Vehicles</a>
     <a class="btn btn-default" href='<c:url value="/do/admin-colors"/>'>Colors</a>
     <a class="btn btn-default" href='<c:url value="/do/admin-models"/>'>Models</a>
@@ -52,6 +55,7 @@
 </div>
 <div id="colors">
     <table>
+        <div class="msg-error">${color_change_error}</div>
         <tr align="center">
             <td>id</td>
             <td>valueEn</td>
@@ -60,20 +64,19 @@
         <c:forEach items="${colorList}" var="color" varStatus="i">
             <tr>
                 <form method="post" action="change_color">
-                    <td><input id="N" type="number" class="form-control" name="id" value=${i.count} readonly></td>
-                    <td><input type="text" class="form-control" name="valueEn" value=${color.valueEn}></td>
-                    <td><input type="text" class="form-control" name="valueRu" value=${color.valueRu}></td>
+                    <td><input id="N" type="number" class="form-control" value=${i.count} readonly></td>
+                    <td><input required type="text" class="form-control" name="valueEn" value=${color.valueEn}></td>
+                    <td><input required type="text" class="form-control" name="valueRu" value=${color.valueRu}></td>
                     <td>
-                        <button class="btn btn-primary" name="save" value="color.id" type="submit">save changes</button>
+                        <button class="btn btn-primary" name="save" value="${color.id}" type="submit">save changes</button>
                     </td>
                     <td>
-                        <button class="btn btn-danger" name="delete" value="color.id" type="submit">delete</button>
+                        <button class="btn btn-danger" name="delete" value="${color.id}" type="submit">delete</button>
                     </td>
                 </form>
             </tr>
         </c:forEach>
         <tr>
-            <td><button class="btn btn-info" name="save-all" type="button">save all</button></td>
             <td><button class="btn btn-success" name="add" type="button">add</button></td>
         </tr>
     </table>
