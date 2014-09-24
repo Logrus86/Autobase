@@ -13,6 +13,7 @@ import java.util.List;
 
 public class H2UserDao extends H2AbstractDao<Integer, User> implements UserDao {
     public final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(super.getClass());
+
     public H2UserDao(ConnectionPool.ProxyConnection connection) {
         super(connection);
     }
@@ -34,8 +35,8 @@ public class H2UserDao extends H2AbstractDao<Integer, User> implements UserDao {
 
     @Override
     public String getDeleteQuery() {
-        return "DELETE FROM USER WHERE ID= ?;";
-       // return "UPDATE USER SET ISDELETED = TRUE WHERE ID = ?;";
+        return "DELETE FROM USER WHERE ID = ?;";
+        // return "UPDATE USER SET ISDELETED = TRUE WHERE ID = ?;";
     }
 
     @Override
@@ -108,21 +109,43 @@ public class H2UserDao extends H2AbstractDao<Integer, User> implements UserDao {
     }
 
     @Override
-    public User getByUsername(String username) throws DaoException {
+    public List<User> getUsersListByUsername(String username) throws DaoException {
         StringBuilder query = new StringBuilder();
         query.append(getReadQuery()).append(" WHERE USERNAME = ?;");
+        PreparedStatement ps;
+        List<User> result;
+        try {
+            ps = connection.prepareStatement(query.toString());
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            result = parseResultSetList(rs);
+            rs.close();
+            ps.close();
+            connection.close();
+        } catch (Exception e) {
+            throw new DaoException("Finding user by username error", e);
+        }
+        return result;
+    }
+
+    @Override
+    public User getByCredentials(String username, String password) throws DaoException {
+        StringBuilder query = new StringBuilder();
+        query.append(getReadQuery()).append(" WHERE USERNAME = ? AND PASSWORD = ?;");
         PreparedStatement ps;
         User result;
         try {
             ps = connection.prepareStatement(query.toString());
             ps.setString(1, username);
+            ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
-            result = parseResultSetInstance(rs);
+            if (rs.next()) result = parseResultSetInstance(rs);
+            else result = null;
             rs.close();
             ps.close();
             connection.close();
         } catch (Exception e) {
-            throw new DaoException("Finding user by parameters error", e);
+            throw new DaoException("Finding user by credentials error", e);
         }
         return result;
     }
