@@ -8,7 +8,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executor;
 
 public class ConnectionPool {
-    private static volatile ConnectionPool instance;
     private static final ResourceBundle RB = ResourceBundle.getBundle("db");
     private static final String DRIVER = RB.getString("db.driver");
     private static final String URL = RB.getString("db.url");
@@ -29,14 +28,14 @@ public class ConnectionPool {
             try {
                 connection = new ProxyConnection(DriverManager.getConnection(URL, USER, PASSWORD));
             } catch (SQLException e) {
-                throw new ConnectionPoolException("CoonectionPool exception while creating connection", e);
+                throw new ConnectionPoolException("ConnectionPool exception while creating connection", e);
             }
             connectionQueue.offer(connection);
         }
     }
 
     public static ConnectionPool getInstance() {
-        return InstanceHolder.instance;
+        return InstanceHolder.INSTANCE;
     }
 
     public ProxyConnection getConnection() throws InterruptedException {
@@ -45,12 +44,12 @@ public class ConnectionPool {
         return connection;
     }
 
-    private static class InstanceHolder {
-        private static ConnectionPool instance = new ConnectionPool();
-    }
-
     public static void returnConnection(ProxyConnection connection) {
         connectionQueue.offer(connection);
+    }
+
+    private static class InstanceHolder {
+        private static final ConnectionPool INSTANCE = new ConnectionPool();
     }
 
     //inner class, wrapper around Connection to avoid "wild" connections
