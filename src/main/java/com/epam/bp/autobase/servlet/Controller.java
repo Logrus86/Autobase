@@ -1,7 +1,6 @@
 package com.epam.bp.autobase.servlet;
 
 import com.epam.bp.autobase.action.Action;
-import com.epam.bp.autobase.action.ActionException;
 import com.epam.bp.autobase.action.ActionFactory;
 import com.epam.bp.autobase.action.ActionResult;
 import org.slf4j.Logger;
@@ -23,21 +22,21 @@ public class Controller extends javax.servlet.http.HttpServlet {
         Action action = ActionFactory.getAction(actionName);
         if (action == null) {
             LOGGER.error("Action '" + actionName + "' not found. ");
-            resp.sendError(404, "Such action not found.");
+            resp.sendError(404, req.getRequestURI());
             return;
         }
         ActionResult result = null;
         try {
             result = action.execute(req);
-        } catch (ActionException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        if (result.isRedirection()) {
+        if (result != null && result.isRedirection()) {
             LOGGER.info("redirect to: " + req.getContextPath() + "/do/" + result.getView());
             resp.sendRedirect(req.getContextPath() + "/do/" + result.getView());
             return;
         }
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/jsp/" + result.getView() + ".jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/jsp/" + (result != null ? result.getView() : null) + ".jsp");
         requestDispatcher.forward(req, resp);
     }
 }
