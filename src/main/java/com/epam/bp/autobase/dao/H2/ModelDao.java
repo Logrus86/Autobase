@@ -1,7 +1,7 @@
 package com.epam.bp.autobase.dao.H2;
 
 import com.epam.bp.autobase.dao.DaoException;
-import com.epam.bp.autobase.entity.props.Model;
+import com.epam.bp.autobase.entity.Model;
 import com.epam.bp.autobase.pool.ConnectionPool;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +12,9 @@ import java.util.List;
 
 public class ModelDao extends AbstractDao<Integer, Model> implements com.epam.bp.autobase.dao.ModelDao {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ModelDao.class);
+    public static final String ID = "ID";
+    public static final String VALUE = "VALUE";
+    public static final String MODEL = "MODEL";
 
     public ModelDao(ConnectionPool.ProxyConnection connection) {
         super(connection);
@@ -19,22 +22,22 @@ public class ModelDao extends AbstractDao<Integer, Model> implements com.epam.bp
 
     @Override
     public String getCreateQuery() {
-        return "INSERT INTO MODEL(VALUE) VALUES(?);";
+        return "INSERT INTO "+MODEL+"("+VALUE+") VALUES(?);";
     }
 
     @Override
     public String getReadQuery() {
-        return "SELECT * FROM MODEL";
+        return "SELECT * FROM "+MODEL;
     }
 
     @Override
     public String getUpdateQuery() {
-        return "UPDATE MODEL SET VALUE = ? WHERE ID = ?;";
+        return "UPDATE "+MODEL+" SET "+VALUE+" = ? WHERE "+ID+" = ?;";
     }
 
     @Override
     public String getDeleteQuery() {
-        return "DELETE FROM MODEL WHERE ID = ?;";
+        return "DELETE FROM "+MODEL+" WHERE "+ID+" = ?;";
     }
 
     @Override
@@ -55,8 +58,8 @@ public class ModelDao extends AbstractDao<Integer, Model> implements com.epam.bp
     public Model parseResultSetInstance(ResultSet rs) throws DaoException {
         Model model = new Model();
         try {
-            model.setId(rs.getInt("ID"));
-            model.setValue(rs.getString("VALUE"));
+            model.setId(rs.getInt(ID));
+            model.setValue(rs.getString(VALUE));
 
         } catch (Exception e) {
             LOGGER.error("Parsing resultSet to model error");
@@ -89,7 +92,7 @@ public class ModelDao extends AbstractDao<Integer, Model> implements com.epam.bp
     @Override
     public Model getByValue(String value) throws DaoException {
         StringBuilder query = new StringBuilder();
-        query.append(getReadQuery()).append(" WHERE VALUE = ?;");
+        query.append(getReadQuery()).append(" WHERE "+VALUE+" = ?;");
         PreparedStatement ps;
         Model result;
         try {

@@ -12,6 +12,16 @@ import java.util.List;
 
 public class UserDao extends AbstractDao<Integer, User> implements com.epam.bp.autobase.dao.UserDao {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(UserDao.class);
+    private static final String ID = "ID";
+    private static final String USER = "USER";
+    private static final String FIRSTNAME = "FIRSTNAME";
+    private static final String LASTNAME = "LASTNAME";
+    private static final String DOB = "DOB";
+    private static final String USERNAME = "USERNAME";
+    private static final String PASSWORD = "PASSWORD";
+    private static final String EMAIL = "EMAIL";
+    private static final String ROLE = "ROLE";
+    private static final String BALANCE = "BALANCE";
 
     public UserDao(ConnectionPool.ProxyConnection connection) {
         super(connection);
@@ -19,22 +29,22 @@ public class UserDao extends AbstractDao<Integer, User> implements com.epam.bp.a
 
     @Override
     public String getCreateQuery() {
-        return "INSERT INTO USER(FIRSTNAME, LASTNAME, DOB, USERNAME, PASSWORD, EMAIL, ROLE, BALANCE) VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
+        return "INSERT INTO "+USER+"("+FIRSTNAME+", "+LASTNAME+", "+DOB+", "+USERNAME+", "+PASSWORD+", "+EMAIL+", "+ROLE+", "+BALANCE+") VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
     }
 
     @Override
     public String getReadQuery() {
-        return "SELECT * FROM USER";
+        return "SELECT * FROM "+USER;
     }
 
     @Override
     public String getUpdateQuery() {
-        return "UPDATE USER SET FIRSTNAME = ?, LASTNAME = ?, DOB = ?, USERNAME = ?, PASSWORD = ?, EMAIL = ?, ROLE = ?, BALANCE = ? WHERE ID = ?;";
+        return "UPDATE "+USER+" SET "+FIRSTNAME+" = ?, "+LASTNAME+" = ?, "+DOB+" = ?, "+USERNAME+" = ?, "+PASSWORD+" = ?, "+EMAIL+" = ?, "+ROLE+" = ?, "+BALANCE+" = ? WHERE "+ID+" = ?;";
     }
 
     @Override
     public String getDeleteQuery() {
-        return "DELETE FROM USER WHERE ID = ?;";
+        return "DELETE FROM "+USER+" WHERE "+ID+" = ?;";
         // return "UPDATE USER SET ISDELETED = TRUE WHERE ID = ?;";
     }
 
@@ -42,15 +52,15 @@ public class UserDao extends AbstractDao<Integer, User> implements com.epam.bp.a
     public User parseResultSetInstance(ResultSet rs) throws DaoException {
         User user = new User();
         try {
-                user.setId(rs.getInt("ID"));
-                user.setFirstname(rs.getString("FIRSTNAME"));
-                user.setLastname(rs.getString("LASTNAME"));
-                user.setDob(rs.getDate("DOB").toString());
-                user.setUsername(rs.getString("USERNAME"));
-                user.setPassword(rs.getString("PASSWORD"));
-                user.setEmail(rs.getString("EMAIL"));
-                user.setRole(User.Role.valueOf(rs.getString("ROLE")));
-                user.setBalance(rs.getBigDecimal("BALANCE"));
+                user.setId(rs.getInt(ID));
+                user.setFirstname(rs.getString(FIRSTNAME));
+                user.setLastname(rs.getString(LASTNAME));
+                user.setDob(rs.getDate(DOB).toString());
+                user.setUsername(rs.getString(USERNAME));
+                user.setPassword(rs.getString(PASSWORD));
+                user.setEmail(rs.getString(EMAIL));
+                user.setRole(User.Role.valueOf(rs.getString(ROLE)));
+                user.setBalance(rs.getBigDecimal(BALANCE));
         } catch (Exception e) {
             LOGGER.error("Parsing resultSet to user error");
             throw new DaoException("Parsing resultSet to user error", e);
@@ -110,7 +120,7 @@ public class UserDao extends AbstractDao<Integer, User> implements com.epam.bp.a
     @Override
     public List<User> getUsersListByUsername(String username) throws DaoException {
         StringBuilder query = new StringBuilder();
-        query.append(getReadQuery()).append(" WHERE USERNAME = ?;");
+        query.append(getReadQuery()).append(" WHERE "+USERNAME+" = ?;");
         PreparedStatement ps;
         List<User> result;
         try {
@@ -130,7 +140,7 @@ public class UserDao extends AbstractDao<Integer, User> implements com.epam.bp.a
     @Override
     public User getByCredentials(String username, String password) throws DaoException {
         StringBuilder query = new StringBuilder();
-        query.append(getReadQuery()).append(" WHERE USERNAME = ? AND PASSWORD = ?;");
+        query.append(getReadQuery()).append(" WHERE "+USERNAME+" = ? AND "+PASSWORD+" = ?;");
         PreparedStatement ps;
         User result;
         try {

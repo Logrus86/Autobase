@@ -1,7 +1,7 @@
 package com.epam.bp.autobase.dao.H2;
 
 import com.epam.bp.autobase.dao.DaoException;
-import com.epam.bp.autobase.entity.props.Color;
+import com.epam.bp.autobase.entity.Color;
 import com.epam.bp.autobase.pool.ConnectionPool;
 import org.slf4j.LoggerFactory;
 
@@ -10,8 +10,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ColorDao extends AbstractDao<Integer, Color> implements com.epam.bp.autobase.dao.ColorDao {
+public class ColorDao extends AbstractDao<java.lang.Integer, Color> implements com.epam.bp.autobase.dao.ColorDao {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ColorDao.class);
+    public static final String ID = "ID";
+    public static final String COLOR = "COLOR";
+    public static final String VALUE_EN = "VALUE_EN";
+    public static final String VALUE_RU = "VALUE_RU";
 
     public ColorDao(ConnectionPool.ProxyConnection connection) {
         super(connection);
@@ -19,22 +23,22 @@ public class ColorDao extends AbstractDao<Integer, Color> implements com.epam.bp
 
     @Override
     public String getCreateQuery() {
-        return "INSERT INTO COLOR(VALUE_EN, VALUE_RU) VALUES(?, ?);";
+        return "INSERT INTO "+COLOR+"("+VALUE_EN+", "+VALUE_RU+") VALUES(?, ?);";
     }
 
     @Override
     public String getReadQuery() {
-        return "SELECT * FROM COLOR";
+        return "SELECT * FROM "+COLOR;
     }
 
     @Override
     public String getUpdateQuery() {
-        return "UPDATE COLOR SET VALUE_EN = ?, VALUE_RU = ? WHERE ID = ?;";
+        return "UPDATE "+COLOR+" SET "+VALUE_EN+" = ?, "+VALUE_RU+" = ? WHERE "+ID+" = ?;";
     }
 
     @Override
     public String getDeleteQuery() {
-        return "DELETE FROM COLOR WHERE ID = ?;";
+        return "DELETE FROM "+COLOR+" WHERE "+ID+" = ?;";
     }
 
     @Override
@@ -55,9 +59,9 @@ public class ColorDao extends AbstractDao<Integer, Color> implements com.epam.bp
     public Color parseResultSetInstance(ResultSet rs) throws DaoException {
         Color color = new Color();
         try {
-            color.setId(rs.getInt("ID"));
-            color.setValueEn(rs.getString("VALUE_EN"));
-            color.setValueRu(rs.getString("VALUE_RU"));
+            color.setId(rs.getInt(ID));
+            color.setValueEn(rs.getString(VALUE_EN));
+            color.setValueRu(rs.getString(VALUE_RU));
 
         } catch (Exception e) {
             LOGGER.error("Parsing resultSet to color error");
@@ -92,7 +96,7 @@ public class ColorDao extends AbstractDao<Integer, Color> implements com.epam.bp
     @Override
     public Color getByValueEn(String valueEn) throws DaoException {
         StringBuilder query = new StringBuilder();
-        query.append(getReadQuery()).append(" WHERE VALUE_EN = ?;");
+        query.append(getReadQuery()).append(" WHERE "+VALUE_EN+" = ?;");
         PreparedStatement ps;
         Color result;
         try {
@@ -113,7 +117,7 @@ public class ColorDao extends AbstractDao<Integer, Color> implements com.epam.bp
     @Override
     public Color getByValueRu(String valueRu) throws DaoException {
         StringBuilder query = new StringBuilder();
-        query.append(getReadQuery()).append(" WHERE VALUE_RU = ?;");
+        query.append(getReadQuery()).append(" WHERE "+VALUE_RU+" = ?;");
         PreparedStatement ps;
         Color result;
         try {

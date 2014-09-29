@@ -97,10 +97,6 @@ public class DaoManager implements com.epam.bp.autobase.dao.DaoManager {
     }
 
     public void transactionAndClose(DaoCommand command) throws DaoException {
-        executeAndClose(new DaoCommand() {
-            public void execute(DaoManager daoManager) throws DaoException {
-                daoManager.transaction(command);
-            }
-        });
+        executeAndClose(daoManager -> daoManager.transaction(command));
     }
 }

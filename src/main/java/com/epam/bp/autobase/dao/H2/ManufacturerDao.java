@@ -1,7 +1,7 @@
 package com.epam.bp.autobase.dao.H2;
 
 import com.epam.bp.autobase.dao.DaoException;
-import com.epam.bp.autobase.entity.props.Manufacturer;
+import com.epam.bp.autobase.entity.Manufacturer;
 import com.epam.bp.autobase.pool.ConnectionPool;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +12,9 @@ import java.util.List;
 
 public class ManufacturerDao extends AbstractDao<Integer, Manufacturer> implements com.epam.bp.autobase.dao.ManufacturerDao {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ManufacturerDao.class);
+    public static final String ID = "ID";
+    public static final String VALUE = "VALUE";
+    private static final String MANUFACTURER = "MANUFACTURER";
 
     public ManufacturerDao(ConnectionPool.ProxyConnection connection) {
         super(connection);
@@ -19,22 +22,22 @@ public class ManufacturerDao extends AbstractDao<Integer, Manufacturer> implemen
 
     @Override
     public String getCreateQuery() {
-        return "INSERT INTO MANUFACTURER(VALUE) VALUES(?);";
+        return "INSERT INTO "+MANUFACTURER+"("+VALUE+") VALUES(?);";
     }
 
     @Override
     public String getReadQuery() {
-        return "SELECT * FROM MANUFACTURER";
+        return "SELECT * FROM "+MANUFACTURER;
     }
 
     @Override
     public String getUpdateQuery() {
-        return "UPDATE MANUFACTURER SET VALUE = ? WHERE ID = ?;";
+        return "UPDATE "+MANUFACTURER+" SET "+VALUE+" = ? WHERE "+ID+" = ?;";
     }
 
     @Override
     public String getDeleteQuery() {
-        return "DELETE FROM MANUFACTURER WHERE ID = ?;";
+        return "DELETE FROM "+MANUFACTURER+" WHERE "+ID+" = ?;";
     }
 
     @Override
@@ -55,8 +58,8 @@ public class ManufacturerDao extends AbstractDao<Integer, Manufacturer> implemen
     public Manufacturer parseResultSetInstance(ResultSet rs) throws DaoException {
         Manufacturer manufacturer = new Manufacturer();
         try {
-            manufacturer.setId(rs.getInt("ID"));
-            manufacturer.setValue(rs.getString("VALUE"));
+            manufacturer.setId(rs.getInt(ID));
+            manufacturer.setValue(rs.getString(VALUE));
 
         } catch (Exception e) {
             LOGGER.error("Parsing resultSet to manufacturer error");
@@ -89,7 +92,7 @@ public class ManufacturerDao extends AbstractDao<Integer, Manufacturer> implemen
     @Override
     public Manufacturer getByValue(String value) throws DaoException {
         StringBuilder query = new StringBuilder();
-        query.append(getReadQuery()).append(" WHERE VALUE = ?;");
+        query.append(getReadQuery()).append(" WHERE "+VALUE+" = ?;");
         PreparedStatement ps;
         Manufacturer result;
         try {

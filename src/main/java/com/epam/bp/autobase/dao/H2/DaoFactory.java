@@ -1,10 +1,9 @@
 package com.epam.bp.autobase.dao.H2;
 
 import com.epam.bp.autobase.dao.DaoException;
-import com.epam.bp.autobase.dao.DaoFactory;
 import com.epam.bp.autobase.pool.ConnectionPool;
 
-public class H2DaoFactory extends DaoFactory<ConnectionPool.ProxyConnection> {
+public class DaoFactory extends com.epam.bp.autobase.dao.DaoFactory {
 
     private ConnectionPool.ProxyConnection connection;
 
@@ -33,7 +32,7 @@ public class H2DaoFactory extends DaoFactory<ConnectionPool.ProxyConnection> {
         return new DaoManager(connection);
     }
 
-    public static DaoFactory getInstance() throws DaoException {
+    public static com.epam.bp.autobase.dao.DaoFactory getInstance() throws DaoException {
         try {
             InstanceHolder.instance.getContext();
         } catch (Exception e) {
@@ -43,7 +42,7 @@ public class H2DaoFactory extends DaoFactory<ConnectionPool.ProxyConnection> {
     }
 
     private static class InstanceHolder {
-        private static volatile DaoFactory instance = new H2DaoFactory();
+        private static volatile com.epam.bp.autobase.dao.DaoFactory instance = new DaoFactory();
     }
 
 }

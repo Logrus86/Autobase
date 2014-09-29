@@ -8,13 +8,36 @@ import com.epam.bp.autobase.entity.Vehicle;
 import com.epam.bp.autobase.pool.ConnectionPool;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 
-public class VehicleDao extends AbstractDao<Integer, Vehicle> implements com.epam.bp.autobase.dao.VehicleDao {
+public class VehicleDao extends AbstractDao<java.lang.Integer, Vehicle> implements com.epam.bp.autobase.dao.VehicleDao {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(VehicleDao.class);
+    private static final String ID = "ID";
+    private static final String VEHICLE = "VEHICLE";
+    private static final String VEHICLETYPE = "VEHICLETYPE";
+    private static final String MODEL_ID = "MODEL_ID";
+    private static final String MANUFACTURER_ID = "MANUFACTURER_ID";
+    private static final String PRODUCTIONYEAR = "PRODUCTIONYEAR";
+    private static final String COLOR_ID = "COLOR_ID";
+    private static final String MILEAGE = "MILEAGE";
+    private static final String FUELTYPE = "FUELTYPE";
+    private static final String OPERABLE = "OPERABLE";
+    private static final String RENTPRICE = "RENTPRICE";
+    private static final String DRIVER_ID = "DRIVER_ID";
+    private static final String STANDING_PLACES_NUMBER = "STANDING_PLACES_NUMBER";
+    private static final String PASSENGER_SEATS_NUMBER = "PASSENGER_SEATS_NUMBER";
+    private static final String DOORS_NUMBER = "DOORS_NUMBER";
+    private static final String CONDITIONER = "CONDITIONER";
+    private static final String MAX_PAYLOAD = "MAX_PAYLOAD";
+    private static final String ENCLOSED = "ENCLOSED";
+    private static final String TIPPER = "TIPPER";
+    private static final String CAR = "Car";
+    private static final String BUS = "Bus";
+    private static final String TRUCK = "Truck";
 
     public VehicleDao(ConnectionPool.ProxyConnection connection) {
         super(connection);
@@ -22,59 +45,82 @@ public class VehicleDao extends AbstractDao<Integer, Vehicle> implements com.epa
 
     @Override
     public String getCreateQuery() {
-        return "INSERT INTO VEHICLE(VEHICLETYPE, MODEL, MANUFACTURER, PRODUCTIONYEAR, COLOR, MILEAGE, FUELTYPE, OPERABLE, RENTPRICE, DRIVERID, STANDING_PLACES_NUMBER, PASSENGER_SEATS_NUMBER, DOORS_NUMBER, CONDITIONER, MAX_PAYLOAD, ENCLOSED, TIPPER) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        return "INSERT INTO " + VEHICLE + "(" + VEHICLETYPE + ", " + MODEL_ID + ", " + MANUFACTURER_ID + ", " + PRODUCTIONYEAR + ", " + COLOR_ID + ", " + MILEAGE + ", " + FUELTYPE + ", " + OPERABLE + ", " + RENTPRICE + ", " + DRIVER_ID + ", " + STANDING_PLACES_NUMBER + ", " + PASSENGER_SEATS_NUMBER + ", " + DOORS_NUMBER + ", " + CONDITIONER + ", " + MAX_PAYLOAD + ", " + ENCLOSED + ", " + TIPPER + ") VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     }
 
     @Override
     public String getReadQuery() {
-        return "SELECT * FROM VEHICLE";
+        return "SELECT * FROM " + VEHICLE;
     }
 
     @Override
     public String getUpdateQuery() {
-        return "UPDATE VEHICLE SET VEHICLETYPE = ?, MODEL = ?, MANUFACTURER = ?, PRODUCTIONYEAR = ?, COLOR = ?, MILEAGE = ?, FUELTYPE = ?, OPERABLE = ?, RENTPRICE = ?, DRIVERID = ?, STANDING_PLACES_NUMBER = ?, PASSENGER_SEATS_NUMBER = ?, DOORS_NUMBER = ?, CONDITIONER = ?, MAX_PAYLOAD = ?, ENCLOSED = ?, TIPPER = ? WHERE ID = ?;";
+        return "UPDATE "+VEHICLE+" SET " + VEHICLETYPE + " = ?, " + MODEL_ID + " = ?, " + MANUFACTURER_ID + " = ?, " + PRODUCTIONYEAR + " = ?, " + COLOR_ID + " = ?, " + MILEAGE + " = ?, " + FUELTYPE + " = ?, " + OPERABLE + " = ?, " + RENTPRICE + " = ?, " + DRIVER_ID + " = ?, " + STANDING_PLACES_NUMBER + " = ?, " + PASSENGER_SEATS_NUMBER + " = ?, " + DOORS_NUMBER + " = ?, " + CONDITIONER + " = ?, " + MAX_PAYLOAD + " = ?, " + ENCLOSED + " = ?, " + TIPPER + " = ? " + "WHERE "+ID+" = ?;";
     }
 
     @Override
     public String getDeleteQuery() {
-        return "DELETE FROM VEHICLE WHERE ID = ?;";
+        return "DELETE FROM "+VEHICLE+" WHERE "+ID+" = ?;";
     }
 
     @Override
     public Vehicle parseResultSetInstance(ResultSet rs) throws DaoException {
         Vehicle vehicle = null;
         try {
-                String vehicleType = rs.getString("VEHICLETYPE");
-                if ("BUS".equals(vehicleType.toUpperCase())) {
-                    vehicle = new Bus()
-                            .setPassengerSeatsNumber(rs.getInt("PASSENGER_SEATS_NUMBER"))
-                            .setStandingPlacesNumber(rs.getInt("STANDING_PLACES_NUMBER"))
-                            .setDoorsNumber(rs.getInt("DOORS_NUMBER"));
-                }
-                if ("CAR".equals(vehicleType.toUpperCase())) {
-                    vehicle = new Car()
-                            .setPassengerSeatsNumber(rs.getInt("PASSENGER_SEATS_NUMBER"))
-                            .setDoorsNumber(rs.getInt("DOORS_NUMBER"))
-                            .setWithConditioner(rs.getBoolean("CONDITIONER"));
-                }
-                if ("TRUCK".equals(vehicleType.toUpperCase())) {
-                    vehicle = new Truck()
-                            .setMaxPayload(rs.getBigDecimal("MAX_PAYLOAD"))
-                            .setEnclosed(rs.getBoolean("ENCLOSED"))
-                            .setTipper(rs.getBoolean("TIPPER"));
-                }
-                if (vehicle != null) {
-                    vehicle.setId(rs.getInt("ID"));
-                }
-                vehicle.setModel(rs.getString("MODEL"));
-                vehicle.setManufacturer(rs.getString("MANUFACTURER"));
-                vehicle.setProductionYear(rs.getInt("PRODUCTIONYEAR"));
-                vehicle.setColor(rs.getString("COLOR"));
-                vehicle.setMileage(rs.getBigDecimal("MILEAGE"));
-                vehicle.setFuelType(Vehicle.Fuel.valueOf(rs.getString("FUELTYPE")));
-                vehicle.setOperable(rs.getBoolean("OPERABLE"));
-                vehicle.setRentPrice(rs.getBigDecimal("RENTPRICE"));
-                vehicle.setDriverId(rs.getInt("DRIVERID"));
+            String vehicleType = rs.getString(VEHICLETYPE);
+            if ("BUS".equals(vehicleType.toUpperCase())) {
+                java.lang.Integer passN = rs.getInt(PASSENGER_SEATS_NUMBER);
+                java.lang.Integer standN = rs.getInt(STANDING_PLACES_NUMBER);
+                java.lang.Integer doorsN = rs.getInt(DOORS_NUMBER);
+                vehicle = new Bus()
+                        .setPassengerSeatsNumber(passN)
+                        .setStandingPlacesNumber(standN)
+                        .setDoorsNumber(doorsN);
+            }
+            if ("CAR".equals(vehicleType.toUpperCase())) {
+                java.lang.Integer passN = rs.getInt(PASSENGER_SEATS_NUMBER);
+                java.lang.Integer doorsN = rs.getInt(DOORS_NUMBER);
+                Boolean withConditioner = rs.getBoolean(CONDITIONER);
+                vehicle = new Car()
+                        .setPassengerSeatsNumber(passN)
+                        .setDoorsNumber(doorsN)
+                        .setWithConditioner(withConditioner);
+            }
+            if ("TRUCK".equals(vehicleType.toUpperCase())) {
+                BigDecimal payload = rs.getBigDecimal(MAX_PAYLOAD);
+                Boolean enclosed = rs.getBoolean(ENCLOSED);
+                Boolean tipper = rs.getBoolean(TIPPER);
+                vehicle = new Truck()
+                        .setMaxPayload(payload)
+                        .setEnclosed(enclosed)
+                        .setTipper(tipper);
+            }
+            if (vehicle != null) {
+                java.lang.Integer id = rs.getInt(ID);
+                vehicle.setId(id);
+            }
+
+            Integer modelId = rs.getInt(MODEL_ID);
+            Integer manufacturerId = rs.getInt(MANUFACTURER_ID);
+            Integer colorId = rs.getInt(COLOR_ID);
+            Integer prodYear = rs.getInt(PRODUCTIONYEAR);
+            BigDecimal mileage = rs.getBigDecimal(MILEAGE);
+            Vehicle.Fuel fuel = Vehicle.Fuel.valueOf(rs.getString(FUELTYPE));
+            Boolean operable = rs.getBoolean(OPERABLE);
+            BigDecimal rent = rs.getBigDecimal(RENTPRICE);
+            Integer driverId = rs.getInt(DRIVER_ID);
+
+            if (vehicle != null) {
+                vehicle.setModelId(modelId);
+                vehicle.setManufacturerId(manufacturerId);
+                vehicle.setColorId(colorId);
+                vehicle.setProductionYear(prodYear);
+                vehicle.setMileage(mileage);
+                vehicle.setFuelType(fuel);
+                vehicle.setOperable(operable);
+                vehicle.setRentPrice(rent);
+                vehicle.setDriverId(driverId);
+            }
         } catch (Exception e) {
             LOGGER.error("Parsing resultSet to vehicle error");
             throw new DaoException("Parsing resultSet to vehicle error", e);
@@ -98,10 +144,10 @@ public class VehicleDao extends AbstractDao<Integer, Vehicle> implements com.epa
     public void prepareStatementForInsert(PreparedStatement ps, Vehicle vehicle) throws DaoException {
         try {
             ps.setString(1, vehicle.getClass().getSimpleName());
-            ps.setString(2, vehicle.getModel());
-            ps.setString(3, vehicle.getManufacturer());
+            ps.setString(2, String.valueOf(vehicle.getModelId()));
+            ps.setString(3, String.valueOf(vehicle.getManufacturerId()));
             ps.setString(4, String.valueOf(vehicle.getProductionYear()));
-            ps.setString(5, vehicle.getColor());
+            ps.setString(5, String.valueOf(vehicle.getColorId()));
             ps.setString(6, String.valueOf(vehicle.getMileage()));
             ps.setString(7, String.valueOf(vehicle.getFuelType()));
             ps.setString(8, String.valueOf(vehicle.isOperable()));
@@ -151,9 +197,9 @@ public class VehicleDao extends AbstractDao<Integer, Vehicle> implements com.epa
     }
 
     @Override
-    public Vehicle getByDriverId(Integer driverId) throws DaoException {
+    public Vehicle getByDriverId(java.lang.Integer driverId) throws DaoException {
         StringBuilder query = new StringBuilder();
-        query.append(getReadQuery()).append(" WHERE DRIVERID = ?;");
+        query.append(getReadQuery()).append(" WHERE "+DRIVER_ID+" = ?;");
         PreparedStatement ps;
         Vehicle result;
         try {
