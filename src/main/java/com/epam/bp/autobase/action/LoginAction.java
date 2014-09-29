@@ -17,9 +17,9 @@ import java.util.ResourceBundle;
 
 public class LoginAction implements Action {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(LoginAction.class);
-    private static final ActionResult LOGIN_ADMIN = new ActionResult("main-admin",true);
-    private static final ActionResult LOGIN_CLIENT = new ActionResult("main-client",true);
-    private static final ActionResult LOGIN_DRIVER = new ActionResult("main-driver",true);
+    private static final ActionResult LOGIN_ADMIN = new ActionResult("main-admin");
+    private static final ActionResult LOGIN_CLIENT = new ActionResult("main-client");
+    private static final ActionResult LOGIN_DRIVER = new ActionResult("main-driver");
     private static final ActionResult LOGIN_FALSE = new ActionResult("main");
     private static final String RB_NAME = "i18n.text";
     private static final String LOCALE = "locale";

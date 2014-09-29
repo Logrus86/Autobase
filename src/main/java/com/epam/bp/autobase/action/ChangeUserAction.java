@@ -17,9 +17,9 @@ import java.util.ResourceBundle;
 
 public class ChangeUserAction implements Action {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ChangeUserAction.class);
-    private static final ActionResult CABINET_USER = new ActionResult("cabinet",true);
-    private static final ActionResult CABINET_DRIVER = new ActionResult("main-driver",true);
-    private static final ActionResult MAIN_ADMIN = new ActionResult("main", true);
+    private static final ActionResult CABINET_USER = new ActionResult("cabinet");
+    private static final ActionResult CABINET_DRIVER = new ActionResult("main-driver");
+    private static final ActionResult MAIN_ADMIN = new ActionResult("main-admin");
     private static final String RB_NAME = "i18n.text";
     private static final String LOCALE = "locale";
     private static String error_busy_username;

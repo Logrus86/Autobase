@@ -14,13 +14,13 @@ import java.util.ResourceBundle;
 
 public class CreateEntityAction implements Action {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CreateEntityAction.class);
-    private static final ActionResult BUS_PAGE = new ActionResult("admin-buses", true);
-    private static final ActionResult CAR_PAGE = new ActionResult("admin-cars", true);
-    private static final ActionResult TRUCK_PAGE = new ActionResult("admin-trucks", true);
-    private static final ActionResult USER_PAGE = new ActionResult("admin-users", true);
-    private static final ActionResult COLOR_PAGE = new ActionResult("admin-colors", true);
-    private static final ActionResult MODEL_PAGE = new ActionResult("admin-models", true);
-    private static final ActionResult MANUFACTURER_PAGE = new ActionResult("admin-manufacturers", true);
+    private static final ActionResult BUS_PAGE = new ActionResult("admin-buses");
+    private static final ActionResult CAR_PAGE = new ActionResult("admin-cars");
+    private static final ActionResult TRUCK_PAGE = new ActionResult("admin-trucks");
+    private static final ActionResult USER_PAGE = new ActionResult("admin-users");
+    private static final ActionResult COLOR_PAGE = new ActionResult("admin-colors");
+    private static final ActionResult MODEL_PAGE = new ActionResult("admin-models");
+    private static final ActionResult MANUFACTURER_PAGE = new ActionResult("admin-manufacturers");
     private static final String RB_NAME = "i18n.text";
     private static final String LOCALE = "locale";
     private static String color_busy;

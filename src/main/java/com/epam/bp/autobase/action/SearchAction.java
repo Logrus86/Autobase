@@ -12,10 +12,10 @@ import java.util.*;
 
 public class SearchAction implements Action {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SearchAction.class);
-    private static final ActionResult FIND_LOGINED = new ActionResult("search-result",true);
-    private static final ActionResult FIND_GUEST = new ActionResult("search-result-guest",true);
-    private static final ActionResult ERR_LOGINED = new ActionResult("main-client",true);
-    private static final ActionResult ERR_GUEST = new ActionResult("main",true);
+    private static final ActionResult FIND_LOGINED = new ActionResult("search-result");
+    private static final ActionResult FIND_GUEST = new ActionResult("search-result-guest");
+    private static final ActionResult ERR_LOGINED = new ActionResult("main-client");
+    private static final ActionResult ERR_GUEST = new ActionResult("main");
     private static final String RB_NAME = "i18n.text";
     private static final String LOCALE = "locale";
 

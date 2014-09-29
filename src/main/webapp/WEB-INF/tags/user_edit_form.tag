@@ -75,9 +75,9 @@
                             <span class="input-group-addon"><fmt:message key="default.balance"/></span>
                             <input readonly type="number" class="form-control" name="balance" value="${user.balance}">
                             <span class="input-group-addon"><fmt:message key="default.currency"/></span>
-                                <span class="input-group-btn">
+                                <%--<span class="input-group-btn">
                                     <button class="btn btn-default" type="button"><fmt:message key="default.do-add-funds"/></button>
-                                </span>
+                                </span>--%>
                         </div>
                     </div>
                 </div>

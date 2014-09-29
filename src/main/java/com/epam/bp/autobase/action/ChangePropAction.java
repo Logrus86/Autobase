@@ -17,9 +17,9 @@ import java.util.ResourceBundle;
 
 public class ChangePropAction implements Action {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ChangePropAction.class);
-    private static final ActionResult ADMIN_COLORS = new ActionResult("admin-colors", true);
-    private static final ActionResult ADMIN_MANUFACTORS = new ActionResult("admin-manufacturers", true);
-    private static final ActionResult ADMIN_MODELS = new ActionResult("admin-models", true);
+    private static final ActionResult ADMIN_COLORS = new ActionResult("admin-colors");
+    private static final ActionResult ADMIN_MANUFACTORS = new ActionResult("admin-manufacturers");
+    private static final ActionResult ADMIN_MODELS = new ActionResult("admin-models");
     private static final String RB_NAME = "i18n.text";
     private static final String LOCALE = "locale";
     private static String color_busy;
