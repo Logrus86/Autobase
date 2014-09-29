@@ -1,8 +1,13 @@
-package com.epam.bp.autobase.entity;
+package com.epam.bp.autobase.entity.builder;
+
+import com.epam.bp.autobase.entity.Autobase;
+import com.epam.bp.autobase.entity.Car;
+import com.epam.bp.autobase.entity.Vehicle;
 
 import java.math.BigDecimal;
 
 public class BusBuilderRandom extends BusBuider {
+    private Autobase autobase = Autobase.getInstance();
     @Override
     public void buildPassengerSeatsNumber() {
         bus.setPassengerSeatsNumber(VehicleFactory.minMaxRandom(20, 40));
@@ -30,17 +35,17 @@ public class BusBuilderRandom extends BusBuider {
 
     @Override
     public void buildModel() {
-  //      bus.setModel(vhModels[VehicleFactory.minMaxRandom(0, vhModels.length - 1)]);
+        bus.setModelId(VehicleFactory.minMaxRandom(0, autobase.getModelList().size() - 1));
     }
 
     @Override
     public void buildManufacturer() {
-    //    bus.setManufacturer(vhManufacturers[VehicleFactory.minMaxRandom(0, vhManufacturers.length - 1)]);
+        bus.setManufacturerId(VehicleFactory.minMaxRandom(0, autobase.getManufacturerList().size() - 1));
     }
 
     @Override
     public void buildDriver() {
-//        bus.setDriver(DriversBase.getDriverById(VehicleFactory.minMaxRandom(0, DriversBase.getDriversBase().size() - 1)));
+        bus.setDriverId(VehicleFactory.minMaxRandom(0, autobase.getDriverList().size() - 1));
     }
 
     @Override
@@ -50,7 +55,7 @@ public class BusBuilderRandom extends BusBuider {
 
     @Override
     public void buildColor() {
-  //      bus.setColor(vhColors[VehicleFactory.minMaxRandom(0, vhColors.length - 1)]);
+        bus.setColorId(VehicleFactory.minMaxRandom(0, autobase.getColorList().size() - 1));
     }
 
     @Override

@@ -1,4 +1,7 @@
-package com.epam.bp.autobase.entity;
+package com.epam.bp.autobase.entity.builder;
+
+import com.epam.bp.autobase.entity.Car;
+import com.epam.bp.autobase.entity.Vehicle;
 
 import java.math.BigDecimal;
 

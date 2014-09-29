@@ -1,4 +1,4 @@
-package com.epam.bp.autobase.entity.props;
+package com.epam.bp.autobase.entity;
 
 import com.epam.bp.autobase.dao.Identifiable;
 
@@ -19,7 +19,8 @@ public class Manufacturer implements Identifiable<Integer> {
         return value;
     }
 
-    public void setValue(String value) {
+    public Manufacturer setValue(String value) {
         this.value = value;
+        return this;
     }
 }

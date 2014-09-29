@@ -14,10 +14,10 @@ public abstract class Vehicle implements Cloneable, Comparable<Vehicle>, Identif
     };
     private Integer id;
     private BigDecimal rentPrice;
-    private String model;
-    private String manufacturer;
+    private Integer colorId;
+    private Integer modelId;
+    private Integer manufacturerId;
     private int productionYear;
-    private String color;
     private BigDecimal mileage;
     private Fuel fuelType;
     private boolean operable;
@@ -29,11 +29,11 @@ public abstract class Vehicle implements Cloneable, Comparable<Vehicle>, Identif
     }
 
     @Override
-    public Integer getId() {
+    public java.lang.Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(java.lang.Integer id) {
         this.id = id;
     }
 
@@ -45,12 +45,12 @@ public abstract class Vehicle implements Cloneable, Comparable<Vehicle>, Identif
         this.productionYear = productionYear;
     }
 
-    public String getColor() {
-        return color;
+    public Integer getColorId() {
+        return colorId;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setColorId(Integer colorId) {
+        this.colorId = colorId;
     }
 
     public BigDecimal getMileage() {
@@ -85,20 +85,20 @@ public abstract class Vehicle implements Cloneable, Comparable<Vehicle>, Identif
         this.operable = operable;
     }
 
-    public String getModel() {
-        return model;
+    public Integer getModelId() {
+        return modelId;
     }
 
-    public void setModel(String model) {
-        this.model = model;
+    public void setModelId(Integer modelId) {
+        this.modelId = modelId;
     }
 
-    public String getManufacturer() {
-        return manufacturer;
+    public Integer getManufacturerId() {
+        return manufacturerId;
     }
 
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
+    public void setManufacturerId(Integer manufacturerId) {
+        this.manufacturerId = manufacturerId;
     }
 
     public Integer getDriverId() {
@@ -108,6 +108,27 @@ public abstract class Vehicle implements Cloneable, Comparable<Vehicle>, Identif
     public boolean setDriverId (Integer driverId) {
         this.driverId = driverId;
         return true;
+    }
+
+    public Model getModel() {
+        Model result;
+        Autobase autobase = Autobase.getInstance();
+        result = autobase.getModelById(modelId);
+        return result;
+    }
+
+    public Manufacturer getManufacturer() {
+        Manufacturer result;
+        Autobase autobase = Autobase.getInstance();
+        result = autobase.getManufacturerById(manufacturerId);
+        return result;
+    }
+
+    public Color getColor() {
+        Color result;
+        Autobase autobase = Autobase.getInstance();
+        result = autobase.getColorById(colorId);
+        return result;
     }
 
     @Override

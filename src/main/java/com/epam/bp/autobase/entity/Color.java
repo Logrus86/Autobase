@@ -1,4 +1,4 @@
-package com.epam.bp.autobase.entity.props;
+package com.epam.bp.autobase.entity;
 
 import com.epam.bp.autobase.dao.Identifiable;
 
@@ -7,12 +7,14 @@ public class Color implements Identifiable<Integer> {
     private String valueRu;
     private Integer id;
 
-    public void setValueEn(String valueEn) {
+    public Color setValueEn(String valueEn) {
         this.valueEn = valueEn;
+        return this;
     }
 
-    public void setValueRu(String valueRu) {
+    public Color setValueRu(String valueRu) {
         this.valueRu = valueRu;
+        return this;
     }
 
     public String getValueEn() {

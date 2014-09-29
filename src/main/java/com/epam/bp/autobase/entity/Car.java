@@ -34,32 +34,6 @@ public class Car extends Vehicle {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder()
-                .append("Car {PassSeatsNumber: ")
-                .append(getPassengerSeatsNumber())
-                .append(", doorsNumber: ")
-                .append(getDoorsNumber())
-                .append(", conditioner: ")
-                .append(isWithConditioner())
-                .append(", rentPrice: ")
-                .append(getRentPrice())
-                .append(", operable: ")
-                .append(isOperable())
-                .append(", model: ")
-                .append(getModel())
-                .append(", manufact: ")
-                .append(getManufacturer())
-                .append(", driver: ")
-                .append(getDriverId())
-                .append(", prodYear: ")
-                .append(getProductionYear())
-                .append(", color: ")
-                .append(getColor())
-                .append(", mileage: ")
-                .append(getMileage())
-                .append(", fuelType: ")
-                .append(getFuelType())
-                .append("}");
-        return result.toString();
+        return "Car {PassSeatsNumber: " + getPassengerSeatsNumber() + ", doorsNumber: " + getDoorsNumber() + ", conditioner: " + isWithConditioner() + ", rentPrice: " + getRentPrice() + ", operable: " + isOperable() + ", modelId: " + getModelId() + ", manufactId: " + getManufacturerId() + ", driver: " + getDriverId() + ", prodYear: " + getProductionYear() + ", colorId: " + getColorId() + ", mileage: " + getMileage() + ", fuelType: " + getFuelType() + "}";
     }
 }

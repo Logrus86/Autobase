@@ -1,4 +1,6 @@
-package com.epam.bp.autobase.entity;
+package com.epam.bp.autobase.entity.builder;
+
+import com.epam.bp.autobase.entity.Vehicle;
 
 import java.util.Random;
 
@@ -22,7 +24,7 @@ public class VehicleFactory {
         switch (x) {
             case 0: {
                 BusBuilderRandom bbr = new BusBuilderRandom();
-                bbr.createNewBusProduct();
+                BusBuider.createNewBusProduct();
                 bbr.buildPassengerSeatsNumber();
                 bbr.buildStandingPlacesNumber();
                 bbr.buildDoorsNumber();

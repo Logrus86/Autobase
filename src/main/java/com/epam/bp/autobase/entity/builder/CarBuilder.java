@@ -1,4 +1,6 @@
-package com.epam.bp.autobase.entity;
+package com.epam.bp.autobase.entity.builder;
+
+import com.epam.bp.autobase.entity.Car;
 
 public abstract class CarBuilder extends VehicleBuilder {
     protected Car car;

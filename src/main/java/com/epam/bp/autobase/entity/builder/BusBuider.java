@@ -1,14 +1,16 @@
-package com.epam.bp.autobase.entity;
+package com.epam.bp.autobase.entity.builder;
+
+import com.epam.bp.autobase.entity.Bus;
 
 public abstract class BusBuider extends VehicleBuilder {
-    protected Bus bus;
+    protected static Bus bus;
 
     public Bus getBus() {
         return bus;
     }
 
-    public void createNewBusProduct() {
-        bus = new Bus();
+    public static Bus createNewBusProduct() {
+        return bus;
     }
 
     public abstract void buildPassengerSeatsNumber();

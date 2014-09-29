@@ -22,16 +22,18 @@ public class User implements Identifiable<Integer> {
         return firstname;
     }
 
-    public void setFirstname(String firstname) {
+    public User setFirstname(String firstname) {
         this.firstname = firstname;
+        return this;
     }
 
     public String getLastname() {
         return lastname;
     }
 
-    public void setLastname(String lastname) {
+    public User setLastname(String lastname) {
         this.lastname = lastname;
+        return this;
     }
 
     public String getDob() {
@@ -39,21 +41,23 @@ public class User implements Identifiable<Integer> {
         return sdf.format(dob);
     }
 
-    public void setDob(String dob) {
+    public User setDob(String dob) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             this.dob = sdf.parse(dob);
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        return this;
     }
 
     public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(BigDecimal balance) {
+    public User setBalance(BigDecimal balance) {
         this.balance = balance;
+        return this;
     }
 
     public void setId(Integer id) {
@@ -64,57 +68,41 @@ public class User implements Identifiable<Integer> {
         return username;
     }
 
-    public void setUsername(String username) {
+    public User setUsername(String username) {
         this.username = username;
+        return this;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public User setPassword(String password) {
         this.password = password;
+        return this;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public User setEmail(String email) {
         this.email = email;
+        return this;
     }
 
     public Role getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public User setRole(Role role) {
         this.role = role;
+        return this;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder()
-                .append("User {ID: ")
-                .append(id)
-                .append(", firstname: ")
-                .append(firstname)
-                .append(", lastname: ")
-                .append(lastname)
-                .append(", dob: ")
-                .append(getDob())
-                .append(", username: ")
-                .append(username)
-                .append(", password: ")
-                .append(password)
-                .append(", email: ")
-                .append(email)
-                .append(", role: ")
-                .append(role)
-                .append(", balance: ")
-                .append(balance)
-                .append("}");
-        return sb.toString();
+        return "User {ID: " + id + ", firstname: " + firstname + ", lastname: " + lastname + ", dob: " + getDob() + ", username: " + username + ", password: " + password + ", email: " + email + ", role: " + role + ", balance: " + balance + "}";
     }
 
     @Override
