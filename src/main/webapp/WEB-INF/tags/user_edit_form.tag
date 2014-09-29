@@ -2,7 +2,6 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<fmt:bundle basename="i18n.text">
 <form id="user-form" method="post" action="change_user">
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -88,4 +87,3 @@
         </div>
     </div>
 </form>
-</fmt:bundle>
