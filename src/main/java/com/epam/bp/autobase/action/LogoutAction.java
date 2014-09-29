@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 
 public class LogoutAction implements Action {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(LogoutAction.class);
-    private static final ActionResult MAIN = new ActionResult("main");
+    private static final ActionResult MAIN = new ActionResult("main",true);
     private static final String ATTR_USER = "user";
 
     public LogoutAction() {

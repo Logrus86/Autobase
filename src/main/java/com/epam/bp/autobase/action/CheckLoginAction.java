@@ -14,13 +14,19 @@ public class CheckLoginAction implements Action {
     private static final ActionResult LOGIN_FALSE = new ActionResult("main");
     private static final String LOGIN_ERROR = "errormsg";
     private static final String SEARCH_ERROR = "search_error";
+    private static final String CREATE_ERROR = "create_error";
     private static final String USER = "user";
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
         HttpSession session = request.getSession();
-        session.setAttribute(LOGIN_ERROR, "");
-        session.setAttribute(SEARCH_ERROR, "");
+        session.removeAttribute(LOGIN_ERROR);
+        session.removeAttribute(SEARCH_ERROR);
+        session.removeAttribute(CREATE_ERROR);
+
+
+        session.setAttribute("fmtlocale", request.getLocale());
+
         if (session.getAttribute(USER) == null) {
             LOGGER.info("User not logined, going to main page");
             return LOGIN_FALSE;

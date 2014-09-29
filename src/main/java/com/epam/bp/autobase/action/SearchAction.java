@@ -8,28 +8,29 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class SearchAction implements Action {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SearchAction.class);
-    private static final ActionResult FIND_LOGINED = new ActionResult("search-result");
-    private static final ActionResult FIND_GUEST = new ActionResult("search-result-guest");
-    private static final ActionResult ERR_LOGINED = new ActionResult("main-client");
-    private static final ActionResult ERR_GUEST = new ActionResult("main");
-    private static final String ERROR_NOTHING_CHECKED = ResourceBundle.getBundle("i18n.text").getString("error.nothing-checked");
+    private static final ActionResult FIND_LOGINED = new ActionResult("search-result",true);
+    private static final ActionResult FIND_GUEST = new ActionResult("search-result-guest",true);
+    private static final ActionResult ERR_LOGINED = new ActionResult("main-client",true);
+    private static final ActionResult ERR_GUEST = new ActionResult("main",true);
+    private static final String RB_NAME = "i18n.text";
+    private static final String LOCALE = "locale";
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
         HttpSession session = request.getSession();
-
+        Locale locale = (Locale) session.getAttribute(LOCALE);
+        ResourceBundle RB = ResourceBundle.getBundle(RB_NAME, locale);
+        String error_nothing_checked = RB.getString("error.nothing-checked");
+        RegisterAction.clearRegData(session);
         //check inputs
         String error = Validator.validateRequestParametersMap(request);
         if (!error.isEmpty()) {
             session.setAttribute("search_error", error);
-            session.setAttribute("vehicleList", null);
+            session.setAttribute("foundedList", null);
             if (session.getAttribute("user") == null) return ERR_GUEST;
             return ERR_LOGINED;
         }
@@ -39,10 +40,10 @@ public class SearchAction implements Action {
             VehicleDao vehicleDao = DaoFactory.getInstance().getDaoManager().getVehicleDao();
             Map<String, String> params = new HashMap<>();
             // filling papameters map for vehicle search according to entered data from search form
-            if ("on".equals(request.getParameter("isMODEL"))) params.put("MODEL", request.getParameter("MODEL"));
+            if ("on".equals(request.getParameter("isMODEL"))) params.put("MODEL_ID", request.getParameter("MODEL_ID"));
             if ("on".equals(request.getParameter("isMANUFACTURER")))
-                params.put("MANUFACTURER", request.getParameter("MANUFACTURER"));
-            if ("on".equals(request.getParameter("isCOLOR"))) params.put("COLOR", request.getParameter("COLOR"));
+                params.put("MANUFACTURER_ID", request.getParameter("MANUFACTURER_ID"));
+            if ("on".equals(request.getParameter("isCOLOR"))) params.put("COLOR_ID", request.getParameter("COLOR_ID"));
             if ("on".equals(request.getParameter("isFUELTYPE")))
                 params.put("FUELTYPE", request.getParameter("FUELTYPE"));
             if ("on".equals(request.getParameter("isSTANDING_PLACES_NUMBER")))
@@ -69,8 +70,8 @@ public class SearchAction implements Action {
 
                 }
                 LOGGER.info("Nothing was checked.");
-                session.setAttribute("search_error", ERROR_NOTHING_CHECKED);
-                session.setAttribute("vehicleList", null);
+                session.setAttribute("search_error", error_nothing_checked);
+                session.setAttribute("foundedList", null);
                 if (session.getAttribute("user") == null) return ERR_GUEST;
                 return ERR_LOGINED;
             }
@@ -94,13 +95,13 @@ public class SearchAction implements Action {
                 LOGGER.info("Vehicles wasn't found.");
                 session.setAttribute("search_result", "Nothing was found.");
                 session.setAttribute("search_error", "");
-                session.setAttribute("vehicleList", null);
+                session.setAttribute("foundedList", null);
                 if (session.getAttribute("user") == null) return FIND_GUEST;
                 return FIND_LOGINED;
             }
             //vehicle was found, all is ok
             LOGGER.info("Vehicle was found.");
-            session.setAttribute("vehicleList", vehicles);
+            session.setAttribute("foundedList", vehicles);
             session.setAttribute("search_error", "");
             session.setAttribute("search_result", "Found:");
         } catch (Exception e) {

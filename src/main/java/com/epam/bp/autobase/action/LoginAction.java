@@ -12,15 +12,18 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class LoginAction implements Action {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(LoginAction.class);
-    private static final ActionResult LOGIN_ADMIN = new ActionResult("main-admin");
-    private static final ActionResult LOGIN_CLIENT = new ActionResult("main-client");
-    private static final ActionResult LOGIN_DRIVER = new ActionResult("main-driver");
+    private static final ActionResult LOGIN_ADMIN = new ActionResult("main-admin",true);
+    private static final ActionResult LOGIN_CLIENT = new ActionResult("main-client",true);
+    private static final ActionResult LOGIN_DRIVER = new ActionResult("main-driver",true);
     private static final ActionResult LOGIN_FALSE = new ActionResult("main");
-    private static final String LOGIN_ERR_MSG = ResourceBundle.getBundle("i18n.text").getString("error.login");
+    private static final String RB_NAME = "i18n.text";
+    private static final String LOCALE = "locale";
+    private static String login_err_msg;
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
     private static final String USER = "user";
@@ -33,8 +36,13 @@ public class LoginAction implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
-        //validate inputs
         HttpSession session = request.getSession();
+        Locale locale = (Locale) session.getAttribute(LOCALE);
+        ResourceBundle RB = ResourceBundle.getBundle(RB_NAME, locale);
+        login_err_msg = RB.getString("error.login");
+
+        RegisterAction.clearRegData(session);
+        //validate inputs
         String error = Validator.validateRequestParametersMap(request);
         if (!error.isEmpty()) {
             session.setAttribute(LOGIN_ERROR, error);
@@ -53,7 +61,7 @@ public class LoginAction implements Action {
                     // user was not found:
                     if (user == null) {
                         LOGGER.info("User '" + username + "' with password '" + password + "' wasn't found.");
-                        session.setAttribute(LOGIN_ERROR, LOGIN_ERR_MSG);
+                        session.setAttribute(LOGIN_ERROR, login_err_msg);
                         result = LOGIN_FALSE;
                         // user was found, all is ok:
                     } else {

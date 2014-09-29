@@ -11,14 +11,17 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class RegisterAction implements Action {
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(RegisterAction.class);
-    private static final ActionResult REG_SUCCESS = new ActionResult("registered");
-    private static final ActionResult REG_FAILED = new ActionResult("register");
-    private static final String ERROR_BUSY_USERNAME = ResourceBundle.getBundle("i18n.text").getString("error.busy-username");
+    private static final ActionResult REG_SUCCESS = new ActionResult("registered",true);
+    private static final ActionResult REG_FAILED = new ActionResult("main",true);
+    private static final String RB_NAME = "i18n.text";
+    private static final String LOCALE = "locale";
+    private static String error_busy_username;
     private static final String ERROR = "reg_error";
     private static final String USER = "user";
     private static final String FIRSTNAME = "firstname";
@@ -36,14 +39,16 @@ public class RegisterAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
         HttpSession session = request.getSession();
+        Locale locale = (Locale) session.getAttribute(LOCALE);
+        ResourceBundle RB = ResourceBundle.getBundle(RB_NAME, locale);
+        error_busy_username = RB.getString("error.busy-username");
         //validate inputs
         String error = Validator.validateRequestParametersMap(request);
         if (!error.isEmpty()) {
             session.setAttribute(ERROR, error);
-            forwardEnteredData(request, session);
+            forwardRegData(request, session);
             return REG_FAILED;
         }
-
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DaoManager daoManager = daoFactory.getDaoManager();
@@ -59,8 +64,8 @@ public class RegisterAction implements Action {
                     String email = request.getParameter(EMAIL);
                     // check username not busy
                     if (userDao.getUsersListByUsername(username).size() > 1) {
-                        session.setAttribute(ERROR, ERROR_BUSY_USERNAME);
-                        forwardEnteredData(request, session);
+                        session.setAttribute(ERROR, error_busy_username);
+                        forwardRegData(request, session);
                         result = REG_FAILED;
                     } //data was entered correctly and username not busy, proceed
                     else {
@@ -76,11 +81,10 @@ public class RegisterAction implements Action {
                         userDao.create(user);
                         //get user from db to get his db ID to entity
                         user = userDao.getUsersListByUsername(username).get(0);
-                        session.setAttribute(USER, user);
-                        session.setAttribute(ERROR, "");
-                        clearEnteredData(session);
+                        clearRegData(session);
                         LOGGER.info("Newly registered user: " + user.toString());
                         result = REG_SUCCESS;
+                        session.setAttribute(USER, user);
                         session.setAttribute(ENTITY_CHANGES_FLAG, "true");
                     }
                 }
@@ -94,7 +98,7 @@ public class RegisterAction implements Action {
     }
 
     //forward entered registration data if some of it was entered wrong
-    private void forwardEnteredData(HttpServletRequest request, HttpSession session) {
+    private void forwardRegData(HttpServletRequest request, HttpSession session) {
         session.setAttribute(FIRSTNAME, request.getParameter(FIRSTNAME));
         session.setAttribute(LASTNAME, request.getParameter(LASTNAME));
         session.setAttribute(DOB, request.getParameter(DOB));
@@ -102,11 +106,12 @@ public class RegisterAction implements Action {
         session.setAttribute(EMAIL, request.getParameter(EMAIL));
     }
 
-    private void clearEnteredData(HttpSession session) {
+    public static void clearRegData(HttpSession session) {
         session.removeAttribute(FIRSTNAME);
         session.removeAttribute(LASTNAME);
         session.removeAttribute(DOB);
         session.removeAttribute(USERNAME);
         session.removeAttribute(EMAIL);
+        session.removeAttribute(ERROR);
     }
 }
