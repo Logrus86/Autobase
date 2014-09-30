@@ -24,6 +24,6 @@
 
 <c:if test="${reg_error!=null}">
     <script language="javascript">
-        $('#modalRegForm').modal(show = true);
+        showModalByDefault('#modalRegForm');
     </script>
 </c:if>

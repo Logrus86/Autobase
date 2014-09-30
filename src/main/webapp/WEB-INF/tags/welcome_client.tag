@@ -5,7 +5,7 @@
 <div class="btn-group" id="userbar" align="right">
     <p>
         <fmt:message key="default.welcome"/> <a title="<fmt:message key="default.to-cabinet"/>"
-                                                href='<c:url value="/do/cabinet"/>'>${user.username}</a>!
+                                                href='<c:url value="/do/cabinet"/>'>${user.firstname}</a>!
         <fmt:message key="default.at-balance"/><%--<a title="<fmt:message key="default.to-cabinet-and-add"/>"
                                                    href='<c:url value="/do/cabinet"/>'>${user.balance}
         <fmt:message key="default.currency"/></a>--%>

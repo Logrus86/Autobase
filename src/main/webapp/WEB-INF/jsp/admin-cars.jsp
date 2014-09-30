@@ -18,6 +18,6 @@
 
 <c:if test="${create_error!=null}">
     <script language="javascript">
-        $('#modalCreateCar').modal(show = true);
+        showModalByDefault('#modalCreateCar');
     </script>
 </c:if>

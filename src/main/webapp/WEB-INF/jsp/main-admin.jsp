@@ -18,6 +18,6 @@
 
 <c:if test="${create_error!=null}">
     <script language="javascript">
-        $('#modalCreateUser').modal(show = true);
+        showModalByDefault('#modalCreateUser');
     </script>
 </c:if>
