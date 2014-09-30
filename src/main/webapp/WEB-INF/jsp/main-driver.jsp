@@ -11,7 +11,7 @@
             </t:logos>
             <div align="center">
                 <t:user_edit_form/>
-                <t:vehicle_edit_form/>
+                <t:vehicles_edit_form/>
             </div>
         </jsp:body>
     </t:generic>

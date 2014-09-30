@@ -92,15 +92,14 @@ form#search-form {
 }
 form#user-form {
     width: 400px;
-    margin: auto;
+    margin-left: 220px;
     text-align: center;
-    display: inline-block;
+    float: left;
 }
-form#vehicle-form {
+form#vehicles-form {
     width: 500px;
-    margin: auto;
+    margin-left: 400px;
     text-align: center;
-    display: inline-block;
 }
 div#error-box {
     padding-top: 50px;

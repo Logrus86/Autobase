@@ -159,6 +159,14 @@ public class Autobase {
         return result;
     }
 
+    public List<Vehicle> getVehicleListByDriver(User driver) {
+        List<Vehicle> result = new ArrayList<>();
+        for (Vehicle vehicle : vehicleList) {
+            if (vehicle.getDriverId().equals(driver.getId())) result.add(vehicle);
+        }
+        return result;
+    }
+
     public static Autobase getInstance() {
         return InstanceHolder.instance;
     }

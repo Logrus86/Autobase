@@ -4,14 +4,19 @@ import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.DaoFactory;
 import com.epam.bp.autobase.dao.H2.DaoManager;
 import com.epam.bp.autobase.entity.Autobase;
+import com.epam.bp.autobase.entity.User;
+import com.epam.bp.autobase.entity.Vehicle;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 public class EntitiesRefiller implements Filter {
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(EntitiesRefiller.class);
     private static final String ENTITY_CHANGES_FLAG = "listsChanged";
     private static final String LIST_USERS = "userList";
     private static final String LIST_CARS = "carList";
@@ -26,6 +31,7 @@ public class EntitiesRefiller implements Filter {
     private static final String MODEL = "model";
     private static final String MANUFACT = "manufacturer";
     private static final String UPDATED = "UPDATED";
+    private static final String DRIVER_VEHICLES = "driverVehicles";
     private Autobase autobase;
     private HttpSession session;
     private DaoManager daoManager;
@@ -78,21 +84,25 @@ public class EntitiesRefiller implements Filter {
     private void refillManufacturers() throws DaoException {
         autobase.setManufacturerList(daoManager.getManufacturerDao().getAll());
         session.setAttribute(LIST_MANUFS, autobase.getManufacturerList());
+        LOGGER.info("ManufacturerList was refilled.");
     }
 
     private void refillModels() throws DaoException {
         autobase.setModelList(daoManager.getModelDao().getAll());
         session.setAttribute(LIST_MODELS, autobase.getModelList());
+        LOGGER.info("ModelList was refilled.");
     }
 
     private void refillColors() throws DaoException {
         autobase.setColorList(daoManager.getColorDao().getAll());
         session.setAttribute(LIST_COLORS, autobase.getColorList());
+        LOGGER.info("ColorList was refilled.");
     }
 
     private void refillUsers() throws DaoException {
         autobase.setUserList(daoManager.getUserDao().getAll());
         session.setAttribute(LIST_USERS, autobase.getUserList());
+        LOGGER.info("UserList was refilled.");
     }
 
     private void refillVehicles() throws DaoException {
@@ -100,6 +110,13 @@ public class EntitiesRefiller implements Filter {
         session.setAttribute(LIST_CARS, autobase.getCarList());
         session.setAttribute(LIST_BUSES, autobase.getBusList());
         session.setAttribute(LIST_TRUCKS, autobase.getTruckList());
+        User user = (User) session.getAttribute(USER);
+        if ((user!=null) && (user.getRole() == User.Role.DRIVER)) {
+            //if user is driver, we must renew his vehicle(s) also:
+            List<Vehicle> driverVehicles = Autobase.getInstance().getVehicleListByDriver(user);
+            if (!driverVehicles.isEmpty()) session.setAttribute(DRIVER_VEHICLES, driverVehicles);
+        }
+        LOGGER.info("Vehicles lists were refilled.");
     }
 
     @Override

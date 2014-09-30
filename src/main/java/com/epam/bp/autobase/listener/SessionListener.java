@@ -3,6 +3,7 @@ package com.epam.bp.autobase.listener;
 import com.epam.bp.autobase.entity.Autobase;
 import com.epam.bp.autobase.entity.User;
 import com.epam.bp.autobase.entity.Vehicle;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSessionListener;
 import java.util.Locale;
 
 public class SessionListener implements HttpSessionListener {
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SessionListener.class);
     private static final String FUEL_TYPES = "fuelTypes";
     private static final String ROLES = "roles";
     private static final String LIST_USERS = "userList";
@@ -36,6 +38,7 @@ public class SessionListener implements HttpSessionListener {
         session.setAttribute(LIST_MODELS, autobase.getModelList());
         session.setAttribute(LIST_MANUFS, autobase.getManufacturerList());
         session.setAttribute(LOCALE, DEFAULT_LOCALE);
+        LOGGER.info("New session was created, saving entities lists form Autobase to attributes.");
     }
 
     @Override

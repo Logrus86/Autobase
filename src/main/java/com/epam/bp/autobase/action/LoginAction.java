@@ -4,7 +4,7 @@ import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.DaoFactory;
 import com.epam.bp.autobase.dao.H2.DaoManager;
 import com.epam.bp.autobase.dao.UserDao;
-import com.epam.bp.autobase.dao.VehicleDao;
+import com.epam.bp.autobase.entity.Autobase;
 import com.epam.bp.autobase.entity.User;
 import com.epam.bp.autobase.entity.Vehicle;
 import com.epam.bp.autobase.util.Validator;
@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -27,7 +28,7 @@ public class LoginAction implements Action {
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
     private static final String USER = "user";
-    private static final String VEHICLE = "vehicle";
+    private static final String DRIVER_VEHICLES = "driverVehicles";
     private static final String LOGIN_ERROR = "errormsg";
     private ActionResult result;
 
@@ -51,33 +52,29 @@ public class LoginAction implements Action {
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DaoManager daoManager = daoFactory.getDaoManager();
-            daoManager.transactionAndClose(new DaoManager.DaoCommand() {
-                @Override
-                public void execute(DaoManager daoManager) throws DaoException {
-                    String username = request.getParameter(USERNAME);
-                    String password = request.getParameter(PASSWORD);
-                    UserDao userDao = daoManager.getUserDao();
-                    User user = userDao.getByCredentials(username, password);
-                    // user was not found:
-                    if (user == null) {
-                        LOGGER.info("User '" + username + "' with password '" + password + "' wasn't found.");
-                        session.setAttribute(LOGIN_ERROR, login_err_msg);
-                        result = LOGIN_FALSE;
-                        // user was found, all is ok:
-                    } else {
-                        LOGGER.info("User '" + user.getUsername() + "' have logged-in");
-                        session.setAttribute(USER, user);
-                        session.setAttribute(LOGIN_ERROR, "");
-                        //check user roles
-                        if (user.getRole() == User.Role.ADMIN) result = LOGIN_ADMIN;
-                        if (user.getRole() == User.Role.CLIENT) result = LOGIN_CLIENT;
-                        if (user.getRole() == User.Role.DRIVER) {
-                            //if user is driver, we must find his vehicle also:
-                            VehicleDao vehicleDao = daoManager.getVehicleDao();
-                            Vehicle vehicle = vehicleDao.getByDriverId(user.getId());
-                            session.setAttribute(VEHICLE, vehicle);
-                            result = LOGIN_DRIVER;
-                        }
+            daoManager.transactionAndClose(daoManager1 -> {
+                String username = request.getParameter(USERNAME);
+                String password = request.getParameter(PASSWORD);
+                UserDao userDao = daoManager1.getUserDao();
+                User user = userDao.getByCredentials(username, password);
+                // user was not found:
+                if (user == null) {
+                    LOGGER.info("User '" + username + "' with password '" + password + "' wasn't found.");
+                    session.setAttribute(LOGIN_ERROR, login_err_msg);
+                    result = LOGIN_FALSE;
+                    // user was found, all is ok:
+                } else {
+                    LOGGER.info("User '" + user.getUsername() + "' have logged-in");
+                    session.setAttribute(USER, user);
+                    session.setAttribute(LOGIN_ERROR, "");
+                    //check user roles
+                    if (user.getRole() == User.Role.ADMIN) result = LOGIN_ADMIN;
+                    if (user.getRole() == User.Role.CLIENT) result = LOGIN_CLIENT;
+                    if (user.getRole() == User.Role.DRIVER) {
+                        //if user is driver, we must find his vehicle(s) also:
+                        List<Vehicle> driverVehicles = Autobase.getInstance().getVehicleListByDriver(user);
+                        if (!driverVehicles.isEmpty()) session.setAttribute(DRIVER_VEHICLES, driverVehicles);
+                        result = LOGIN_DRIVER;
                     }
                 }
             });

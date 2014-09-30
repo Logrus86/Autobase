@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 
 public class ChangeVehicleAction implements Action {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ChangeVehicleAction.class);
-    private static final ActionResult MAIN_DRIVER = new ActionResult("main-driver");
+    private static final ActionResult MAIN_DRIVER = new ActionResult("main-driver",true);
     private static final ActionResult ADMIN_CARS = new ActionResult("admin-cars");
     private static final ActionResult ADMIN_BUSES = new ActionResult("admin-buses");
     private static final ActionResult ADMIN_TRUCKS = new ActionResult("admin-trucks");
@@ -94,13 +94,18 @@ public class ChangeVehicleAction implements Action {
                     vehicle.setRentPrice(rentPrice);
                     vehicle.setDriverId(driverId);
                 }
-                Boolean operable = ON.equals(request.getParameter(OPERABLE));
-                Integer colorId = (Integer.valueOf(request.getParameter(COLOR_ID)));
-                Integer modelId = Integer.valueOf(request.getParameter(MODEL_ID));
-                Integer manufacturerId = Integer.valueOf(request.getParameter(MANUFACTURER_ID));
-                Vehicle.Fuel fuel = Vehicle.Fuel.valueOf(request.getParameter(FUELTYPE));
-                BigDecimal mileage = new BigDecimal(request.getParameter(MILEAGE));
-                Integer prodYear = Integer.parseInt(request.getParameter(PRODUCTIONYEAR));
+                String idString = "";
+                if (user.getRole().equals(User.Role.DRIVER)) {
+                    idString = request.getParameter("vehicleId");
+                    vehicle = vehicleDao.getById(Integer.valueOf(idString));
+                }
+                Boolean operable = ON.equals(request.getParameter(OPERABLE+idString));
+                Integer colorId = (Integer.valueOf(request.getParameter(COLOR_ID+idString)));
+                Integer modelId = Integer.valueOf(request.getParameter(MODEL_ID+idString));
+                Integer manufacturerId = Integer.valueOf(request.getParameter(MANUFACTURER_ID+idString));
+                Vehicle.Fuel fuel = Vehicle.Fuel.valueOf(request.getParameter(FUELTYPE+idString));
+                BigDecimal mileage = new BigDecimal(request.getParameter(MILEAGE+idString));
+                Integer prodYear = Integer.parseInt(request.getParameter(PRODUCTIONYEAR+idString));
                 Integer passSeatsNum = null;
                 Integer doorsNum = null;
                 Integer standPlacesNum = null;
@@ -109,19 +114,19 @@ public class ChangeVehicleAction implements Action {
                 Boolean enclosed = null;
                 Boolean tipper = null;
                 if (BUS.equals(vehicle.getVehicleType())) {
-                    passSeatsNum = Integer.parseInt(request.getParameter(PASS_SEATS_NUM));
-                    doorsNum = Integer.parseInt(request.getParameter(DOORS_NUM));
-                    standPlacesNum = Integer.parseInt(request.getParameter(STAND_PLACES_NUM));
+                    passSeatsNum = Integer.parseInt(request.getParameter(PASS_SEATS_NUM+idString));
+                    doorsNum = Integer.parseInt(request.getParameter(DOORS_NUM+idString));
+                    standPlacesNum = Integer.parseInt(request.getParameter(STAND_PLACES_NUM+idString));
                 }
                 if (CAR.equals(vehicle.getVehicleType())) {
-                    passSeatsNum = Integer.parseInt(request.getParameter(PASS_SEATS_NUM));
-                    doorsNum = Integer.parseInt(request.getParameter(DOORS_NUM));
-                    withConder = ON.equals(request.getParameter(WITH_COND));
+                    passSeatsNum = Integer.parseInt(request.getParameter(PASS_SEATS_NUM+idString));
+                    doorsNum = Integer.parseInt(request.getParameter(DOORS_NUM+idString));
+                    withConder = ON.equals(request.getParameter(WITH_COND+idString));
                 }
                 if (TRUCK.equals(vehicle.getVehicleType())) {
-                    maxPayload = new BigDecimal(request.getParameter(MAX_PAYLOAD));
-                    enclosed = ON.equals(request.getParameter(ENCLOSED));
-                    tipper = ON.equals(request.getParameter(TIPPER));
+                    maxPayload = new BigDecimal(request.getParameter(MAX_PAYLOAD+idString));
+                    enclosed = ON.equals(request.getParameter(ENCLOSED+idString));
+                    tipper = ON.equals(request.getParameter(TIPPER+idString));
                 }
                 vehicle.setOperable(operable);
                 vehicle.setModelId(modelId);
@@ -149,7 +154,6 @@ public class ChangeVehicleAction implements Action {
                     if (user.getRole().equals(User.Role.ADMIN)) result = ADMIN_TRUCKS;
                 }
                 vehicleDao.update(vehicle);
-                if (user.getRole().equals(User.Role.DRIVER)) session.setAttribute(VEHICLE, vehicle);
                 session.setAttribute(ERROR, "");
                 session.setAttribute(ENTITY_CHANGES_FLAG, VEHICLE);
             });

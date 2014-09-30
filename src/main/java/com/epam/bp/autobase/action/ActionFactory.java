@@ -16,6 +16,8 @@ public class ActionFactory {
         ACTIONS.put("GET/admin-buses", new ShowPageAction("admin-buses"));
         ACTIONS.put("GET/admin-trucks", new ShowPageAction("admin-trucks"));
         ACTIONS.put("GET/admin-users", new ShowPageAction("main-admin"));
+        ACTIONS.put("GET/main-driver", new ShowPageAction("main-driver"));
+
 
         ACTIONS.put("GET/main", new CheckLoginAction());
         ACTIONS.put("GET/search", new SearchAction());
