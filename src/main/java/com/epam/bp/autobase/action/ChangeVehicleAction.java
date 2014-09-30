@@ -13,9 +13,9 @@ import java.math.BigDecimal;
 public class ChangeVehicleAction implements Action {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ChangeVehicleAction.class);
     private static final ActionResult MAIN_DRIVER = new ActionResult("main-driver",true);
-    private static final ActionResult ADMIN_CARS = new ActionResult("admin-cars");
-    private static final ActionResult ADMIN_BUSES = new ActionResult("admin-buses");
-    private static final ActionResult ADMIN_TRUCKS = new ActionResult("admin-trucks");
+    private static final ActionResult ADMIN_CARS = new ActionResult("admin-cars", true);
+    private static final ActionResult ADMIN_BUSES = new ActionResult("admin-buses", true);
+    private static final ActionResult ADMIN_TRUCKS = new ActionResult("admin-trucks", true);
     private static final String ON = "on";
     private static final String ERROR = "vh_change_error";
     private static final String VEHICLE = "vehicle";

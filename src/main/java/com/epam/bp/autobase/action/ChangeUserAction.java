@@ -19,7 +19,7 @@ public class ChangeUserAction implements Action {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ChangeUserAction.class);
     private static final ActionResult CABINET_USER = new ActionResult("cabinet");
     private static final ActionResult CABINET_DRIVER = new ActionResult("main-driver");
-    private static final ActionResult MAIN_ADMIN = new ActionResult("main-admin");
+    private static final ActionResult MAIN_ADMIN = new ActionResult("main-admin", true);
     private static final String RB_NAME = "i18n.text";
     private static final String LOCALE = "locale";
     private static String error_busy_username;
