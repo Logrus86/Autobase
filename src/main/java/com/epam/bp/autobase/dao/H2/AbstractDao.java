@@ -105,7 +105,14 @@ public abstract class AbstractDao<PK extends Integer, T extends Identifiable<PK>
         StringBuilder query = new StringBuilder();
         query.append(getReadQuery()).append(" WHERE 1 = 1");
         for (String key : params.keySet()) {
-            query.append(" AND ").append(key.toUpperCase()).append(" = ?");
+            //there are parameters that are require additional compare operator like '>' or '<' (resulting >= or <=)
+            String compareOper = "";
+            if (VehicleDao.RENT.equals(key)) compareOper = "<";
+            if (VehicleDao.MILEAGE.equals(key)) compareOper = "<";
+            if (VehicleDao.PROD_YEAR.equals(key)) compareOper = ">";
+            if (VehicleDao.PAYLOAD.equals(key)) compareOper = ">";
+
+            query.append(" AND ").append(key.toUpperCase()).append(" ").append(compareOper).append("= ?");
         }
         query.append(";");
         PreparedStatement ps;

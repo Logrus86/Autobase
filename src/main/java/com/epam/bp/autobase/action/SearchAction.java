@@ -16,99 +16,128 @@ public class SearchAction implements Action {
     private static final ActionResult FIND_GUEST = new ActionResult("search-result-guest");
     private static final ActionResult ERR_LOGINED = new ActionResult("main-client");
     private static final ActionResult ERR_GUEST = new ActionResult("main");
+    private static final String ERR_NOTHING_CHECKED = "error.nothing-checked";
+    private static final String ERROR = "search_error";
+    private static final String FOUNDED_LIST = "foundedList";
     private static final String RB_NAME = "i18n.text";
     private static final String LOCALE = "locale";
+    private static final String USER = "user";
+    private static final String ON = "on";
+    private static final String TRUE = "TRUE";
+    private static final String MODEL_ID = "modelId";
+    private static final String MANUFACT_ID = "manufId";
+    private static final String COLOR_ID = "colorId";
+    private static final String FUEL = "fuel";
+    private static final String MILEAGE = "mileage";
+    private static final String STAND_N = "standN";
+    private static final String PASS_N_BUS = "passNbus";
+    private static final String PASS_N_CAR = "passNcar";
+    private static final String DOORS_BUS = "doorsBus";
+    private static final String DOORS_CAR = "doorsCar";
+    private static final String CONDIT = "condit";
+    private static final String ENCLOSED = "enclosed";
+    private static final String TIPPER = "tipper";
+    private static final String NOT_OLDER = "notOlder";
+    private static final String RENT = "rent";
+    private static final String PAYLOAD = "payload";
+    private static final String VH_TYPE = "vhType";
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
         HttpSession session = request.getSession();
         Locale locale = (Locale) session.getAttribute(LOCALE);
         ResourceBundle RB = ResourceBundle.getBundle(RB_NAME, locale);
-        String error_nothing_checked = RB.getString("error.nothing-checked");
+        String error_nothing_checked = RB.getString(ERR_NOTHING_CHECKED);
         RegisterAction.clearRegData(session);
         //check inputs
         String error = Validator.validateRequestParametersMap(request);
         if (!error.isEmpty()) {
-            session.setAttribute("search_error", error);
-            session.setAttribute("foundedList", null);
-            if (session.getAttribute("user") == null) return ERR_GUEST;
+            session.setAttribute(ERROR, error);
+            session.setAttribute(FOUNDED_LIST, null);
+            if (session.getAttribute(USER) == null) return ERR_GUEST;
             return ERR_LOGINED;
         }
 
         //looking for vehicle
         try {
             VehicleDao vehicleDao = DaoFactory.getInstance().getDaoManager().getVehicleDao();
-            Map<String, String> params = new HashMap<>();
-            // filling papameters map for vehicle search according to entered data from search form
-            if ("on".equals(request.getParameter("isMODEL"))) params.put("MODEL_ID", request.getParameter("MODEL_ID"));
-            if ("on".equals(request.getParameter("isMANUFACTURER")))
-                params.put("MANUFACTURER_ID", request.getParameter("MANUFACTURER_ID"));
-            if ("on".equals(request.getParameter("isCOLOR"))) params.put("COLOR_ID", request.getParameter("COLOR_ID"));
-            if ("on".equals(request.getParameter("isFUELTYPE")))
-                params.put("FUELTYPE", request.getParameter("FUELTYPE"));
-            if ("on".equals(request.getParameter("isSTANDING_PLACES_NUMBER")))
-                params.put("STANDING_PLACES_NUMBER", request.getParameter("STANDING_PLACES_NUMBER"));
-            if ("on".equals(request.getParameter("isPASSENGER_SEATS_NUMBER_BUS")))
-                params.put("PASSENGER_SEATS_NUMBER", request.getParameter("PASSENGER_SEATS_NUMBER_BUS"));
-            if ("on".equals(request.getParameter("isPASSENGER_SEATS_NUMBER_CAR")))
-                params.put("PASSENGER_SEATS_NUMBER", request.getParameter("PASSENGER_SEATS_NUMBER_CAR"));
-            if ("on".equals(request.getParameter("isDOORS_NUMBER_BUS")))
-                params.put("DOORS_NUMBER", request.getParameter("DOORS_NUMBER_BUS"));
-            if ("on".equals(request.getParameter("isDOORS_NUMBER_CAR")))
-                params.put("DOORS_NUMBER", request.getParameter("DOORS_NUMBER_CAR"));
-            if ("on".equals(request.getParameter("isCONDITIONER"))) params.put("CONDITIONER", "true");
-            if ("on".equals(request.getParameter("isMAX_PAYLOAD"))) params.put("MAX_PAYLOAD", "true");
-            if ("on".equals(request.getParameter("isENCLOSED"))) params.put("ENCLOSED", "true");
-            if ("on".equals(request.getParameter("isTIPPER"))) params.put("TIPPER", "true");
-
-            //check for input at least one field to search, if not, return to the same page with error message
-            //& !("on".equals(request.getParameter("isMILEAGE"))) & !("on".equals(request.getParameter("isNOTOLDER"))) & !("on".equals(request.getParameter("isRENTPRICE")))
-            if (params.isEmpty() ) {
-                if ("on".equals((request.getParameter("isMILEAGE")))
-                        | "on".equals(request.getParameter("isNOTOLDER"))
-                        | "on".equals(request.getParameter("isRENTPRICE"))) {
-
-                }
+            Map<String, String> params = parseRequestToMap(request);
+            if (params.isEmpty()) {
                 LOGGER.info("Nothing was checked.");
-                session.setAttribute("search_error", error_nothing_checked);
-                session.setAttribute("foundedList", null);
-                if (session.getAttribute("user") == null) return ERR_GUEST;
+                session.setAttribute(ERROR, error_nothing_checked);
+                session.setAttribute(FOUNDED_LIST, null);
+                if (session.getAttribute(USER) == null) return ERR_GUEST;
                 return ERR_LOGINED;
             }
             List<Vehicle> vehicles = vehicleDao.findByParams(params);
-            //delete not operable
-            for (Vehicle vehicle : vehicles) {
-                if (!vehicle.isOperable()) vehicles.remove(vehicle);
-            }
 
-//            if (params.isEmpty()) vehicles = h2VehicleDao.getAll();
-//            else vehicles = h2VehicleDao.findByParams(params);
-//            for (Vehicle vehicle : vehicles) { //TODO we cant delete entity form collection while iterating it
-//                if ((!vehicle.isOperable()) | ("on".equals(request.getParameter("isMILEAGE")) & vehicle.getMileage().compareTo(BigDecimal.valueOf(Double.parseDouble(request.getParameter("MILEAGE")))) == 1)
-//                        | ("on".equals(request.getParameter("isNOTOLDER")) & vehicle.getProductionYear() > Integer.parseInt(request.getParameter("NOTOLDER")))
-//                        | ("on".equals(request.getParameter("isRENTPRICE")) & vehicle.getRentPrice().compareTo(BigDecimal.valueOf(Double.parseDouble(request.getParameter("RENTPRICE")))) == 1)) {
-//                    vehicles.remove(vehicle);
-//                }
-//            }
             //vehicle was not found
             if (vehicles.isEmpty()) {
                 LOGGER.info("Vehicles wasn't found.");
-                session.setAttribute("search_result", "Nothing was found.");
-                session.setAttribute("search_error", "");
-                session.setAttribute("foundedList", null);
-                if (session.getAttribute("user") == null) return FIND_GUEST;
+                session.removeAttribute(ERROR);
+                session.removeAttribute(FOUNDED_LIST);
+                if (session.getAttribute(USER) == null) return FIND_GUEST;
                 return FIND_LOGINED;
             }
+
             //vehicle was found, all is ok
             LOGGER.info("Vehicle was found.");
-            session.setAttribute("foundedList", vehicles);
-            session.setAttribute("search_error", "");
-            session.setAttribute("search_result", "Found:");
+            session.setAttribute(FOUNDED_LIST, vehicles);
+            session.removeAttribute(ERROR);
         } catch (Exception e) {
             LOGGER.error("Error at SearchAction while searching for vehicle");
             throw new ActionException("Error at SearchAction while searching for vehicle", e);
         }
-        if (session.getAttribute("user") == null) return FIND_GUEST;
+        if (session.getAttribute(USER) == null) return FIND_GUEST;
         return FIND_LOGINED;
+    }
+
+    private Map<String, String> parseRequestToMap(HttpServletRequest req) {
+        Map<String, String> result = new TreeMap<>();
+        String modelId = req.getParameter(MODEL_ID);
+        String manufactId = req.getParameter(MANUFACT_ID);
+        String colorId = req.getParameter(COLOR_ID);
+        String fuel = req.getParameter(FUEL);
+        String mileage = req.getParameter(MILEAGE);
+        String standN = req.getParameter(STAND_N);
+        String passNbus = req.getParameter(PASS_N_BUS);
+        String passNcar = req.getParameter(PASS_N_CAR);
+        String doorsBus = req.getParameter(DOORS_BUS);
+        String doorsCar = req.getParameter(DOORS_CAR);
+        String notOlder = req.getParameter(NOT_OLDER);
+        String rent = req.getParameter(RENT);
+        String payload = req.getParameter(PAYLOAD);
+        //these parameters must be "TRUE" if the same parameter from request is "ON", which means checkbox was checked
+        String condit = null;
+        String enclosed = null;
+        String tipper = null;
+        if (ON.equals(req.getParameter(CONDIT))) condit = TRUE;
+        if (ON.equals(req.getParameter(ENCLOSED))) enclosed = TRUE;
+        if (ON.equals(req.getParameter(TIPPER))) tipper = TRUE;
+
+        if (modelId != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.MODEL_ID,modelId);
+        if (manufactId != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.MANUF_ID,manufactId);
+        if (colorId != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.COLOR_ID,colorId);
+        if (fuel != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.FUELTYPE,fuel);
+        if (mileage != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.MILEAGE,mileage);
+        if (standN != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.STAND_N,standN);
+        if (passNbus != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.PASS_N,passNbus);
+        if (passNcar != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.PASS_N,passNcar);
+        if (doorsBus != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.DOORS_N,doorsBus);
+        if (doorsCar != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.DOORS_N,doorsCar);
+        if (condit != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.CONDIT,condit);
+        if (enclosed != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.ENCLOSED,enclosed);
+        if (tipper != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.TIPPER,tipper);
+        if (notOlder != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.PROD_YEAR,notOlder);
+        if (rent != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.RENT,rent);
+        if (payload != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.PAYLOAD,payload);
+
+        //if there are some other parameters, do search by defined vehicle type & operable only
+        if (!result.isEmpty()) {
+            String vhType = req.getParameter(VH_TYPE);
+            if (!vhType.isEmpty()) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.VEH_TYPE,vhType);
+            result.put(com.epam.bp.autobase.dao.H2.VehicleDao.OPERABLE,TRUE);
+        }
+        return result;
     }
 }
