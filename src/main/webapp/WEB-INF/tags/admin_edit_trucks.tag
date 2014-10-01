@@ -71,7 +71,7 @@
                     </td>
                     <td><input type="number" class="form-control" name="mileage" value="${vehicle.mileage}"
                                data-width="70"></td>
-                    <td><input id="rent" type="number" class="form-control" name="rentPrice"
+                    <td><input id="rentA" type="number" class="form-control" name="rentPrice"
                                value="${vehicle.rentPrice}"></td>
                     <td><select class="selectpicker show-menu-arrow" data-width="160" data-live-search="true"
                                 name="driverId">

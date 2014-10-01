@@ -5,7 +5,7 @@
 
 <fmt:setLocale value="${locale}"/>
 <fmt:bundle basename="i18n.text">
-<div id="header">
+<div id="logo1" align="center">
     <div class="container">
         <a title="<fmt:message key="default.ordering"/>"
            href='<c:url value="/"/>'><img src='<c:url value="/static/img/logo.jpg"/>'/>
