@@ -4,13 +4,12 @@
 
 <div align="center">
     <div class="btn-group" id="btn-group-admin-edit">
-        <a class="btn btn-default" href='<c:url value="/"/>'><fmt:message key="default.users"/></a>
-        <a class="btn btn-default" href='<c:url value="/do/admin-cars"/>'><fmt:message key="default.cars"/></a>
-        <a class="btn btn-default" href='<c:url value="/do/admin-buses"/>'><fmt:message key="default.buses"/></a>
-        <a class="btn btn-default" href='<c:url value="/do/admin-trucks"/>'><fmt:message key="default.trucks"/></a>
-        <a class="btn btn-default" href='<c:url value="/do/admin-colors"/>'><fmt:message key="default.colors"/></a>
-        <a class="btn btn-default" href='<c:url value="/do/admin-models"/>'><fmt:message key="default.models"/></a>
-        <a class="btn btn-default" href='<c:url value="/do/admin-manufacturers"/>'><fmt:message
-                key="default.manufacturers"/></a>
+        <a id="bt_users" class="btn btn-default" href='<c:url value="/"/>'><fmt:message key="default.users"/></a>
+        <a id="bt_cars" class="btn btn-default" href='<c:url value="/do/admin-cars"/>'><fmt:message key="default.cars"/></a>
+        <a id="bt_buses" class="btn btn-default" href='<c:url value="/do/admin-buses"/>'><fmt:message key="default.buses"/></a>
+        <a id="bt_trucks" class="btn btn-default" href='<c:url value="/do/admin-trucks"/>'><fmt:message key="default.trucks"/></a>
+        <a id="bt_colors" class="btn btn-default" href='<c:url value="/do/admin-colors"/>'><fmt:message key="default.colors"/></a>
+        <a id="bt_models" class="btn btn-default" href='<c:url value="/do/admin-models"/>'><fmt:message key="default.models"/></a>
+        <a id="bt_manufacturers" class="btn btn-default" href='<c:url value="/do/admin-manufacturers"/>'><fmt:message key="default.manufacturers"/></a>
     </div>
 </div>

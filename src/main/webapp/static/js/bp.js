@@ -69,6 +69,7 @@ $(document).ready(function () {
                 return this.parentNode.replaceChild( range.extractContents(), self );
             }
         };
+    if (document.getElementById('admin_bar')) {colorAdminBtns();}
 });
 
 function showModalByDefault(form_name) {
@@ -114,5 +115,29 @@ function prepareGetRequest() {
         document.getElementById('vhType').value = 'Bus';
     if (document.getElementById('truck-tab').getAttribute('class') == 'tab-pane fade active in')
         document.getElementById('vhType').value = 'Truck';
+}
+
+function colorAdminBtns() {
+    if (location.pathname == '/do/login' || location.pathname == '/do/main') {
+        document.getElementById('bt_users').setAttribute('class', 'btn btn-info')
+    }
+    if (location.pathname == '/do/admin-cars') {
+        document.getElementById('bt_cars').setAttribute('class', 'btn btn-info')
+    }
+    if (location.pathname == '/do/admin-buses') {
+        document.getElementById('bt_buses').setAttribute('class', 'btn btn-info')
+    }
+    if (location.pathname == '/do/admin-trucks') {
+        document.getElementById('bt_trucks').setAttribute('class', 'btn btn-info')
+    }
+    if (location.pathname == '/do/admin-colors') {
+        document.getElementById('bt_colors').setAttribute('class', 'btn btn-info')
+    }
+    if (location.pathname == '/do/admin-models') {
+        document.getElementById('bt_models').setAttribute('class', 'btn btn-info')
+    }
+    if (location.pathname == '/do/admin-manufacturers') {
+        document.getElementById('bt_manufacturers').setAttribute('class', 'btn btn-info')
+    }
 }
 
