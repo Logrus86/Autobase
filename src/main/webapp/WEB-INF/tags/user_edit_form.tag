@@ -30,7 +30,8 @@
                     <div class="col-lg-12">
                         <div class="input-group">
                             <span class="input-group-addon"><fmt:message key="default.dob"/></span>
-                            <input type="date" class="form-control" name="dob" value="${user.dob}" required>
+                            <input type="date" min="1900-01-01" max="1996-01-01" class="form-control" name="dob"
+                                   value="${user.dob}" required>
                         </div>
                     </div>
                 </div>
@@ -75,9 +76,6 @@
                             <span class="input-group-addon"><fmt:message key="default.balance"/></span>
                             <input readonly type="number" class="form-control" name="balance" value="${user.balance}">
                             <span class="input-group-addon"><fmt:message key="default.currency"/></span>
-                                <%--<span class="input-group-btn">
-                                    <button class="btn btn-default" type="button"><fmt:message key="default.do-add-funds"/></button>
-                                </span>--%>
                         </div>
                     </div>
                 </div>

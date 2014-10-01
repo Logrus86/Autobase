@@ -25,36 +25,29 @@
             <tr>
                 <form method="post" action="change_vehicle">
                     <td><input id="N" type="number" class="form-control" value="${i.count}" readonly></td>
-                    <td><input type="checkbox" class="form-control" name="operable"
-                               <c:if test="${vehicle.operable}">checked</c:if>></td>
-                    <td>
-                        <select class="selectpicker show-menu-arrow" data-width="110" data-live-search="true"
-                                name="model_id">
+                    <td><input type="checkbox" class="form-control" name="operable" <c:if test="${vehicle.operable}">checked</c:if>></td>
+                    <td><select class="selectpicker show-menu-arrow" data-width="110" data-live-search="true" name="model_id">
                             <c:forEach items="${modelList}" var="model">
-                                <option
-                                        <c:if test="${vehicle.model.id==model.id}">selected</c:if>
-                                        value="${model.id}">${model.value}</option>
+                                <option <c:if test="${vehicle.model.id==model.id}">selected</c:if> value="${model.id}">
+                                    ${model.value}
+                                </option>
                             </c:forEach>
                         </select>
                     </td>
                     <td>
-                        <select class="selectpicker show-menu-arrow" data-width="110" data-live-search="true"
-                                name="manufacturer_id">
+                        <select class="selectpicker show-menu-arrow" data-width="110" data-live-search="true" name="manufacturer_id">
                             <c:forEach items="${manufacturerList}" var="manufacturer">
-                                <option
-                                        <c:if test="${vehicle.manufacturer.id==manufacturer.id}">selected</c:if>
-                                        value="${manufacturer.id}">${manufacturer.value}</option>
+                                <option <c:if test="${vehicle.manufacturer.id==manufacturer.id}">selected</c:if> value="${manufacturer.id}">
+                                    ${manufacturer.value}
+                                </option>
                             </c:forEach>
                         </select>
                     </td>
-                    <td><input type="number" class="form-control" name="productionYear" data-width="80"
-                               value="${vehicle.productionYear}"></td>
-                    <td>
-                        <select class="selectpicker show-menu-arrow" data-width="120"
-                                data-live-search="true" name="color_id">
+                    <td id="yearA"><input type="number" class="form-control" name="productionYear" data-width="80"
+                               value="${vehicle.productionYear}" min="1980" max="2014"></td>
+                    <td><select class="selectpicker show-menu-arrow" data-width="120" data-live-search="true" name="color_id">
                             <c:forEach items="${colorList}" var="color">
-                                <option
-                                        <c:if test="${vehicle.color.id==color.id}">selected</c:if> value="${color.id}">
+                                <option <c:if test="${vehicle.color.id==color.id}">selected</c:if> value="${color.id}">
                                     <c:if test="${locale.language=='ru'}">${color.valueRu}</c:if>
                                     <c:if test="${locale.language=='en'}">${color.valueEn}</c:if>
                                 </option>
@@ -69,40 +62,37 @@
                             </c:forEach>
                         </select>
                     </td>
-                    <td><input type="number" class="form-control" name="mileage" value="${vehicle.mileage}"
-                               data-width="70"></td>
-                    <td><input id="rentA" type="number" class="form-control" name="rentPrice"
-                               value="${vehicle.rentPrice}"></td>
-                    <td><select class="selectpicker show-menu-arrow" data-width="160" data-live-search="true"
-                                name="driverId">
-                        <c:forEach items="${userList}" var="user">
-                            <c:if test="${user.role=='DRIVER'}">
-                                <option
-                                        <c:if test="${vehicle.driverId==user.id}">selected</c:if>
-                                        value="${user.id}">${user.lastname} ${user.firstname}</option>
-                            </c:if>
-                        </c:forEach>
-                    </select></td>
-                    <td><input type="number" class="form-control" value="${vehicle.maxPayload}" name="maxPayload"></td>
-                    <td><input type="checkbox" class="form-control" name="enclosed"
-                               <c:if test="${vehicle.enclosed}">checked</c:if>></td>
-                    <td><input type="checkbox" class="form-control" name="tipper"
-                               <c:if test="${vehicle.tipper}">checked</c:if>></td>
-                    <td>
-                        <button class="btn btn-primary" name="save" value="${vehicle.id}" type="submit"><fmt:message
-                                key="default.save"/></button>
+                    <td id="mileageA"><input type="number" class="form-control" name="mileage" value="${vehicle.mileage}" min="0" max="1000" data-width="70"></td>
+                    <td><input id="rentA" type="number" class="form-control" name="rentPrice" value="${vehicle.rentPrice}" min="1000" max="100000"></td>
+                    <td><select class="selectpicker show-menu-arrow" data-width="160" data-live-search="true" name="driverId">
+                            <c:forEach items="${userList}" var="user">
+                               <c:if test="${user.role=='DRIVER'}">
+                                  <option <c:if test="${vehicle.driverId==user.id}">selected</c:if> value="${user.id}">
+                                      ${user.lastname} ${user.firstname}
+                                  </option>
+                              </c:if>
+                            </c:forEach>
+                        </select>
                     </td>
-                    <td>
-                        <button class="btn btn-danger" name="delete" value="${vehicle.id}" type="submit"><fmt:message
-                                key="default.delete"/></button>
+                    <td><input id="payloadA" type="number" class="form-control" value="${vehicle.maxPayload}" min="0" max="1000" name="maxPayload"></td>
+                    <td><input type="checkbox" class="form-control" name="enclosed" <c:if test="${vehicle.enclosed}">checked</c:if>></td>
+                    <td><input type="checkbox" class="form-control" name="tipper" <c:if test="${vehicle.tipper}">checked</c:if>></td>
+                    <td><button class="btn btn-primary" name="save" value="${vehicle.id}" type="submit">
+                            <fmt:message key="default.save"/>
+                        </button>
+                    </td>
+                    <td><button class="btn btn-danger" name="delete" value="${vehicle.id}" type="submit">
+                            <fmt:message key="default.delete"/>
+                        </button>
                     </td>
                 </form>
             </tr>
         </c:forEach>
     </table>
     <div align="center">
-        <button class="btn btn-success" name="add-truck" type="button" data-toggle="modal"
-                data-target="#modalCreateTruck"><fmt:message key="default.add"/></button>
+        <button class="btn btn-success" name="add-truck" type="button" data-toggle="modal" data-target="#modalCreateTruck">
+            <fmt:message key="default.add"/>
+        </button>
     </div>
 </div>
 
@@ -110,10 +100,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" align="center"><fmt:message key="default.add"/> <fmt:message
-                        key="default.truck"/></h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" align="center"><fmt:message key="default.add"/> <fmt:message key="default.truck"/></h4>
             </div>
             <div class="msg-error" id="msg_t">${create_error}</div>
             <div class="modal-body">
@@ -122,8 +110,7 @@
                         <div class="col-lg-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="default.model"/></span>
-                                <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true"
-                                        name="model_id">
+                                <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true" name="model_id">
                                     <c:forEach items="${modelList}" var="model">
                                         <option value="${model.id}">${model.value}</option>
                                     </c:forEach>
@@ -133,8 +120,7 @@
                         <div class="col-lg-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="default.manufacturer"/></span>
-                                <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true"
-                                        name="manufacturer_id">
+                                <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true" name="manufacturer_id">
                                     <c:forEach items="${manufacturerList}" var="manufacturer">
                                         <option value="${manufacturer.id}">${manufacturer.value}</option>
                                     </c:forEach>
@@ -145,14 +131,13 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="default.year_prod"/></span>
                                 <input type="number" class="form-control" id="year_prod_t" name="year_prod"
-                                       value="${year_prod}" placeholder="..." required>
+                                       value="${year_prod}" min="1980" max="2014" placeholder="..." required>
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="default.color"/></span>
-                                <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true"
-                                        name="color_id">
+                                <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true" name="color_id">
                                     <c:forEach items="${colorList}" var="color">
                                         <option value="${color.id}">
                                             <c:if test="${locale.language=='ru'}">${color.valueRu}</c:if>
@@ -174,25 +159,21 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="input-group">
-                                <span class="input-group-addon"><fmt:message key="default.mileage"/>, <fmt:message
-                                        key="default.kilometers"/></span>
+                                <span class="input-group-addon"><fmt:message key="default.mileage"/>, <fmt:message  key="default.kilometers"/></span>
                                 <input type="number" class="form-control" id="mileage_t" name="mileage"
-                                       placeholder="..." required>
+                                       min="0" max="1000" placeholder="..." required>
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="input-group">
-                                <span class="input-group-addon"><fmt:message key="default.rentPrice"/>, <fmt:message
-                                        key="default.currency"/></span>
-                                <input type="number" class="form-control" id="rentPrice_t" name="rentPrice"
-                                       placeholder="..." required>
+                                <span class="input-group-addon"><fmt:message key="default.rentPrice"/>, <fmt:message key="default.currency"/></span>
+                                <input type="number" class="form-control" id="rentPrice_t" name="rentPrice" min="1000" max="100000" placeholder="..." required>
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="default.driver"/></span>
-                                <select class="selectpicker show-menu-arrow" data-width="80" data-live-search="true"
-                                        name="driverId">
+                                <select class="selectpicker show-menu-arrow" data-width="80" data-live-search="true" name="driverId">
                                     <c:forEach items="${userList}" var="user">
                                         <c:if test="${user.role=='DRIVER'}">
                                             <option value="${user.id}">${user.lastname} ${user.firstname}</option>
@@ -204,8 +185,7 @@
                         <div class="col-lg-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="default.maxPayload"/></span>
-                                <input type="number" class="form-control" id="maxPayload_t" name="maxPayload"
-                                       placeholder="..." required>
+                                <input type="number" class="form-control" id="maxPayload_t" name="maxPayload" min="0" max="1000" placeholder="..." required>
                             </div>
                         </div>
                         <div class="col-lg-12">
@@ -227,8 +207,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><fmt:message
-                        key="default.cancel"/></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><fmt:message key="default.cancel"/></button>
             </div>
         </div>
     </div>

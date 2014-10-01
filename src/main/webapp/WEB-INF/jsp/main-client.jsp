@@ -5,6 +5,8 @@
 <fmt:setLocale value="${locale}"/>
 <fmt:bundle basename="i18n.text">
     <t:generic>
+        <jsp:attribute name="header"/>
+        <jsp:attribute name="footer"/>
         <jsp:body>
             <t:logos>
                 <jsp:attribute name="user_panel"><t:welcome_client/></jsp:attribute>

@@ -15,7 +15,7 @@
             <td><fmt:message key="default.password"/></td>
             <td><fmt:message key="default.email"/></td>
             <td><fmt:message key="default.role"/></td>
-            <td><fmt:message key="default.balance"/></td>
+            <td><fmt:message key="default.balance"/>, <fmt:message key="default.currency"/></td>
         </tr>
         <c:forEach items="${userList}" var="user" varStatus="i">
             <tr>
@@ -25,8 +25,7 @@
                     <td><input type="text" class="form-control" name="lastname" value=${user.lastname}></td>
                     <td><input type="date" class="form-control" name="dob" value=${user.dob}></td>
                     <td><input required type="text" class="form-control" name="username" value=${user.username}></td>
-                    <td><input required type="password" class="form-control" name="password" value=${user.password}>
-                    </td>
+                    <td><input required type="password" class="form-control" name="password" value=${user.password}></td>
                     <td><input type="email" class="form-control" name="email" value=${user.email}></td>
                     <td>
                         <select class="selectpicker show-menu-arrow" data-width="auto" name="role">
@@ -38,12 +37,12 @@
                     <td><input type="number" class="form-control" name="balance"
                                <c:if test="${user.role!='CLIENT'}">readonly="" </c:if> value=${user.balance}></td>
                     <td>
-                        <button class="btn btn-primary" name="save" value="${user.id}" type="submit"><fmt:message
-                                key="default.save"/></button>
+                        <button class="btn btn-primary" name="save" value="${user.id}" type="submit">
+                            <fmt:message key="default.save"/></button>
                     </td>
                     <td>
-                        <button class="btn btn-danger" name="delete" value="${user.id}" type="submit"><fmt:message
-                                key="default.delete"/></button>
+                        <button class="btn btn-danger" name="delete" value="${user.id}" type="submit">
+                            <fmt:message key="default.delete"/></button>
                     </td>
                 </form>
             </tr>
@@ -51,8 +50,7 @@
     </table>
     <div align="center">
         <button class="btn btn-success" name="add-user" type="button" data-toggle="modal"
-                data-target="#modalCreateUser">
-            <fmt:message key="default.add"/></button>
+                data-target="#modalCreateUser"> <fmt:message key="default.add"/></button>
     </div>
 </div>
 
@@ -60,10 +58,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" align="center"><fmt:message key="default.add"/> <fmt:message
-                        key="default.user'"/></h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" align="center"><fmt:message key="default.add"/> <fmt:message key="default.user'"/></h4>
             </div>
             <div class="msg-error" id="msg_u">${create_error}</div>
             <div class="modal-body">
@@ -73,16 +69,14 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="default.firstname"/></span>
                                 <input type="text" class="form-control" id="firstname_u" name="firstname"
-                                       value="${firstname}"
-                                       placeholder="..." required>
+                                       value="${firstname}" placeholder="..." required>
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="default.lastname"/></span>
                                 <input type="text" class="form-control" id="lastname_u" name="lastname"
-                                       value="${lastname}"
-                                       placeholder="..." required>
+                                       value="${lastname}" placeholder="..." required>
                             </div>
                         </div>
                         <div class="col-lg-12">
@@ -95,8 +89,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="default.username"/></span>
                                 <input type="text" class="form-control" id="username_u" name="username"
-                                       value="${username}"
-                                       placeholder="..." required>
+                                       value="${username}" placeholder="..." required>
                             </div>
                         </div>
                         <div class="col-lg-12">
@@ -123,8 +116,9 @@
                                 <span class="input-group-addon"><fmt:message key="default.role"/></span>
                                 <select class="selectpicker show-menu-arrow" data-width="auto" name="role">
                                     <c:forEach items="${roles}" var="role1">
-                                        <option value="${role1}"
-                                                <c:if test="${role1==role}">selected</c:if>>${role1}</option>
+                                        <option value="${role1}" <c:if test="${role1==role}">selected</c:if>>
+                                            ${role1}
+                                        </option>
                                     </c:forEach>
                                 </select>
                             </div>
@@ -143,8 +137,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><fmt:message
-                        key="default.cancel"/></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><fmt:message key="default.cancel"/></button>
             </div>
         </div>
     </div>

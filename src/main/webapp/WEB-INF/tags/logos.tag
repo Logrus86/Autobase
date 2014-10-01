@@ -5,9 +5,9 @@
 
 <fmt:setLocale value="${locale}"/>
 <fmt:bundle basename="i18n.text">
-<div id="logo1" align="center">
+<div id="logo_header" align="center">
     <div class="container">
-        <a title="<fmt:message key="default.ordering"/>"
+        <a id="main_logo" title="<fmt:message key="default.ordering"/>"
            href='<c:url value="/"/>'><img src='<c:url value="/static/img/logo.jpg"/>'/>
         </a>
         <jsp:invoke fragment="user_panel"/>
