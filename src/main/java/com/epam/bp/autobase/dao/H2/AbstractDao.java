@@ -111,6 +111,8 @@ public abstract class AbstractDao<PK extends Integer, T extends Identifiable<PK>
             if (VehicleDao.MILEAGE.equals(key)) compareOper = "<";
             if (VehicleDao.PROD_YEAR.equals(key)) compareOper = ">";
             if (VehicleDao.PAYLOAD.equals(key)) compareOper = ">";
+            if (VehicleDao.PASS_N.equals(key)) compareOper = ">";
+            if (VehicleDao.STAND_N.equals(key)) compareOper = ">";
 
             query.append(" AND ").append(key.toUpperCase()).append(" ").append(compareOper).append("= ?");
         }
