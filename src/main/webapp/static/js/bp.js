@@ -51,8 +51,12 @@ $(document).ready(function () {
         document.getElementById("balance_u").value = "";
         document.getElementById("msg_u").innerText = "";
     });
+    $('#modalOrderForm').on('hidden.bs.modal', function () {
+        document.getElementById("dayCount").value = "";
+    });
+
     // if driver-form isn't here but user-form is here, changing user-form' style to correct view at client's cabinet
-    (document.getElementById("driver-form") == null) ? document.getElementById("user-form") && setUserStyleClient() : {};
+    if (document.getElementById("vehicles-form") == null) document.getElementById("user-form") && setUserStyleClient();
 
     if ( window.Node )
         Node.prototype.removeNode = function( removeChildren )
@@ -141,3 +145,9 @@ function colorAdminBtns() {
     }
 }
 
+function orderDataToModalForm(id, rent, balance) {
+    document.getElementById('vhId').value = id;
+    document.getElementById('vhRent').value = rent;
+    document.getElementById('dayCount').max = (balance - balance % rent) / rent;
+    document.getElementById('dayCount').placeholder = 'Max - '+ (balance - balance % rent) / rent;
+}
