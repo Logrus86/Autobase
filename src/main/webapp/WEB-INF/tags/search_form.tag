@@ -3,6 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <form method="get" id="search-form" action="search">
+<input id="vhType" name="vhType" type="hidden" value="">
 <div class="panel panel-primary">
 <div class="panel-heading">
     <h3 class="panel-title"><fmt:message key="default.search"/></h3>
@@ -18,32 +19,120 @@
                 <li class=""><a href="#truck-tab" role="tab" data-toggle="tab"><fmt:message key="default.truck"/></a>
                 </li>
             </ul>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="input-group">
+                    <span class="input-group-addon"><input type="checkbox" id="isModel"> <fmt:message
+                            key="default.model"/></span>
+                        <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true"
+                                name="modelId" id="modelId">
+                            <c:forEach items="${modelList}" var="model">
+                                <option value="${model.id}">${model.value}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="input-group">
+                    <span class="input-group-addon"><input type="checkbox" id="isManuf"> <fmt:message
+                            key="default.manufacturer"/></span>
+                        <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true"
+                                name="manufId" id="manufId">
+                            <c:forEach items="${manufacturerList}" var="manufacturer">
+                                <option value="${manufacturer.id}">${manufacturer.value}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="input-group">
+                    <span class="input-group-addon"><input type="checkbox" id="isColor"> <fmt:message
+                            key="default.color"/></span>
+                        <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true"
+                                name="colorId" id="colorId">
+                            <c:forEach items="${colorList}" var="color">
+                                <option value="${color.id}">
+                                    <c:if test="${locale.language=='ru'}">${color.valueRu}</c:if>
+                                    <c:if test="${locale.language=='en'}">${color.valueEn}</c:if>
+                                </option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="input-group">
+                    <span class="input-group-addon"><input type="checkbox" id="isFuel"> <fmt:message
+                            key="default.fuel"/></span>
+                        <select class="selectpicker show-menu-arrow" data-width="auto" name="fuel" id="fuel">
+                            <c:forEach items="${fuelTypes}" var="fuel">
+                                <option value="${fuel}"><fmt:message key="default.${fuel}"/></option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="input-group">
+                    <span class="input-group-addon"><input type="checkbox" id="isMileage"> <fmt:message
+                            key="default.mileage-max"/></span>
+                        <input type="number" class="form-control" name="mileage" id="mileage" placeholder="..." value="50">
+                        <span class="input-group-addon"> <fmt:message key="default.kilometers"/></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="input-group">
+                    <span class="input-group-addon"><input type="checkbox" id="isNotOlder"> <fmt:message
+                            key="default.not-older"/></span>
+                        <input type="number" class="form-control" name="notOlder" id="notOlder" placeholder="..." value="1990">
+                        <span class="input-group-addon"> <fmt:message key="default.of-year-prod"/></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="input-group">
+                    <span class="input-group-addon"><input type="checkbox" id="isRent"> <fmt:message
+                            key="default.not-pricey"/></span>
+                        <input type="number" class="form-control" name="rent" id="rent" placeholder="..." value="10000">
+                        <span class="input-group-addon"> <fmt:message key="default.currency"/></span>
+                    </div>
+                </div>
+            </div>
             <div id="myTabContent" class="tab-content">
                 <div class="tab-pane fade" id="bus-tab">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="input-group">
-                        <span class="input-group-addon"><input type="checkbox" name="isPASSENGER_SEATS_NUMBER_BUS">
+                        <span class="input-group-addon"><input type="checkbox" id="isPassNbus">
                             <fmt:message key="default.passengerSeatsNumber"/></span>
-                                <input type="number" class="form-control" name="PASSENGER_SEATS_NUMBER_BUS" value="20">
+                                <input type="number" class="form-control" name="passNbus" id="passNbus" value="20">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="input-group">
-                        <span class="input-group-addon"><input type="checkbox" name="isSTANDING_PLACES_NUMBER">
+                        <span class="input-group-addon"><input type="checkbox" id="isStandN">
                             <fmt:message key="default.standingPlacesNumber"/></span>
-                                <input type="number" class="form-control" name="STANDING_PLACES_NUMBER" value="20">
+                                <input type="number" class="form-control" name="standN" id="standN" value="20">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="input-group">
-                        <span class="input-group-addon"><input type="checkbox" name="isDOORS_NUMBER_BUS">
+                        <span class="input-group-addon"><input type="checkbox" id="isDoorsBus">
                             <fmt:message key="default.doorsNumber"/></span>
-                                <select class="selectpicker show-menu-arrow" data-width="auto" name="DOORS_NUMBER_BUS">
+                                <select class="selectpicker show-menu-arrow" data-width="auto" name="doorsBus" id="doorsBus">
                                     <option>2</option>
                                     <option>3</option>
                                     <option>4</option>
@@ -57,10 +146,10 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="input-group">
-                        <span class="input-group-addon"><input type="checkbox" name="isPASSENGER_SEATS_NUMBER_CAR">
+                        <span class="input-group-addon"><input type="checkbox" id="isPassNcar">
                             <fmt:message key="default.passengerSeatsNumber"/></span>
                                 <select class="selectpicker show-menu-arrow" data-width="auto"
-                                        name="PASSENGER_SEATS_NUMBER_CAR">
+                                        name="passNcar" id="passNcar">
                                     <option>1</option>
                                     <option>2</option>
                                     <option>3</option>
@@ -75,9 +164,9 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="input-group">
-                        <span class="input-group-addon"><input type="checkbox" name="isDOORS_NUMBER_CAR">
+                        <span class="input-group-addon"><input type="checkbox" id="isDoorsCar">
                             <fmt:message key="default.doorsNumber"/></span>
-                                <select class="selectpicker show-menu-arrow" data-width="auto" name="DOORS_NUMBER_CAR">
+                                <select class="selectpicker show-menu-arrow" data-width="auto" name="doorsCar" id="doorsCar">
                                     <option>2</option>
                                     <option>3</option>
                                     <option>4</option>
@@ -89,7 +178,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="input-group">
-                                <span class="input-group-addon"><input type="checkbox" name="isCONDITIONER"></span>
+                                <span class="input-group-addon"><input type="checkbox" name="condit"></span>
                                 <span class="form-control"><fmt:message key="default.conditioner"/></span>
                             </div>
                         </div>
@@ -99,17 +188,17 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="input-group">
-                        <span class="input-group-addon"><input type="checkbox" name="isMAX_PAYLOAD">
+                        <span class="input-group-addon"><input type="checkbox" id="isPayload">
                             <fmt:message key="default.maxPayload"/></span>
                                 <input type="number" class="form-control" placeholder="..." value="10"
-                                       name="MAX_PAYLOAD">
+                                       name="payload" id="payload">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="input-group">
-                                <span class="input-group-addon"><input type="checkbox" name="isENCLOSED"></span>
+                                <span class="input-group-addon"><input type="checkbox" name="enclosed"></span>
                                 <span class="form-control"><fmt:message key="default.enclosed"/></span>
                             </div>
                         </div>
@@ -117,7 +206,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="input-group">
-                                <span class="input-group-addon"><input type="checkbox" name="isTIPPER"></span>
+                                <span class="input-group-addon"><input type="checkbox" name="tipper"></span>
                                 <span class="form-control"><fmt:message key="default.tipper"/></span>
                             </div>
                         </div>
@@ -125,96 +214,8 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="input-group">
-                    <span class="input-group-addon"><input type="checkbox" name="isMODEL"> <fmt:message
-                            key="default.model"/></span>
-                    <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true"
-                            name="MODEL_ID">
-                        <c:forEach items="${modelList}" var="model">
-                            <option value="${model.id}">${model.value}</option>
-                        </c:forEach>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="input-group">
-                    <span class="input-group-addon"><input type="checkbox" name="isMANUFACTURER"> <fmt:message
-                            key="default.manufacturer"/></span>
-                    <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true"
-                            name="MANUFACTURER_ID">
-                        <c:forEach items="${manufacturerList}" var="manufacturer">
-                            <option value="${manufacturer.id}">${manufacturer.value}</option>
-                        </c:forEach>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="input-group">
-                    <span class="input-group-addon"><input type="checkbox" name="isCOLOR"> <fmt:message
-                            key="default.color"/></span>
-                    <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true"
-                            name="COLOR_ID">
-                        <c:forEach items="${colorList}" var="color">
-                            <option value="${color.id}">
-                                <c:if test="${locale.language=='ru'}">${color.valueRu}</c:if>
-                                <c:if test="${locale.language=='en'}">${color.valueEn}</c:if>
-                            </option>
-                        </c:forEach>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="input-group">
-                    <span class="input-group-addon"><input type="checkbox" name="isFUELTYPE"> <fmt:message
-                            key="default.fuel"/></span>
-                    <select class="selectpicker show-menu-arrow" data-width="auto" name="FUELTYPE">
-                        <c:forEach items="${fuelTypes}" var="fuel">
-                            <option value="${fuel}"><fmt:message key="default.${fuel}"/></option>
-                        </c:forEach>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="input-group">
-                    <span class="input-group-addon"><input type="checkbox" name="isMILEAGE"> <fmt:message
-                            key="default.mileage-max"/></span>
-                    <input type="number" class="form-control" name="MILEAGE" placeholder="..." value="50">
-                    <span class="input-group-addon"> <fmt:message key="default.kilometers"/></span>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="input-group">
-                    <span class="input-group-addon"><input type="checkbox" name="isNOTOLDER"> <fmt:message
-                            key="default.not-older"/></span>
-                    <input type="number" class="form-control" name="NOTOLDER" placeholder="..." value="1990">
-                    <span class="input-group-addon"> <fmt:message key="default.of-year-prod"/></span>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="input-group">
-                    <span class="input-group-addon"><input type="checkbox" name="isRENTPRICE"> <fmt:message
-                            key="default.not-pricey"/></span>
-                    <input type="number" class="form-control" name="RENTPRICE" placeholder="..." value="10000">
-                    <span class="input-group-addon"> <fmt:message key="default.currency"/></span>
-                </div>
-            </div>
-        </div>
         <br>
-        <button type="submit" class="btn btn-primary"><fmt:message key="default.dosearch"/></button>
+        <button type="submit" class="btn btn-primary"  onclick="prepareGetRequest()"><fmt:message key="default.dosearch"/></button>
     </div>
 </div>
 </div>
