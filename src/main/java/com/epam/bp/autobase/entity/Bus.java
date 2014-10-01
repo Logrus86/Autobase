@@ -34,7 +34,11 @@ public class Bus extends Vehicle {
 
     @Override
     public String toString() {
-        return "Bus {PassSeatsNumber: " + getPassengerSeatsNumber() + ", stPlacesNumber: " + getStandingPlacesNumber() + ", doorsNumber: " + getDoorsNumber() + ", rentPrice: " + getRentPrice() + ", operable: " + isOperable() + ", modelId: " + getModelId() + ", manufactId: " + getManufacturerId() + ", driver: " + getDriverId() + ", prodYear: " + getProductionYear() + ", colorId: " + getColorId() + ", mileage: " + getMileage() + ", fuelType: " + getFuelType() + "}";
+        return "Bus {PassSeatsNumber: " + getPassengerSeatsNumber() + ", stPlacesNumber: " + getStandingPlacesNumber()
+                + ", doorsNumber: " + getDoorsNumber() + ", rentPrice: " + getRentPrice() + ", operable: " + isOperable()
+                + ", model: " + getModel().getValue() + ", manufact: " + getManufacturer().getValue() + ", driver: "
+                + getDriverId() + ", prodYear: " + getProductionYear() + ", color: " + getColor().getValueEn() + ", mileage: "
+                + getMileage() + ", fuelType: " + getFuelType() + "}";
     }
 
 }

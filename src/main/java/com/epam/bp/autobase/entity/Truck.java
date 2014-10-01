@@ -36,32 +36,9 @@ public class Truck extends Vehicle {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder()
-                .append("Truck {Payload: ")
-                .append(getMaxPayload())
-                .append(", enclosed: ")
-                .append(isEnclosed())
-                .append(", tipper: ")
-                .append(isTipper())
-                .append(", rentPrice: ")
-                .append(getRentPrice())
-                .append(", operable: ")
-                .append(isOperable())
-                .append(", modelId: ")
-                .append(getModelId())
-                .append(", manufactId: ")
-                .append(getManufacturerId())
-                .append(", driver: ")
-                .append(getDriverId())
-                .append(", prodYear: ")
-                .append(getProductionYear())
-                .append(", colorId: ")
-                .append(getColorId())
-                .append(", mileage: ")
-                .append(getMileage())
-                .append(", fuelType: ")
-                .append(getFuelType())
-                .append("}");
-        return result.toString();
+        return "Truck {Payload: " + getMaxPayload() + ", enclosed: " + isEnclosed() + ", tipper: " + isTipper() +
+                ", rentPrice: " + getRentPrice() + ", operable: " + isOperable() + ", model: " + getModel().getValue() +
+                ", manufact: " + getManufacturer().getValue() + ", driver: " + getDriverId() + ", prodYear: " + getProductionYear() +
+                ", color: " + getColor().getValueEn() + ", mileage: " + getMileage() + ", fuelType: " + getFuelType() + "}";
     }
 }

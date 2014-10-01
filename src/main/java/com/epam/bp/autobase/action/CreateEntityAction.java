@@ -23,9 +23,6 @@ public class CreateEntityAction implements Action {
     private static final ActionResult MANUFACTURER_PAGE = new ActionResult("admin-manufacturers");
     private static final String RB_NAME = "i18n.text";
     private static final String LOCALE = "locale";
-    private static String color_busy;
-    private static String model_busy;
-    private static String manufacturer_busy;
     private static final String RENT = "rentPrice";
     private static final String DRIVER_ID = "driverId";
     private static final String MODEL_ID = "model_id";
@@ -63,6 +60,12 @@ public class CreateEntityAction implements Action {
     private static final String VALUE_RU = "valueRu";
     private static final String VALUE = "value";
     private static final String ON = "on";
+    private static final String ERROR_BUSY_COLOR = "error.busy-color";
+    private static final String ERROR_BUSY_MODEL = "error.busy-model";
+    private static final String ERROR_BUSY_MANUFACTURER = "error.busy-manufacturer";
+    private static String color_busy;
+    private static String model_busy;
+    private static String manufacturer_busy;
     private ActionResult result;
     private String entityName;
     private HttpServletRequest request;
@@ -79,9 +82,9 @@ public class CreateEntityAction implements Action {
         session.removeAttribute(ERROR);
         Locale locale = (Locale) session.getAttribute(LOCALE);
         ResourceBundle RB = ResourceBundle.getBundle(RB_NAME, locale);
-        color_busy = RB.getString("error.busy-color");
-        model_busy = RB.getString("error.busy-model");
-        manufacturer_busy = RB.getString("error.busy-manufacturer");
+        color_busy = RB.getString(ERROR_BUSY_COLOR);
+        model_busy = RB.getString(ERROR_BUSY_MODEL);
+        manufacturer_busy = RB.getString(ERROR_BUSY_MANUFACTURER);
 
         clearEnteredData(session);
 

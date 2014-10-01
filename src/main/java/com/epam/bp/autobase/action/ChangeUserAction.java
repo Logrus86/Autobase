@@ -22,7 +22,6 @@ public class ChangeUserAction implements Action {
     private static final ActionResult MAIN_ADMIN = new ActionResult("main-admin", true);
     private static final String RB_NAME = "i18n.text";
     private static final String LOCALE = "locale";
-    private static String error_busy_username;
     private static final String ERROR = "user_change_error";
     private static final String USER = "user";
     private static final String FIRSTNAME = "firstname";
@@ -36,6 +35,8 @@ public class ChangeUserAction implements Action {
     private static final String SAVE = "save";
     private static final String DELETE = "delete";
     private static final String ENTITY_CHANGES_FLAG = "listsChanged";
+    private static final String ERROR_BUSY_USERNAME = "error.busy-username";
+    private static String error_busy_username;
     private ActionResult result;
     private User user;
     private HttpServletRequest request;
@@ -47,7 +48,7 @@ public class ChangeUserAction implements Action {
         session = req.getSession();
         Locale locale = (Locale) session.getAttribute(LOCALE);
         ResourceBundle RB = ResourceBundle.getBundle(RB_NAME, locale);
-        error_busy_username = RB.getString("error.busy-username");
+        error_busy_username = RB.getString(ERROR_BUSY_USERNAME);
 
         user = (User) session.getAttribute(USER);
         //changing user if we are client or driver; if we are admin, do it if SAVE parameter not null only

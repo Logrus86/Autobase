@@ -22,9 +22,6 @@ public class ChangePropAction implements Action {
     private static final ActionResult ADMIN_MODELS = new ActionResult("admin-models",true);
     private static final String RB_NAME = "i18n.text";
     private static final String LOCALE = "locale";
-    private static String color_busy;
-    private static String model_busy;
-    private static String manufacturer_busy;
     private static final String COLOR = "color";
     private static final String MANUFACTOR = "manufacturer";
     private static final String MODEL = "model";
@@ -38,6 +35,12 @@ public class ChangePropAction implements Action {
     private static final String ERR_CREATE = "create_error";
     private static final String SAVE = "save";
     private static final String DELETE = "delete";
+    private static final String ERROR_BUSY_COLOR = "error.busy-color";
+    private static final String ERROR_BUSY_MODEL = "error.busy-model";
+    private static final String ERROR_BUSY_MANUFACTURER = "error.busy-manufacturer";
+    private static String color_busy;
+    private static String model_busy;
+    private static String manufacturer_busy;
     private ActionResult result;
     private String propType;
     private HttpServletRequest request;
@@ -53,9 +56,9 @@ public class ChangePropAction implements Action {
         session = req.getSession();
         Locale locale = (Locale) session.getAttribute(LOCALE);
         ResourceBundle RB = ResourceBundle.getBundle(RB_NAME, locale);
-        color_busy = RB.getString("error.busy-color");
-        model_busy = RB.getString("error.busy-model");
-        manufacturer_busy = RB.getString("error.busy-manufacturer");
+        color_busy = RB.getString(ERROR_BUSY_COLOR);
+        model_busy = RB.getString(ERROR_BUSY_MODEL);
+        manufacturer_busy = RB.getString(ERROR_BUSY_MANUFACTURER);
 
         session.removeAttribute(ERR_MANUF);
         session.removeAttribute(ERR_COLOR);

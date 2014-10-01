@@ -18,26 +18,23 @@ public class VehicleDao extends AbstractDao<java.lang.Integer, Vehicle> implemen
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(VehicleDao.class);
     private static final String ID = "ID";
     private static final String VEHICLE = "VEHICLE";
-    private static final String VEHICLETYPE = "VEHICLETYPE";
-    private static final String MODEL_ID = "MODEL_ID";
-    private static final String MANUFACTURER_ID = "MANUFACTURER_ID";
-    private static final String PRODUCTIONYEAR = "PRODUCTIONYEAR";
-    private static final String COLOR_ID = "COLOR_ID";
-    private static final String MILEAGE = "MILEAGE";
-    private static final String FUELTYPE = "FUELTYPE";
-    private static final String OPERABLE = "OPERABLE";
-    private static final String RENTPRICE = "RENTPRICE";
-    private static final String DRIVER_ID = "DRIVER_ID";
-    private static final String STANDING_PLACES_NUMBER = "STANDING_PLACES_NUMBER";
-    private static final String PASSENGER_SEATS_NUMBER = "PASSENGER_SEATS_NUMBER";
-    private static final String DOORS_NUMBER = "DOORS_NUMBER";
-    private static final String CONDITIONER = "CONDITIONER";
-    private static final String MAX_PAYLOAD = "MAX_PAYLOAD";
-    private static final String ENCLOSED = "ENCLOSED";
-    private static final String TIPPER = "TIPPER";
-    private static final String CAR = "Car";
-    private static final String BUS = "Bus";
-    private static final String TRUCK = "Truck";
+    public static final String VEH_TYPE = "VEHICLETYPE";
+    public static final String MODEL_ID = "MODEL_ID";
+    public static final String MANUF_ID = "MANUFACTURER_ID";
+    public static final String PROD_YEAR = "PRODUCTIONYEAR";
+    public static final String COLOR_ID = "COLOR_ID";
+    public static final String MILEAGE = "MILEAGE";
+    public static final String FUELTYPE = "FUELTYPE";
+    public static final String OPERABLE = "OPERABLE";
+    public static final String RENT = "RENTPRICE";
+    public static final String DRIVER_ID = "DRIVER_ID";
+    public static final String STAND_N = "STANDING_PLACES_NUMBER";
+    public static final String PASS_N = "PASSENGER_SEATS_NUMBER";
+    public static final String DOORS_N = "DOORS_NUMBER";
+    public static final String CONDIT = "CONDITIONER";
+    public static final String PAYLOAD = "MAX_PAYLOAD";
+    public static final String ENCLOSED = "ENCLOSED";
+    public static final String TIPPER = "TIPPER";
 
     public VehicleDao(ConnectionPool.ProxyConnection connection) {
         super(connection);
@@ -45,7 +42,7 @@ public class VehicleDao extends AbstractDao<java.lang.Integer, Vehicle> implemen
 
     @Override
     public String getCreateQuery() {
-        return "INSERT INTO " + VEHICLE + "(" + VEHICLETYPE + ", " + MODEL_ID + ", " + MANUFACTURER_ID + ", " + PRODUCTIONYEAR + ", " + COLOR_ID + ", " + MILEAGE + ", " + FUELTYPE + ", " + OPERABLE + ", " + RENTPRICE + ", " + DRIVER_ID + ", " + STANDING_PLACES_NUMBER + ", " + PASSENGER_SEATS_NUMBER + ", " + DOORS_NUMBER + ", " + CONDITIONER + ", " + MAX_PAYLOAD + ", " + ENCLOSED + ", " + TIPPER + ") VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        return "INSERT INTO " + VEHICLE + "(" + VEH_TYPE + ", " + MODEL_ID + ", " + MANUF_ID + ", " + PROD_YEAR + ", " + COLOR_ID + ", " + MILEAGE + ", " + FUELTYPE + ", " + OPERABLE + ", " + RENT + ", " + DRIVER_ID + ", " + STAND_N + ", " + PASS_N + ", " + DOORS_N + ", " + CONDIT + ", " + PAYLOAD + ", " + ENCLOSED + ", " + TIPPER + ") VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     }
 
     @Override
@@ -55,7 +52,7 @@ public class VehicleDao extends AbstractDao<java.lang.Integer, Vehicle> implemen
 
     @Override
     public String getUpdateQuery() {
-        return "UPDATE "+VEHICLE+" SET " + VEHICLETYPE + " = ?, " + MODEL_ID + " = ?, " + MANUFACTURER_ID + " = ?, " + PRODUCTIONYEAR + " = ?, " + COLOR_ID + " = ?, " + MILEAGE + " = ?, " + FUELTYPE + " = ?, " + OPERABLE + " = ?, " + RENTPRICE + " = ?, " + DRIVER_ID + " = ?, " + STANDING_PLACES_NUMBER + " = ?, " + PASSENGER_SEATS_NUMBER + " = ?, " + DOORS_NUMBER + " = ?, " + CONDITIONER + " = ?, " + MAX_PAYLOAD + " = ?, " + ENCLOSED + " = ?, " + TIPPER + " = ? " + "WHERE "+ID+" = ?;";
+        return "UPDATE "+VEHICLE+" SET " + VEH_TYPE + " = ?, " + MODEL_ID + " = ?, " + MANUF_ID + " = ?, " + PROD_YEAR + " = ?, " + COLOR_ID + " = ?, " + MILEAGE + " = ?, " + FUELTYPE + " = ?, " + OPERABLE + " = ?, " + RENT + " = ?, " + DRIVER_ID + " = ?, " + STAND_N + " = ?, " + PASS_N + " = ?, " + DOORS_N + " = ?, " + CONDIT + " = ?, " + PAYLOAD + " = ?, " + ENCLOSED + " = ?, " + TIPPER + " = ? " + "WHERE "+ID+" = ?;";
     }
 
     @Override
@@ -67,27 +64,27 @@ public class VehicleDao extends AbstractDao<java.lang.Integer, Vehicle> implemen
     public Vehicle parseResultSetInstance(ResultSet rs) throws DaoException {
         Vehicle vehicle = null;
         try {
-            String vehicleType = rs.getString(VEHICLETYPE);
+            String vehicleType = rs.getString(VEH_TYPE);
             if ("BUS".equals(vehicleType.toUpperCase())) {
-                java.lang.Integer passN = rs.getInt(PASSENGER_SEATS_NUMBER);
-                java.lang.Integer standN = rs.getInt(STANDING_PLACES_NUMBER);
-                java.lang.Integer doorsN = rs.getInt(DOORS_NUMBER);
+                java.lang.Integer passN = rs.getInt(PASS_N);
+                java.lang.Integer standN = rs.getInt(STAND_N);
+                java.lang.Integer doorsN = rs.getInt(DOORS_N);
                 vehicle = new Bus()
                         .setPassengerSeatsNumber(passN)
                         .setStandingPlacesNumber(standN)
                         .setDoorsNumber(doorsN);
             }
             if ("CAR".equals(vehicleType.toUpperCase())) {
-                java.lang.Integer passN = rs.getInt(PASSENGER_SEATS_NUMBER);
-                java.lang.Integer doorsN = rs.getInt(DOORS_NUMBER);
-                Boolean withConditioner = rs.getBoolean(CONDITIONER);
+                java.lang.Integer passN = rs.getInt(PASS_N);
+                java.lang.Integer doorsN = rs.getInt(DOORS_N);
+                Boolean withConditioner = rs.getBoolean(CONDIT);
                 vehicle = new Car()
                         .setPassengerSeatsNumber(passN)
                         .setDoorsNumber(doorsN)
                         .setWithConditioner(withConditioner);
             }
             if ("TRUCK".equals(vehicleType.toUpperCase())) {
-                BigDecimal payload = rs.getBigDecimal(MAX_PAYLOAD);
+                BigDecimal payload = rs.getBigDecimal(PAYLOAD);
                 Boolean enclosed = rs.getBoolean(ENCLOSED);
                 Boolean tipper = rs.getBoolean(TIPPER);
                 vehicle = new Truck()
@@ -101,13 +98,13 @@ public class VehicleDao extends AbstractDao<java.lang.Integer, Vehicle> implemen
             }
 
             Integer modelId = rs.getInt(MODEL_ID);
-            Integer manufacturerId = rs.getInt(MANUFACTURER_ID);
+            Integer manufacturerId = rs.getInt(MANUF_ID);
             Integer colorId = rs.getInt(COLOR_ID);
-            Integer prodYear = rs.getInt(PRODUCTIONYEAR);
+            Integer prodYear = rs.getInt(PROD_YEAR);
             BigDecimal mileage = rs.getBigDecimal(MILEAGE);
             Vehicle.Fuel fuel = Vehicle.Fuel.valueOf(rs.getString(FUELTYPE));
             Boolean operable = rs.getBoolean(OPERABLE);
-            BigDecimal rent = rs.getBigDecimal(RENTPRICE);
+            BigDecimal rent = rs.getBigDecimal(RENT);
             Integer driverId = rs.getInt(DRIVER_ID);
 
             if (vehicle != null) {

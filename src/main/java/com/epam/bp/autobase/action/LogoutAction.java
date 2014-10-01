@@ -17,7 +17,9 @@ public class LogoutAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        LOGGER.info("User '"+((User) session.getAttribute(ATTR_USER)).getUsername()+"' have logged-out");
+        User user = (User) session.getAttribute(ATTR_USER);
+        if (user == null) return MAIN;
+        LOGGER.info("User '"+user.getUsername()+"' have logged-out");
         session.removeAttribute(ATTR_USER);
         return MAIN;
     }

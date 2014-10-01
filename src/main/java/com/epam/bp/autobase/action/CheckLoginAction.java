@@ -24,9 +24,6 @@ public class CheckLoginAction implements Action {
         session.removeAttribute(SEARCH_ERROR);
         session.removeAttribute(CREATE_ERROR);
 
-
-        session.setAttribute("fmtlocale", request.getLocale());
-
         if (session.getAttribute(USER) == null) {
             LOGGER.info("User not logined, going to main page");
             return LOGIN_FALSE;

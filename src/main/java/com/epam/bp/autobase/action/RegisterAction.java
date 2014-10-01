@@ -1,6 +1,5 @@
 package com.epam.bp.autobase.action;
 
-import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.DaoFactory;
 import com.epam.bp.autobase.dao.H2.DaoManager;
 import com.epam.bp.autobase.dao.UserDao;
@@ -21,7 +20,6 @@ public class RegisterAction implements Action {
     private static final ActionResult REG_FAILED = new ActionResult("main",true);
     private static final String RB_NAME = "i18n.text";
     private static final String LOCALE = "locale";
-    private static String error_busy_username;
     private static final String ERROR = "reg_error";
     private static final String USER = "user";
     private static final String FIRSTNAME = "firstname";
@@ -31,6 +29,8 @@ public class RegisterAction implements Action {
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
     private static final String ENTITY_CHANGES_FLAG = "listsChanged";
+    private static final String ERROR_BUSY_USERNAME = "error.busy-username";
+    private static String error_busy_username;
     private ActionResult result;
 
     public RegisterAction() {
@@ -41,7 +41,7 @@ public class RegisterAction implements Action {
         HttpSession session = request.getSession();
         Locale locale = (Locale) session.getAttribute(LOCALE);
         ResourceBundle RB = ResourceBundle.getBundle(RB_NAME, locale);
-        error_busy_username = RB.getString("error.busy-username");
+        error_busy_username = RB.getString(ERROR_BUSY_USERNAME);
         //validate inputs
         String error = Validator.validateRequestParametersMap(request);
         if (!error.isEmpty()) {
@@ -52,41 +52,38 @@ public class RegisterAction implements Action {
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DaoManager daoManager = daoFactory.getDaoManager();
-            daoManager.transactionAndClose(new DaoManager.DaoCommand() {
-                @Override
-                public void execute(DaoManager daoManager) throws DaoException {
-                    UserDao userDao = daoManager.getUserDao();
-                    String firstname = request.getParameter(FIRSTNAME);
-                    String lastname = request.getParameter(LASTNAME);
-                    String dob = request.getParameter(DOB);
-                    String username = request.getParameter(USERNAME);
-                    String password = request.getParameter(PASSWORD);
-                    String email = request.getParameter(EMAIL);
-                    // check username not busy
-                    if (userDao.getUsersListByUsername(username).size() > 1) {
-                        session.setAttribute(ERROR, error_busy_username);
-                        forwardRegData(request, session);
-                        result = REG_FAILED;
-                    } //data was entered correctly and username not busy, proceed
-                    else {
-                        User user = new User();
-                        user.setFirstname(firstname);
-                        user.setLastname(lastname);
-                        user.setDob(dob);
-                        user.setUsername(username);
-                        user.setPassword(password);
-                        user.setEmail(email);
-                        user.setRole(User.Role.CLIENT);
-                        user.setBalance(BigDecimal.ZERO);
-                        userDao.create(user);
-                        //get user from db to get his db ID to entity
-                        user = userDao.getUsersListByUsername(username).get(0);
-                        clearRegData(session);
-                        LOGGER.info("Newly registered user: " + user.toString());
-                        result = REG_SUCCESS;
-                        session.setAttribute(USER, user);
-                        session.setAttribute(ENTITY_CHANGES_FLAG, "true");
-                    }
+            daoManager.transactionAndClose(daoManager1 -> {
+                UserDao userDao = daoManager1.getUserDao();
+                String firstname = request.getParameter(FIRSTNAME);
+                String lastname = request.getParameter(LASTNAME);
+                String dob = request.getParameter(DOB);
+                String username = request.getParameter(USERNAME);
+                String password = request.getParameter(PASSWORD);
+                String email = request.getParameter(EMAIL);
+                // check username not busy
+                if (userDao.getUsersListByUsername(username).size() > 1) {
+                    session.setAttribute(ERROR, error_busy_username);
+                    forwardRegData(request, session);
+                    result = REG_FAILED;
+                } //data was entered correctly and username not busy, proceed
+                else {
+                    User user = new User();
+                    user.setFirstname(firstname);
+                    user.setLastname(lastname);
+                    user.setDob(dob);
+                    user.setUsername(username);
+                    user.setPassword(password);
+                    user.setEmail(email);
+                    user.setRole(User.Role.CLIENT);
+                    user.setBalance(BigDecimal.ZERO);
+                    userDao.create(user);
+                    //get user from db to get his db ID to entity
+                    user = userDao.getUsersListByUsername(username).get(0);
+                    clearRegData(session);
+                    LOGGER.info("Newly registered user: " + user.toString());
+                    result = REG_SUCCESS;
+                    session.setAttribute(USER, user);
+                    session.setAttribute(ENTITY_CHANGES_FLAG, "true");
                 }
             });
             daoFactory.releaseContext();

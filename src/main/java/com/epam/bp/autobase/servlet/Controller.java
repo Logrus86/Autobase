@@ -18,7 +18,8 @@ public class Controller extends javax.servlet.http.HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String actionName = req.getMethod() + req.getPathInfo();
-        LOGGER.info("method/actionName: " + actionName);
+        String query = actionName + "/" + req.getQueryString();
+        LOGGER.info("query: " + query);
         Action action = ActionFactory.getAction(actionName);
         if (action == null) {
             LOGGER.error("Action '" + actionName + "' not found. ");

@@ -18,10 +18,7 @@ public class ChangeLocaleAction implements Action {
         HttpSession session = request.getSession();
         Locale locale = new Locale(language);
         LOGGER.info("Locale was changed to: " + language);
-        //changing locale for jsp:
         session.setAttribute(LOCALE, locale);
-        //changing locale for jvm:
-        Locale.setDefault(locale);
         referer = referer.substring(referer.lastIndexOf("/") + 1, referer.length());
         return new ActionResult(referer, true);
     }

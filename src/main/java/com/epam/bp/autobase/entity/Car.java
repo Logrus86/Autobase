@@ -34,6 +34,10 @@ public class Car extends Vehicle {
 
     @Override
     public String toString() {
-        return "Car {PassSeatsNumber: " + getPassengerSeatsNumber() + ", doorsNumber: " + getDoorsNumber() + ", conditioner: " + isWithConditioner() + ", rentPrice: " + getRentPrice() + ", operable: " + isOperable() + ", modelId: " + getModelId() + ", manufactId: " + getManufacturerId() + ", driver: " + getDriverId() + ", prodYear: " + getProductionYear() + ", colorId: " + getColorId() + ", mileage: " + getMileage() + ", fuelType: " + getFuelType() + "}";
+        return "Car {PassSeatsNumber: " + getPassengerSeatsNumber() + ", doorsNumber: " + getDoorsNumber()
+                + ", conditioner: " + isWithConditioner() + ", rentPrice: " + getRentPrice() + ", operable: "
+                + isOperable() + ", model: " + getModel().getValue() + ", manufact: " + getManufacturer().getValue()
+                + ", driver: " + getDriverId() + ", prodYear: " + getProductionYear() + ", color: " + getColor().getValueEn()
+                + ", mileage: " + getMileage() + ", fuelType: " + getFuelType() + "}";
     }
 }
