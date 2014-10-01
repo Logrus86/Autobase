@@ -131,6 +131,13 @@ public abstract class Vehicle implements Cloneable, Comparable<Vehicle>, Identif
         return result;
     }
 
+    public User getDriver() {
+        User result;
+        Autobase autobase = Autobase.getInstance();
+        result = autobase.getUserById(driverId);
+        return result;
+    }
+
     @Override
     protected Vehicle clone() {
         try {

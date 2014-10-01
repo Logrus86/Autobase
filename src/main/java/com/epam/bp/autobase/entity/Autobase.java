@@ -79,7 +79,15 @@ public class Autobase {
         Autobase.manufacturerList = manufacturerList;
     }
 
-    public Color getColorById(java.lang.Integer id) {
+    public User getUserById(Integer id) {
+        User result = null;
+        for (User user : userList) {
+            if (user.getId().equals(id)) result = user;
+        }
+        return result;
+    }
+
+    public Color getColorById(Integer id) {
         Color result = null;
         for (Color color : colorList) {
             if (color.getId().equals(id)) result = color;
