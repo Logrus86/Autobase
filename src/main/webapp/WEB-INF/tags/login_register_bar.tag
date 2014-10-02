@@ -32,7 +32,7 @@
                             <input type="text" class="form-control" id="lastname" name="lastname" value="${lastname}"
                                    placeholder="<fmt:message key="default.lastname"/>" required>
                             <input type="date" class="form-control" id="dob" name="dob" value="${dob}"
-                                   placeholder="<fmt:message key="default.dob"/>" required>
+                                   min="1900-01-01" max="1996-01-01"  placeholder="<fmt:message key="default.dob"/>" required>
                             <input type="text" class="form-control" id="username" name="username" value="${username}"
                                    value="" placeholder="<fmt:message key="default.username"/>" required>
                             <input type="password" class="form-control" name="password"
