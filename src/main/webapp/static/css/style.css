@@ -146,3 +146,11 @@ ul#tabVhTypes {
 td#yearA, td#mileageA {
     width: 100px;
 }
+th {
+    text-align: center !important;
+}
+
+form#order_info {
+    width: 700px;
+    text-align: center;
+}
