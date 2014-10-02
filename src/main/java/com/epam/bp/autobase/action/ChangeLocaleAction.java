@@ -13,12 +13,12 @@ public class ChangeLocaleAction implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
-        String referer = request.getHeader(REFERER);
         String language = request.getParameter(LOCALE);
         HttpSession session = request.getSession();
         Locale locale = new Locale(language);
         LOGGER.info("Locale was changed to: " + language);
         session.setAttribute(LOCALE, locale);
+        String referer = request.getHeader(REFERER);
         referer = referer.substring(referer.lastIndexOf("/") + 1, referer.length());
         return new ActionResult(referer, true);
     }
