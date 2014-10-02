@@ -6,4 +6,5 @@ public interface DaoManager {
     public ColorDao getColorDao();
     public ModelDao getModelDao();
     public ManufacturerDao getManufacturerDao();
+    public OrderDao getOrderDao();
 }

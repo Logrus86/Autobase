@@ -1,6 +1,7 @@
 package com.epam.bp.autobase.dao.H2;
 
 import com.epam.bp.autobase.dao.*;
+import com.epam.bp.autobase.dao.OrderDao;
 import com.epam.bp.autobase.pool.ConnectionPool;
 
 public class DaoManager implements com.epam.bp.autobase.dao.DaoManager {
@@ -10,6 +11,7 @@ public class DaoManager implements com.epam.bp.autobase.dao.DaoManager {
     protected com.epam.bp.autobase.dao.ColorDao colorDao = null;
     protected com.epam.bp.autobase.dao.ModelDao modelDao = null;
     protected com.epam.bp.autobase.dao.ManufacturerDao manufacturerDao = null;
+    protected com.epam.bp.autobase.dao.H2.OrderDao orderDao = null;
 
     public DaoManager(ConnectionPool.ProxyConnection connection) {
         this.connection = connection;
@@ -53,6 +55,14 @@ public class DaoManager implements com.epam.bp.autobase.dao.DaoManager {
             this.manufacturerDao = new ManufacturerDao(this.connection);
         }
         return manufacturerDao;
+    }
+
+    @Override
+    public OrderDao getOrderDao() {
+        if (this.orderDao == null) {
+            this.orderDao = new com.epam.bp.autobase.dao.H2.OrderDao(this.connection);
+        }
+        return orderDao;
     }
 
     public interface DaoCommand {

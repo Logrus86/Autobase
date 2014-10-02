@@ -132,7 +132,7 @@ public class UserDao extends AbstractDao<Integer, User> implements com.epam.bp.a
             ps.close();
             connection.close();
         } catch (Exception e) {
-            throw new DaoException("Finding user by username error", e);
+            throw new DaoException("Finding users list by username error", e);
         }
         return result;
     }
