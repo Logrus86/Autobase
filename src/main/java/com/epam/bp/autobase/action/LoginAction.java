@@ -19,7 +19,6 @@ import java.util.ResourceBundle;
 public class LoginAction implements Action {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(LoginAction.class);
     private static final ActionResult LOGIN_ADMIN = new ActionResult("main-admin");
-    private static final ActionResult LOGIN_CLIENT = new ActionResult("main-client");
     private static final ActionResult LOGIN_DRIVER = new ActionResult("main-driver");
     private static final ActionResult LOGIN_FALSE = new ActionResult("main");
     private static final String RB_NAME = "i18n.text";
@@ -30,6 +29,7 @@ public class LoginAction implements Action {
     private static final String DRIVER_VEHICLES = "driverVehicles";
     private static final String ERROR = "errormsg";
     private static final String ERROR_LOGIN = "error.login";
+    private static final String REFERER = "Referer";
     private static String login_err_msg;
     private ActionResult result;
 
@@ -70,7 +70,11 @@ public class LoginAction implements Action {
                     session.setAttribute(ERROR, "");
                     //check user roles
                     if (user.getRole() == User.Role.ADMIN) result = LOGIN_ADMIN;
-                    if (user.getRole() == User.Role.CLIENT) result = LOGIN_CLIENT;
+                    if (user.getRole() == User.Role.CLIENT) {
+                        String referer = request.getHeader(REFERER);
+                        referer = referer.substring(referer.lastIndexOf("/") + 1, referer.length());
+                        result = new ActionResult(referer, true);
+                    }
                     if (user.getRole() == User.Role.DRIVER) {
                         //if user is driver, we must find his vehicle(s) also:
                         List<Vehicle> driverVehicles = Autobase.getInstance().getVehicleListByDriver(user);
