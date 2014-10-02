@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 public class EntitiesRefiller implements Filter {
@@ -25,6 +26,8 @@ public class EntitiesRefiller implements Filter {
     private static final String LIST_COLORS = "colorList";
     private static final String LIST_MODELS = "modelList";
     private static final String LIST_MANUFS = "manufacturerList";
+    private static final String LIST_ORDERS = "ordersList";
+    private static final String ORDER = "order";
     private static final String USER = "user";
     private static final String VEHICLE = "vehicle";
     private static final String COLOR = "color";
@@ -32,6 +35,7 @@ public class EntitiesRefiller implements Filter {
     private static final String MANUFACT = "manufacturer";
     private static final String UPDATED = "UPDATED";
     private static final String DRIVER_VEHICLES = "driverVehicles";
+    private static final String NOWDATE = "nowdate";
     private Autobase autobase;
     private HttpSession session;
     private DaoManager daoManager;
@@ -64,12 +68,15 @@ public class EntitiesRefiller implements Filter {
                     if (MODEL.equals(entityChanged)) refillModels();
                     if (MANUFACT.equals(entityChanged)) refillManufacturers();
                     if (VEHICLE.equals(entityChanged)) refillVehicles();
+                    if (ORDER.equals(entityChanged)) refillOrders();
                     if (entityChanged == null) {
                         refillUsers();
                         refillColors();
                         refillModels();
                         refillManufacturers();
                         refillVehicles();
+                        Date date = new Date();
+                        session.setAttribute(NOWDATE, date);
                     }
                 });
                 daoFactory.releaseContext();
@@ -79,6 +86,12 @@ public class EntitiesRefiller implements Filter {
             session.setAttribute(ENTITY_CHANGES_FLAG, UPDATED);
         }
         chain.doFilter(req, resp);
+    }
+
+    private void refillOrders() throws DaoException{
+        autobase.setOrderList(daoManager.getOrderDao().getAll());
+        session.setAttribute(LIST_ORDERS,autobase.getOrderList());
+        LOGGER.info("OrderList was refilled");
     }
 
     private void refillManufacturers() throws DaoException {

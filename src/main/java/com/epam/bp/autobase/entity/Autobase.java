@@ -5,6 +5,7 @@ import com.epam.bp.autobase.dao.H2.DaoManager;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Autobase {
@@ -14,6 +15,7 @@ public class Autobase {
     private static List<Manufacturer> manufacturerList;
     private static List<Vehicle> vehicleList;
     private static List<User> userList;
+    private static List<Order> orderList;
 
     private Autobase() {
         try {
@@ -25,11 +27,14 @@ public class Autobase {
                 ManufacturerDao manufacturerDao = daoManager1.getManufacturerDao();
                 VehicleDao vehicleDao = daoManager1.getVehicleDao();
                 UserDao userDao = daoManager1.getUserDao();
+                OrderDao orderDao = daoManager1.getOrderDao();
                 colorList = colorDao.getAll();
                 modelList = modelDao.getAll();
                 manufacturerList = manufacturerDao.getAll();
                 userList = userDao.getAll();
                 vehicleList = vehicleDao.getAll();
+                orderList = orderDao.getAll();
+
             });
             daoFactory.releaseContext();
         } catch (Exception e) {
@@ -77,6 +82,14 @@ public class Autobase {
 
     public void setManufacturerList(List<Manufacturer> manufacturerList) {
         Autobase.manufacturerList = manufacturerList;
+    }
+
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        Autobase.orderList = orderList;
     }
 
     public User getUserById(Integer id) {
@@ -171,6 +184,54 @@ public class Autobase {
         List<Vehicle> result = new ArrayList<>();
         for (Vehicle vehicle : vehicleList) {
             if (vehicle.getDriverId().equals(driver.getId())) result.add(vehicle);
+        }
+        return result;
+    }
+
+    public Vehicle getVehicleById(Integer id) {
+        Vehicle result = null;
+        for (Vehicle vehicle : vehicleList) {
+            if (vehicle.getId().equals(id)) result = vehicle;
+        }
+        return result;
+    }
+
+    public Order getOrderById(Integer id) {
+        Order result = null;
+        for (Order order : orderList) {
+            if (order.getId().equals(id)) result = order;
+        }
+        return result;
+    }
+
+    public List<Order> getOrderListByClientId(Integer id) {
+        List<Order> result = new ArrayList<>();
+        for (Order order : orderList) {
+            if (order.getClientId().equals(id)) result.add(order);
+        }
+        return result;
+    }
+
+    public List<Order> getOrderListByVehicleId(Integer id) {
+        List<Order> result = new ArrayList<>();
+        for (Order order : orderList) {
+            if (order.getVehicleId().equals(id)) result.add(order);
+        }
+        return result;
+    }
+
+    public List<Order> getOrderListByDriverId(Integer id) {
+        List<Order> result = new ArrayList<>();
+        for (Order order : orderList) {
+            if (getVehicleById(order.getVehicleId()).getDriverId().equals(id)) result.add(order);
+        }
+        return result;
+    }
+
+    public List<Order> getActualOrderList() {
+        List<Order> result = new ArrayList<>();
+        for (Order order : orderList) {
+            if (order.getDateEndDate().compareTo(new Date()) < 0) result.add(order);
         }
         return result;
     }
