@@ -19,7 +19,7 @@ public class ChangeUserAction implements Action {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ChangeUserAction.class);
     private static final ActionResult CABINET_USER = new ActionResult("cabinet");
     private static final ActionResult CABINET_DRIVER = new ActionResult("main-driver");
-    private static final ActionResult MAIN_ADMIN = new ActionResult("main-admin", true);
+    private static final ActionResult ADMIN_USERS = new ActionResult("admin-users", true);
     private static final String RB_NAME = "i18n.text";
     private static final String LOCALE = "locale";
     private static final String ERROR = "user_change_error";
@@ -59,7 +59,7 @@ public class ChangeUserAction implements Action {
                 session.setAttribute(ERROR, error);
                 if (user.getRole() == User.Role.CLIENT) return CABINET_USER;
                 if (user.getRole() == User.Role.DRIVER) return CABINET_DRIVER;
-                return MAIN_ADMIN;
+                return ADMIN_USERS;
             }
             changeUser();
         }
@@ -126,7 +126,7 @@ public class ChangeUserAction implements Action {
         }
         if (User.Role.CLIENT.equals(user.getRole())) result = CABINET_USER;
         if (User.Role.DRIVER.equals(user.getRole())) result = CABINET_DRIVER;
-        if (request.getParameter(SAVE) != null) result = MAIN_ADMIN;
+        if (request.getParameter(SAVE) != null) result = ADMIN_USERS;
     }
 
     private void deleteUser() throws ActionException {
@@ -152,6 +152,6 @@ public class ChangeUserAction implements Action {
             LOGGER.error("Error at deleteUser() while performing transaction");
             throw new ActionException("Error at deleteUser() while performing transaction", e);
         }
-        result = MAIN_ADMIN;
+        result = ADMIN_USERS;
     }
 }
