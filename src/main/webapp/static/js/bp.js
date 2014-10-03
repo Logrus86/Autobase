@@ -56,19 +56,12 @@ $(document).ready(function () {
         document.getElementById("msg_o").innerText = "";
     });
 
-    // if driver-form isn't here but user-form is here, changing user-form' style to correct view at client's cabinet
-    if (document.getElementById("vehicles-form") == null) document.getElementById("user-form") && setUserStyleClient();
-
+    if (document.getElementById("vehicles-form")) document.getElementById("user-form").style.float = "right";
     if (document.getElementById('admin_bar')) {colorAdminBtns();}
 });
 
 function showModalByDefault(form_name) {
     $(form_name).modal(show = true);
-}
-
-function setUserStyleClient() {
-    document.getElementById("user-form").style.float = "none";
-    document.getElementById("user-form").style.margin = 0;
 }
 
 function prepareGetRequest() {
@@ -108,7 +101,7 @@ function prepareGetRequest() {
 }
 
 function colorAdminBtns() {
-    if (location.pathname == '/do/login' || location.pathname == '/do/main') {
+    if (location.pathname == '/do/admin-users') {
         document.getElementById('bt_users').setAttribute('class', 'btn btn-info')
     }
     if (location.pathname == '/do/admin-cars') {
@@ -128,6 +121,9 @@ function colorAdminBtns() {
     }
     if (location.pathname == '/do/admin-manufacturers') {
         document.getElementById('bt_manufacturers').setAttribute('class', 'btn btn-info')
+    }
+    if (location.pathname == '/do/admin-orders' || location.pathname == '/do/main' || location.pathname == '/do/login') {
+        document.getElementById('bt_orders').setAttribute('class', 'btn btn-info')
     }
 }
 

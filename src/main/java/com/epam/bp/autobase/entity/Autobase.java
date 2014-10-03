@@ -2,14 +2,17 @@ package com.epam.bp.autobase.entity;
 
 import com.epam.bp.autobase.dao.*;
 import com.epam.bp.autobase.dao.H2.DaoManager;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Autobase {
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Autobase.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Autobase.class);
+    //TODO move to context
     private static List<Color> colorList;
     private static List<Model> modelList;
     private static List<Manufacturer> manufacturerList;
@@ -149,18 +152,15 @@ public class Autobase {
     }
 
     public List<Car> getCarList() {
-        List<Car> result = new ArrayList<>();
-        for (Vehicle vehicle : vehicleList) {
-            if (vehicle.getVehicleType().equals("Car")) result.add((Car) vehicle);
-        }
+        List<Car> result = vehicleList.stream()
+                .filter(vehicle -> vehicle.getVehicleType().equals("Car"))
+                .map(vehicle -> (Car) vehicle).collect(Collectors
+                        .toList());
         return result;
     }
 
     public List<Bus> getBusList() {
-        List<Bus> result = new ArrayList<>();
-        for (Vehicle vehicle : vehicleList) {
-            if (vehicle.getVehicleType().equals("Bus")) result.add((Bus) vehicle);
-        }
+        List<Bus> result = vehicleList.stream().filter(vehicle -> vehicle.getVehicleType().equals("Bus")).map(vehicle -> (Bus) vehicle).collect(Collectors.toList());
         return result;
     }
 

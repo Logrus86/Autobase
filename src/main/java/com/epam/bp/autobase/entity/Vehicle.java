@@ -5,7 +5,7 @@ import com.epam.bp.autobase.dao.Identifiable;
 import java.math.BigDecimal;
 import java.util.Comparator;
 
-public abstract class Vehicle implements Cloneable, Comparable<Vehicle>, Identifiable<Integer> {
+public abstract class Vehicle implements Identifiable<Integer> {
     public static final Comparator<Vehicle> PRICE_COMPARATOR = new Comparator<Vehicle>() {
         @Override
         public int compare(Vehicle vehicle1, Vehicle vehicle2) {
@@ -105,9 +105,8 @@ public abstract class Vehicle implements Cloneable, Comparable<Vehicle>, Identif
         return driverId;
     }
 
-    public boolean setDriverId (Integer driverId) {
+    public void setDriverId (Integer driverId) {
         this.driverId = driverId;
-        return true;
     }
 
     public Model getModel() {
@@ -136,20 +135,6 @@ public abstract class Vehicle implements Cloneable, Comparable<Vehicle>, Identif
         Autobase autobase = Autobase.getInstance();
         result = autobase.getUserById(driverId);
         return result;
-    }
-
-    @Override
-    protected Vehicle clone() {
-        try {
-            return (Vehicle) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
-        }
-    }
-
-    @Override
-    public int compareTo(Vehicle another) {
-        return this.rentPrice.compareTo(another.rentPrice);
     }
 
     public enum Fuel {

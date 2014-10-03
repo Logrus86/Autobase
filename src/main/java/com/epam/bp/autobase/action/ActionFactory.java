@@ -15,8 +15,8 @@ public class ActionFactory {
         ACTIONS.put("GET/admin-cars", new ShowPageAction("admin-cars"));
         ACTIONS.put("GET/admin-buses", new ShowPageAction("admin-buses"));
         ACTIONS.put("GET/admin-trucks", new ShowPageAction("admin-trucks"));
-        ACTIONS.put("GET/admin-users", new ShowPageAction("main-admin"));
-        ACTIONS.put("GET/main-admin", new ShowPageAction("main-admin"));
+        ACTIONS.put("GET/admin-users", new ShowPageAction("admin-users"));
+        ACTIONS.put("GET/admin-orders", new ShowPageAction("admin-orders"));
         ACTIONS.put("GET/main-driver", new ShowPageAction("main-driver"));
         ACTIONS.put("GET/ordered", new ShowPageAction("ordered"));
 
@@ -41,6 +41,7 @@ public class ActionFactory {
         ACTIONS.put("POST/create_model", new CreateEntityAction("model"));
         ACTIONS.put("POST/create_manufacturer", new CreateEntityAction("manufacturer"));
         ACTIONS.put("POST/order", new OrderAction());
+        ACTIONS.put("POST/order_edit", new EditOrderAction());
     }
 
     public static Action getAction(String actionName) {

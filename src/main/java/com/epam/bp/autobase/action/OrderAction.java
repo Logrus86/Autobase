@@ -61,6 +61,7 @@ public class OrderAction implements Action {
         Date dateOrdered = new Date();
         order.setDateOrdered(dateOrdered);
         order.setSum(sum);
+        order.setStatus(Order.Status.PENDING);
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DaoManager daoManager = daoFactory.getDaoManager();

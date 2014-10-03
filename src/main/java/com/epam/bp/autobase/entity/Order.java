@@ -16,6 +16,15 @@ public class Order implements Identifiable<Integer> {
     private Integer dayCount;
     private Date dateOrdered;
     private BigDecimal sum;
+    private Status status;
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public BigDecimal getSum() {
         return sum;
@@ -96,6 +105,15 @@ public class Order implements Identifiable<Integer> {
         }
     }
 
+    public Vehicle getVehicle() {
+        Autobase autobase = Autobase.getInstance();
+        return autobase.getVehicleById(vehicleId);
+    }
+
+    public User getClient() {
+        Autobase autobase = Autobase.getInstance();
+        return autobase.getUserById(clientId);
+    }
     public void setDateOrdered(Date dateOrdered) {
         this.dateOrdered = dateOrdered;
     }
@@ -108,4 +126,9 @@ public class Order implements Identifiable<Integer> {
     public void setId(Integer id) {
         this.id = id;
     }
+
+    public enum Status {
+        PENDING, PERFORMING, DONE, CANCELED
+    }
 }
+

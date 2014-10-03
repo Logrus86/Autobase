@@ -70,6 +70,7 @@ public class EntitiesRefiller implements Filter {
                     if (VEHICLE.equals(entityChanged)) refillVehicles();
                     if (ORDER.equals(entityChanged)) refillOrders();
                     if (entityChanged == null) {
+                        refillOrders();
                         refillUsers();
                         refillColors();
                         refillModels();

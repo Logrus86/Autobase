@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class User implements Identifiable<Integer> {
     private Integer id;
@@ -98,6 +99,11 @@ public class User implements Identifiable<Integer> {
     public User setRole(Role role) {
         this.role = role;
         return this;
+    }
+
+    public List<Order> getClientOrders() {
+        Autobase autobase = Autobase.getInstance();
+        return autobase.getOrderListByClientId(this.id);
     }
 
     @Override

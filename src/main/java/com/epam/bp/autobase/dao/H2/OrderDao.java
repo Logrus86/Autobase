@@ -23,6 +23,7 @@ public class OrderDao extends AbstractDao<Integer, Order> implements com.epam.bp
     public static final String DAYS_COUNT = "DAYS_COUNT";
     public static final String DATE_ORDERED = "DATE_ORDERED";
     public static final String SUM = "SUM";
+    public static final String STATUS = "STATUS";
 
     public OrderDao(ConnectionPool.ProxyConnection connection) {
         super(connection);
@@ -30,7 +31,7 @@ public class OrderDao extends AbstractDao<Integer, Order> implements com.epam.bp
 
     @Override
     public String getCreateQuery() {
-        return "INSERT INTO "+ VH_ORDER +"("+CLIENT_ID+", "+VEHICLE_ID+", "+DATE_START+", "+DAYS_COUNT+", "+DATE_ORDERED+", "+SUM+") VALUES(?, ?, ?, ?, ?, ?);";
+        return "INSERT INTO "+ VH_ORDER +"("+CLIENT_ID+", "+VEHICLE_ID+", "+DATE_START+", "+DAYS_COUNT+", "+DATE_ORDERED+", "+SUM+", "+STATUS+") VALUES(?, ?, ?, ?, ?, ?, ?);";
     }
 
     @Override
@@ -40,7 +41,7 @@ public class OrderDao extends AbstractDao<Integer, Order> implements com.epam.bp
 
     @Override
     public String getUpdateQuery() {
-        return "UPDATE "+ VH_ORDER +" SET "+CLIENT_ID+" = ?, "+VEHICLE_ID+" = ?, "+DATE_START+" = ?, "+DAYS_COUNT+" = ?, "+DATE_ORDERED+" = ?, "+SUM+" = ? WHERE "+ID+" = ?;";
+        return "UPDATE "+ VH_ORDER +" SET "+CLIENT_ID+" = ?, "+VEHICLE_ID+" = ?, "+DATE_START+" = ?, "+DAYS_COUNT+" = ?, "+DATE_ORDERED+" = ?, "+SUM+" = ?, "+STATUS+" = ? WHERE "+ID+" = ?;";
     }
 
     @Override
@@ -73,6 +74,7 @@ public class OrderDao extends AbstractDao<Integer, Order> implements com.epam.bp
             order.setDayCount(rs.getInt(DAYS_COUNT));
             order.setDateOrdered(rs.getTimestamp(DATE_ORDERED));
             order.setSum(BigDecimal.valueOf(rs.getInt(SUM)));
+            order.setStatus(Order.Status.valueOf(rs.getString(STATUS)));
         } catch (Exception e) {
             LOGGER.error("Parsing resultSet to order error");
             throw new DaoException("Parsing resultSet to order error", e);
@@ -89,6 +91,7 @@ public class OrderDao extends AbstractDao<Integer, Order> implements com.epam.bp
             ps.setString(4, String.valueOf(order.getDayCount()));
             ps.setString(5, order.getDateOrdered());
             ps.setString(6, String.valueOf(order.getSum()));
+            ps.setString(7, String.valueOf(order.getStatus()));
         } catch (Exception e) {
             LOGGER.error("Preparing statement for Insert order error");
             throw new DaoException("Preparing statement for Insert order error", e);
@@ -104,7 +107,8 @@ public class OrderDao extends AbstractDao<Integer, Order> implements com.epam.bp
             ps.setString(4, String.valueOf(order.getDayCount()));
             ps.setString(5, order.getDateOrdered());
             ps.setString(6, String.valueOf(order.getSum()));
-            ps.setString(7, String.valueOf(order.getId()));
+            ps.setString(7, String.valueOf(order.getStatus()));
+            ps.setString(8, String.valueOf(order.getId()));
         } catch (Exception e) {
             LOGGER.error("Preparing statement for Update order error");
             throw new DaoException("Preparing statement for Update order error", e);
