@@ -11,9 +11,9 @@
             <t:logos>
                 <jsp:attribute name="user_panel"><t:welcome_driver/></jsp:attribute>
             </t:logos>
-            <div align="center">
-                <t:user_edit_form/>
-                <t:vehicles_edit_form/>
+            <div class="row">
+                <div class="col-md-6" id="driver_div"><t:user_edit_form/></div>
+                <div class="col-md-6"><t:vehicles_edit_form/></div>
             </div>
         </jsp:body>
     </t:generic>

@@ -33,9 +33,7 @@
 <div id="body">
     <jsp:doBody/>
 </div>
-<div id="footer" align="center"
-        <jsp:invoke fragment="hide_footer"/>
-        >
+<div id="footer" align="center" <jsp:invoke fragment="hide_footer"/>>
     EPAM Systems © 2014<br>
     Bobylev P.R. © 2014
 </div>
