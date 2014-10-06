@@ -1,16 +1,15 @@
-<%--suppress ALL --%>
 <%@tag description="manufacturers edit forms admin" pageEncoding="UTF-8" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div id="manufacturers" align="center">
     <table>
-        <div class="msg-error">${manuf_change_error}</div>
+        <div class="msg-error">${manufacturer_change_error}</div>
         <tr align="center">
             <td>№</td>
             <td><fmt:message key="default.value"/></td>
         </tr>
-        <c:forEach items="${manufacturerList}" var="manufacturer" varStatus="i">
+        <c:forEach items="${manufacturers}" var="manufacturer" varStatus="i">
             <tr>
                 <form method="post" action="change_manufacturer">
                     <td><input id="N" type="number" class="form-control" value=${i.count} readonly></td>

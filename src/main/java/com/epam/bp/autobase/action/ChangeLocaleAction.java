@@ -2,6 +2,7 @@ package com.epam.bp.autobase.action;
 
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Locale;
@@ -15,9 +16,10 @@ public class ChangeLocaleAction implements Action {
     public ActionResult execute(HttpServletRequest request) throws ActionException {
         String language = request.getParameter(LOCALE);
         HttpSession session = request.getSession();
+        ServletContext context = session.getServletContext();
         Locale locale = new Locale(language);
+        context.setAttribute(LOCALE, locale);
         LOGGER.info("Locale was changed to: " + language);
-        session.setAttribute(LOCALE, locale);
         String referer = request.getHeader(REFERER);
         referer = referer.substring(referer.lastIndexOf("/") + 1, referer.length());
         return new ActionResult(referer, true);

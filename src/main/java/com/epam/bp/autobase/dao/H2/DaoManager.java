@@ -1,24 +1,23 @@
 package com.epam.bp.autobase.dao.H2;
 
-import com.epam.bp.autobase.dao.*;
-import com.epam.bp.autobase.dao.OrderDao;
+import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.pool.ConnectionPool;
 
 public class DaoManager implements com.epam.bp.autobase.dao.DaoManager {
-    protected ConnectionPool.ProxyConnection connection = null;
-    protected com.epam.bp.autobase.dao.UserDao userDao = null;
-    protected com.epam.bp.autobase.dao.VehicleDao vehicleDao = null;
-    protected com.epam.bp.autobase.dao.ColorDao colorDao = null;
-    protected com.epam.bp.autobase.dao.ModelDao modelDao = null;
-    protected com.epam.bp.autobase.dao.ManufacturerDao manufacturerDao = null;
-    protected com.epam.bp.autobase.dao.H2.OrderDao orderDao = null;
+    private ConnectionPool.ProxyConnection connection = null;
+    private UserDao userDao = null;
+    private VehicleDao vehicleDao = null;
+    private ColorDao colorDao = null;
+    private ModelDao modelDao = null;
+    private ManufacturerDao manufacturerDao = null;
+    private OrderDao orderDao = null;
 
     public DaoManager(ConnectionPool.ProxyConnection connection) {
         this.connection = connection;
     }
 
     @Override
-    public com.epam.bp.autobase.dao.UserDao getUserDao() {
+    public UserDao getUserDao() {
         if (this.userDao == null) {
             this.userDao = new UserDao(this.connection);
         }
@@ -26,7 +25,7 @@ public class DaoManager implements com.epam.bp.autobase.dao.DaoManager {
     }
 
     @Override
-    public com.epam.bp.autobase.dao.VehicleDao getVehicleDao() {
+    public VehicleDao getVehicleDao() {
         if (this.vehicleDao == null) {
             this.vehicleDao = new VehicleDao(this.connection);
         }
@@ -34,7 +33,7 @@ public class DaoManager implements com.epam.bp.autobase.dao.DaoManager {
     }
 
     @Override
-    public com.epam.bp.autobase.dao.ColorDao getColorDao() {
+    public ColorDao getColorDao() {
         if (this.colorDao == null) {
             this.colorDao = new ColorDao(this.connection);
         }
@@ -42,7 +41,7 @@ public class DaoManager implements com.epam.bp.autobase.dao.DaoManager {
     }
 
     @Override
-    public com.epam.bp.autobase.dao.ModelDao getModelDao() {
+    public ModelDao getModelDao() {
         if (this.modelDao == null) {
             this.modelDao = new ModelDao(this.connection);
         }
@@ -50,7 +49,7 @@ public class DaoManager implements com.epam.bp.autobase.dao.DaoManager {
     }
 
     @Override
-    public com.epam.bp.autobase.dao.ManufacturerDao getManufacturerDao() {
+    public ManufacturerDao getManufacturerDao() {
         if (this.manufacturerDao == null) {
             this.manufacturerDao = new ManufacturerDao(this.connection);
         }
@@ -60,7 +59,7 @@ public class DaoManager implements com.epam.bp.autobase.dao.DaoManager {
     @Override
     public OrderDao getOrderDao() {
         if (this.orderDao == null) {
-            this.orderDao = new com.epam.bp.autobase.dao.H2.OrderDao(this.connection);
+            this.orderDao = new OrderDao(this.connection);
         }
         return orderDao;
     }
@@ -69,7 +68,6 @@ public class DaoManager implements com.epam.bp.autobase.dao.DaoManager {
         public void execute(DaoManager daoManager) throws DaoException;
     }
 
-    @SuppressWarnings("ThrowFromFinallyBlock")
     public void executeAndClose(DaoCommand command) throws DaoException {
         try {
             command.execute(this);
@@ -84,7 +82,6 @@ public class DaoManager implements com.epam.bp.autobase.dao.DaoManager {
         }
     }
 
-    @SuppressWarnings("ThrowFromFinallyBlock")
     public void transaction(DaoCommand command) throws DaoException {
         try {
             this.connection.setAutoCommit(false);

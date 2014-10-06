@@ -1,40 +1,41 @@
 package com.epam.bp.autobase.entity;
 
-import com.epam.bp.autobase.dao.Identifiable;
+import com.epam.bp.autobase.dao.*;
+import com.epam.bp.autobase.dao.H2.DaoManager;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
 
-public abstract class Vehicle implements Identifiable<Integer> {
+public abstract class Vehicle extends Entity {
     public static final Comparator<Vehicle> PRICE_COMPARATOR = new Comparator<Vehicle>() {
         @Override
         public int compare(Vehicle vehicle1, Vehicle vehicle2) {
             return vehicle1.rentPrice.compareTo(vehicle2.rentPrice);
         }
     };
-    private Integer id;
     private BigDecimal rentPrice;
     private Integer colorId;
     private Integer modelId;
     private Integer manufacturerId;
+    private Integer driverId;
     private int productionYear;
     private BigDecimal mileage;
     private Fuel fuelType;
     private boolean operable;
-    private Integer driverId;
-    private final String vehicleType = this.getClass().getSimpleName();
+    private Color color;
+    private Model model;
+    private Manufacturer manufacturer;
+    private User driver;
 
-    public String getVehicleType() {
-        return vehicleType;
+    private Type type;
+
+    public Type getType() {
+        return type;
     }
 
-    @Override
-    public java.lang.Integer getId() {
-        return id;
-    }
-
-    public void setId(java.lang.Integer id) {
-        this.id = id;
+    public Vehicle setType(Type type) {
+        this.type = type;
+        return this;
     }
 
     public int getProductionYear() {
@@ -110,34 +111,70 @@ public abstract class Vehicle implements Identifiable<Integer> {
     }
 
     public Model getModel() {
-        Model result;
-        Autobase autobase = Autobase.getInstance();
-        result = autobase.getModelById(modelId);
-        return result;
+        try {
+            DaoFactory daoFactory = DaoFactory.getInstance();
+            DaoManager daoManager = daoFactory.getDaoManager();
+            daoManager.transactionAndClose(daoManager1 -> {
+                ModelDao modelDao = daoManager1.getModelDao();
+                model = modelDao.getById(modelId);
+            });
+            daoFactory.releaseContext();
+        } catch (Exception e) {
+            throw new RuntimeException("Error getting vehicle model from database", e);
+        }
+        return model;
     }
 
     public Manufacturer getManufacturer() {
-        Manufacturer result;
-        Autobase autobase = Autobase.getInstance();
-        result = autobase.getManufacturerById(manufacturerId);
-        return result;
+            try {
+                DaoFactory daoFactory = DaoFactory.getInstance();
+                DaoManager daoManager = daoFactory.getDaoManager();
+                daoManager.transactionAndClose(daoManager1 -> {
+                    ManufacturerDao manufacturerDao = daoManager1.getManufacturerDao();
+                    manufacturer = manufacturerDao.getById(manufacturerId);
+                });
+                daoFactory.releaseContext();
+            } catch (Exception e) {
+                throw new RuntimeException("Error getting vehicle manufacturer from database", e);
+            }
+        return manufacturer;
     }
 
     public Color getColor() {
-        Color result;
-        Autobase autobase = Autobase.getInstance();
-        result = autobase.getColorById(colorId);
-        return result;
+            try {
+                DaoFactory daoFactory = DaoFactory.getInstance();
+                DaoManager daoManager = daoFactory.getDaoManager();
+                daoManager.transactionAndClose(daoManager1 -> {
+                    ColorDao colorDao = daoManager1.getColorDao();
+                    color = colorDao.getById(colorId);
+                });
+                daoFactory.releaseContext();
+            } catch (Exception e) {
+                throw new RuntimeException("Error getting vehicle color from database", e);
+            }
+        return color;
     }
 
     public User getDriver() {
-        User result;
-        Autobase autobase = Autobase.getInstance();
-        result = autobase.getUserById(driverId);
-        return result;
+        try {
+            DaoFactory daoFactory = DaoFactory.getInstance();
+            DaoManager daoManager = daoFactory.getDaoManager();
+            daoManager.transactionAndClose(daoManager1 -> {
+                UserDao userDao = daoManager1.getUserDao();
+                driver = userDao.getById(driverId);
+            });
+            daoFactory.releaseContext();
+        } catch (Exception e) {
+            throw new RuntimeException("Error getting vehicle driver from database", e);
+        }
+        return driver;
     }
 
     public enum Fuel {
         PETROL, DIESEL, GAS, GAS_PETROL, ELECTRICITY
+    }
+
+    public enum Type {
+        BUS, CAR, TRUCK
     }
 }

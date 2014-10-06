@@ -12,16 +12,16 @@ import java.util.List;
 
 public class UserDao extends AbstractDao<Integer, User> implements com.epam.bp.autobase.dao.UserDao {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(UserDao.class);
-    private static final String ID = "ID";
-    private static final String USER = "USER";
-    private static final String FIRSTNAME = "FIRSTNAME";
-    private static final String LASTNAME = "LASTNAME";
-    private static final String DOB = "DOB";
-    private static final String USERNAME = "USERNAME";
-    private static final String PASSWORD = "PASSWORD";
-    private static final String EMAIL = "EMAIL";
-    private static final String ROLE = "ROLE";
-    private static final String BALANCE = "BALANCE";
+    public static final String ID = "ID";
+    public static final String USER = "USER";
+    public static final String FIRSTNAME = "FIRSTNAME";
+    public static final String LASTNAME = "LASTNAME";
+    public static final String DOB = "DOB";
+    public static final String USERNAME = "USERNAME";
+    public static final String PASSWORD = "PASSWORD";
+    public static final String EMAIL = "EMAIL";
+    public static final String ROLE = "ROLE";
+    public static final String BALANCE = "BALANCE";
 
     public UserDao(ConnectionPool.ProxyConnection connection) {
         super(connection);

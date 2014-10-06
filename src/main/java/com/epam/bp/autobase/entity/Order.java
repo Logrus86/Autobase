@@ -1,6 +1,9 @@
 package com.epam.bp.autobase.entity;
 
-import com.epam.bp.autobase.dao.Identifiable;
+import com.epam.bp.autobase.dao.DaoFactory;
+import com.epam.bp.autobase.dao.H2.DaoManager;
+import com.epam.bp.autobase.dao.UserDao;
+import com.epam.bp.autobase.dao.VehicleDao;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -8,8 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Order implements Identifiable<Integer> {
-    private Integer id;
+public class Order extends Entity {
     private Integer clientId;
     private Integer vehicleId;
     private Date dateStart;
@@ -17,6 +19,8 @@ public class Order implements Identifiable<Integer> {
     private Date dateOrdered;
     private BigDecimal sum;
     private Status status;
+    private Vehicle vehicle;
+    private User client;
 
     public Status getStatus() {
         return status;
@@ -106,25 +110,36 @@ public class Order implements Identifiable<Integer> {
     }
 
     public Vehicle getVehicle() {
-        Autobase autobase = Autobase.getInstance();
-        return autobase.getVehicleById(vehicleId);
+        try {
+            DaoFactory daoFactory = DaoFactory.getInstance();
+            DaoManager daoManager = daoFactory.getDaoManager();
+            daoManager.transactionAndClose(daoManager1 -> {
+                VehicleDao vehicleDao = daoManager1.getVehicleDao();
+                vehicle = vehicleDao.getById(vehicleId);
+            });
+            daoFactory.releaseContext();
+        } catch (Exception e) {
+            throw new RuntimeException("Error getting order's vehicle", e);
+        }
+        return vehicle;
     }
 
     public User getClient() {
-        Autobase autobase = Autobase.getInstance();
-        return autobase.getUserById(clientId);
+        try {
+            DaoFactory daoFactory = DaoFactory.getInstance();
+            DaoManager daoManager = daoFactory.getDaoManager();
+            daoManager.transactionAndClose(daoManager1 -> {
+                UserDao userDao = daoManager1.getUserDao();
+                client = userDao.getById(clientId);
+            });
+            daoFactory.releaseContext();
+        } catch (Exception e) {
+            throw new RuntimeException("Error getting order's vehicle", e);
+        }
+        return client;
     }
     public void setDateOrdered(Date dateOrdered) {
         this.dateOrdered = dateOrdered;
-    }
-
-    @Override
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public enum Status {

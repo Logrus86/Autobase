@@ -38,7 +38,7 @@
                             <span class="input-group-addon"><fmt:message key="default.model"/></span>
                             <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true"
                                     name="model_id${vehicle.id}">
-                                <c:forEach items="${modelList}" var="model">
+                                <c:forEach items="${models}" var="model">
                                     <option <c:if test="${vehicle.model.id==model.id}">selected</c:if> value="${model.id}">
                                         ${model.value}
                                     </option>
@@ -53,7 +53,7 @@
                             <span class="input-group-addon"><fmt:message key="default.manufacturer"/></span>
                             <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true"
                                     name="manufacturer_id${vehicle.id}">
-                                <c:forEach items="${manufacturerList}" var="manufacturer">
+                                <c:forEach items="${manufacturers}" var="manufacturer">
                                     <option <c:if test="${vehicle.manufacturer.id==manufacturer.id}">selected</c:if> value="${manufacturer.id}">
                                         ${manufacturer.value}
                                     </option>
@@ -68,7 +68,7 @@
                             <span class="input-group-addon"><fmt:message key="default.color"/></span>
                             <select class="selectpicker show-menu-arrow" data-width="auto"
                                     data-live-search="true" name="color_id${vehicle.id}">
-                                <c:forEach items="${colorList}" var="color">
+                                <c:forEach items="${colors}" var="color">
                                     <option <c:if test="${vehicle.color.id==color.id}">selected</c:if> value="${color.id}">
                                         <c:if test="${locale.language=='ru'}">${color.valueRu}</c:if>
                                         <c:if test="${locale.language=='en'}">${color.valueEn}</c:if>
@@ -111,7 +111,7 @@
                         </div>
                     </div>
                 </div>
-                <c:if test="${vehicle.vehicleType=='Bus'}">
+                <c:if test="${vehicle.type == vehicleTypes[0]}">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="input-group">
@@ -143,7 +143,7 @@
                         </div>
                     </div>
                 </c:if>
-                <c:if test="${vehicle.vehicleType=='Car'}">
+                <c:if test="${vehicle.type == vehicleTypes[1]}">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="input-group">
@@ -179,7 +179,7 @@
                         </div>
                     </div>
                 </c:if>
-                <c:if test="${vehicle.vehicleType=='Truck'}">
+                <c:if test="${vehicle.type == vehicleTypes[2]}">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="input-group">

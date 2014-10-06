@@ -3,10 +3,13 @@ package com.epam.bp.autobase.action;
 import com.epam.bp.autobase.dao.DaoFactory;
 import com.epam.bp.autobase.dao.H2.DaoManager;
 import com.epam.bp.autobase.dao.UserDao;
+import com.epam.bp.autobase.entity.Entity;
 import com.epam.bp.autobase.entity.User;
+import com.epam.bp.autobase.util.AttributeSetter;
 import com.epam.bp.autobase.util.Validator;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
@@ -16,19 +19,11 @@ import java.util.ResourceBundle;
 public class RegisterAction implements Action {
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(RegisterAction.class);
-    private static final ActionResult REG_SUCCESS = new ActionResult("registered",true);
+    private static final ActionResult REG_SUCCESS = new ActionResult("registered");
     private static final ActionResult REG_FAILED = new ActionResult("main",true);
     private static final String RB_NAME = "i18n.text";
     private static final String LOCALE = "locale";
     private static final String ERROR = "reg_error";
-    private static final String USER = "user";
-    private static final String FIRSTNAME = "firstname";
-    private static final String LASTNAME = "lastname";
-    private static final String EMAIL = "email";
-    private static final String DOB = "dob";
-    private static final String USERNAME = "username";
-    private static final String PASSWORD = "password";
-    private static final String ENTITY_CHANGES_FLAG = "listsChanged";
     private static final String ERROR_BUSY_USERNAME = "error.busy-username";
     private static String error_busy_username;
     private ActionResult result;
@@ -39,7 +34,8 @@ public class RegisterAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
         HttpSession session = request.getSession();
-        Locale locale = (Locale) session.getAttribute(LOCALE);
+        ServletContext context = session.getServletContext();
+        Locale locale = (Locale) context.getAttribute(LOCALE);
         ResourceBundle RB = ResourceBundle.getBundle(RB_NAME, locale);
         error_busy_username = RB.getString(ERROR_BUSY_USERNAME);
         //validate inputs
@@ -54,12 +50,12 @@ public class RegisterAction implements Action {
             DaoManager daoManager = daoFactory.getDaoManager();
             daoManager.transactionAndClose(daoManager1 -> {
                 UserDao userDao = daoManager1.getUserDao();
-                String firstname = request.getParameter(FIRSTNAME);
-                String lastname = request.getParameter(LASTNAME);
-                String dob = request.getParameter(DOB);
-                String username = request.getParameter(USERNAME);
-                String password = request.getParameter(PASSWORD);
-                String email = request.getParameter(EMAIL);
+                String firstname = request.getParameter(Entity.FIRSTNAME);
+                String lastname = request.getParameter(Entity.LASTNAME);
+                String dob = request.getParameter(Entity.DOB);
+                String username = request.getParameter(Entity.USERNAME);
+                String password = request.getParameter(Entity.PASSWORD);
+                String email = request.getParameter(Entity.EMAIL);
                 // check username not busy
                 if (userDao.getUsersListByUsername(username).size() > 1) {
                     session.setAttribute(ERROR, error_busy_username);
@@ -82,8 +78,7 @@ public class RegisterAction implements Action {
                     clearRegData(session);
                     LOGGER.info("Newly registered user: " + user.toString());
                     result = REG_SUCCESS;
-                    session.setAttribute(USER, user);
-                    session.setAttribute(ENTITY_CHANGES_FLAG, "true");
+                    session.setAttribute(Entity.USER, user);
                 }
             });
             daoFactory.releaseContext();
@@ -91,24 +86,25 @@ public class RegisterAction implements Action {
             LOGGER.error("Error at RegisterAction while performing transaction");
             throw new ActionException("Error at RegisterAction while performing transaction", e);
         }
+        AttributeSetter.setEntityToSession(Entity.USER, session);
         return result;
     }
 
     //forward entered registration data if some of it was entered wrong
     private void forwardRegData(HttpServletRequest request, HttpSession session) {
-        session.setAttribute(FIRSTNAME, request.getParameter(FIRSTNAME));
-        session.setAttribute(LASTNAME, request.getParameter(LASTNAME));
-        session.setAttribute(DOB, request.getParameter(DOB));
-        session.setAttribute(USERNAME, request.getParameter(USERNAME));
-        session.setAttribute(EMAIL, request.getParameter(EMAIL));
+        session.setAttribute(Entity.FIRSTNAME, request.getParameter(Entity.FIRSTNAME));
+        session.setAttribute(Entity.LASTNAME, request.getParameter(Entity.LASTNAME));
+        session.setAttribute(Entity.DOB, request.getParameter(Entity.DOB));
+        session.setAttribute(Entity.USERNAME, request.getParameter(Entity.USERNAME));
+        session.setAttribute(Entity.EMAIL, request.getParameter(Entity.EMAIL));
     }
 
     public static void clearRegData(HttpSession session) {
-        session.removeAttribute(FIRSTNAME);
-        session.removeAttribute(LASTNAME);
-        session.removeAttribute(DOB);
-        session.removeAttribute(USERNAME);
-        session.removeAttribute(EMAIL);
+        session.removeAttribute(Entity.FIRSTNAME);
+        session.removeAttribute(Entity.LASTNAME);
+        session.removeAttribute(Entity.DOB);
+        session.removeAttribute(Entity.USERNAME);
+        session.removeAttribute(Entity.EMAIL);
         session.removeAttribute(ERROR);
     }
 }

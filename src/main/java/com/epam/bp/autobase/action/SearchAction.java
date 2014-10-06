@@ -2,26 +2,27 @@ package com.epam.bp.autobase.action;
 
 import com.epam.bp.autobase.dao.DaoFactory;
 import com.epam.bp.autobase.dao.VehicleDao;
+import com.epam.bp.autobase.entity.Entity;
 import com.epam.bp.autobase.entity.Vehicle;
 import com.epam.bp.autobase.util.Validator;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
 public class SearchAction implements Action {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SearchAction.class);
-    private static final ActionResult FIND_LOGINED = new ActionResult("search-result");
-    private static final ActionResult FIND_GUEST = new ActionResult("search-result-guest");
-    private static final ActionResult ERR_LOGINED = new ActionResult("main-client");
-    private static final ActionResult ERR_GUEST = new ActionResult("main");
+    private static final ActionResult FIND_LOGINED = new ActionResult(ActionFactory.PAGE_SEARCH_RESULT);
+    private static final ActionResult FIND_GUEST = new ActionResult(ActionFactory.PAGE_SEARCH_RESULT_GUEST);
+    private static final ActionResult ERR_LOGINED = new ActionResult(ActionFactory.PAGE_MAIN_CLIENT);
+    private static final ActionResult ERR_GUEST = new ActionResult(ActionFactory.PAGE_MAIN);
     private static final String ERR_NOTHING_CHECKED = "error.nothing-checked";
     private static final String ERROR = "search_error";
     private static final String FOUNDED_LIST = "foundedList";
     private static final String RB_NAME = "i18n.text";
-    private static final String LOCALE = "locale";
-    private static final String USER = "user";
+    private static final String ATTR_LOCALE = "locale";
     private static final String ON = "on";
     private static final String TRUE = "TRUE";
     private static final String MODEL_ID = "modelId";
@@ -41,11 +42,13 @@ public class SearchAction implements Action {
     private static final String RENT = "rent";
     private static final String PAYLOAD = "payload";
     private static final String VH_TYPE = "vhType";
+    private static final String NOW_DATE = "nowdate";
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
         HttpSession session = request.getSession();
-        Locale locale = (Locale) session.getAttribute(LOCALE);
+        ServletContext context = session.getServletContext();
+        Locale locale = (Locale) context.getAttribute(ATTR_LOCALE);
         ResourceBundle RB = ResourceBundle.getBundle(RB_NAME, locale);
         String error_nothing_checked = RB.getString(ERR_NOTHING_CHECKED);
         RegisterAction.clearRegData(session);
@@ -54,7 +57,7 @@ public class SearchAction implements Action {
         if (!error.isEmpty()) {
             session.setAttribute(ERROR, error);
             session.setAttribute(FOUNDED_LIST, null);
-            if (session.getAttribute(USER) == null) return ERR_GUEST;
+            if (session.getAttribute(Entity.USER) == null) return ERR_GUEST;
             return ERR_LOGINED;
         }
 
@@ -66,17 +69,17 @@ public class SearchAction implements Action {
                 LOGGER.info("Nothing was checked.");
                 session.setAttribute(ERROR, error_nothing_checked);
                 session.setAttribute(FOUNDED_LIST, null);
-                if (session.getAttribute(USER) == null) return ERR_GUEST;
+                if (session.getAttribute(Entity.USER) == null) return ERR_GUEST;
                 return ERR_LOGINED;
             }
-            List<Vehicle> vehicles = vehicleDao.findByParams(params);
+            List<Vehicle> vehicles = vehicleDao.getListByParametersMap(params);
 
             //vehicle was not found
             if (vehicles.isEmpty()) {
                 LOGGER.info("Vehicles wasn't found.");
                 session.removeAttribute(ERROR);
                 session.removeAttribute(FOUNDED_LIST);
-                if (session.getAttribute(USER) == null) return FIND_GUEST;
+                if (session.getAttribute(Entity.USER) == null) return FIND_GUEST;
                 return FIND_LOGINED;
             }
 
@@ -88,7 +91,9 @@ public class SearchAction implements Action {
             LOGGER.error("Error at SearchAction while searching for vehicle");
             throw new ActionException("Error at SearchAction while searching for vehicle", e);
         }
-        if (session.getAttribute(USER) == null) return FIND_GUEST;
+        if (session.getAttribute(Entity.USER) == null) return FIND_GUEST;
+        Date date = new Date();
+        session.setAttribute(NOW_DATE, date);
         return FIND_LOGINED;
     }
 
@@ -116,16 +121,16 @@ public class SearchAction implements Action {
         if (ON.equals(req.getParameter(TIPPER))) tipper = TRUE;
 
         if (modelId != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.MODEL_ID,modelId);
-        if (manufactId != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.MANUF_ID,manufactId);
+        if (manufactId != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.MANUFACTURER_ID,manufactId);
         if (colorId != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.COLOR_ID,colorId);
-        if (fuel != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.FUELTYPE,fuel);
+        if (fuel != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.FUEL_TYPE,fuel);
         if (mileage != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.MILEAGE,mileage);
-        if (standN != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.STAND_N,standN);
-        if (passNbus != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.PASS_N,passNbus);
-        if (passNcar != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.PASS_N,passNcar);
-        if (doorsBus != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.DOORS_N,doorsBus);
-        if (doorsCar != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.DOORS_N,doorsCar);
-        if (condit != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.CONDIT,condit);
+        if (standN != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.STAND_PL_NUM,standN);
+        if (passNbus != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.PASS_PL_NUM,passNbus);
+        if (passNcar != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.PASS_PL_NUM,passNcar);
+        if (doorsBus != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.DOORS_NUM,doorsBus);
+        if (doorsCar != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.DOORS_NUM,doorsCar);
+        if (condit != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.CONDITIONER,condit);
         if (enclosed != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.ENCLOSED,enclosed);
         if (tipper != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.TIPPER,tipper);
         if (notOlder != null) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.PROD_YEAR,notOlder);
@@ -135,7 +140,7 @@ public class SearchAction implements Action {
         //if there are some other parameters, do search by defined vehicle type & operable only
         if (!result.isEmpty()) {
             String vhType = req.getParameter(VH_TYPE);
-            if (!vhType.isEmpty()) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.VEH_TYPE,vhType);
+            if (!vhType.isEmpty()) result.put(com.epam.bp.autobase.dao.H2.VehicleDao.VEHICLE_TYPE,vhType);
             result.put(com.epam.bp.autobase.dao.H2.VehicleDao.OPERABLE,TRUE);
         }
         return result;

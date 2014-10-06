@@ -93,36 +93,36 @@ function prepareGetRequest() {
     else {document.getElementById('isPayload').name = "";}
 
     if (document.getElementById('car-tab').getAttribute('class') == 'tab-pane fade active in')
-        document.getElementById('vhType').value = 'Car';
+        document.getElementById('vhType').value = 'CAR';
     if (document.getElementById('bus-tab').getAttribute('class') == 'tab-pane fade active in')
-        document.getElementById('vhType').value = 'Bus';
+        document.getElementById('vhType').value = 'BUS';
     if (document.getElementById('truck-tab').getAttribute('class') == 'tab-pane fade active in')
-        document.getElementById('vhType').value = 'Truck';
+        document.getElementById('vhType').value = 'TRUCK';
 }
 
 function colorAdminBtns() {
-    if (location.pathname == '/do/admin-users') {
+    if (location.pathname == '/do/admin_users' || location.pathname == '/do/create_user') {
         document.getElementById('bt_users').setAttribute('class', 'btn btn-info')
     }
-    if (location.pathname == '/do/admin-cars') {
+    if (location.pathname == '/do/admin_cars' || location.pathname == '/do/create_car') {
         document.getElementById('bt_cars').setAttribute('class', 'btn btn-info')
     }
-    if (location.pathname == '/do/admin-buses') {
+    if (location.pathname == '/do/admin_buses' || location.pathname == '/do/create_bus') {
         document.getElementById('bt_buses').setAttribute('class', 'btn btn-info')
     }
-    if (location.pathname == '/do/admin-trucks') {
+    if (location.pathname == '/do/admin_trucks' || location.pathname == '/do/create_truck') {
         document.getElementById('bt_trucks').setAttribute('class', 'btn btn-info')
     }
-    if (location.pathname == '/do/admin-colors') {
+    if (location.pathname == '/do/admin_colors' || location.pathname == '/do/create_color') {
         document.getElementById('bt_colors').setAttribute('class', 'btn btn-info')
     }
-    if (location.pathname == '/do/admin-models') {
+    if (location.pathname == '/do/admin_models' || location.pathname == '/do/create_model') {
         document.getElementById('bt_models').setAttribute('class', 'btn btn-info')
     }
-    if (location.pathname == '/do/admin-manufacturers') {
+    if (location.pathname == '/do/admin_manufacturers' || location.pathname == '/do/create_manufacturer') {
         document.getElementById('bt_manufacturers').setAttribute('class', 'btn btn-info')
     }
-    if (location.pathname == '/do/admin-orders' || location.pathname == '/do/main' || location.pathname == '/do/login') {
+    if (location.pathname == '/do/admin_orders' || location.pathname == '/do/main' || location.pathname == '/do/login') {
         document.getElementById('bt_orders').setAttribute('class', 'btn btn-info')
     }
 }

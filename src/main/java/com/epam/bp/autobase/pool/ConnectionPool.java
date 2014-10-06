@@ -24,11 +24,11 @@ public class ConnectionPool {
             e.printStackTrace();
         }
         for (int i = 0; i < POOL_SIZE; i++) {
-            ProxyConnection connection = null;
+            ProxyConnection connection;
             try {
                 connection = new ProxyConnection(DriverManager.getConnection(URL, USER, PASSWORD));
             } catch (SQLException e) {
-                throw new ConnectionPoolException("ConnectionPool exception while creating connection", e);
+                throw new ConnectionPoolException("There are no connection to the database", e);
             }
             connectionQueue.offer(connection);
         }
@@ -39,15 +39,35 @@ public class ConnectionPool {
     }
 
     public ProxyConnection getConnection() throws InterruptedException {
-        ProxyConnection connection;
-        connection = connectionQueue.take();
+        ProxyConnection connection = null;
+        try {
+            connection = connectionQueue.take();
+        } catch (InterruptedException e) {
+            throw new ConnectionPoolException("Free connection awaiting interrupted. Returning null.", e);
+        }
         return connection;
     }
 
-    public static void returnConnection(ProxyConnection connection) {
+    public static void clearConnectionQueue() {
+        ProxyConnection connection;
+        while ((connection = connectionQueue.poll()) != null) {
+            try {
+                if (!connection.getAutoCommit()) {
+                    connection.commit();
+                }
+                connection.closeActually();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+    }
+
+    private static void returnConnection(ProxyConnection connection) {
         connectionQueue.offer(connection);
     }
 
+    // Initialization-on-demand holder idiom
     private static class InstanceHolder {
         private static final ConnectionPool INSTANCE = new ConnectionPool();
     }
@@ -58,6 +78,15 @@ public class ConnectionPool {
 
         public ProxyConnection(Connection connection) {
             this.connection = connection;
+        }
+
+        @Override
+        public void close() {
+            returnConnection(this);
+        }
+
+        private void closeActually() throws SQLException {
+            this.connection.close();
         }
 
         @Override
@@ -98,11 +127,6 @@ public class ConnectionPool {
         @Override
         public void rollback() throws SQLException {
             connection.rollback();
-        }
-
-        @Override
-        public void close() throws SQLException {
-            ConnectionPool.returnConnection(this);
         }
 
         @Override

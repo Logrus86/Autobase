@@ -1,11 +1,8 @@
 package com.epam.bp.autobase.entity;
 
-import com.epam.bp.autobase.dao.Identifiable;
-
-public class Color implements Identifiable<Integer> {
+public class Color extends Entity {
     private String valueEn;
     private String valueRu;
-    private Integer id;
 
     public Color setValueEn(String valueEn) {
         this.valueEn = valueEn;
@@ -25,12 +22,4 @@ public class Color implements Identifiable<Integer> {
         return valueRu;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    @Override
-    public Integer getId() {
-        return id;
-    }
 }

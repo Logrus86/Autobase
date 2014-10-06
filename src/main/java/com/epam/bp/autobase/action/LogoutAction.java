@@ -1,5 +1,6 @@
 package com.epam.bp.autobase.action;
 
+import com.epam.bp.autobase.entity.Entity;
 import com.epam.bp.autobase.entity.User;
 import org.slf4j.LoggerFactory;
 
@@ -8,8 +9,7 @@ import javax.servlet.http.HttpSession;
 
 public class LogoutAction implements Action {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(LogoutAction.class);
-    private static final ActionResult MAIN = new ActionResult("main",true);
-    private static final String ATTR_USER = "user";
+    private static final ActionResult MAIN = new ActionResult(ActionFactory.PAGE_MAIN,true);
 
     public LogoutAction() {
     }
@@ -17,10 +17,10 @@ public class LogoutAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute(ATTR_USER);
+        User user = (User) session.getAttribute(Entity.USER);
         if (user == null) return MAIN;
         LOGGER.info("User '"+user.getUsername()+"' have logged-out");
-        session.removeAttribute(ATTR_USER);
+        session.removeAttribute(Entity.USER);
         return MAIN;
     }
 }

@@ -1,4 +1,3 @@
-<%--suppress ALL --%>
 <%@tag description="users edit forms admin" pageEncoding="UTF-8" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -8,25 +7,25 @@
         <div class="msg-error">${user_change_error}</div>
         <tr align="center">
             <td>№</td>
+            <td><fmt:message key="default.username"/></td>
+            <td><fmt:message key="default.password"/></td>
             <td><fmt:message key="default.firstname"/></td>
             <td><fmt:message key="default.lastname"/></td>
             <td><fmt:message key="default.dob"/></td>
-            <td><fmt:message key="default.username"/></td>
-            <td><fmt:message key="default.password"/></td>
             <td><fmt:message key="default.email"/></td>
             <td><fmt:message key="default.role"/></td>
             <td><fmt:message key="default.balance"/>, <fmt:message key="default.currency"/></td>
         </tr>
         <c:forEach items="${userList}" var="user" varStatus="i">
-            <tr>
-                <form method="post" action="change_user">
-                    <td><input id="N" type="number" class="form-control" value=${i.count} readonly></td>
-                    <td><input type="text" class="form-control" name="firstname" value=${user.firstname}></td>
-                    <td><input type="text" class="form-control" name="lastname" value=${user.lastname}></td>
-                    <td><input type="date" class="form-control" name="dob" value=${user.dob}></td>
-                    <td><input required type="text" class="form-control" name="username" value=${user.username}></td>
-                    <td><input required type="password" class="form-control" name="password" value=${user.password}></td>
-                    <td><input type="email" class="form-control" name="email" value=${user.email}></td>
+
+                <form method="post" action="change_user"><tr>
+                    <td><input id="N" type="number" class="form-control" value="${i.count}" readonly></td>
+                    <td><input required type="text" class="form-control" name="username" value="${user.username}"></td>
+                    <td><input required type="password" class="form-control" name="password" value="${user.password}"></td>
+                    <td><input required type="text" class="form-control" name="firstname" value="${user.firstname}"></td>
+                    <td><input required type="text" class="form-control" name="lastname" value="${user.lastname}"></td>
+                    <td><input required type="date" class="form-control" name="dob" value="${user.dob}"></td>
+                    <td><input required type="email" class="form-control" name="email" value="${user.email}"></td>
                     <td>
                         <select class="selectpicker show-menu-arrow" data-width="auto" name="role">
                             <c:forEach items="${roles}" var="role">
@@ -35,7 +34,8 @@
                         </select>
                     </td>
                     <td><input type="number" class="form-control" name="balance"
-                               <c:if test="${user.role!='CLIENT'}">readonly="" </c:if> value=${user.balance}></td>
+                               <c:if test="${user.role!='CLIENT'}">readonly="" </c:if> value="${user.balance}">
+                    </td>
                     <td>
                         <button class="btn btn-primary" name="save" value="${user.id}" type="submit">
                             <fmt:message key="default.save"/></button>
@@ -43,9 +43,9 @@
                     <td>
                         <button class="btn btn-danger" name="delete" value="${user.id}" type="submit">
                             <fmt:message key="default.delete"/></button>
-                    </td>
+                    </td>  </tr>
                 </form>
-            </tr>
+
         </c:forEach>
     </table>
     <div align="center">

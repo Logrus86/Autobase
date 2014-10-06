@@ -22,7 +22,7 @@
                     <div class="input-group">
                     <span class="input-group-addon"><input type="checkbox" id="isModel"> <fmt:message key="default.model"/></span>
                         <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true" name="modelId" id="modelId">
-                            <c:forEach items="${modelList}" var="model">
+                            <c:forEach items="${models}" var="model">
                                 <option value="${model.id}">
                                     ${model.value}
                                 </option>
@@ -36,7 +36,7 @@
                     <div class="input-group">
                     <span class="input-group-addon"><input type="checkbox" id="isManuf"> <fmt:message key="default.manufacturer"/></span>
                         <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true" name="manufId" id="manufId">
-                            <c:forEach items="${manufacturerList}" var="manufacturer">
+                            <c:forEach items="${manufacturers}" var="manufacturer">
                                 <option value="${manufacturer.id}">
                                     ${manufacturer.value}
                                 </option>
@@ -50,7 +50,7 @@
                     <div class="input-group">
                     <span class="input-group-addon"><input type="checkbox" id="isColor"> <fmt:message key="default.color"/></span>
                         <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true" name="colorId" id="colorId">
-                            <c:forEach items="${colorList}" var="color">
+                            <c:forEach items="${colors}" var="color">
                                 <option value="${color.id}">
                                     <c:if test="${locale.language=='ru'}">${color.valueRu}</c:if>
                                     <c:if test="${locale.language=='en'}">${color.valueEn}</c:if>

@@ -1,6 +1,8 @@
 package com.epam.bp.autobase.entity;
 
-import com.epam.bp.autobase.dao.Identifiable;
+import com.epam.bp.autobase.dao.DaoFactory;
+import com.epam.bp.autobase.dao.H2.DaoManager;
+import com.epam.bp.autobase.dao.OrderDao;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -8,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class User implements Identifiable<Integer> {
+public class User extends Entity {
     private Integer id;
     private String firstname;
     private String lastname;
@@ -18,6 +20,7 @@ public class User implements Identifiable<Integer> {
     private String email;
     private Role role;
     private BigDecimal balance;
+    private List<Order> orders;
 
     public String getFirstname() {
         return firstname;
@@ -102,8 +105,18 @@ public class User implements Identifiable<Integer> {
     }
 
     public List<Order> getClientOrders() {
-        Autobase autobase = Autobase.getInstance();
-        return autobase.getOrderListByClientId(this.id);
+        try {
+            DaoFactory daoFactory = DaoFactory.getInstance();
+            DaoManager daoManager = daoFactory.getDaoManager();
+            daoManager.transactionAndClose(daoManager1 -> {
+                OrderDao orderDao = daoManager1.getOrderDao();
+                orders = orderDao.getListByClientId(id);
+            });
+            daoFactory.releaseContext();
+        } catch (Exception e) {
+            throw new RuntimeException("Error getting client's order list", e);
+        }
+        return orders;
     }
 
     @Override

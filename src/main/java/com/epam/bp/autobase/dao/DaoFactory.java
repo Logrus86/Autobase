@@ -3,7 +3,10 @@ package com.epam.bp.autobase.dao;
 import java.util.ResourceBundle;
 
 public abstract class DaoFactory<Context> {
-    private static final String FACTORY_CLASS = ResourceBundle.getBundle("db").getString("dao.factoryClassName");
+    private static final ResourceBundle rb = ResourceBundle.getBundle("db");
+    private static final String DAO_TYPE = rb.getString("dao.type");
+    private static final String FACTORY_CLASS_PREFIX = "com.epam.bp.autobase.dao.";
+    private static final String FACTORY_CLASS_POSTFIX = ".DaoFactory";
 
     public abstract com.epam.bp.autobase.dao.H2.DaoManager getDaoManager();
 
@@ -13,7 +16,8 @@ public abstract class DaoFactory<Context> {
 
     public static DaoFactory getInstance() throws DaoException {
         try {
-            InstanceHolder.instance = (DaoFactory) Class.forName(FACTORY_CLASS).getMethod("getInstance").invoke(null);
+            InstanceHolder.instance = (DaoFactory) Class.forName(FACTORY_CLASS_PREFIX + DAO_TYPE + FACTORY_CLASS_POSTFIX)
+                    .getMethod("getInstance").invoke(null);
         } catch (Exception e) {
             throw new DaoException("Error while get DaoFactory instance", e);
         }

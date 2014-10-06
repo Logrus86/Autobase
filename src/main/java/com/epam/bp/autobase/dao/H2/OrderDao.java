@@ -24,6 +24,7 @@ public class OrderDao extends AbstractDao<Integer, Order> implements com.epam.bp
     public static final String DATE_ORDERED = "DATE_ORDERED";
     public static final String SUM = "SUM";
     public static final String STATUS = "STATUS";
+    private static final String ORDER_BY_ID = "ORDER BY ID";
 
     public OrderDao(ConnectionPool.ProxyConnection connection) {
         super(connection);
@@ -118,7 +119,7 @@ public class OrderDao extends AbstractDao<Integer, Order> implements com.epam.bp
     @Override
     public List<Order> getListByClientId(Integer id) throws DaoException {
         StringBuilder query = new StringBuilder();
-        query.append(getReadQuery()).append(" WHERE "+CLIENT_ID+" = ?;");
+        query.append(getReadQuery()).append(" WHERE "+CLIENT_ID+" = ? "+ORDER_BY_ID+";");
         PreparedStatement ps;
         List<Order> result;
         try {
@@ -138,7 +139,7 @@ public class OrderDao extends AbstractDao<Integer, Order> implements com.epam.bp
     @Override
     public List<Order> getListByVehicleId(Integer id) throws DaoException {
         StringBuilder query = new StringBuilder();
-        query.append(getReadQuery()).append(" WHERE "+VEHICLE_ID+" = ?;");
+        query.append(getReadQuery()).append(" WHERE "+VEHICLE_ID+" = ? "+ORDER_BY_ID+";");
         PreparedStatement ps;
         List<Order> result;
         try {

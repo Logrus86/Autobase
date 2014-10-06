@@ -1,4 +1,3 @@
-<%--suppress ALL --%>
 <%@tag description="models edit forms admin" pageEncoding="UTF-8" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -10,7 +9,7 @@
             <td>№</td>
             <td><fmt:message key="default.value"/></td>
         </tr>
-        <c:forEach items="${modelList}" var="model" varStatus="i">
+        <c:forEach items="${models}" var="model" varStatus="i">
             <tr><form method="post" action="change_model">
                     <td><input id="N" type="number" class="form-control" value=${i.count} readonly></td>
                     <td><input required type="text" class="form-control" name="value" value=${model.value}></td>

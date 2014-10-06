@@ -4,37 +4,31 @@ import com.epam.bp.autobase.dao.DaoFactory;
 import com.epam.bp.autobase.dao.H2.DaoManager;
 import com.epam.bp.autobase.dao.UserDao;
 import com.epam.bp.autobase.dao.VehicleDao;
+import com.epam.bp.autobase.entity.Entity;
 import com.epam.bp.autobase.entity.User;
 import com.epam.bp.autobase.entity.Vehicle;
+import com.epam.bp.autobase.util.AttributeSetter;
 import com.epam.bp.autobase.util.Validator;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class ChangeUserAction implements Action {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ChangeUserAction.class);
-    private static final ActionResult CABINET_USER = new ActionResult("cabinet");
-    private static final ActionResult CABINET_DRIVER = new ActionResult("main-driver");
-    private static final ActionResult ADMIN_USERS = new ActionResult("admin-users", true);
+    private static final ActionResult CABINET_USER = new ActionResult(ActionFactory.PAGE_CABINET);
+    private static final ActionResult CABINET_DRIVER = new ActionResult(ActionFactory.PAGE_MAIN_DRIVER);
+    private static final ActionResult ADMIN_USERS = new ActionResult(ActionFactory.PAGE_ADMIN_USERS, true);
     private static final String RB_NAME = "i18n.text";
     private static final String LOCALE = "locale";
     private static final String ERROR = "user_change_error";
-    private static final String USER = "user";
-    private static final String FIRSTNAME = "firstname";
-    private static final String LASTNAME = "lastname";
-    private static final String EMAIL = "email";
-    private static final String DOB = "dob";
-    private static final String USERNAME = "username";
-    private static final String PASSWORD = "password";
-    private static final String BALANCE = "balance";
-    private static final String ROLE = "role";
     private static final String SAVE = "save";
     private static final String DELETE = "delete";
-    private static final String ENTITY_CHANGES_FLAG = "listsChanged";
     private static final String ERROR_BUSY_USERNAME = "error.busy-username";
     private static String error_busy_username;
     private ActionResult result;
@@ -46,11 +40,12 @@ public class ChangeUserAction implements Action {
     public ActionResult execute(HttpServletRequest req) throws ActionException {
         request = req;
         session = req.getSession();
-        Locale locale = (Locale) session.getAttribute(LOCALE);
+        ServletContext context = session.getServletContext();
+        Locale locale = (Locale) context.getAttribute(LOCALE);
         ResourceBundle RB = ResourceBundle.getBundle(RB_NAME, locale);
         error_busy_username = RB.getString(ERROR_BUSY_USERNAME);
 
-        user = (User) session.getAttribute(USER);
+        user = (User) session.getAttribute(Entity.USER);
         //changing user if we are client or driver; if we are admin, do it if SAVE parameter not null only
         if (!user.getRole().equals(User.Role.ADMIN) || request.getParameter(SAVE) != null) {
             //validate data
@@ -76,22 +71,22 @@ public class ChangeUserAction implements Action {
             DaoManager daoManager = daoFactory.getDaoManager();
             UserDao userDao = daoManager.getUserDao();
             daoManager.transactionAndClose(daoManager1 -> {
-                String firstname = request.getParameter(FIRSTNAME);
-                String lastname = request.getParameter(LASTNAME);
-                String dob = request.getParameter(DOB);
-                String username = request.getParameter(USERNAME);
-                String password = request.getParameter(PASSWORD);
-                String email = request.getParameter(EMAIL);
+                String firstname = request.getParameter(Entity.FIRSTNAME);
+                String lastname = request.getParameter(Entity.LASTNAME);
+                String dob = request.getParameter(Entity.DOB);
+                String username = request.getParameter(Entity.USERNAME);
+                String password = request.getParameter(Entity.PASSWORD);
+                String email = request.getParameter(Entity.EMAIL);
                 Integer id = null;
                 BigDecimal balance = null;
                 User.Role role = null;
                 if (user.getRole().equals(User.Role.CLIENT))
-                    balance = new BigDecimal(request.getParameter(BALANCE));
+                    balance = new BigDecimal(request.getParameter(Entity.BALANCE));
                 //if save not null it means we are admin changing user, set this case fields:
                 if (request.getParameter(SAVE) != null) {
                     id = Integer.parseInt(request.getParameter(SAVE));
-                    balance = new BigDecimal(request.getParameter(BALANCE));
-                    role = User.Role.valueOf(request.getParameter(ROLE));
+                    balance = new BigDecimal(request.getParameter(Entity.BALANCE));
+                    role = User.Role.valueOf(request.getParameter(Entity.ROLE));
                     //we must replace user from session with user which must be changed if we are admin:
                     user = userDao.getById(id);
                 }
@@ -112,11 +107,11 @@ public class ChangeUserAction implements Action {
                         user.setRole(role);
                         user.setId(id);
                     } else {
-                        session.setAttribute(USER, user);
+                        session.setAttribute(Entity.USER, user);
+                        AttributeSetter.setEntityToSession(Entity.USER, session);
                     }
                     userDao.update(user);
                     session.setAttribute(ERROR, "");
-                    session.setAttribute(ENTITY_CHANGES_FLAG, USER);
                 }
             });
             daoFactory.releaseContext();
@@ -137,17 +132,19 @@ public class ChangeUserAction implements Action {
             VehicleDao vehicleDao = daoManager.getVehicleDao();
             UserDao userDao = daoManager.getUserDao();
             daoManager.transactionAndClose(daoManager1 -> {
-                //find vehicle linked with our user by driver-id field and set its field DRIVERID to null
-                Vehicle vehicle = vehicleDao.getByDriverId(id);
-                if (vehicle != null) {
-                    vehicle.setDriverId(null);
-                    vehicleDao.update(vehicle);
+                //find vehicles linked with our user by driver-id field and set their field DRIVER_ID to null
+                List<Vehicle> list = vehicleDao.getListByParameter(com.epam.bp.autobase.dao.H2.VehicleDao.DRIVER_ID, String.valueOf(id));
+                if (!list.isEmpty()) {
+                    for (Vehicle vehicle : list) {
+                        vehicle.setDriverId(null);
+                        vehicleDao.update(vehicle);
+                    }
                 }
                 //and we can delete our user now
                 userDao.delete(id);
-                session.setAttribute(ENTITY_CHANGES_FLAG, USER);
             });
             daoFactory.releaseContext();
+            AttributeSetter.setEntityToSession(Entity.USER, session);
         } catch (Exception e) {
             LOGGER.error("Error at deleteUser() while performing transaction");
             throw new ActionException("Error at deleteUser() while performing transaction", e);

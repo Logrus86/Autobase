@@ -1,4 +1,3 @@
-<%--suppress ALL --%>
 <%@tag description="trucks edit forms admin" pageEncoding="UTF-8" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -27,7 +26,7 @@
                     <td><input id="N" type="number" class="form-control" value="${i.count}" readonly></td>
                     <td><input type="checkbox" class="form-control" name="operable" <c:if test="${vehicle.operable}">checked</c:if>></td>
                     <td><select class="selectpicker show-menu-arrow" data-width="110" data-live-search="true" name="model_id">
-                            <c:forEach items="${modelList}" var="model">
+                            <c:forEach items="${models}" var="model">
                                 <option <c:if test="${vehicle.model.id==model.id}">selected</c:if> value="${model.id}">
                                     ${model.value}
                                 </option>
@@ -36,7 +35,7 @@
                     </td>
                     <td>
                         <select class="selectpicker show-menu-arrow" data-width="110" data-live-search="true" name="manufacturer_id">
-                            <c:forEach items="${manufacturerList}" var="manufacturer">
+                            <c:forEach items="${manufacturers}" var="manufacturer">
                                 <option <c:if test="${vehicle.manufacturer.id==manufacturer.id}">selected</c:if> value="${manufacturer.id}">
                                     ${manufacturer.value}
                                 </option>
@@ -46,7 +45,7 @@
                     <td id="yearA"><input type="number" class="form-control" name="productionYear" data-width="80"
                                value="${vehicle.productionYear}" min="1980" max="2014"></td>
                     <td><select class="selectpicker show-menu-arrow" data-width="120" data-live-search="true" name="color_id">
-                            <c:forEach items="${colorList}" var="color">
+                            <c:forEach items="${colors}" var="color">
                                 <option <c:if test="${vehicle.color.id==color.id}">selected</c:if> value="${color.id}">
                                     <c:if test="${locale.language=='ru'}">${color.valueRu}</c:if>
                                     <c:if test="${locale.language=='en'}">${color.valueEn}</c:if>
@@ -111,7 +110,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="default.model"/></span>
                                 <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true" name="model_id">
-                                    <c:forEach items="${modelList}" var="model">
+                                    <c:forEach items="${models}" var="model">
                                         <option value="${model.id}">${model.value}</option>
                                     </c:forEach>
                                 </select>
@@ -121,7 +120,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="default.manufacturer"/></span>
                                 <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true" name="manufacturer_id">
-                                    <c:forEach items="${manufacturerList}" var="manufacturer">
+                                    <c:forEach items="${manufacturers}" var="manufacturer">
                                         <option value="${manufacturer.id}">${manufacturer.value}</option>
                                     </c:forEach>
                                 </select>
@@ -138,7 +137,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="default.color"/></span>
                                 <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true" name="color_id">
-                                    <c:forEach items="${colorList}" var="color">
+                                    <c:forEach items="${colors}" var="color">
                                         <option value="${color.id}">
                                             <c:if test="${locale.language=='ru'}">${color.valueRu}</c:if>
                                             <c:if test="${locale.language=='en'}">${color.valueEn}</c:if>

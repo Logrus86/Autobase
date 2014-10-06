@@ -6,7 +6,7 @@
 <div>
     <c:if test="${user.role == 'CLIENT'}">
         <div class="panel panel-primary">
-            <div class="panel-heading">
+            <div class="panel-heading" align="center">
                 <h3 class="panel-title"><fmt:message key="default.yours"/> <fmt:message key="default.orders"/></h3>
             </div>
             <div class="panel-body">
@@ -28,7 +28,7 @@
             </tr>
         </thead>
         <tbody>
-            <c:forEach items="${user.role=='CLIENT' ? user.clientOrders : ordersList}" var="order" varStatus="i">
+            <c:forEach items="${user.role=='CLIENT' ? user.clientOrders : orderList}" var="order" varStatus="i">
                 <tr>
                     <td>${order.id}</td>
                     <c:if test="${user.role == 'ADMIN'}">

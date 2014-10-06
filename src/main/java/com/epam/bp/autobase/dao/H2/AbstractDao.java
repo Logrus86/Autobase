@@ -1,8 +1,8 @@
 package com.epam.bp.autobase.dao.H2;
 
 import com.epam.bp.autobase.dao.DaoException;
-import com.epam.bp.autobase.dao.Identifiable;
 import com.epam.bp.autobase.dao.JDBCDao;
+import com.epam.bp.autobase.entity.Entity;
 import com.epam.bp.autobase.pool.ConnectionPool;
 
 import java.sql.PreparedStatement;
@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractDao<PK extends Integer, T extends Identifiable<PK>> implements JDBCDao<PK, T> {
-    protected ConnectionPool.ProxyConnection connection;
+public abstract class AbstractDao<PK extends Integer, T extends Entity> implements JDBCDao<PK, T> {
+    private static final String ORDER_BY = "ORDER BY";
+    private static final String ID = "ID";
+    protected final ConnectionPool.ProxyConnection connection;
 
     public AbstractDao(ConnectionPool.ProxyConnection connection) {
         this.connection = connection;
@@ -89,7 +91,7 @@ public abstract class AbstractDao<PK extends Integer, T extends Identifiable<PK>
     @Override
     public List<T> getAll() throws DaoException {
         List<T> list;
-        String sql = getReadQuery();
+        String sql = getReadQuery() + " " + ORDER_BY + " " + ID + ";";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -101,20 +103,65 @@ public abstract class AbstractDao<PK extends Integer, T extends Identifiable<PK>
     }
 
     @Override
-    public List<T> findByParams(Map<String, String> params) throws DaoException {
+    public List<T> getAllSortedBy(String columnName) throws DaoException {
+        List<T> list;
+        String sql = getReadQuery() + " " + ORDER_BY + " " + columnName;
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            list = parseResultSetList(rs);
+        } catch (Exception e) {
+            throw new DaoException("Error while preparing statement at 'getAll' method", e);
+        }
+        return list;
+    }
+
+    @Override
+    public List<T> getListByParameter(String param_name, String param_value) throws DaoException {
+        StringBuilder query = new StringBuilder();
+        query.append(getReadQuery()).append(" WHERE ").append(param_name).append(" = ? ")
+                .append(ORDER_BY).append(" ").append(ID).append(";");
+        PreparedStatement ps;
+        List<T> result;
+        try {
+            ps = connection.prepareStatement(query.toString());
+            ps.setString(1, param_value);
+            ResultSet rs = ps.executeQuery();
+            result = parseResultSetList(rs);
+            rs.close();
+            ps.close();
+            connection.close();
+        } catch (Exception e) {
+            throw new DaoException("Getting list by "+param_name+" error", e);
+        }
+        return result;
+    }
+
+    @Override
+    public List<T> getListByParametersMap(Map<String, String> params) throws DaoException {
         StringBuilder query = new StringBuilder();
         query.append(getReadQuery()).append(" WHERE 1 = 1");
         for (String key : params.keySet()) {
             //there are parameters that are require additional compare operator like '>' or '<' (resulting >= or <=)
-            String compareOper = "";
-            if (VehicleDao.RENT.equals(key)) compareOper = "<";
-            if (VehicleDao.MILEAGE.equals(key)) compareOper = "<";
-            if (VehicleDao.PROD_YEAR.equals(key)) compareOper = ">";
-            if (VehicleDao.PAYLOAD.equals(key)) compareOper = ">";
-            if (VehicleDao.PASS_N.equals(key)) compareOper = ">";
-            if (VehicleDao.STAND_N.equals(key)) compareOper = ">";
-
-            query.append(" AND ").append(key.toUpperCase()).append(" ").append(compareOper).append("= ?");
+            String compareOperator = "";
+            //TODO we acn find 1 only. move to Map
+            if (VehicleDao.RENT.equals(key)) compareOperator = "<";
+            else {
+                if (VehicleDao.MILEAGE.equals(key)) compareOperator = "<";
+                else {
+                    if (VehicleDao.PROD_YEAR.equals(key)) compareOperator = ">";
+                    else {
+                        if (VehicleDao.PAYLOAD.equals(key)) compareOperator = ">";
+                        else {
+                            if (VehicleDao.PASS_PL_NUM.equals(key)) compareOperator = ">";
+                            else {
+                                if (VehicleDao.STAND_PL_NUM.equals(key)) compareOperator = ">";
+                            }
+                        }
+                    }
+                }
+            }
+            query.append(" AND ").append(key.toUpperCase()).append(" ").append(compareOperator).append("= ?");
         }
         query.append(";");
         PreparedStatement ps;
@@ -132,7 +179,8 @@ public abstract class AbstractDao<PK extends Integer, T extends Identifiable<PK>
             ps.close();
             connection.close();
         } catch (Exception e) {
-            if (result != null) throw new DaoException("Finding " + result.getClass().getSimpleName() + " by parameters error", e);
+            if (result != null)
+                throw new DaoException("Finding " + result.getClass().getSimpleName() + " by parameters error", e);
             else throw new DaoException("Finding entity by parameters error, entity result = null", e);
         }
         return result;

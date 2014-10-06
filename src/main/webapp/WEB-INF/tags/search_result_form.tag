@@ -22,21 +22,23 @@
             <th><fmt:message key="default.rentPrice"/>, <fmt:message key="default.currency"/> <fmt:message
                     key="default.perDay"/></th>
             <th><fmt:message key="default.driver"/></th>
-            <c:if test="${foundedList[0].vehicleType == 'Bus'}">
-                <th><fmt:message key="default.doorsN"/></th>
-                <th><fmt:message key="default.passN"/></th>
-                <th><fmt:message key="default.standN"/></th>
-            </c:if>
-            <c:if test="${foundedList[0].vehicleType == 'Car'}">
-                <th><fmt:message key="default.passN"/></th>
-                <th><fmt:message key="default.doorsN"/></th>
-                <th><fmt:message key="default.conditioner"/></th>
-            </c:if>
-            <c:if test="${foundedList[0].vehicleType == 'Truck'}">
-                <th><fmt:message key="default.maxPayload"/></th>
-                <th><fmt:message key="default.enclosed"/></th>
-                <th><fmt:message key="default.tipper"/></th>
-            </c:if>
+            <c:choose>
+                <c:when test="${foundedList[0].type == vehicleTypes[0]}">
+                    <th><fmt:message key="default.doorsN"/></th>
+                    <th><fmt:message key="default.passN"/></th>
+                    <th><fmt:message key="default.standN"/></th>
+                </c:when>
+                <c:when test="${foundedList[0].type == vehicleTypes[1]}">
+                    <th><fmt:message key="default.passN"/></th>
+                    <th><fmt:message key="default.doorsN"/></th>
+                    <th><fmt:message key="default.conditioner"/></th>
+                </c:when>
+                <c:when test="${foundedList[0].type == vehicleTypes[2]}">
+                    <th><fmt:message key="default.maxPayload"/></th>
+                    <th><fmt:message key="default.enclosed"/></th>
+                    <th><fmt:message key="default.tipper"/></th>
+                </c:when>
+            </c:choose>
             <th></th>
         </tr>
         </thead>
@@ -54,48 +56,50 @@
                 <td>${vehicle.mileage}</td>
                 <td>${vehicle.rentPrice}</td>
                 <td>${vehicle.driver.lastname} ${vehicle.driver.firstname}</td>
-                <c:if test="${vehicle.vehicleType == 'Bus'}">
-                    <td>${vehicle.doorsNumber}</td>
-                    <td>${vehicle.passengerSeatsNumber}</td>
-                    <td>${vehicle.standingPlacesNumber}</td>
-                </c:if>
-                <c:if test="${vehicle.vehicleType == 'Car'}">
-                    <td>${vehicle.doorsNumber}</td>
-                    <td>${vehicle.passengerSeatsNumber}</td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${vehicle.withConditioner}">
-                                <fmt:message key="default.yes"/>
-                            </c:when>
-                            <c:otherwise>
-                                <fmt:message key="default.no"/>
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                </c:if>
-                <c:if test="${vehicle.vehicleType == 'Truck'}">
-                    <td>${vehicle.maxPayload}</td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${vehicle.enclosed}">
-                                <fmt:message key="default.yes"/>
-                            </c:when>
-                            <c:otherwise>
-                                <fmt:message key="default.no"/>
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${vehicle.tipper}">
-                                <fmt:message key="default.yes"/>
-                            </c:when>
-                            <c:otherwise>
-                                <fmt:message key="default.no"/>
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                </c:if>
+                <c:choose>
+                    <c:when test="${foundedList[0].type == vehicleTypes[0]}">
+                        <td>${vehicle.doorsNumber}</td>
+                        <td>${vehicle.passengerSeatsNumber}</td>
+                        <td>${vehicle.standingPlacesNumber}</td>
+                    </c:when>
+                    <c:when test="${foundedList[0].type == vehicleTypes[1]}">
+                        <td>${vehicle.doorsNumber}</td>
+                        <td>${vehicle.passengerSeatsNumber}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${vehicle.withConditioner}">
+                                    <fmt:message key="default.yes"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <fmt:message key="default.no"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                    </c:when>
+                    <c:when test="${foundedList[0].type == vehicleTypes[2]}">
+                        <td>${vehicle.maxPayload}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${vehicle.enclosed}">
+                                    <fmt:message key="default.yes"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <fmt:message key="default.no"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${vehicle.tipper}">
+                                    <fmt:message key="default.yes"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <fmt:message key="default.no"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                    </c:when>
+                </c:choose>
                 <td>
                     <button class="btn btn-info" data-toggle="modal"
                             <c:choose>
