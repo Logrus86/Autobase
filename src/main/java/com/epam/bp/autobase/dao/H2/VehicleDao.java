@@ -35,7 +35,6 @@ public class VehicleDao extends AbstractDao<Integer, Vehicle> implements com.epa
     public static final String PAYLOAD = "MAX_PAYLOAD";
     public static final String ENCLOSED = "ENCLOSED";
     public static final String TIPPER = "TIPPER";
-    public static final String ORDER_BY = "ORDER BY";
 
     public VehicleDao(ConnectionPool.ProxyConnection connection) {
         super(connection);

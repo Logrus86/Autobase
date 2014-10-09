@@ -18,8 +18,10 @@ public class SearchAction implements Action {
     private static final ActionResult FIND_GUEST = new ActionResult(ActionFactory.PAGE_SEARCH_RESULT_GUEST);
     private static final ActionResult ERR_LOGINED = new ActionResult(ActionFactory.PAGE_MAIN_CLIENT);
     private static final ActionResult ERR_GUEST = new ActionResult(ActionFactory.PAGE_MAIN);
-    private static final String ERR_NOTHING_CHECKED = "error.nothing-checked";
+    private static final String RB_ERR_NOTHING_CHECKED = "error.nothing-checked";
+    private static final String RB_REG_BEFORE_ORDER = "default.reg_before_order";
     private static final String ERROR = "search_error";
+    private static final String REG_ERROR = "reg_error";
     private static final String FOUNDED_LIST = "foundedList";
     private static final String RB_NAME = "i18n.text";
     private static final String ATTR_LOCALE = "locale";
@@ -50,7 +52,7 @@ public class SearchAction implements Action {
         ServletContext context = session.getServletContext();
         Locale locale = (Locale) context.getAttribute(ATTR_LOCALE);
         ResourceBundle RB = ResourceBundle.getBundle(RB_NAME, locale);
-        String error_nothing_checked = RB.getString(ERR_NOTHING_CHECKED);
+        String error_nothing_checked = RB.getString(RB_ERR_NOTHING_CHECKED);
         RegisterAction.clearRegData(session);
         //check inputs
         String error = Validator.validateRequestParametersMap(request);
@@ -91,7 +93,11 @@ public class SearchAction implements Action {
             LOGGER.error("Error at SearchAction while searching for vehicle");
             throw new ActionException("Error at SearchAction while searching for vehicle", e);
         }
-        if (session.getAttribute(Entity.USER) == null) return FIND_GUEST;
+        if (session.getAttribute(Entity.USER) == null) {
+            String reg_error = RB.getString(RB_REG_BEFORE_ORDER);
+            session.setAttribute(REG_ERROR, reg_error);
+            return FIND_GUEST;
+        }
         Date date = new Date();
         session.setAttribute(NOW_DATE, date);
         return FIND_LOGINED;

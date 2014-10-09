@@ -57,7 +57,7 @@ $(document).ready(function () {
     });
 
     if (document.getElementById("vehicles-form")) document.getElementById("user-form").style.float = "right";
-    if (document.getElementById('admin_bar')) {colorAdminBtns();}
+    if (document.getElementById('admin_bar')) {colorAdminButtons();}
 });
 
 function showModalByDefault(form_name) {
@@ -100,7 +100,7 @@ function prepareGetRequest() {
         document.getElementById('vhType').value = 'TRUCK';
 }
 
-function colorAdminBtns() {
+function colorAdminButtons() {
     if (location.pathname == '/do/admin_users' || location.pathname == '/do/create_user') {
         document.getElementById('bt_users').setAttribute('class', 'btn btn-info')
     }
