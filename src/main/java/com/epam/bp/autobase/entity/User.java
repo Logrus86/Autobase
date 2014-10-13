@@ -16,7 +16,7 @@ public class User extends Entity {
     private String lastname;
     private Date dob;
     private String username;
-    private String password; //TODO save hash, not pass, md5 for example
+    private String password;
     private String email;
     private Role role;
     private BigDecimal balance;

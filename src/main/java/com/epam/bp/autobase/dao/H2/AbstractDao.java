@@ -144,7 +144,6 @@ public abstract class AbstractDao<PK extends Integer, T extends Entity> implemen
         for (String key : params.keySet()) {
             //there are parameters that are require additional compare operator like '>' or '<' (resulting >= or <=)
             String compareOperator = "";
-            //TODO we acn find 1 only. move to Map
             if (VehicleDao.RENT.equals(key)) compareOperator = "<";
             else {
                 if (VehicleDao.MILEAGE.equals(key)) compareOperator = "<";

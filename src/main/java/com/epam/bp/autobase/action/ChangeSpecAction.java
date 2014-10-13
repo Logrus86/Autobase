@@ -40,10 +40,10 @@ public class ChangeSpecAction implements Action {
     private static ActionResult result;
     private static HttpServletRequest request;
     private static HttpSession session;
-    private final String SPEC_TYPE;
+    private String spec_type;
 
-    public ChangeSpecAction(String SPEC_TYPE) {
-        this.SPEC_TYPE = SPEC_TYPE;
+    public ChangeSpecAction(String spec_type) {
+        this.spec_type = spec_type;
     }
 
     @Override
@@ -64,7 +64,7 @@ public class ChangeSpecAction implements Action {
         CreateEntityAction.clearEnteredData(session);
 
         if (request.getParameter(SAVE) != null) {
-            switch (SPEC_TYPE) {
+            switch (spec_type) {
                 case Entity.COLOR:
                     changeColor();
                     break;
@@ -76,7 +76,7 @@ public class ChangeSpecAction implements Action {
             }
         }
         if (request.getParameter(DELETE) != null) {
-            switch (SPEC_TYPE) {
+            switch (spec_type) {
                 case Entity.COLOR:
                     deleteColor();
                     break;
