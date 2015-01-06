@@ -26,6 +26,11 @@ public class LoginAction implements Action {
     private static final String ERROR = "errormsg";
     private static final String ERROR_LOGIN = "error.login";
     private static final String REFERER = "Referer";
+    private static final String ORDER = "order";
+    private static final String DRIVER_VEHICLES = "driverVehicles";
+    private static final String USER = "user";
+    private static final String USERNAME = "username";
+    private static final String PASSWORD = "password";
     private static String login_err_msg;
     private ActionResult result;
 
@@ -51,8 +56,8 @@ public class LoginAction implements Action {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DaoManager daoManager = daoFactory.getDaoManager();
             daoManager.transactionAndClose(daoManager1 -> {
-                String username = request.getParameter(Entity.USERNAME);
-                String password = request.getParameter(Entity.PASSWORD);
+                String username = request.getParameter(USERNAME);
+                String password = request.getParameter(PASSWORD);
                 UserDao userDao = daoManager1.getUserDao();
                 User user = userDao.getByCredentials(username, password);
                 // user was not found:
@@ -63,12 +68,12 @@ public class LoginAction implements Action {
                     // user was found, all is ok:
                 } else {
                     LOGGER.info("User '" + user.getUsername() + "' have logged-in");
-                    session.setAttribute(Entity.USER, user);
+                    session.setAttribute(USER, user);
                     session.setAttribute(ERROR, "");
                     //check user roles
                     if (user.getRole() == User.Role.ADMIN) {
-                        AttributeSetter.setEntityToSession(Entity.ORDER, session);
-                        AttributeSetter.setEntityToSession(Entity.USER, session);
+                        AttributeSetter.setEntityToSession(ORDER, session);
+                        AttributeSetter.setEntityToSession(USER, session);
                         result = LOGIN_ADMIN;
                     }
                     else if (user.getRole() == User.Role.CLIENT) {
@@ -76,7 +81,7 @@ public class LoginAction implements Action {
                         referer = referer.substring(referer.lastIndexOf("/") + 1, referer.length());
                         result = new ActionResult(referer, true);
                     } else if (user.getRole() == User.Role.DRIVER) {
-                        AttributeSetter.setEntityToSession(Entity.DRIVER_VEHICLES, session);
+                        AttributeSetter.setEntityToSession(DRIVER_VEHICLES, session);
                         result = LOGIN_DRIVER;
                     }
 

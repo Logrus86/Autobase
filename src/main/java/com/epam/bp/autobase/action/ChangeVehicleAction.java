@@ -27,7 +27,24 @@ public class ChangeVehicleAction implements Action {
     private static final String PASS_SEATS_NUM = "passengerSeatsNumber";
     private static final String DOORS_NUM = "doorsNumber";
     private static final String STAND_PLACES_NUM = "standingPlacesNumber";
-
+    private static final String VEHICLE = "vehicle";
+    private static final String USER = "user";
+    private static final String REFERRER = "Referer";
+    private static final String RENT = "rentPrice";
+    private static final String BUS = "Bus";
+    private static final String CAR = "Car";
+    private static final String TRUCK = "Truck";
+    private static final String DRIVER_ID = "driverId";
+    private static final String MODEL_ID = "model_id";
+    private static final String MANUFACTURER_ID = "manufacturer_id";
+    private static final String COLOR_ID = "color_id";
+    private static final String FUEL_TYPE = "fuelType";
+    private static final String MILEAGE = "mileage";
+    private static final String WITH_CONDITIONER = "withConditioner";
+    private static final String MAX_PAYLOAD = "maxPayload";
+    private static final String ENCLOSED = "enclosed";
+    private static final String TIPPER = "tipper";
+    private static final String OPERABLE = "operable";
     private ActionResult result;
     private Vehicle vehicle;
     private User user;
@@ -38,14 +55,14 @@ public class ChangeVehicleAction implements Action {
     public ActionResult execute(HttpServletRequest req) throws ActionException {
         request = req;
         session = req.getSession();
-        user = (User) session.getAttribute(Entity.USER);
-        if (user.getRole().equals(User.Role.DRIVER)) vehicle = (Vehicle) session.getAttribute(Entity.VEHICLE);
+        user = (User) session.getAttribute(USER);
+        if (user.getRole().equals(User.Role.DRIVER)) vehicle = (Vehicle) session.getAttribute(VEHICLE);
 
         String error = Validator.validateRequestParametersMap(req);
         if (!error.isEmpty()) {
             session.setAttribute(ERROR, error);
             if (user.getRole().equals(User.Role.ADMIN)) {
-                String referer = request.getHeader("Referer");
+                String referer = request.getHeader(REFERRER);
                 referer = referer.substring(referer.lastIndexOf("/") + 1, referer.length());
                 return new ActionResult(referer, true);
             }
@@ -74,8 +91,8 @@ public class ChangeVehicleAction implements Action {
                 Integer driverId = null;
                 if (user.getRole().equals(User.Role.ADMIN)) {
                     id = Integer.valueOf(request.getParameter(SAVE));
-                    rentPrice = new BigDecimal(request.getParameter(Entity.RENT));
-                    driverId = Integer.valueOf(request.getParameter(Entity.DRIVER_ID));
+                    rentPrice = new BigDecimal(request.getParameter(RENT));
+                    driverId = Integer.valueOf(request.getParameter(DRIVER_ID));
                     vehicle = vehicleDao.getById(id);
                     vehicle.setRentPrice(rentPrice);
                     vehicle.setDriverId(driverId);
@@ -85,12 +102,12 @@ public class ChangeVehicleAction implements Action {
                     idString = request.getParameter(VEHICLE_ID);
                     vehicle = vehicleDao.getById(Integer.valueOf(idString));
                 }
-                Boolean operable = ON.equals(request.getParameter(Entity.OPERABLE + idString));
-                Integer colorId = (Integer.valueOf(request.getParameter(Entity.COLOR_ID + idString)));
-                Integer modelId = Integer.valueOf(request.getParameter(Entity.MODEL_ID + idString));
-                Integer manufacturerId = Integer.valueOf(request.getParameter(Entity.MANUFACTURER_ID + idString));
-                Vehicle.Fuel fuel = Vehicle.Fuel.valueOf(request.getParameter(Entity.FUEL_TYPE + idString));
-                BigDecimal mileage = new BigDecimal(request.getParameter(Entity.MILEAGE + idString));
+                Boolean operable = ON.equals(request.getParameter(OPERABLE + idString));
+                Integer colorId = (Integer.valueOf(request.getParameter(COLOR_ID + idString)));
+                Integer modelId = Integer.valueOf(request.getParameter(MODEL_ID + idString));
+                Integer manufacturerId = Integer.valueOf(request.getParameter(MANUFACTURER_ID + idString));
+                Vehicle.Fuel fuel = Vehicle.Fuel.valueOf(request.getParameter(FUEL_TYPE + idString));
+                BigDecimal mileage = new BigDecimal(request.getParameter(MILEAGE + idString));
                 Integer prodYear = Integer.parseInt(request.getParameter(PRODUCTION_YEAR + idString));
                 Integer passSeatsNum = null;
                 Integer doorsNum = null;
@@ -113,27 +130,27 @@ public class ChangeVehicleAction implements Action {
                     ((Bus) vehicle).setPassengerSeatsNumber(passSeatsNum);
                     ((Bus) vehicle).setDoorsNumber(doorsNum);
                     ((Bus) vehicle).setStandingPlacesNumber(standPlacesNum);
-                    AttributeSetter.setEntityToSession(Entity.BUS, session);
+                    AttributeSetter.setEntityToSession(BUS, session);
                     if (user.getRole().equals(User.Role.ADMIN)) result = ADMIN_BUSES;
                 }
                 if (vehicle.getType() == Vehicle.Type.CAR) {
                     passSeatsNum = Integer.parseInt(request.getParameter(PASS_SEATS_NUM + idString));
                     doorsNum = Integer.parseInt(request.getParameter(DOORS_NUM + idString));
-                    withConder = ON.equals(request.getParameter(Entity.WITH_CONDITIONER + idString));
+                    withConder = ON.equals(request.getParameter(WITH_CONDITIONER + idString));
                     ((Car) vehicle).setPassengerSeatsNumber(passSeatsNum);
                     ((Car) vehicle).setDoorsNumber(doorsNum);
                     ((Car) vehicle).setWithConditioner(withConder);
-                    AttributeSetter.setEntityToSession(Entity.CAR, session);
+                    AttributeSetter.setEntityToSession(CAR, session);
                     if (user.getRole().equals(User.Role.ADMIN)) result = ADMIN_CARS;
                 }
                 if (vehicle.getType() == Vehicle.Type.TRUCK) {
-                    maxPayload = new BigDecimal(request.getParameter(Entity.MAX_PAYLOAD + idString));
-                    enclosed = ON.equals(request.getParameter(Entity.ENCLOSED + idString));
-                    tipper = ON.equals(request.getParameter(Entity.TIPPER + idString));
+                    maxPayload = new BigDecimal(request.getParameter(MAX_PAYLOAD + idString));
+                    enclosed = ON.equals(request.getParameter(ENCLOSED + idString));
+                    tipper = ON.equals(request.getParameter(TIPPER + idString));
                     ((Truck) vehicle).setMaxPayload(maxPayload);
                     ((Truck) vehicle).setEnclosed(enclosed);
                     ((Truck) vehicle).setTipper(tipper);
-                    AttributeSetter.setEntityToSession(Entity.TRUCK, session);
+                    AttributeSetter.setEntityToSession(TRUCK, session);
                     if (user.getRole().equals(User.Role.ADMIN)) result = ADMIN_TRUCKS;
                 }
                 vehicleDao.update(vehicle);
@@ -157,15 +174,15 @@ public class ChangeVehicleAction implements Action {
                 Vehicle vehicle = vehicleDao.getById(id);
                 vehicleDao.delete(vehicle);
                 if (vehicle.getType() == Vehicle.Type.CAR) {
-                    AttributeSetter.setEntityToSession(Entity.CAR, session);
+                    AttributeSetter.setEntityToSession(CAR, session);
                     result = ADMIN_CARS;
                 }
                 if (vehicle.getType() == Vehicle.Type.BUS) {
-                    AttributeSetter.setEntityToSession(Entity.BUS, session);
+                    AttributeSetter.setEntityToSession(BUS, session);
                     result = ADMIN_BUSES;
                 }
                 if (vehicle.getType() == Vehicle.Type.TRUCK) {
-                    AttributeSetter.setEntityToSession(Entity.TRUCK, session);
+                    AttributeSetter.setEntityToSession(TRUCK, session);
                     result = ADMIN_TRUCKS;
                 }
             });

@@ -28,6 +28,7 @@ public class OrderAction implements Action {
     private static final String VEHICLE = "vehicle";
     private static final String DATE_START = "dateStart";
     private static final String ORDER = "order";
+
     private static ActionResult result;
 
     @Override
@@ -82,7 +83,7 @@ public class OrderAction implements Action {
             LOGGER.error("Error at OrderAction while performing transaction");
             throw new ActionException("Error at OrderAction while performing transaction", e);
         }
-        AttributeSetter.setEntityToSession(Entity.ORDER, session);
+        AttributeSetter.setEntityToSession(ORDER, session);
         return result;
     }
 }

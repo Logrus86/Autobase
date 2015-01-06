@@ -14,6 +14,7 @@ public class EditOrderAction implements Action {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(EditOrderAction.class);
     private static final ActionResult FINISHED = new ActionResult(ActionFactory.PAGE_ADMIN_ORDERS, true);
     private static final String ORDER_ID = "orderId";
+    private static final String ORDER = "order";
     private static final String STATUS = "status";
 
     @Override
@@ -34,7 +35,7 @@ public class EditOrderAction implements Action {
             LOGGER.error("Error at EditOrderAction while performing transaction");
             throw new ActionException("Error at EditOrderAction while performing transaction", e);
         }
-        AttributeSetter.setEntityToSession(Entity.ORDER, request.getSession());
+        AttributeSetter.setEntityToSession(ORDER, request.getSession());
         return FINISHED;
     }
 }

@@ -23,6 +23,13 @@ public class ActionFactory {
     public static final String PAGE_SEARCH_RESULT = "search_result";
     public static final String PAGE_SEARCH_RESULT_GUEST = "search_result_guest";
     public static final String PAGE_CABINET = "cabinet";
+    public static final String BUS = "Bus";
+    public static final String CAR = "Car";
+    public static final String TRUCK = "Truck";
+    public static final String USER = "user";
+    public static final String COLOR = "Color";
+    public static final String MODEL = "Model";
+    public static final String MANUFACTURER = "Manufacturer";
 
     static {
         ACTIONS.put("GET/login", new ShowPageAction(PAGE_MAIN));
@@ -48,16 +55,16 @@ public class ActionFactory {
         ACTIONS.put("POST/register", new RegisterAction());
         ACTIONS.put("POST/change_user", new ChangeUserAction());
         ACTIONS.put("POST/change_vehicle", new ChangeVehicleAction());
-        ACTIONS.put("POST/change_color", new ChangeSpecAction(Entity.COLOR));
-        ACTIONS.put("POST/change_model", new ChangeSpecAction(Entity.MODEL));
-        ACTIONS.put("POST/change_manufacturer", new ChangeSpecAction(Entity.MANUFACTURER));
-        ACTIONS.put("POST/create_bus", new CreateEntityAction(Entity.BUS));
-        ACTIONS.put("POST/create_car", new CreateEntityAction(Entity.CAR));
-        ACTIONS.put("POST/create_truck", new CreateEntityAction(Entity.TRUCK));
-        ACTIONS.put("POST/create_user", new CreateEntityAction(Entity.USER));
-        ACTIONS.put("POST/create_color", new CreateEntityAction(Entity.COLOR));
-        ACTIONS.put("POST/create_model", new CreateEntityAction(Entity.MODEL));
-        ACTIONS.put("POST/create_manufacturer", new CreateEntityAction(Entity.MANUFACTURER));
+        ACTIONS.put("POST/change_color", new ChangeSpecAction(COLOR));
+        ACTIONS.put("POST/change_model", new ChangeSpecAction(MODEL));
+        ACTIONS.put("POST/change_manufacturer", new ChangeSpecAction(MANUFACTURER));
+        ACTIONS.put("POST/create_bus", new CreateEntityAction(BUS));
+        ACTIONS.put("POST/create_car", new CreateEntityAction(CAR));
+        ACTIONS.put("POST/create_truck", new CreateEntityAction(TRUCK));
+        ACTIONS.put("POST/create_user", new CreateEntityAction(USER));
+        ACTIONS.put("POST/create_color", new CreateEntityAction(COLOR));
+        ACTIONS.put("POST/create_model", new CreateEntityAction(MODEL));
+        ACTIONS.put("POST/create_manufacturer", new CreateEntityAction(MANUFACTURER));
         ACTIONS.put("POST/order", new OrderAction());
         ACTIONS.put("POST/order_edit", new EditOrderAction());
     }

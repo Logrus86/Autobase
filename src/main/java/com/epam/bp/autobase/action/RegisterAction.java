@@ -25,6 +25,13 @@ public class RegisterAction implements Action {
     private static final String LOCALE = "locale";
     private static final String ERROR = "reg_error";
     private static final String ERROR_BUSY_USERNAME = "error.busy-username";
+    private static final String FIRSTNAME = "firstname";
+    private static final String LASTNAME = "lastname";
+    private static final String EMAIL = "email";
+    private static final String DOB = "dob";
+    private static final String USERNAME = "username";
+    private static final String PASSWORD = "password";
+    private static final String USER = "user";
     private static String error_busy_username;
     private ActionResult result;
 
@@ -50,12 +57,12 @@ public class RegisterAction implements Action {
             DaoManager daoManager = daoFactory.getDaoManager();
             daoManager.transactionAndClose(daoManager1 -> {
                 UserDao userDao = daoManager1.getUserDao();
-                String firstname = request.getParameter(Entity.FIRSTNAME);
-                String lastname = request.getParameter(Entity.LASTNAME);
-                String dob = request.getParameter(Entity.DOB);
-                String username = request.getParameter(Entity.USERNAME);
-                String password = request.getParameter(Entity.PASSWORD);
-                String email = request.getParameter(Entity.EMAIL);
+                String firstname = request.getParameter(FIRSTNAME);
+                String lastname = request.getParameter(LASTNAME);
+                String dob = request.getParameter(DOB);
+                String username = request.getParameter(USERNAME);
+                String password = request.getParameter(PASSWORD);
+                String email = request.getParameter(EMAIL);
                 // check username not busy
                 if (userDao.getUsersListByUsername(username).size() > 1) {
                     session.setAttribute(ERROR, error_busy_username);
@@ -78,7 +85,7 @@ public class RegisterAction implements Action {
                     clearRegData(session);
                     LOGGER.info("Newly registered user: " + user.toString());
                     result = REG_SUCCESS;
-                    session.setAttribute(Entity.USER, user);
+                    session.setAttribute(USER, user);
                 }
             });
             daoFactory.releaseContext();
@@ -86,25 +93,25 @@ public class RegisterAction implements Action {
             LOGGER.error("Error at RegisterAction while performing transaction");
             throw new ActionException("Error at RegisterAction while performing transaction", e);
         }
-        AttributeSetter.setEntityToSession(Entity.USER, session);
+        AttributeSetter.setEntityToSession(USER, session);
         return result;
     }
 
     //forward entered registration data if some of it was entered wrong
     private void forwardRegData(HttpServletRequest request, HttpSession session) {
-        session.setAttribute(Entity.FIRSTNAME, request.getParameter(Entity.FIRSTNAME));
-        session.setAttribute(Entity.LASTNAME, request.getParameter(Entity.LASTNAME));
-        session.setAttribute(Entity.DOB, request.getParameter(Entity.DOB));
-        session.setAttribute(Entity.USERNAME, request.getParameter(Entity.USERNAME));
-        session.setAttribute(Entity.EMAIL, request.getParameter(Entity.EMAIL));
+        session.setAttribute(FIRSTNAME, request.getParameter(FIRSTNAME));
+        session.setAttribute(LASTNAME, request.getParameter(LASTNAME));
+        session.setAttribute(DOB, request.getParameter(DOB));
+        session.setAttribute(USERNAME, request.getParameter(USERNAME));
+        session.setAttribute(EMAIL, request.getParameter(EMAIL));
     }
 
     public static void clearRegData(HttpSession session) {
-        session.removeAttribute(Entity.FIRSTNAME);
-        session.removeAttribute(Entity.LASTNAME);
-        session.removeAttribute(Entity.DOB);
-        session.removeAttribute(Entity.USERNAME);
-        session.removeAttribute(Entity.EMAIL);
+        session.removeAttribute(FIRSTNAME);
+        session.removeAttribute(LASTNAME);
+        session.removeAttribute(DOB);
+        session.removeAttribute(USERNAME);
+        session.removeAttribute(EMAIL);
         session.removeAttribute(ERROR);
     }
 }

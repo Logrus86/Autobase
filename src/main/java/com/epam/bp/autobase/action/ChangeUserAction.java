@@ -30,6 +30,15 @@ public class ChangeUserAction implements Action {
     private static final String SAVE = "save";
     private static final String DELETE = "delete";
     private static final String ERROR_BUSY_USERNAME = "error.busy-username";
+    private static final String USER = "user";
+    private static final String FIRSTNAME = "firstname";
+    private static final String LASTNAME = "lastname";
+    private static final String EMAIL = "email";
+    private static final String DOB = "dob";
+    private static final String USERNAME = "username";
+    private static final String PASSWORD = "password";
+    private static final String BALANCE = "balance";
+    private static final String ROLE = "role";
     private static String error_busy_username;
     private ActionResult result;
     private User user;
@@ -45,7 +54,7 @@ public class ChangeUserAction implements Action {
         ResourceBundle RB = ResourceBundle.getBundle(RB_NAME, locale);
         error_busy_username = RB.getString(ERROR_BUSY_USERNAME);
 
-        user = (User) session.getAttribute(Entity.USER);
+        user = (User) session.getAttribute(USER);
         //changing user if we are client or driver; if we are admin, do it if SAVE parameter not null only
         if (!user.getRole().equals(User.Role.ADMIN) || request.getParameter(SAVE) != null) {
             //validate data
@@ -71,22 +80,22 @@ public class ChangeUserAction implements Action {
             DaoManager daoManager = daoFactory.getDaoManager();
             UserDao userDao = daoManager.getUserDao();
             daoManager.transactionAndClose(daoManager1 -> {
-                String firstname = request.getParameter(Entity.FIRSTNAME);
-                String lastname = request.getParameter(Entity.LASTNAME);
-                String dob = request.getParameter(Entity.DOB);
-                String username = request.getParameter(Entity.USERNAME);
-                String password = request.getParameter(Entity.PASSWORD);
-                String email = request.getParameter(Entity.EMAIL);
+                String firstname = request.getParameter(FIRSTNAME);
+                String lastname = request.getParameter(LASTNAME);
+                String dob = request.getParameter(DOB);
+                String username = request.getParameter(USERNAME);
+                String password = request.getParameter(PASSWORD);
+                String email = request.getParameter(EMAIL);
                 Integer id = null;
                 BigDecimal balance = null;
                 User.Role role = null;
                 if (user.getRole().equals(User.Role.CLIENT))
-                    balance = new BigDecimal(request.getParameter(Entity.BALANCE));
+                    balance = new BigDecimal(request.getParameter(BALANCE));
                 //if save not null it means we are admin changing user, set this case fields:
                 if (request.getParameter(SAVE) != null) {
                     id = Integer.parseInt(request.getParameter(SAVE));
-                    balance = new BigDecimal(request.getParameter(Entity.BALANCE));
-                    role = User.Role.valueOf(request.getParameter(Entity.ROLE));
+                    balance = new BigDecimal(request.getParameter(BALANCE));
+                    role = User.Role.valueOf(request.getParameter(ROLE));
                     //we must replace user from session with user which must be changed if we are admin:
                     user = userDao.getById(id);
                 }
@@ -107,8 +116,8 @@ public class ChangeUserAction implements Action {
                         user.setRole(role);
                         user.setId(id);
                     } else {
-                        session.setAttribute(Entity.USER, user);
-                        AttributeSetter.setEntityToSession(Entity.USER, session);
+                        session.setAttribute(USER, user);
+                        AttributeSetter.setEntityToSession(USER, session);
                     }
                     userDao.update(user);
                     session.setAttribute(ERROR, "");
@@ -144,7 +153,7 @@ public class ChangeUserAction implements Action {
                 userDao.delete(id);
             });
             daoFactory.releaseContext();
-            AttributeSetter.setEntityToSession(Entity.USER, session);
+            AttributeSetter.setEntityToSession(USER, session);
         } catch (Exception e) {
             LOGGER.error("Error at deleteUser() while performing transaction");
             throw new ActionException("Error at deleteUser() while performing transaction", e);

@@ -23,6 +23,9 @@ public class ContextListener implements ServletContextListener {
     private static final String ATTR_ROLES = "roles";
     private static final String ATTR_STATUSES = "statuses";
     private static final String ATTR_LOCALE = "locale";
+    private static final String COLOR = "Color";
+    private static final String MODEL = "Model";
+    private static final String MANUFACTURER = "Manufacturer";
     private static final Locale DEFAULT_LOCALE = Locale.getDefault();
 
     @Override
@@ -57,9 +60,9 @@ public class ContextListener implements ServletContextListener {
         context.setAttribute(ATTR_VEHICLE_TYPES, Vehicle.Type.values());
         context.setAttribute(ATTR_ROLES, User.Role.values());
         context.setAttribute(ATTR_STATUSES, Order.Status.values());
-        AttributeSetter.setEntityToContext(Entity.MODEL, context);
-        AttributeSetter.setEntityToContext(Entity.COLOR, context);
-        AttributeSetter.setEntityToContext(Entity.MANUFACTURER, context);
+        AttributeSetter.setEntityToContext(MODEL, context);
+        AttributeSetter.setEntityToContext(COLOR, context);
+        AttributeSetter.setEntityToContext(MANUFACTURER, context);
     }
 
     @Override

@@ -23,6 +23,15 @@ public class AttributeSetter {
     private static final String ATTR_CAR_LIST = "carList";
     private static final String ATTR_TRUCK_LIST = "truckList";
     private static final String ATTR_ORDER_LIST = "orderList";
+    private static final String BUS = "Bus";
+    private static final String CAR = "Car";
+    private static final String TRUCK = "Truck";
+    private static final String USER = "user";
+    private static final String COLOR = "Color";
+    private static final String MODEL = "Model";
+    private static final String MANUFACTURER = "Manufacturer";
+    private static final String ORDER = "order";
+    private static final String DRIVER_VEHICLES = "driverVehicles";
 
     public static void setEntityToContext(String entityName, ServletContext context) throws AttributeSetterException {
         try {
@@ -30,7 +39,7 @@ public class AttributeSetter {
             DaoManager daoManager = daoFactory.getDaoManager();
             daoManager.executeAndClose(daoManager1 -> {
                 switch (entityName) {
-                    case Entity.COLOR:
+                    case COLOR:
                         ColorDao colorDao = daoManager1.getColorDao();
                         Locale contextLocale = (Locale) context.getAttribute(ATTR_LOCALE);
                         List<Color> colors = null;
@@ -39,12 +48,12 @@ public class AttributeSetter {
                         else colors = colorDao.getAllSortedBy(com.epam.bp.autobase.dao.H2.ColorDao.VALUE_EN);
                         context.setAttribute(ATTR_COLORS, colors);
                         break;
-                    case Entity.MODEL:
+                    case MODEL:
                         ModelDao modelDao = daoManager1.getModelDao();
                         List<Model> models = modelDao.getAllSortedBy(com.epam.bp.autobase.dao.H2.ModelDao.VALUE);
                         context.setAttribute(ATTR_MODELS, models);
                         break;
-                    case Entity.MANUFACTURER:
+                    case MANUFACTURER:
                         ManufacturerDao manufacturerDao = daoManager1.getManufacturerDao();
                         List<Manufacturer> manufacturers = manufacturerDao.getAllSortedBy(com.epam.bp.autobase.dao.H2.ManufacturerDao.VALUE);
                         context.setAttribute(ATTR_MANUFACTURERS, manufacturers);
@@ -64,45 +73,45 @@ public class AttributeSetter {
             DaoManager daoManager = daoFactory.getDaoManager();
             daoManager.executeAndClose(daoManager1 -> {
                 switch (entityName) {
-                    case Entity.BUS : {
+                    case BUS : {
                         VehicleDao dao = daoManager1.getVehicleDao();
                         List<Vehicle> list =
                                 dao.getListByParameter(com.epam.bp.autobase.dao.H2.VehicleDao.VEHICLE_TYPE, String.valueOf(Vehicle.Type.BUS));
                         session.setAttribute(ATTR_BUS_LIST,list);
                         break;
                     }
-                    case Entity.CAR : {
+                    case CAR : {
                         VehicleDao dao = daoManager1.getVehicleDao();
                         List<Vehicle> list =
                                 dao.getListByParameter(com.epam.bp.autobase.dao.H2.VehicleDao.VEHICLE_TYPE, String.valueOf(Vehicle.Type.CAR));
                         session.setAttribute(ATTR_CAR_LIST,list);
                         break;
                     }
-                    case Entity.TRUCK : {
+                    case TRUCK : {
                         VehicleDao dao = daoManager1.getVehicleDao();
                         List<Vehicle> list =
                                 dao.getListByParameter(com.epam.bp.autobase.dao.H2.VehicleDao.VEHICLE_TYPE, String.valueOf(Vehicle.Type.TRUCK));
                         session.setAttribute(ATTR_TRUCK_LIST,list);
                         break;
                     }
-                    case Entity.USER : {
+                    case USER : {
                         UserDao userDao = daoManager1.getUserDao();
                         List<User> users = userDao.getAllSortedBy(com.epam.bp.autobase.dao.H2.UserDao.USERNAME);
                         session.setAttribute(ATTR_USER_LIST,users);
                         break;
                     }
-                    case Entity.ORDER : {
+                    case ORDER : {
                         OrderDao orderDao = daoManager1.getOrderDao();
                         List<Order> orders = orderDao.getAll();
                         session.setAttribute(ATTR_ORDER_LIST,orders);
                         break;
                     }
-                    case Entity.DRIVER_VEHICLES : {
+                    case DRIVER_VEHICLES : {
                         VehicleDao vehicleDao = daoManager1.getVehicleDao();
-                        User driver = (User) session.getAttribute(Entity.USER);
+                        User driver = (User) session.getAttribute(USER);
                         List<Vehicle> driverVehicles =
                                 vehicleDao.getListByParameter(com.epam.bp.autobase.dao.H2.VehicleDao.DRIVER_ID, String.valueOf(driver.getId()));
-                        if (!driverVehicles.isEmpty()) session.setAttribute(Entity.DRIVER_VEHICLES, driverVehicles);
+                        if (!driverVehicles.isEmpty()) session.setAttribute(DRIVER_VEHICLES, driverVehicles);
                         break;
                     }
                 }

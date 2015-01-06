@@ -34,6 +34,12 @@ public class ChangeSpecAction implements Action {
     private static final String ERROR_BUSY_COLOR = "error.busy-color";
     private static final String ERROR_BUSY_MODEL = "error.busy-model";
     private static final String ERROR_BUSY_MANUFACTURER = "error.busy-manufacturer";
+    private static final String COLOR = "Color";
+    private static final String MODEL = "Model";
+    private static final String MANUFACTURER = "Manufacturer";
+    private static final String VALUE_EN = "valueEn";
+    private static final String VALUE_RU = "valueRu";
+    private static final String VALUE = "value";
     private static String color_busy;
     private static String model_busy;
     private static String manufacturer_busy;
@@ -65,25 +71,25 @@ public class ChangeSpecAction implements Action {
 
         if (request.getParameter(SAVE) != null) {
             switch (spec_type) {
-                case Entity.COLOR:
+                case COLOR:
                     changeColor();
                     break;
-                case Entity.MODEL:
+                case MODEL:
                     changeModel();
                     break;
-                case Entity.MANUFACTURER:
+                case MANUFACTURER:
                     changeManufacturer();
             }
         }
         if (request.getParameter(DELETE) != null) {
             switch (spec_type) {
-                case Entity.COLOR:
+                case COLOR:
                     deleteColor();
                     break;
-                case Entity.MODEL:
+                case MODEL:
                     deleteModel();
                     break;
-                case Entity.MANUFACTURER:
+                case MANUFACTURER:
                     deleteManufacturer();
             }
         }
@@ -98,8 +104,8 @@ public class ChangeSpecAction implements Action {
                 ColorDao colorDao = daoManager1.getColorDao();
                 Integer id = Integer.valueOf(request.getParameter(SAVE));
                 Color color = colorDao.getById(id);
-                String valueEn = request.getParameter(Entity.VALUE_EN);
-                String valueRu = request.getParameter(Entity.VALUE_RU);
+                String valueEn = request.getParameter(VALUE_EN);
+                String valueRu = request.getParameter(VALUE_RU);
                 //check to unique if old value not equals new value, check valueEn
                 if ((!color.getValueEn().equals(valueEn)) && (colorDao.getByValueEn(valueEn) != null)) {
                     session.setAttribute(ERROR_COLOR, color_busy);
@@ -118,7 +124,7 @@ public class ChangeSpecAction implements Action {
                 }
             });
             daoFactory.releaseContext();
-            AttributeSetter.setEntityToContext(Entity.COLOR, session.getServletContext());
+            AttributeSetter.setEntityToContext(COLOR, session.getServletContext());
         } catch (Exception e) {
             LOGGER.error("Error at changeColor() while performing transaction");
             throw new ActionException("Error at changeColor() while performing transaction", e);
@@ -137,7 +143,7 @@ public class ChangeSpecAction implements Action {
 
             });
             daoFactory.releaseContext();
-            AttributeSetter.setEntityToContext(Entity.COLOR, session.getServletContext());
+            AttributeSetter.setEntityToContext(COLOR, session.getServletContext());
         } catch (Exception e) {
             LOGGER.error("Error at deleteColor() while performing transaction");
             throw new ActionException("Error at deleteColor() while performing transaction", e);
@@ -153,7 +159,7 @@ public class ChangeSpecAction implements Action {
                 ModelDao modelDao = daoManager1.getModelDao();
                 Integer id = Integer.valueOf(request.getParameter(SAVE));
                 Model model = modelDao.getById(id);
-                String value = request.getParameter(Entity.VALUE);
+                String value = request.getParameter(VALUE);
                 //check to unique if old value not equals new value
                 if ((!model.getValue().equals(value)) && (modelDao.getByValue(value) != null)) {
                     session.setAttribute(ERROR_MODEL, model_busy);
@@ -164,7 +170,7 @@ public class ChangeSpecAction implements Action {
                 }
             });
             daoFactory.releaseContext();
-            AttributeSetter.setEntityToContext(Entity.MODEL, session.getServletContext());
+            AttributeSetter.setEntityToContext(MODEL, session.getServletContext());
         } catch (Exception e) {
             LOGGER.error("Error at changeModel() while performing transaction");
             throw new ActionException("Error at changeModel() while performing transaction", e);
@@ -182,7 +188,7 @@ public class ChangeSpecAction implements Action {
                 modelDao.delete(id);
             });
             daoFactory.releaseContext();
-            AttributeSetter.setEntityToContext(Entity.MODEL, session.getServletContext());
+            AttributeSetter.setEntityToContext(MODEL, session.getServletContext());
         } catch (Exception e) {
             LOGGER.error("Error at deleteModel() while performing transaction");
             throw new ActionException("Error at deleteModel() while performing transaction", e);
@@ -198,7 +204,7 @@ public class ChangeSpecAction implements Action {
                 ManufacturerDao manufacturerDao = daoManager1.getManufacturerDao();
                 Integer id = Integer.valueOf(request.getParameter(SAVE));
                 Manufacturer manufacturer = manufacturerDao.getById(id);
-                String value = request.getParameter(Entity.VALUE);
+                String value = request.getParameter(VALUE);
                 //check to unique if old value not equals new value
                 if ((!manufacturer.getValue().equals(value)) && (manufacturerDao.getByValue(value) != null)) {
                     session.setAttribute(ERROR_MANUFACTURER, manufacturer_busy);
@@ -209,7 +215,7 @@ public class ChangeSpecAction implements Action {
                 }
             });
             daoFactory.releaseContext();
-            AttributeSetter.setEntityToContext(Entity.MANUFACTURER, session.getServletContext());
+            AttributeSetter.setEntityToContext(MANUFACTURER, session.getServletContext());
         } catch (Exception e) {
             LOGGER.error("Error at changeManufacturer() while performing transaction");
             throw new ActionException("Error at changeManufacturer() while performing transaction", e);
@@ -228,7 +234,7 @@ public class ChangeSpecAction implements Action {
 
             });
             daoFactory.releaseContext();
-            AttributeSetter.setEntityToContext(Entity.MANUFACTURER, session.getServletContext());
+            AttributeSetter.setEntityToContext(MANUFACTURER, session.getServletContext());
         } catch (Exception e) {
             LOGGER.error("Error at deleteManufacturer() while performing transaction");
             throw new ActionException("Error at deleteManufacturer() while performing transaction", e);

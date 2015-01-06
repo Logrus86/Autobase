@@ -45,6 +45,7 @@ public class SearchAction implements Action {
     private static final String PAYLOAD = "payload";
     private static final String VH_TYPE = "vhType";
     private static final String NOW_DATE = "nowdate";
+    private static final String USER = "user";
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
@@ -59,7 +60,7 @@ public class SearchAction implements Action {
         if (!error.isEmpty()) {
             session.setAttribute(ERROR, error);
             session.setAttribute(FOUNDED_LIST, null);
-            if (session.getAttribute(Entity.USER) == null) return ERR_GUEST;
+            if (session.getAttribute(USER) == null) return ERR_GUEST;
             return ERR_LOGINED;
         }
 
@@ -71,7 +72,7 @@ public class SearchAction implements Action {
                 LOGGER.info("Nothing was checked.");
                 session.setAttribute(ERROR, error_nothing_checked);
                 session.setAttribute(FOUNDED_LIST, null);
-                if (session.getAttribute(Entity.USER) == null) return ERR_GUEST;
+                if (session.getAttribute(USER) == null) return ERR_GUEST;
                 return ERR_LOGINED;
             }
             List<Vehicle> vehicles = vehicleDao.getListByParametersMap(params);
@@ -81,7 +82,7 @@ public class SearchAction implements Action {
                 LOGGER.info("Vehicles wasn't found.");
                 session.removeAttribute(ERROR);
                 session.removeAttribute(FOUNDED_LIST);
-                if (session.getAttribute(Entity.USER) == null) return FIND_GUEST;
+                if (session.getAttribute(USER) == null) return FIND_GUEST;
                 return FIND_LOGINED;
             }
 
@@ -93,7 +94,7 @@ public class SearchAction implements Action {
             LOGGER.error("Error at SearchAction while searching for vehicle");
             throw new ActionException("Error at SearchAction while searching for vehicle", e);
         }
-        if (session.getAttribute(Entity.USER) == null) {
+        if (session.getAttribute(USER) == null) {
             String reg_error = RB.getString(RB_REG_BEFORE_ORDER);
             session.setAttribute(REG_ERROR, reg_error);
             return FIND_GUEST;

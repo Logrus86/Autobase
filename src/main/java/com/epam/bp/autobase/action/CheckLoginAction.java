@@ -19,6 +19,8 @@ public class CheckLoginAction implements Action {
     private static final String SEARCH_ERROR = "search_error";
     private static final String CREATE_ERROR = "create_error";
     private static final String USER = "user";
+    private static final String ORDER = "order";
+    private static final String DRIVER_VEHICLES = "driverVehicles";
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
@@ -34,8 +36,8 @@ public class CheckLoginAction implements Action {
         User user = (User) session.getAttribute(USER);
         if (user.getRole() == User.Role.ADMIN) {
             try {
-                AttributeSetter.setEntityToSession(Entity.ORDER, session);
-                AttributeSetter.setEntityToSession(Entity.USER, session);
+                AttributeSetter.setEntityToSession(ORDER, session);
+                AttributeSetter.setEntityToSession(USER, session);
             } catch (AttributeSetterException e) {
                 throw new ActionException(e);
             }
@@ -44,7 +46,7 @@ public class CheckLoginAction implements Action {
         if (user.getRole() == User.Role.CLIENT) return LOGIN_CLIENT;
         if (user.getRole() == User.Role.DRIVER) {
             try {
-                AttributeSetter.setEntityToSession(Entity.DRIVER_VEHICLES, session);
+                AttributeSetter.setEntityToSession(DRIVER_VEHICLES, session);
             } catch (AttributeSetterException e) {
                 throw new ActionException(e);
             }
