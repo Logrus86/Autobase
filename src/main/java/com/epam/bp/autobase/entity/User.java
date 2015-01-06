@@ -2,9 +2,8 @@ package com.epam.bp.autobase.entity;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import javax.persistence.Enumerated;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
@@ -27,7 +26,7 @@ public class User extends Entity {
     @Temporal(TemporalType.DATE)
     private Date dob;
 
-    @NotEmpty
+    @Column(unique=true, nullable=false)
     @Pattern(regexp = "[a-zA-Z]{1}[\\w_]{3,19}", message = "incorrect username")
     private String username;
 
@@ -35,8 +34,8 @@ public class User extends Entity {
     @Pattern(regexp = "[\\w]{3,20}", message = "incorrect username")
     private String password;
 
-    @NotEmpty
     @Email
+    @Column(unique=true, nullable=false)
     private String email;
 
     @NotNull
