@@ -6,6 +6,7 @@
 <%@attribute name="hide_footer" fragment="true" %>
 
 <html>
+
 <body>
 <div id="header">
     <script type='text/javascript' src='<c:url value="/webjars/jquery/1.11.1/jquery.js"/>'></script>

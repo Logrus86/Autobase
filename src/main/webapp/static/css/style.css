@@ -66,17 +66,17 @@ p {
 }
 
 #title h1 {
-    background: url('/static/img/title_bg_block.png') repeat;
+    background: url('../img/title_bg_block.png') repeat;
     padding-left: 12px;
 }
 
 #h1sub {
-    background: url('/static/img/title_bg_block.png') repeat;
+    background: url('../img/title_bg_block.png') repeat;
     padding: 0 10px 0;
 }
 
 .lifestyle_img {
-    background-image: url('/static/img/bg.jpg');
+    background-image: url('../img/bg.jpg');
     background-position: center bottom !important;
     background-repeat: no-repeat;
 }

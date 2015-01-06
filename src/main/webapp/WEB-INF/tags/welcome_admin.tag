@@ -5,8 +5,8 @@
 <div class="btn-group" id="admin_bar" align="right">
     <p>
         <fmt:message key="default.welcome"/> ${user.firstname}! <fmt:message key="default.hey-admin"/>
-        <button type="button" class="btn btn-default" onclick='location.href="/do/quit"'><fmt:message
-                key="default.doexit"/>
+        <button type="button" class="btn btn-default" onclick="location.href='<c:url value="/do/quit"/>'">
+            <fmt:message key="default.doexit"/>
         </button>
     </p>
 </div>
