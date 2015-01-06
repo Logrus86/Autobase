@@ -1,8 +1,18 @@
 package com.epam.bp.autobase.entity;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
+
+@javax.persistence.Entity
 public class Car extends Vehicle {
+    @NotNull
     private int passengerSeatsNumber;
+
+    @NotNull
     private int doorsNumber;
+
+    @NotNull
     private boolean withConditioner;
 
     public int getPassengerSeatsNumber() {

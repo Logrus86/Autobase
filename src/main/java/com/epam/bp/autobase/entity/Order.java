@@ -5,22 +5,40 @@ import com.epam.bp.autobase.dao.H2.DaoManager;
 import com.epam.bp.autobase.dao.UserDao;
 import com.epam.bp.autobase.dao.VehicleDao;
 
+import javax.persistence.Enumerated;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+@javax.persistence.Entity
 public class Order extends Entity {
+    @NotNull
     private Integer clientId;
+
+    @NotNull
     private Integer vehicleId;
+
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateStart;
+
+    @NotNull
     private Integer dayCount;
+
+    @NotNull
+    @Temporal(TemporalType.DATE)
     private Date dateOrdered;
+
+    @NotNull
     private BigDecimal sum;
+
+    @Enumerated
     private Status status;
-    private Vehicle vehicle;
-    private User client;
 
     public Status getStatus() {
         return status;
@@ -110,34 +128,21 @@ public class Order extends Entity {
     }
 
     public Vehicle getVehicle() {
+        final Vehicle[] vehicle = {null};
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DaoManager daoManager = daoFactory.getDaoManager();
             daoManager.transactionAndClose(daoManager1 -> {
                 VehicleDao vehicleDao = daoManager1.getVehicleDao();
-                vehicle = vehicleDao.getById(vehicleId);
+                vehicle[0] = vehicleDao.getById(vehicleId);
             });
             daoFactory.releaseContext();
         } catch (Exception e) {
             throw new RuntimeException("Error getting order's vehicle", e);
         }
-        return vehicle;
+        return vehicle[0];
     }
 
-    public User getClient() {
-        try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
-            DaoManager daoManager = daoFactory.getDaoManager();
-            daoManager.transactionAndClose(daoManager1 -> {
-                UserDao userDao = daoManager1.getUserDao();
-                client = userDao.getById(clientId);
-            });
-            daoFactory.releaseContext();
-        } catch (Exception e) {
-            throw new RuntimeException("Error getting order's vehicle", e);
-        }
-        return client;
-    }
     public void setDateOrdered(Date dateOrdered) {
         this.dateOrdered = dateOrdered;
     }

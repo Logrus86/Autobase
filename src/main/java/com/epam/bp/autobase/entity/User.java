@@ -1,26 +1,50 @@
 package com.epam.bp.autobase.entity;
 
-import com.epam.bp.autobase.dao.DaoFactory;
-import com.epam.bp.autobase.dao.H2.DaoManager;
-import com.epam.bp.autobase.dao.OrderDao;
-
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+import javax.persistence.Enumerated;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
+@javax.persistence.Entity
 public class User extends Entity {
-    private Integer id;
+
+    @NotEmpty
+    @Pattern(regexp = "([A-Z]{1}[a-z]{0,19})|([А-Я]{1}[а-я]{0,19})", message = "incorrect firstname")
     private String firstname;
+
+    @NotEmpty
+    @Pattern(regexp = "([A-Z]{1}[a-z]{0,19})|([А-Я]{1}[а-я]{0,19})", message = "incorrect lastname")
     private String lastname;
+
+    @NotEmpty
+    @Temporal(TemporalType.DATE)
     private Date dob;
+
+    @NotEmpty
+    @Pattern(regexp = "[a-zA-Z]{1}[\\w_]{3,19}", message = "incorrect username")
     private String username;
+
+    @NotEmpty
+    @Pattern(regexp = "[\\w]{3,20}", message = "incorrect username")
     private String password;
+
+    @NotEmpty
+    @Email
     private String email;
+
+    @NotNull
+    @Enumerated
     private Role role;
+
+    @NotNull
     private BigDecimal balance;
-    private List<Order> orders;
 
     public String getFirstname() {
         return firstname;
@@ -64,10 +88,6 @@ public class User extends Entity {
         return this;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -104,29 +124,9 @@ public class User extends Entity {
         return this;
     }
 
-    public List<Order> getClientOrders() {
-        try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
-            DaoManager daoManager = daoFactory.getDaoManager();
-            daoManager.transactionAndClose(daoManager1 -> {
-                OrderDao orderDao = daoManager1.getOrderDao();
-                orders = orderDao.getListByClientId(id);
-            });
-            daoFactory.releaseContext();
-        } catch (Exception e) {
-            throw new RuntimeException("Error getting client's order list", e);
-        }
-        return orders;
-    }
-
     @Override
     public String toString() {
-        return "User {ID: " + id + ", firstname: " + firstname + ", lastname: " + lastname + ", dob: " + getDob() + ", username: " + username + ", password: " + password + ", email: " + email + ", role: " + role + ", balance: " + balance + "}";
-    }
-
-    @Override
-    public Integer getId() {
-        return id;
+        return "User {ID: " + this.getId() + ", firstname: " + firstname + ", lastname: " + lastname + ", dob: " + getDob() + ", username: " + username + ", password: " + password + ", email: " + email + ", role: " + role + ", balance: " + balance + "}";
     }
 
     public enum Role {

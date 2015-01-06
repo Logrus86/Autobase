@@ -1,10 +1,19 @@
 package com.epam.bp.autobase.entity;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
+@javax.persistence.Entity
 public class Truck extends Vehicle {
+
+    @NotNull
     private BigDecimal maxPayload;
+
+    @NotNull
     private boolean enclosed;
+
+    @NotNull
     private boolean tipper;
 
     public BigDecimal getMaxPayload() {

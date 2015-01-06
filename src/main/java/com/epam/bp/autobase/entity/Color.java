@@ -1,7 +1,18 @@
 package com.epam.bp.autobase.entity;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+@javax.persistence.Entity
 public class Color extends Entity {
+    @NotEmpty
+    @Pattern(regexp = "[A-Z]{1}[a-z]{2,20}", message = "Incorrect value_en")
     private String valueEn;
+
+    @NotEmpty
+    @Pattern(regexp = "[А-Я]{1}[а-я]{2,20}", message = "Incorrect value_ru")
     private String valueRu;
 
     public Color setValueEn(String valueEn) {
