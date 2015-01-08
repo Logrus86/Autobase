@@ -1,11 +1,10 @@
 package com.epam.bp.autobase.entity;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
 import javax.validation.constraints.NotNull;
 
 @javax.persistence.Entity
+@DiscriminatorValue(value = "BUS")
 public class Bus extends Vehicle {
     @NotNull
     private int passengerSeatsNumber;

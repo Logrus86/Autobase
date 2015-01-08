@@ -1,10 +1,11 @@
 package com.epam.bp.autobase.entity;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @javax.persistence.Entity
+@DiscriminatorValue(value = "TRUCK")
 public class Truck extends Vehicle {
 
     @NotNull

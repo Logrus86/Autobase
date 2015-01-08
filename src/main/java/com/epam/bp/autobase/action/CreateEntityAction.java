@@ -2,7 +2,6 @@ package com.epam.bp.autobase.action;
 
 import com.epam.bp.autobase.dao.*;
 import com.epam.bp.autobase.dao.H2.DaoManager;
-import com.epam.bp.autobase.*;
 import com.epam.bp.autobase.entity.*;
 import com.epam.bp.autobase.util.AttributeSetter;
 import com.epam.bp.autobase.util.Validator;

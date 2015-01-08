@@ -4,12 +4,25 @@
              xsi:schemaLocation="
         http://xmlns.jcp.org/xml/ns/persistence
         http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+
     <persistence-unit name="primary">
         <jta-data-source>java:jboss/datasources/h2autobase</jta-data-source>
-        <!--<provider>org.hibernate.ejb.HibernatePersistence</provider>-->
         <properties>
             <property name="hibernate.hbm2ddl.auto" value="update" />
             <property name="hibernate.show_sql" value="true" />
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="RUNNER">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <class>com.epam.bp.autobase.entity.User</class>
+        <properties>
+            <property name="hibernate.connection.driver_class" value="org.h2.Driver"/>
+            <property name="hibernate.connection.url" value="jdbc:h2:tcp://localhost/~/autobase"/>
+            <property name="hibernate.connection.username" value="admin"/>
+            <property name="hibernate.connection.password" value="test"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
         </properties>
     </persistence-unit>
 </persistence>

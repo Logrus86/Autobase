@@ -4,12 +4,12 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 
-@MappedSuperclass
+@javax.persistence.Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Entity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
     public Integer getId() {

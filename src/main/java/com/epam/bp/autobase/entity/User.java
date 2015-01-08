@@ -1,8 +1,11 @@
 package com.epam.bp.autobase.entity;
 
+import com.epam.bp.autobase.dao.DaoFactory;
+import com.epam.bp.autobase.dao.H2.DaoManager;
+import com.epam.bp.autobase.dao.OrderDao;
+import com.sun.istack.internal.Nullable;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -10,16 +13,18 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @javax.persistence.Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User extends Entity {
 
     @NotEmpty
-    @Pattern(regexp = "([A-Z]{1}[a-z]{0,19})|([А-Я]{1}[а-я]{0,19})", message = "incorrect firstname")
+    @Pattern(regexp = "([A-Z]{1}[a-z]{0,19})|([А-Я]{1}[а-я]{0,19})", message = "Incorrect first name")
     private String firstname;
 
     @NotEmpty
-    @Pattern(regexp = "([A-Z]{1}[a-z]{0,19})|([А-Я]{1}[а-я]{0,19})", message = "incorrect lastname")
+    @Pattern(regexp = "([A-Z]{1}[a-z]{0,19})|([А-Я]{1}[а-я]{0,19})", message = "Incorrect last name")
     private String lastname;
 
     @NotEmpty
@@ -27,11 +32,11 @@ public class User extends Entity {
     private Date dob;
 
     @Column(unique=true, nullable=false)
-    @Pattern(regexp = "[a-zA-Z]{1}[\\w_]{3,19}", message = "incorrect username")
+    @Pattern(regexp = "[a-zA-Z]{1}[\\w_]{3,19}", message = "Incorrect username")
     private String username;
 
     @NotEmpty
-    @Pattern(regexp = "[\\w]{3,20}", message = "incorrect username")
+    @Pattern(regexp = "[\\w]{3,20}", message = "Incorrect password")
     private String password;
 
     @Email
@@ -44,6 +49,45 @@ public class User extends Entity {
 
     @NotNull
     private BigDecimal balance;
+
+    @Nullable
+    @OneToMany(mappedBy = "client")
+    private List<Order> orders;
+
+/*    @Nullable
+    @OneToMany(mappedBy = "driver")
+    private List<Vehicle> vehicles;
+
+    public void addOrder(Order order){
+        order.setClient(this);
+        orders.add(order);
+    }
+
+    public void addVehicle(Vehicle vehicle){
+        vehicle.setDriver(this);
+        vehicles.add(vehicle);
+    }
+
+    public List<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public void setVehicles(List<Vehicle> vehicles) {
+        this.vehicles = vehicles;
+    }
+    */
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
 
     public String getFirstname() {
         return firstname;
@@ -121,6 +165,21 @@ public class User extends Entity {
     public User setRole(Role role) {
         this.role = role;
         return this;
+    }
+
+    public List<Order> getClientOrders() {
+        try {
+            com.epam.bp.autobase.dao.DaoFactory daoFactory = DaoFactory.getInstance();
+            DaoManager daoManager = daoFactory.getDaoManager();
+            daoManager.transactionAndClose(daoManager1 -> {
+                OrderDao orderDao = daoManager1.getOrderDao();
+                orders = orderDao.getListByClientId(this.getId());
+            });
+            daoFactory.releaseContext();
+        } catch (Exception e) {
+            throw new RuntimeException("Error getting client's order list", e);
+        }
+        return orders;
     }
 
     @Override

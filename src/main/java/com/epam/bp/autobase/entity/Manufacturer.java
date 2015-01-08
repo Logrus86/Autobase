@@ -2,6 +2,8 @@ package com.epam.bp.autobase.entity;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 

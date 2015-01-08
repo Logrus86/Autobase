@@ -8,25 +8,35 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Comparator;
 
-@MappedSuperclass
+@javax.persistence.Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "VEHICLE_TYPE", discriminatorType = DiscriminatorType.STRING, length = 5)
 public abstract class Vehicle extends Entity {
 
     @NotNull
     private BigDecimal rentPrice;
 
+    //-----------------------delete these old form later
     @NotNull
     private Integer colorId;
-
     @NotNull
     private Integer modelId;
-
     @NotNull
     private Integer manufacturerId;
-
     @NotNull
     private Integer driverId;
-
+    @Enumerated
+    private Type type;
+    //--------------------------------new form:
+    @ManyToOne
+    private Color color;
+    @ManyToOne
+    private Model model;
+    @ManyToOne
+    private Manufacturer manufacturer;
+    @ManyToOne
+    private User driver;
+    //---------------------------------------------------
     @NotNull
     private Integer productionYear;
 
@@ -37,10 +47,27 @@ public abstract class Vehicle extends Entity {
     private boolean operable;
 
     @Enumerated
-    private Type type;
-
-    @Enumerated
     private Fuel fuelType;
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public void setModel(Model model) {
+        this.model = model;
+    }
+
+    public void setManufacturer(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public void setDriver(User driver) {
+        this.driver = driver;
+    }
+
+    public void setProductionYear(Integer productionYear) {
+        this.productionYear = productionYear;
+    }
 
     public Type getType() {
         return type;
@@ -53,10 +80,6 @@ public abstract class Vehicle extends Entity {
 
     public int getProductionYear() {
         return productionYear;
-    }
-
-    public void setProductionYear(int productionYear) {
-        this.productionYear = productionYear;
     }
 
     public Integer getColorId() {

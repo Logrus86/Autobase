@@ -1,13 +1,6 @@
 package com.epam.bp.autobase.entity;
 
-import com.epam.bp.autobase.dao.DaoFactory;
-import com.epam.bp.autobase.dao.H2.DaoManager;
-import com.epam.bp.autobase.dao.UserDao;
-import com.epam.bp.autobase.dao.VehicleDao;
-
-import javax.persistence.Enumerated;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -16,29 +9,49 @@ import java.util.Calendar;
 import java.util.Date;
 
 @javax.persistence.Entity
+@Table(name = "VH_ORDER")
 public class Order extends Entity {
+
+    //-----------------------delete these old form later
     @NotNull
     private Integer clientId;
-
     @NotNull
     private Integer vehicleId;
+    //--------------------------------new form:
+    @ManyToOne
+    private User client;
+    @ManyToOne
+    private Vehicle vehicle;
+    //---------------------------------------------------
 
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date dateStart;
 
     @NotNull
     private Integer dayCount;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
-    private Date dateOrdered;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date timestampOrdered;
 
     @NotNull
     private BigDecimal sum;
 
     @Enumerated
     private Status status;
+
+    public User getClient() {
+        return client;
+    }
+
+    public void setClient(User client) {
+        this.client = client;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
 
     public Status getStatus() {
         return status;
@@ -113,38 +126,26 @@ public class Order extends Entity {
         return result.getTime();
     }
 
-    public String getDateOrdered() {
+    public String getTimestampOrdered() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return sdf.format(dateOrdered);
+        return sdf.format(timestampOrdered);
     }
 
-    public void setDateOrdered(String dateOrdered) {
+    public void setTimestampOrdered(String dateOrdered) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            this.dateOrdered = sdf.parse(dateOrdered);
+            this.timestampOrdered = sdf.parse(dateOrdered);
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
 
     public Vehicle getVehicle() {
-        final Vehicle[] vehicle = {null};
-        try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
-            DaoManager daoManager = daoFactory.getDaoManager();
-            daoManager.transactionAndClose(daoManager1 -> {
-                VehicleDao vehicleDao = daoManager1.getVehicleDao();
-                vehicle[0] = vehicleDao.getById(vehicleId);
-            });
-            daoFactory.releaseContext();
-        } catch (Exception e) {
-            throw new RuntimeException("Error getting order's vehicle", e);
-        }
-        return vehicle[0];
+        return vehicle;
     }
 
     public void setDateOrdered(Date dateOrdered) {
-        this.dateOrdered = dateOrdered;
+        this.timestampOrdered = dateOrdered;
     }
 
     public enum Status {
