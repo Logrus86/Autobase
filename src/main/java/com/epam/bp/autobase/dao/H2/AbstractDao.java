@@ -2,7 +2,7 @@ package com.epam.bp.autobase.dao.H2;
 
 import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.JDBCDao;
-import com.epam.bp.autobase.entity.Entity;
+import com.epam.bp.autobase.entity.Identifiable;
 import com.epam.bp.autobase.pool.ConnectionPool;
 
 import java.sql.PreparedStatement;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractDao<PK extends Integer, T extends Entity> implements JDBCDao<PK, T> {
+public abstract class AbstractDao<PK extends Integer, T extends Identifiable> implements JDBCDao<PK, T> {
     private static final String ORDER_BY = "ORDER BY";
     private static final String ID = "ID";
     protected final ConnectionPool.ProxyConnection connection;

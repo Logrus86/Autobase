@@ -6,7 +6,6 @@ import com.epam.bp.autobase.dao.H2.DaoManager;
 import com.epam.bp.autobase.dao.ManufacturerDao;
 import com.epam.bp.autobase.dao.ModelDao;
 import com.epam.bp.autobase.entity.Color;
-import com.epam.bp.autobase.entity.Entity;
 import com.epam.bp.autobase.entity.Manufacturer;
 import com.epam.bp.autobase.entity.Model;
 import com.epam.bp.autobase.util.AttributeSetter;
@@ -79,6 +78,7 @@ public class ChangeSpecAction implements Action {
                     break;
                 case MANUFACTURER:
                     changeManufacturer();
+                    break;
             }
         }
         if (request.getParameter(DELETE) != null) {
@@ -91,6 +91,7 @@ public class ChangeSpecAction implements Action {
                     break;
                 case MANUFACTURER:
                     deleteManufacturer();
+                    break;
             }
         }
         return result;

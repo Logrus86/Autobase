@@ -1,5 +1,6 @@
 package com.epam.bp.autobase.entity;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
 public class Truck extends Vehicle {
 
     @NotNull
+    @Column(name = "MAX_PAYLOAD")
     private BigDecimal maxPayload;
 
     @NotNull

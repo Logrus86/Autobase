@@ -4,7 +4,6 @@ import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.DaoFactory;
 import com.epam.bp.autobase.dao.H2.DaoManager;
 import com.epam.bp.autobase.dao.UserDao;
-import com.epam.bp.autobase.entity.Entity;
 import com.epam.bp.autobase.entity.User;
 import com.epam.bp.autobase.util.AttributeSetter;
 import com.epam.bp.autobase.util.Validator;
@@ -47,7 +46,7 @@ public class LoginAction implements Action {
 
         RegisterAction.clearRegData(session);
         //validate inputs
-        String error = Validator.validateRequestParametersMap(request);
+        String error = Validator.validateRequestParameters(request);
         if (!error.isEmpty()) {
             session.setAttribute(ERROR, error);
             return LOGIN_FALSE;

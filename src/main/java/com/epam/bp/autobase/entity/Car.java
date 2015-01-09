@@ -2,6 +2,7 @@ package com.epam.bp.autobase.entity;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.validation.constraints.NotNull;
 
@@ -9,12 +10,15 @@ import javax.validation.constraints.NotNull;
 @DiscriminatorValue(value = "CAR")
 public class Car extends Vehicle {
     @NotNull
+    @Column(name = "PASSENGER_SEATS_NUMBER")
     private int passengerSeatsNumber;
 
     @NotNull
+    @Column(name = "DOORS_NUMBER")
     private int doorsNumber;
 
     @NotNull
+    @Column(name = "CONDITIONER")
     private boolean withConditioner;
 
     public int getPassengerSeatsNumber() {

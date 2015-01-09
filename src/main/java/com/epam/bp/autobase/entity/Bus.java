@@ -1,5 +1,6 @@
 package com.epam.bp.autobase.entity;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.validation.constraints.NotNull;
 
@@ -7,12 +8,15 @@ import javax.validation.constraints.NotNull;
 @DiscriminatorValue(value = "BUS")
 public class Bus extends Vehicle {
     @NotNull
+    @Column(name = "PASSENGER_SEATS_NUMBER")
     private int passengerSeatsNumber;
 
     @NotNull
+    @Column(name = "STANDING_PLACES_NUMBER")
     private int standingPlacesNumber;
 
     @NotNull
+    @Column(name = "DOORS_NUMBER")
     private int doorsNumber;
 
     public int getPassengerSeatsNumber() {

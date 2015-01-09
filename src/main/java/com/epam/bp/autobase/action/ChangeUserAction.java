@@ -57,7 +57,7 @@ public class ChangeUserAction implements Action {
         //changing user if we are client or driver; if we are admin, do it if SAVE parameter not null only
         if (!user.getRole().equals(User.Role.ADMIN) || request.getParameter(SAVE) != null) {
             //validate data
-            String error = Validator.validateRequestParametersMap(request);
+            String error = Validator.validateRequestParameters(request);
             if (!error.isEmpty()) {
                 session.setAttribute(ERROR, error);
                 if (user.getRole() == User.Role.CLIENT) return CABINET_USER;

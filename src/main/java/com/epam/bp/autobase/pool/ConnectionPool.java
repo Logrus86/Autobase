@@ -57,7 +57,7 @@ public class ConnectionPool {
                 }
                 connection.closeActually();
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                throw new ConnectionPoolException("",e);
             }
         }
 

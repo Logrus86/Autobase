@@ -1,10 +1,11 @@
 package com.epam.bp.autobase.action;
 
 import com.epam.bp.autobase.dao.*;
-import com.epam.bp.autobase.dao.H2.DaoManager;
 import com.epam.bp.autobase.entity.*;
+import com.epam.bp.autobase.dao.H2.DaoManager;
 import com.epam.bp.autobase.util.AttributeSetter;
 import com.epam.bp.autobase.util.Validator;
+import jdk.nashorn.internal.ir.IfNode;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContext;
@@ -90,7 +91,8 @@ public class CreateEntityAction implements Action {
         clearEnteredData(session);
 
         //validate data
-        String error = Validator.validateRequestParametersMap(request);
+        String error = Validator.validateRequestParameters(request);
+        //if error isn't empty, open the same page with entered data and error message
         if (!error.isEmpty()) {
             session.setAttribute(ERROR, error);
             forwardEnteredData();
@@ -103,12 +105,12 @@ public class CreateEntityAction implements Action {
             if (USER.equals(entityName)) return USER_PAGE;
         }
 
+        //creating selected entity
         if (USER.equals(entityName)) createUser();
         if ((BUS.equals(entityName)) || (CAR.equals(entityName)) || (TRUCK.equals(entityName)))
             createVehicle();
         if ((COLOR.equals(entityName)) || (MODEL.equals(entityName)) || (MANUFACTURER.equals(entityName)))
             createSpec();
-
         return result;
     }
 
@@ -126,38 +128,37 @@ public class CreateEntityAction implements Action {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DaoManager daoManager = daoFactory.getDaoManager();
             final Object finalSpec = prop;
-            daoManager.executeAndClose(daoManager1 -> {
+
                 if (COLOR.equals(entityName)) {
-                    ColorDao colorDao = daoManager1.getColorDao();
+                    ColorDao colorDao = daoManager.getColorDao();
                     if ((colorDao.getByValueEn(valueEn) != null) || (colorDao.getByValueRu(valueRu) != null)) {
                         session.setAttribute(ERROR, color_busy);
                         forwardEnteredData();
                     } else {
-                        colorDao.create((Color) finalSpec);
+                        daoManager.executeAndClose(daoManager1 -> colorDao.create((Color) finalSpec));
                         AttributeSetter.setEntityToContext(COLOR, session.getServletContext());
                     }
                 }
                 if (MODEL.equals(entityName)) {
-                    ModelDao modelDao = daoManager1.getModelDao();
+                    ModelDao modelDao = daoManager.getModelDao();
                     if (modelDao.getByValue(value) != null) {
                         session.setAttribute(ERROR, model_busy);
                         forwardEnteredData();
                     } else {
-                        modelDao.create((Model) finalSpec);
+                        daoManager.executeAndClose(daoManager1 -> modelDao.create((Model) finalSpec));
                         AttributeSetter.setEntityToContext(MODEL, session.getServletContext());
                     }
                 }
                 if (MANUFACTURER.equals(entityName)) {
-                    ManufacturerDao manufacturerDao = daoManager1.getManufacturerDao();
+                    ManufacturerDao manufacturerDao = daoManager.getManufacturerDao();
                     if (manufacturerDao.getByValue(value) != null) {
                         session.setAttribute(ERROR, manufacturer_busy);
                         forwardEnteredData();
                     } else {
-                        manufacturerDao.create((Manufacturer) finalSpec);
+                        daoManager.executeAndClose(daoManager1 -> manufacturerDao.create((Manufacturer) finalSpec));
                         AttributeSetter.setEntityToContext(MANUFACTURER, session.getServletContext());
                     }
                 }
-            });
             daoFactory.releaseContext();
         } catch (Exception e) {
             LOGGER.error("Error at createSpec() while performing transaction");
@@ -175,8 +176,11 @@ public class CreateEntityAction implements Action {
         String dob = request.getParameter(DOB);
         String username = request.getParameter(USERNAME);
         String password = request.getParameter(PASSWORD);
-        BigDecimal balance = new BigDecimal(request.getParameter(BALANCE));
         User.Role role = User.Role.valueOf(request.getParameter(ROLE));
+        BigDecimal balance;
+        if (role.equals(User.Role.CLIENT)) {
+            balance = new BigDecimal(request.getParameter(BALANCE));
+        } else balance = BigDecimal.ZERO;
 
         User user = new User()
                 .setFirstname(firstname)
@@ -285,6 +289,7 @@ public class CreateEntityAction implements Action {
     }
 
     private void forwardEnteredData() {
+        //forward to the new page entered data from
         if (COLOR.equals(entityName)) {
             session.setAttribute(VALUE_EN, request.getParameter(VALUE_EN));
             session.setAttribute(VALUE_RU, request.getParameter(VALUE_RU));
@@ -337,48 +342,48 @@ public class CreateEntityAction implements Action {
     }
 
     public static void clearEnteredData(HttpSession session) {
-            session.removeAttribute(VALUE_EN);
-            session.removeAttribute(VALUE_RU);
-            session.removeAttribute(VALUE);
-            session.removeAttribute(MODEL_ID);
-            session.removeAttribute(MANUFACTURER_ID);
-            session.removeAttribute(PRODUCTION_YEAR);
-            session.removeAttribute(COLOR_ID);
-            session.removeAttribute(FUEL_TYPE);
-            session.removeAttribute(MILEAGE);
-            session.removeAttribute(RENT);
-            session.removeAttribute(DRIVER_ID);
-            session.removeAttribute(DOORS_NUM);
-            session.removeAttribute(PASS_SEATS_NUM);
-            session.removeAttribute(STAND_PLACES_NUM);
-            session.removeAttribute(MODEL_ID);
-            session.removeAttribute(MANUFACTURER_ID);
-            session.removeAttribute(PRODUCTION_YEAR);
-            session.removeAttribute(COLOR_ID);
-            session.removeAttribute(FUEL_TYPE);
-            session.removeAttribute(MILEAGE);
-            session.removeAttribute(RENT);
-            session.removeAttribute(DRIVER_ID);
-            session.removeAttribute(DOORS_NUM);
-            session.removeAttribute(PASS_SEATS_NUM);
-            session.removeAttribute(WITH_CONDITIONER);
-            session.removeAttribute(MODEL_ID);
-            session.removeAttribute(MANUFACTURER_ID);
-            session.removeAttribute(PRODUCTION_YEAR);
-            session.removeAttribute(COLOR_ID);
-            session.removeAttribute(FUEL_TYPE);
-            session.removeAttribute(MILEAGE);
-            session.removeAttribute(RENT);
-            session.removeAttribute(DRIVER_ID);
-            session.removeAttribute(MAX_PAYLOAD);
-            session.removeAttribute(ENCLOSED);
-            session.removeAttribute(TIPPER);
-            session.removeAttribute(FIRSTNAME);
-            session.removeAttribute(LASTNAME);
-            session.removeAttribute(DOB);
-            session.removeAttribute(USERNAME);
-            session.removeAttribute(EMAIL);
-            session.removeAttribute(ROLE);
-            session.removeAttribute(BALANCE);
+        session.removeAttribute(VALUE_EN);
+        session.removeAttribute(VALUE_RU);
+        session.removeAttribute(VALUE);
+        session.removeAttribute(MODEL_ID);
+        session.removeAttribute(MANUFACTURER_ID);
+        session.removeAttribute(PRODUCTION_YEAR);
+        session.removeAttribute(COLOR_ID);
+        session.removeAttribute(FUEL_TYPE);
+        session.removeAttribute(MILEAGE);
+        session.removeAttribute(RENT);
+        session.removeAttribute(DRIVER_ID);
+        session.removeAttribute(DOORS_NUM);
+        session.removeAttribute(PASS_SEATS_NUM);
+        session.removeAttribute(STAND_PLACES_NUM);
+        session.removeAttribute(MODEL_ID);
+        session.removeAttribute(MANUFACTURER_ID);
+        session.removeAttribute(PRODUCTION_YEAR);
+        session.removeAttribute(COLOR_ID);
+        session.removeAttribute(FUEL_TYPE);
+        session.removeAttribute(MILEAGE);
+        session.removeAttribute(RENT);
+        session.removeAttribute(DRIVER_ID);
+        session.removeAttribute(DOORS_NUM);
+        session.removeAttribute(PASS_SEATS_NUM);
+        session.removeAttribute(WITH_CONDITIONER);
+        session.removeAttribute(MODEL_ID);
+        session.removeAttribute(MANUFACTURER_ID);
+        session.removeAttribute(PRODUCTION_YEAR);
+        session.removeAttribute(COLOR_ID);
+        session.removeAttribute(FUEL_TYPE);
+        session.removeAttribute(MILEAGE);
+        session.removeAttribute(RENT);
+        session.removeAttribute(DRIVER_ID);
+        session.removeAttribute(MAX_PAYLOAD);
+        session.removeAttribute(ENCLOSED);
+        session.removeAttribute(TIPPER);
+        session.removeAttribute(FIRSTNAME);
+        session.removeAttribute(LASTNAME);
+        session.removeAttribute(DOB);
+        session.removeAttribute(USERNAME);
+        session.removeAttribute(EMAIL);
+        session.removeAttribute(ROLE);
+        session.removeAttribute(BALANCE);
     }
 }

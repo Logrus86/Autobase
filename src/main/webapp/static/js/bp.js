@@ -101,28 +101,28 @@ function prepareGetRequest() {
 }
 
 function colorAdminButtons() {
-    if (location.pathname == '/do/admin_users' || location.pathname == '/do/create_user') {
+    if (location.pathname == '/Autobase-1.0/do/admin_users' || location.pathname == '/Autobase-1.0/do/create_user') {
         document.getElementById('bt_users').setAttribute('class', 'btn btn-info')
     }
-    if (location.pathname == '/do/admin_cars' || location.pathname == '/do/create_car') {
+    if (location.pathname == '/Autobase-1.0/do/admin_cars' || location.pathname == '/Autobase-1.0/do/create_car') {
         document.getElementById('bt_cars').setAttribute('class', 'btn btn-info')
     }
-    if (location.pathname == '/do/admin_buses' || location.pathname == '/do/create_bus') {
+    if (location.pathname == '/Autobase-1.0/do/admin_buses' || location.pathname == '/Autobase-1.0/do/create_bus') {
         document.getElementById('bt_buses').setAttribute('class', 'btn btn-info')
     }
-    if (location.pathname == '/do/admin_trucks' || location.pathname == '/do/create_truck') {
+    if (location.pathname == '/Autobase-1.0/do/admin_trucks' || location.pathname == '/Autobase-1.0/do/create_truck') {
         document.getElementById('bt_trucks').setAttribute('class', 'btn btn-info')
     }
-    if (location.pathname == '/do/admin_colors' || location.pathname == '/do/create_color') {
+    if (location.pathname == '/Autobase-1.0/do/admin_colors' || location.pathname == '/Autobase-1.0/do/create_color') {
         document.getElementById('bt_colors').setAttribute('class', 'btn btn-info')
     }
-    if (location.pathname == '/do/admin_models' || location.pathname == '/do/create_model') {
+    if (location.pathname == '/Autobase-1.0/do/admin_models' || location.pathname == '/Autobase-1.0/do/create_model') {
         document.getElementById('bt_models').setAttribute('class', 'btn btn-info')
     }
-    if (location.pathname == '/do/admin_manufacturers' || location.pathname == '/do/create_manufacturer') {
+    if (location.pathname == '/Autobase-1.0/do/admin_manufacturers' || location.pathname == '/Autobase-1.0/do/create_manufacturer') {
         document.getElementById('bt_manufacturers').setAttribute('class', 'btn btn-info')
     }
-    if (location.pathname == '/do/admin_orders' || location.pathname == '/do/main' || location.pathname == '/do/login') {
+    if (location.pathname == '/Autobase-1.0/do/admin_orders' || location.pathname == '/Autobase-1.0/do/main' || location.pathname == '/Autobase-1.0/do/login') {
         document.getElementById('bt_orders').setAttribute('class', 'btn btn-info')
     }
 }

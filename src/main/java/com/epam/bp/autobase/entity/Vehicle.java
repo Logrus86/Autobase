@@ -2,29 +2,43 @@ package com.epam.bp.autobase.entity;
 
 import com.epam.bp.autobase.dao.*;
 import com.epam.bp.autobase.dao.H2.DaoManager;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.Comparator;
 
-@javax.persistence.Entity
+@Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "VEHICLE_TYPE", discriminatorType = DiscriminatorType.STRING, length = 5)
-public abstract class Vehicle extends Entity {
+public abstract class Vehicle implements Identifiable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     @NotNull
+    @Column(name = "RENT_PRICE")
     private BigDecimal rentPrice;
 
     //-----------------------delete these old form later
     @NotNull
+    @Column(name = "COLOR_ID")
     private Integer colorId;
     @NotNull
+    @Column(name = "MODEL_ID")
     private Integer modelId;
     @NotNull
+    @Column(name = "MANUFACTURER_ID")
     private Integer manufacturerId;
     @NotNull
+    @Column(name = "DRIVER_ID")
     private Integer driverId;
+    @Column(name = "VEHICLE_TYPE", updatable = false, insertable = false)
     @Enumerated
     private Type type;
     //--------------------------------new form:
@@ -38,6 +52,7 @@ public abstract class Vehicle extends Entity {
     private User driver;
     //---------------------------------------------------
     @NotNull
+    @Column(name = "PRODUCTION_YEAR")
     private Integer productionYear;
 
     @NotNull
@@ -47,6 +62,7 @@ public abstract class Vehicle extends Entity {
     private boolean operable;
 
     @Enumerated
+    @Column(name = "FUEL_TYPE")
     private Fuel fuelType;
 
     public void setColor(Color color) {

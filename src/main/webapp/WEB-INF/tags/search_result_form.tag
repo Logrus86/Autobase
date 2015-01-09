@@ -152,7 +152,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="order.dateStart"/></span>
                                 <input type="date" id="dateStart" name="dateStart" class="form-control"
-                                       min='<fmt:formatDate pattern="yyyy-MM-dd" value='${nowdate}'/>' max="2015-12-31"
+                                       min='<fmt:formatDate pattern="yyyy-MM-dd" value='${nowdate}'/>'
                                        value='<fmt:formatDate pattern="yyyy-MM-dd" value='${nowdate}'/>'>
                             </div>
                         </div>

@@ -16,8 +16,11 @@ import java.util.Date;
 import java.util.List;
 
 @javax.persistence.Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class User extends Entity {
+public class User implements Identifiable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     @NotEmpty
     @Pattern(regexp = "([A-Z]{1}[a-z]{0,19})|([А-Я]{1}[а-я]{0,19})", message = "Incorrect first name")
@@ -83,6 +86,14 @@ public class User extends Entity {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setDob(Date dob) {
@@ -190,4 +201,5 @@ public class User extends Entity {
     public enum Role {
         ADMIN, CLIENT, DRIVER
     }
+
 }

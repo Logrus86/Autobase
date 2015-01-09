@@ -1,6 +1,5 @@
 package com.epam.bp.autobase.action;
 
-import com.epam.bp.autobase.entity.Entity;
 import com.epam.bp.autobase.entity.User;
 import com.epam.bp.autobase.util.AttributeSetter;
 import com.epam.bp.autobase.util.AttributeSetterException;

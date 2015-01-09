@@ -45,7 +45,7 @@ public class RegisterAction implements Action {
         ResourceBundle RB = ResourceBundle.getBundle(RB_NAME, locale);
         error_busy_username = RB.getString(ERROR_BUSY_USERNAME);
         //validate inputs
-        String error = Validator.validateRequestParametersMap(request);
+        String error = Validator.validateRequestParameters(request);
         if (!error.isEmpty()) {
             session.setAttribute(ERROR, error);
             forwardRegData(request, session);

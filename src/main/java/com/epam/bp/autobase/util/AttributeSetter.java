@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class AttributeSetter {
+    //this class is used to set entities' attributes to context (rare changing attributes) and to session
     private static final Logger LOGGER = LoggerFactory.getLogger(AttributeSetter.class);
     private static final String RU = "ru";
     private static final String ATTR_COLORS = "colors";
@@ -41,9 +42,8 @@ public class AttributeSetter {
                 switch (entityName) {
                     case COLOR:
                         ColorDao colorDao = daoManager1.getColorDao();
-                        Locale contextLocale = (Locale) context.getAttribute(ATTR_LOCALE);
                         List<Color> colors = null;
-                        if (RU.equals(contextLocale.getLanguage()))
+                        if (RU.equals(Locale.getDefault().getLanguage()))
                             colors = colorDao.getAllSortedBy(com.epam.bp.autobase.dao.H2.ColorDao.VALUE_RU);
                         else colors = colorDao.getAllSortedBy(com.epam.bp.autobase.dao.H2.ColorDao.VALUE_EN);
                         context.setAttribute(ATTR_COLORS, colors);
@@ -73,6 +73,15 @@ public class AttributeSetter {
             DaoManager daoManager = daoFactory.getDaoManager();
             daoManager.executeAndClose(daoManager1 -> {
                 switch (entityName) {
+                    case COLOR:
+                        ColorDao colorDao = daoManager1.getColorDao();
+                        Locale locale = (Locale) session.getAttribute(ATTR_LOCALE);
+                        List<Color> colors = null;
+                        if (RU.equals(locale.getLanguage()))
+                            colors = colorDao.getAllSortedBy(com.epam.bp.autobase.dao.H2.ColorDao.VALUE_RU);
+                        else colors = colorDao.getAllSortedBy(com.epam.bp.autobase.dao.H2.ColorDao.VALUE_EN);
+                        session.setAttribute(ATTR_COLORS, colors);
+                        break;
                     case BUS : {
                         VehicleDao dao = daoManager1.getVehicleDao();
                         List<Vehicle> list =

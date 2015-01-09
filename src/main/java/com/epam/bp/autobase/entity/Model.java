@@ -2,13 +2,24 @@ package com.epam.bp.autobase.entity;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.Pattern;
 
-@javax.persistence.Entity
-public class Model extends Entity{
+@Entity
+public class Model implements Identifiable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     @NotEmpty
     @Pattern(regexp = "[\\w]{2,20}", message = "Incorrect value")
     private String value;

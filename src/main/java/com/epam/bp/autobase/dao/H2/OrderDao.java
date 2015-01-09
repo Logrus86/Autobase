@@ -90,7 +90,7 @@ public class OrderDao extends AbstractDao<Integer, Order> implements com.epam.bp
             ps.setString(2, String.valueOf(order.getVehicleId()));
             ps.setString(3, order.getDateStart());
             ps.setString(4, String.valueOf(order.getDayCount()));
-            ps.setString(5, order.getTimestampOrdered());
+            ps.setString(5, order.getDateOrdered());
             ps.setString(6, String.valueOf(order.getSum()));
             ps.setString(7, String.valueOf(order.getStatus()));
         } catch (Exception e) {
@@ -106,7 +106,7 @@ public class OrderDao extends AbstractDao<Integer, Order> implements com.epam.bp
             ps.setString(2, String.valueOf(order.getVehicleId()));
             ps.setString(3, order.getDateStart());
             ps.setString(4, String.valueOf(order.getDayCount()));
-            ps.setString(5, order.getTimestampOrdered());
+            ps.setString(5, order.getDateOrdered());
             ps.setString(6, String.valueOf(order.getSum()));
             ps.setString(7, String.valueOf(order.getStatus()));
             ps.setString(8, String.valueOf(order.getId()));

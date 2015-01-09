@@ -1,7 +1,5 @@
 package com.epam.bp.autobase.action;
 
-import com.epam.bp.autobase.entity.Entity;
-
 import java.util.HashMap;
 import java.util.Map;
 

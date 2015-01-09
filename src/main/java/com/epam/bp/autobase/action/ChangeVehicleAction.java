@@ -58,7 +58,7 @@ public class ChangeVehicleAction implements Action {
         user = (User) session.getAttribute(USER);
         if (user.getRole().equals(User.Role.DRIVER)) vehicle = (Vehicle) session.getAttribute(VEHICLE);
 
-        String error = Validator.validateRequestParametersMap(req);
+        String error = Validator.validateRequestParameters(req);
         if (!error.isEmpty()) {
             session.setAttribute(ERROR, error);
             if (user.getRole().equals(User.Role.ADMIN)) {

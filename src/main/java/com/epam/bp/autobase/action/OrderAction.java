@@ -5,7 +5,6 @@ import com.epam.bp.autobase.dao.H2.DaoManager;
 import com.epam.bp.autobase.dao.OrderDao;
 import com.epam.bp.autobase.dao.UserDao;
 import com.epam.bp.autobase.dao.VehicleDao;
-import com.epam.bp.autobase.entity.Entity;
 import com.epam.bp.autobase.entity.Order;
 import com.epam.bp.autobase.entity.User;
 import com.epam.bp.autobase.entity.Vehicle;

@@ -2,13 +2,22 @@ package com.epam.bp.autobase.entity;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Column;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 
-@javax.persistence.Entity
-public class Color extends Entity {
+@Entity
+public class Color implements Identifiable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     @NotEmpty
     @Pattern(regexp = "[A-Z]{1}[a-z]{2,20}", message = "Incorrect value_en")
     @Column(name = "VALUE_EN")

@@ -12,7 +12,7 @@ public class Resources {
 
     @SuppressWarnings("unused")
     @Produces
-    @PersistenceContext
+    @PersistenceContext(unitName="primary")
     private EntityManager em;
 
 /*    @Produces

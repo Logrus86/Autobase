@@ -1,12 +1,12 @@
 package com.epam.bp.autobase.dao;
 
-import com.epam.bp.autobase.entity.Entity;
+import com.epam.bp.autobase.entity.Identifiable;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 
-public interface JDBCDao<PK, T extends Entity> extends BaseDao<PK, T> {
+public interface JDBCDao<PK, T extends Identifiable> extends BaseDao<PK, T> {
 
     public abstract String getCreateQuery(); //  INSERT INTO [Table] ([columns]) VALUES ([values]);                 C
     public abstract String getReadQuery();   //  SELECT * FROM [Table];                                             R

@@ -1,11 +1,10 @@
 package com.epam.bp.autobase.dao;
 
-import com.epam.bp.autobase.entity.Entity;
-
+import com.epam.bp.autobase.entity.Identifiable;
 import java.util.List;
 import java.util.Map;
 
-public interface BaseDao<PK, T extends Entity> {
+public interface BaseDao<PK, T extends Identifiable> {
 
     public void create(T object) throws DaoException;
 
