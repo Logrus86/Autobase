@@ -55,7 +55,7 @@ public class SearchAction implements Action {
         String error_nothing_checked = RB.getString(RB_ERR_NOTHING_CHECKED);
         RegisterAction.clearRegData(session);
         //check inputs
-        String error = Validator.validateRequestParametersMap(request);
+        String error = Validator.validateRequestParameters(request);
         if (!error.isEmpty()) {
             session.setAttribute(ERROR, error);
             session.setAttribute(FOUNDED_LIST, null);

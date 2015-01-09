@@ -11,13 +11,12 @@
            href='<c:url value="/"/>'><img src='<c:url value="/static/img/logo.jpg"/>'/>
         </a>
         <jsp:invoke fragment="user_panel"/>
-        <div class="msg-error">${errormsg}</div>
     </div>
+    <div class="msg-error">${errormsg}</div>
 </div>
 <div id="sub" class="lifestyle_img">
     <div class="content">
         <p id="count"><fmt:message key="default.vhcount"/></p>
-
         <div id="title">
             <h1 style="font-size: 45px;"><fmt:message key="default.bestprices"/></h1>
         </div>

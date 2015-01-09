@@ -42,7 +42,7 @@ public class LoginAction implements Action {
 
         RegisterAction.clearRegData(session);
         //validate inputs
-        String error = Validator.validateRequestParametersMap(request);
+        String error = Validator.validateRequestParameters(request);
         if (!error.isEmpty()) {
             session.setAttribute(ERROR, error);
             return LOGIN_FALSE;

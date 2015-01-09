@@ -15,7 +15,7 @@
     <link href='<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.css"/>' rel="stylesheet" media="screen">
     <link href='<c:url value="/static/css/style.css"/>' rel="stylesheet" media="screen">
     <link href='<c:url value="/static/css/bootstrap-select.css"/>' rel="stylesheet" media="screen">
-    <link href='<c:url value="/static/img/favicon.ico"/>' rel="icon" type="image/png">
+
     <div id="locale_changer" class="dropdown">
         <button class="btn btn-default dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
             <c:if test="${locale.language=='ru'}"><img src='<c:url value="/static/img/RU.png"/>'/></c:if>

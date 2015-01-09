@@ -73,6 +73,7 @@ public class ChangeSpecAction implements Action {
                     break;
                 case Entity.MANUFACTURER:
                     changeManufacturer();
+                    break;
             }
         }
         if (request.getParameter(DELETE) != null) {
@@ -85,6 +86,7 @@ public class ChangeSpecAction implements Action {
                     break;
                 case Entity.MANUFACTURER:
                     deleteManufacturer();
+                    break;
             }
         }
         return result;

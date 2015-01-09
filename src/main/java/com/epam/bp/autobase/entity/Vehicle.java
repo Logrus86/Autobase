@@ -4,15 +4,8 @@ import com.epam.bp.autobase.dao.*;
 import com.epam.bp.autobase.dao.H2.DaoManager;
 
 import java.math.BigDecimal;
-import java.util.Comparator;
 
 public abstract class Vehicle extends Entity {
-    public static final Comparator<Vehicle> PRICE_COMPARATOR = new Comparator<Vehicle>() {
-        @Override
-        public int compare(Vehicle vehicle1, Vehicle vehicle2) {
-            return vehicle1.rentPrice.compareTo(vehicle2.rentPrice);
-        }
-    };
     private BigDecimal rentPrice;
     private Integer colorId;
     private Integer modelId;

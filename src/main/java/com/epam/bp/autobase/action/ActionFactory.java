@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class ActionFactory {
     private static final Map<String, Action> ACTIONS = new HashMap<>();
+    //these strings are used by ActionFactory and some actions
     public static final String PAGE_MAIN = "main";
     public static final String PAGE_MAIN_DRIVER = "main_driver";
     public static final String PAGE_MAIN_CLIENT = "main_client";

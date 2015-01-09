@@ -17,21 +17,22 @@ public class Validator {
     private static final String PASSWORD2 = "password-repeat";
 
     public static Boolean isValid(String value, String valueDefinition) {
-        //check for parameters at properties
+        // check for exist of parameter at properties
         if (!VALIDATOR_PROPS.containsKey("parameter." + valueDefinition)) return false;
+        // check for exist of pattern for this parameter
         if (!VALIDATOR_PROPS.containsKey(VALIDATOR_PROPS.getString("parameter." + valueDefinition))) return false;
-        //return result of matching 'value' with pattern from properties taken by 'valueDefinition'
+        //return result of matching 'value' with pattern
         return Pattern.compile(VALIDATOR_PROPS.getString(VALIDATOR_PROPS.getString("parameter." + valueDefinition))).matcher(value).matches();
     }
 
-    //method for automated validation of HttpServletRequest parameters
-    public static String validateRequestParametersMap(HttpServletRequest request) {
+    //method for automated validation of all HttpServletRequest parameters
+    public static String validateRequestParameters(HttpServletRequest request) {
         Map<String, String[]> parametersMap = request.getParameterMap();
         StringBuilder result = new StringBuilder();
         for (String key : parametersMap.keySet()) {
             if (!VALIDATOR_PROPS.containsKey("parameter." + key) | "".equals(parametersMap.get(key)[0])) continue;
             if (!isValid(parametersMap.get(key)[0], key)) {
-                if (result.length() != 0) result.append(", ");
+                if (result.length() != 0) result.append("<br>");
                 else result.append(INCORRECT_VALUE);
                 result.append(RB.getString("default." + key));
                 LOGGER.info("Incorrect input: "+RB.getString("default." + key) + ": " + parametersMap.get(key)[0]);

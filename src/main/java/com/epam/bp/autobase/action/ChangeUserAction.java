@@ -48,8 +48,8 @@ public class ChangeUserAction implements Action {
         user = (User) session.getAttribute(Entity.USER);
         //changing user if we are client or driver; if we are admin, do it if SAVE parameter not null only
         if (!user.getRole().equals(User.Role.ADMIN) || request.getParameter(SAVE) != null) {
-            //validate data
-            String error = Validator.validateRequestParametersMap(request);
+            //validate entered data (parameters in request)
+            String error = Validator.validateRequestParameters(request);
             if (!error.isEmpty()) {
                 session.setAttribute(ERROR, error);
                 if (user.getRole() == User.Role.CLIENT) return CABINET_USER;

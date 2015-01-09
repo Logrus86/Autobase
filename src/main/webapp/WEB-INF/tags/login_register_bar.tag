@@ -5,17 +5,17 @@
 
 <fmt:setLocale value="${locale}"/>
 <fmt:bundle basename="i18n.text">
-<div class="btn-group" id="logins">
-    <form method="post" action="login">
-        <input type="text" name="username" placeholder="<fmt:message key="default.username"/>" required>
-        <input type="password" name="password" placeholder="<fmt:message key="default.password"/>" required>
-        <button class="btn btn-default" type="submit"><fmt:message key="default.dologin"/></button>
-        <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modalRegForm">
-            <fmt:message key="default.doregister"/></button>
-    </form>
-</div>
+    <div class="btn-group" id="logins">
+        <form method="post" action="login">
+            <input type="text" name="username" placeholder="<fmt:message key="default.username"/>" required>
+            <input type="password" name="password" placeholder="<fmt:message key="default.password"/>" required>
+            <button class="btn btn-default" type="submit"><fmt:message key="default.dologin"/></button>
+            <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modalRegForm">
+                <fmt:message key="default.doregister"/></button>
+        </form>
+    </div>
 
-<div class="modal fade" id="modalRegForm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="modalRegForm" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -32,7 +32,8 @@
                             <input type="text" class="form-control" id="lastname" name="lastname" value="${lastname}"
                                    placeholder="<fmt:message key="default.lastname"/>" required>
                             <input type="date" class="form-control" id="dob" name="dob" value="${dob}"
-                                   min="1900-01-01" max="1996-01-01"  placeholder="<fmt:message key="default.dob"/>" required>
+                                   min="1900-01-01" max="1996-01-01" placeholder="<fmt:message key="default.dob"/>"
+                                   required>
                             <input type="text" class="form-control" id="username" name="username" value="${username}"
                                    value="" placeholder="<fmt:message key="default.username"/>" required>
                             <input type="password" class="form-control" name="password"

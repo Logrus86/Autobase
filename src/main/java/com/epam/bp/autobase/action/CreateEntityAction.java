@@ -57,7 +57,8 @@ public class CreateEntityAction implements Action {
         clearEnteredData(session);
 
         //validate data
-        String error = Validator.validateRequestParametersMap(request);
+        String error = Validator.validateRequestParameters(request);
+        //if error isn't empty, open the same page with entered data and error message
         if (!error.isEmpty()) {
             session.setAttribute(ERROR, error);
             forwardEnteredData();
@@ -70,12 +71,12 @@ public class CreateEntityAction implements Action {
             if (Entity.USER.equals(entityName)) return USER_PAGE;
         }
 
+        //creating selected entity
         if (Entity.USER.equals(entityName)) createUser();
         if ((Entity.BUS.equals(entityName)) || (Entity.CAR.equals(entityName)) || (Entity.TRUCK.equals(entityName)))
             createVehicle();
         if ((Entity.COLOR.equals(entityName)) || (Entity.MODEL.equals(entityName)) || (Entity.MANUFACTURER.equals(entityName)))
             createSpec();
-
         return result;
     }
 
@@ -252,6 +253,7 @@ public class CreateEntityAction implements Action {
     }
 
     private void forwardEnteredData() {
+        //forward to the new page entered data from
         if (Entity.COLOR.equals(entityName)) {
             session.setAttribute(Entity.VALUE_EN, request.getParameter(Entity.VALUE_EN));
             session.setAttribute(Entity.VALUE_RU, request.getParameter(Entity.VALUE_RU));
