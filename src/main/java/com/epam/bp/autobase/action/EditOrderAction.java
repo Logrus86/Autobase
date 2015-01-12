@@ -1,7 +1,7 @@
 package com.epam.bp.autobase.action;
 
 import com.epam.bp.autobase.dao.DaoFactory;
-import com.epam.bp.autobase.dao.H2.DaoManager;
+import com.epam.bp.autobase.dao.DaoManager;
 import com.epam.bp.autobase.dao.OrderDao;
 import com.epam.bp.autobase.entity.Order;
 import com.epam.bp.autobase.util.AttributeSetter;
@@ -23,12 +23,11 @@ public class EditOrderAction implements Action {
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DaoManager daoManager = daoFactory.getDaoManager();
-            daoManager.transactionAndClose(daoManager1 -> {
-                OrderDao orderDao = daoManager1.getOrderDao();
+                OrderDao orderDao = daoManager.getOrderDao();
                 Order order = orderDao.getById(id);
                 order.setStatus(status);
                 orderDao.update(order);
-            });
+
             daoFactory.releaseContext();
         } catch (Exception e) {
             LOGGER.error("Error at EditOrderAction while performing transaction");

@@ -1,7 +1,6 @@
 package com.epam.bp.autobase.entity;
 
 import com.epam.bp.autobase.dao.*;
-import com.epam.bp.autobase.dao.H2.DaoManager;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;

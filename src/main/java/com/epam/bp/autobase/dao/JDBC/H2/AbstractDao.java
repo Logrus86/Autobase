@@ -1,17 +1,16 @@
-package com.epam.bp.autobase.dao.H2;
+package com.epam.bp.autobase.dao.JDBC.H2;
 
 import com.epam.bp.autobase.dao.DaoException;
-import com.epam.bp.autobase.dao.JDBCDao;
+import com.epam.bp.autobase.dao.JDBC.JdbcDao;
 import com.epam.bp.autobase.entity.Identifiable;
 import com.epam.bp.autobase.pool.ConnectionPool;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractDao<PK extends Integer, T extends Identifiable> implements JDBCDao<PK, T> {
+public abstract class AbstractDao<PK extends Integer, T extends Identifiable> implements JdbcDao<PK, T> {
     private static final String ORDER_BY = "ORDER BY";
     private static final String ID = "ID";
     protected final ConnectionPool.ProxyConnection connection;
@@ -132,7 +131,7 @@ public abstract class AbstractDao<PK extends Integer, T extends Identifiable> im
             ps.close();
             connection.close();
         } catch (Exception e) {
-            throw new DaoException("Getting list by "+param_name+" error", e);
+            throw new DaoException("Getting list by " + param_name + " error", e);
         }
         return result;
     }
@@ -144,21 +143,13 @@ public abstract class AbstractDao<PK extends Integer, T extends Identifiable> im
         for (String key : params.keySet()) {
             //there are parameters that are require additional compare operator like '>' or '<' (resulting >= or <=)
             String compareOperator = "";
-            if (VehicleDao.RENT.equals(key)) compareOperator = "<";
+            if ((VehicleDao.RENT.equals(key)) || (VehicleDao.MILEAGE.equals(key))) compareOperator = "<";
             else {
-                if (VehicleDao.MILEAGE.equals(key)) compareOperator = "<";
-                else {
-                    if (VehicleDao.PROD_YEAR.equals(key)) compareOperator = ">";
-                    else {
-                        if (VehicleDao.PAYLOAD.equals(key)) compareOperator = ">";
-                        else {
-                            if (VehicleDao.PASS_PL_NUM.equals(key)) compareOperator = ">";
-                            else {
-                                if (VehicleDao.STAND_PL_NUM.equals(key)) compareOperator = ">";
-                            }
-                        }
-                    }
-                }
+                if ((VehicleDao.PROD_YEAR.equals(key)) ||
+                        (VehicleDao.PAYLOAD.equals(key)) ||
+                        (VehicleDao.PASS_PL_NUM.equals(key)) ||
+                        (VehicleDao.STAND_PL_NUM.equals(key))
+                        ) compareOperator = ">";
             }
             query.append(" AND ").append(key.toUpperCase()).append(" ").append(compareOperator).append("= ?");
         }

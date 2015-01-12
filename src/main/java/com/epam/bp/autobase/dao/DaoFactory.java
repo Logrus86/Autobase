@@ -3,12 +3,12 @@ package com.epam.bp.autobase.dao;
 import java.util.ResourceBundle;
 
 public abstract class DaoFactory<Context> {
-    private static final ResourceBundle rb = ResourceBundle.getBundle("db");
+    private static final ResourceBundle rb = ResourceBundle.getBundle("dao");
     private static final String DAO_TYPE = rb.getString("dao.type");
     private static final String FACTORY_CLASS_PREFIX = "com.epam.bp.autobase.dao.";
     private static final String FACTORY_CLASS_POSTFIX = ".DaoFactory";
 
-    public abstract com.epam.bp.autobase.dao.H2.DaoManager getDaoManager();
+    public abstract com.epam.bp.autobase.dao.DaoManager getDaoManager();
 
     public abstract Context getContext() throws DaoException;
 

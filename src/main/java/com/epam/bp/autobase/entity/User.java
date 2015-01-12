@@ -1,7 +1,7 @@
 package com.epam.bp.autobase.entity;
 
 import com.epam.bp.autobase.dao.DaoFactory;
-import com.epam.bp.autobase.dao.H2.DaoManager;
+import com.epam.bp.autobase.dao.DaoManager;
 import com.epam.bp.autobase.dao.OrderDao;
 import com.sun.istack.internal.Nullable;
 import org.hibernate.validator.constraints.Email;

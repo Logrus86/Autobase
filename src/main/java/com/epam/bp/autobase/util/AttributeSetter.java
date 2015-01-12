@@ -1,7 +1,7 @@
 package com.epam.bp.autobase.util;
 
 import com.epam.bp.autobase.dao.*;
-import com.epam.bp.autobase.dao.H2.DaoManager;
+import com.epam.bp.autobase.dao.DaoManager;
 import com.epam.bp.autobase.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,18 +44,18 @@ public class AttributeSetter {
                         ColorDao colorDao = daoManager1.getColorDao();
                         List<Color> colors = null;
                         if (RU.equals(Locale.getDefault().getLanguage()))
-                            colors = colorDao.getAllSortedBy(com.epam.bp.autobase.dao.H2.ColorDao.VALUE_RU);
-                        else colors = colorDao.getAllSortedBy(com.epam.bp.autobase.dao.H2.ColorDao.VALUE_EN);
+                            colors = colorDao.getAllSortedBy(com.epam.bp.autobase.dao.JDBC.H2.ColorDao.VALUE_RU);
+                        else colors = colorDao.getAllSortedBy(com.epam.bp.autobase.dao.JDBC.H2.ColorDao.VALUE_EN);
                         context.setAttribute(ATTR_COLORS, colors);
                         break;
                     case MODEL:
                         ModelDao modelDao = daoManager1.getModelDao();
-                        List<Model> models = modelDao.getAllSortedBy(com.epam.bp.autobase.dao.H2.ModelDao.VALUE);
+                        List<Model> models = modelDao.getAllSortedBy(com.epam.bp.autobase.dao.JDBC.H2.ModelDao.VALUE);
                         context.setAttribute(ATTR_MODELS, models);
                         break;
                     case MANUFACTURER:
                         ManufacturerDao manufacturerDao = daoManager1.getManufacturerDao();
-                        List<Manufacturer> manufacturers = manufacturerDao.getAllSortedBy(com.epam.bp.autobase.dao.H2.ManufacturerDao.VALUE);
+                        List<Manufacturer> manufacturers = manufacturerDao.getAllSortedBy(com.epam.bp.autobase.dao.JDBC.H2.ManufacturerDao.VALUE);
                         context.setAttribute(ATTR_MANUFACTURERS, manufacturers);
                         break;
                 }
@@ -78,34 +78,34 @@ public class AttributeSetter {
                         Locale locale = (Locale) session.getAttribute(ATTR_LOCALE);
                         List<Color> colors = null;
                         if (RU.equals(locale.getLanguage()))
-                            colors = colorDao.getAllSortedBy(com.epam.bp.autobase.dao.H2.ColorDao.VALUE_RU);
-                        else colors = colorDao.getAllSortedBy(com.epam.bp.autobase.dao.H2.ColorDao.VALUE_EN);
+                            colors = colorDao.getAllSortedBy(com.epam.bp.autobase.dao.JDBC.H2.ColorDao.VALUE_RU);
+                        else colors = colorDao.getAllSortedBy(com.epam.bp.autobase.dao.JDBC.H2.ColorDao.VALUE_EN);
                         session.setAttribute(ATTR_COLORS, colors);
                         break;
                     case BUS : {
                         VehicleDao dao = daoManager1.getVehicleDao();
                         List<Vehicle> list =
-                                dao.getListByParameter(com.epam.bp.autobase.dao.H2.VehicleDao.VEHICLE_TYPE, String.valueOf(Vehicle.Type.BUS));
+                                dao.getListByParameter(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.VEHICLE_TYPE, String.valueOf(Vehicle.Type.BUS));
                         session.setAttribute(ATTR_BUS_LIST,list);
                         break;
                     }
                     case CAR : {
                         VehicleDao dao = daoManager1.getVehicleDao();
                         List<Vehicle> list =
-                                dao.getListByParameter(com.epam.bp.autobase.dao.H2.VehicleDao.VEHICLE_TYPE, String.valueOf(Vehicle.Type.CAR));
+                                dao.getListByParameter(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.VEHICLE_TYPE, String.valueOf(Vehicle.Type.CAR));
                         session.setAttribute(ATTR_CAR_LIST,list);
                         break;
                     }
                     case TRUCK : {
                         VehicleDao dao = daoManager1.getVehicleDao();
                         List<Vehicle> list =
-                                dao.getListByParameter(com.epam.bp.autobase.dao.H2.VehicleDao.VEHICLE_TYPE, String.valueOf(Vehicle.Type.TRUCK));
+                                dao.getListByParameter(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.VEHICLE_TYPE, String.valueOf(Vehicle.Type.TRUCK));
                         session.setAttribute(ATTR_TRUCK_LIST,list);
                         break;
                     }
                     case USER : {
                         UserDao userDao = daoManager1.getUserDao();
-                        List<User> users = userDao.getAllSortedBy(com.epam.bp.autobase.dao.H2.UserDao.USERNAME);
+                        List<User> users = userDao.getAllSortedBy(com.epam.bp.autobase.dao.JDBC.H2.UserDao.USERNAME);
                         session.setAttribute(ATTR_USER_LIST,users);
                         break;
                     }
@@ -119,7 +119,7 @@ public class AttributeSetter {
                         VehicleDao vehicleDao = daoManager1.getVehicleDao();
                         User driver = (User) session.getAttribute(USER);
                         List<Vehicle> driverVehicles =
-                                vehicleDao.getListByParameter(com.epam.bp.autobase.dao.H2.VehicleDao.DRIVER_ID, String.valueOf(driver.getId()));
+                                vehicleDao.getListByParameter(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.DRIVER_ID, String.valueOf(driver.getId()));
                         if (!driverVehicles.isEmpty()) session.setAttribute(DRIVER_VEHICLES, driverVehicles);
                         break;
                     }

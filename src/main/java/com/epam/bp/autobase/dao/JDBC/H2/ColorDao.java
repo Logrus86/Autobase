@@ -1,4 +1,4 @@
-package com.epam.bp.autobase.dao.H2;
+package com.epam.bp.autobase.dao.JDBC.H2;
 
 import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.entity.Color;
@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ColorDao extends AbstractDao<java.lang.Integer, Color> implements com.epam.bp.autobase.dao.ColorDao {
+public class ColorDao extends AbstractDao<Integer, Color> implements com.epam.bp.autobase.dao.ColorDao {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ColorDao.class);
     public static final String ID = "ID";
     public static final String COLOR = "COLOR";

@@ -2,7 +2,7 @@ package com.epam.bp.autobase.action;
 
 import com.epam.bp.autobase.dao.ColorDao;
 import com.epam.bp.autobase.dao.DaoFactory;
-import com.epam.bp.autobase.dao.H2.DaoManager;
+import com.epam.bp.autobase.dao.DaoManager;
 import com.epam.bp.autobase.dao.ManufacturerDao;
 import com.epam.bp.autobase.dao.ModelDao;
 import com.epam.bp.autobase.entity.Color;

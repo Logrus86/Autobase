@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import com.epam.bp.autobase.dao.DaoFactory;
-import com.epam.bp.autobase.dao.H2.DaoManager;
+import com.epam.bp.autobase.dao.DaoManager;
 import com.epam.bp.autobase.dao.UserDao;
 import com.epam.bp.autobase.dao.VehicleDao;
 

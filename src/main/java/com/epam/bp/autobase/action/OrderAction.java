@@ -1,7 +1,7 @@
 package com.epam.bp.autobase.action;
 
 import com.epam.bp.autobase.dao.DaoFactory;
-import com.epam.bp.autobase.dao.H2.DaoManager;
+import com.epam.bp.autobase.dao.DaoManager;
 import com.epam.bp.autobase.dao.OrderDao;
 import com.epam.bp.autobase.dao.UserDao;
 import com.epam.bp.autobase.dao.VehicleDao;

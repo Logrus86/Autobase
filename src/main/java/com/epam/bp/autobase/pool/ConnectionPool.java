@@ -8,7 +8,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executor;
 
 public class ConnectionPool {
-    private static final ResourceBundle RB = ResourceBundle.getBundle("db");
+    private static final ResourceBundle RB = ResourceBundle.getBundle("dao");
     private static final String DRIVER = RB.getString("db.driver");
     private static final String URL = RB.getString("db.url");
     private static final String USER = RB.getString("db.user");

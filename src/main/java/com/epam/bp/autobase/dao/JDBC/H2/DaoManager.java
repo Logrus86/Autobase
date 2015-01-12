@@ -1,9 +1,10 @@
-package com.epam.bp.autobase.dao.H2;
+package com.epam.bp.autobase.dao.JDBC.H2;
 
 import com.epam.bp.autobase.dao.DaoException;
+import com.epam.bp.autobase.dao.JDBC.JdbcDaoManager;
 import com.epam.bp.autobase.pool.ConnectionPool;
 
-public class DaoManager implements com.epam.bp.autobase.dao.DaoManager {
+public class DaoManager implements JdbcDaoManager {
     private ConnectionPool.ProxyConnection connection = null;
     private UserDao userDao = null;
     private VehicleDao vehicleDao = null;
@@ -64,10 +65,7 @@ public class DaoManager implements com.epam.bp.autobase.dao.DaoManager {
         return orderDao;
     }
 
-    public interface DaoCommand {
-        public void execute(DaoManager daoManager) throws DaoException;
-    }
-
+    @Override
     public void executeAndClose(DaoCommand command) throws DaoException {
         try {
             command.execute(this);
@@ -82,6 +80,7 @@ public class DaoManager implements com.epam.bp.autobase.dao.DaoManager {
         }
     }
 
+    @Override
     public void transaction(DaoCommand command) throws DaoException {
         try {
             this.connection.setAutoCommit(false);
@@ -103,7 +102,25 @@ public class DaoManager implements com.epam.bp.autobase.dao.DaoManager {
         }
     }
 
+    @Override
     public void transactionAndClose(DaoCommand command) throws DaoException {
-        executeAndClose(daoManager -> daoManager.transaction(command));
+        try {
+            this.connection.setAutoCommit(false);
+            command.execute(this);
+            this.connection.commit();
+        } catch (Exception e) {
+            try {
+                this.connection.rollback();
+            } catch (Exception e1) {
+                throw new DaoException("Error while rollback transaction", e);
+            }
+            throw new DaoException("Error while executing transaction ", e);
+        } finally {
+            try {
+                this.connection.setAutoCommit(true);
+            } catch (Exception e) {
+                throw new DaoException("Error while setAutoCommit true", e);
+            }
+        }
     }
 }

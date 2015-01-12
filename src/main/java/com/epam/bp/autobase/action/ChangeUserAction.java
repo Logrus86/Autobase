@@ -1,7 +1,7 @@
 package com.epam.bp.autobase.action;
 
 import com.epam.bp.autobase.dao.DaoFactory;
-import com.epam.bp.autobase.dao.H2.DaoManager;
+import com.epam.bp.autobase.dao.DaoManager;
 import com.epam.bp.autobase.dao.UserDao;
 import com.epam.bp.autobase.dao.VehicleDao;
 import com.epam.bp.autobase.entity.User;
@@ -141,7 +141,7 @@ public class ChangeUserAction implements Action {
             UserDao userDao = daoManager.getUserDao();
             daoManager.transactionAndClose(daoManager1 -> {
                 //find vehicles linked with our user by driver-id field and set their field DRIVER_ID to null
-                List<Vehicle> list = vehicleDao.getListByParameter(com.epam.bp.autobase.dao.H2.VehicleDao.DRIVER_ID, String.valueOf(id));
+                List<Vehicle> list = vehicleDao.getListByParameter(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.DRIVER_ID, String.valueOf(id));
                 if (!list.isEmpty()) {
                     for (Vehicle vehicle : list) {
                         vehicle.setDriverId(null);

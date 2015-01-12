@@ -1,4 +1,4 @@
-package com.epam.bp.autobase.dao.H2;
+package com.epam.bp.autobase.dao.JDBC.H2;
 
 import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.entity.Order;
