@@ -1,3 +1,4 @@
+<%@ tag import="com.epam.bp.autobase.entity.User" %>
 <%@tag description="users edit forms admin" pageEncoding="UTF-8" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -17,7 +18,6 @@
             <td><fmt:message key="default.balance"/>, <fmt:message key="default.currency"/></td>
         </tr>
         <c:forEach items="${userList}" var="user" varStatus="i">
-
                 <form method="post" action="change_user"><tr>
                     <td><input id="N" type="number" class="form-control" value="${i.count}" readonly></td>
                     <td><input required type="text" class="form-control" name="username" value="${user.username}"></td>
