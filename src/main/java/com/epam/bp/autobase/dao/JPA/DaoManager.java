@@ -2,20 +2,21 @@ package com.epam.bp.autobase.dao.JPA;
 
 import com.epam.bp.autobase.dao.*;
 
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityManager;
 
 public class DaoManager implements com.epam.bp.autobase.dao.DaoManager{
-    private EntityManagerFactory emf;
+    private EntityManager em;
     private UserDao userDao;
+    private ColorDao colorDao;
 
-    public DaoManager(EntityManagerFactory emf) {
-        this.emf = emf;
+    public DaoManager(EntityManager em) {
+        this.em = em;
     }
 
     @Override
     public UserDao getUserDao() {
         if (this.userDao == null) {
-            this.userDao = new UserDao(emf);
+            this.userDao = new UserDao(em);
         }
         return userDao;
     }
@@ -27,7 +28,10 @@ public class DaoManager implements com.epam.bp.autobase.dao.DaoManager{
 
     @Override
     public ColorDao getColorDao() {
-        return null;
+        if (this.colorDao == null) {
+            this.colorDao = new ColorDao(em);
+        }
+        return colorDao;
     }
 
     @Override
@@ -43,6 +47,22 @@ public class DaoManager implements com.epam.bp.autobase.dao.DaoManager{
     @Override
     public OrderDao getOrderDao() {
         return null;
+    }
+
+
+    @Override
+    public void executeAndClose(DaoCommand command) throws DaoException {
+        command.execute(this);
+    }
+
+    @Override
+    public void transaction(DaoCommand command) throws DaoException {
+        command.execute(this);
+    }
+
+    @Override
+    public void transactionAndClose(DaoCommand command) throws DaoException {
+        command.execute(this);
     }
 
 }

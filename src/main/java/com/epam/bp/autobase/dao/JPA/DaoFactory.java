@@ -2,37 +2,37 @@ package com.epam.bp.autobase.dao.JPA;
 
 import com.epam.bp.autobase.dao.DaoException;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import java.util.ResourceBundle;
+import javax.ejb.Stateful;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
 
-public class DaoFactory extends com.epam.bp.autobase.dao.DaoFactory  {
-    private static final ResourceBundle rb = ResourceBundle.getBundle("dao");
-    private static final String DAO_TYPE = rb.getString("dao.type");
-    private static final String PERSISTENCE_UNIT_NAME = DAO_TYPE;
-    private EntityManagerFactory emf;
+@Stateful
+public class DaoFactory extends com.epam.bp.autobase.dao.DaoFactory {
+
+
+    private EntityManager em;
+
+    public DaoFactory() {
+    }
 
     @Override
-    public Object getContext() throws DaoException {
-            if ((emf == null) || (!emf.isOpen())) {
-                emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-            }
-        return emf;
+    public EntityManager getContext() throws DaoException {
+        return em;
     }
 
     @Override
     public void releaseContext() throws DaoException {
-        if ((emf != null) && (emf.isOpen())) {
-            emf.close();
+        if ((em != null) && (em.isOpen())) {
+            em.close();
         }
     }
 
     @Override
     public DaoManager getDaoManager() {
-        return new DaoManager(emf);
+        return new DaoManager(em);
     }
 
-    public static com.epam.bp.autobase.dao.DaoFactory getInstance() throws DaoException {
+    public static DaoFactory getInstance() throws DaoException {
         try {
             InstanceHolder.instance.getContext();
         } catch (Exception e) {
@@ -42,6 +42,6 @@ public class DaoFactory extends com.epam.bp.autobase.dao.DaoFactory  {
     }
 
     private static class InstanceHolder {
-        private static volatile com.epam.bp.autobase.dao.DaoFactory instance = new DaoFactory();
+        private static volatile DaoFactory instance = new DaoFactory();
     }
 }

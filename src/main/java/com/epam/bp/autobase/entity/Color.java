@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 
 @Entity
+@NamedQuery(name="Color.getAll",  query = "SELECT c from Color c ORDER BY c.id DESC")
 public class Color implements Identifiable {
 
     @Id

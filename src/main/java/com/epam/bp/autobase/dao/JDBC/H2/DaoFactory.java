@@ -9,14 +9,12 @@ public class DaoFactory extends com.epam.bp.autobase.dao.DaoFactory {
 
     @Override
     public ConnectionPool.ProxyConnection getContext() throws DaoException {
-        ConnectionPool.ProxyConnection result;
         try {
-            result = ConnectionPool.getInstance().getConnection();
+            connection = ConnectionPool.getInstance().getConnection();
         } catch (Exception e) {
             throw new DaoException("Error while H2DaoFactory get connection from pool", e);
         }
-        this.connection = result;
-        return result;
+        return connection;
     }
 
     @Override
@@ -32,7 +30,7 @@ public class DaoFactory extends com.epam.bp.autobase.dao.DaoFactory {
         return new DaoManager(connection);
     }
 
-    public static com.epam.bp.autobase.dao.DaoFactory getInstance() throws DaoException {
+    public static DaoFactory getInstance() throws DaoException {
         try {
             InstanceHolder.instance.getContext();
         } catch (Exception e) {
@@ -42,7 +40,7 @@ public class DaoFactory extends com.epam.bp.autobase.dao.DaoFactory {
     }
 
     private static class InstanceHolder {
-        private static volatile com.epam.bp.autobase.dao.DaoFactory instance = new DaoFactory();
+        private static volatile DaoFactory instance = new DaoFactory();
     }
 
 }

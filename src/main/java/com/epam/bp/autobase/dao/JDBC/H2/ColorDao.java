@@ -12,10 +12,6 @@ import java.util.List;
 
 public class ColorDao extends AbstractDao<Integer, Color> implements com.epam.bp.autobase.dao.ColorDao {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ColorDao.class);
-    public static final String ID = "ID";
-    public static final String COLOR = "COLOR";
-    public static final String VALUE_EN = "VALUE_EN";
-    public static final String VALUE_RU = "VALUE_RU";
 
     public ColorDao(ConnectionPool.ProxyConnection connection) {
         super(connection);

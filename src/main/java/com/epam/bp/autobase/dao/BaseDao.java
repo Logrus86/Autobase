@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 public interface BaseDao<PK, T extends Identifiable> {
+    public static final String ORDER_BY = "ORDER BY";
+    public static final String ID = "ID";
+    public static final String COLOR = "COLOR";
+    public static final String VALUE_EN = "VALUE_EN";
+    public static final String VALUE_RU = "VALUE_RU";
 
     public void create(T object) throws DaoException;
 

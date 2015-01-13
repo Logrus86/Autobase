@@ -198,6 +198,8 @@ public class User implements Identifiable {
         return "User {ID: " + this.getId() + ", firstname: " + firstname + ", lastname: " + lastname + ", dob: " + getDob() + ", username: " + username + ", password: " + password + ", email: " + email + ", role: " + role + ", balance: " + balance + "}";
     }
 
+
+
     public enum Role {
         ADMIN, CLIENT, DRIVER
     }

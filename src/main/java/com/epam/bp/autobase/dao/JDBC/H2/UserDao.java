@@ -45,7 +45,6 @@ public class UserDao extends AbstractDao<Integer, User> implements com.epam.bp.a
     @Override
     public String getDeleteQuery() {
         return "DELETE FROM "+USER+" WHERE "+ID+" = ?;";
-        // return "UPDATE USER SET ISDELETED = TRUE WHERE ID = ?;";
     }
 
     @Override

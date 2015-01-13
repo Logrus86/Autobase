@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractDao<PK extends Integer, T extends Identifiable> implements JDBCDao<PK, T> {
-    private static final String ORDER_BY = "ORDER BY";
-    private static final String ID = "ID";
     protected final ConnectionPool.ProxyConnection connection;
 
     public AbstractDao(ConnectionPool.ProxyConnection connection) {

@@ -1,10 +1,9 @@
 package com.epam.bp.autobase.dao.JDBC.H2;
 
 import com.epam.bp.autobase.dao.DaoException;
-import com.epam.bp.autobase.dao.JDBC.JdbcDaoManager;
 import com.epam.bp.autobase.pool.ConnectionPool;
 
-public class DaoManager implements JdbcDaoManager {
+public class DaoManager implements com.epam.bp.autobase.dao.DaoManager {
     private ConnectionPool.ProxyConnection connection = null;
     private UserDao userDao = null;
     private VehicleDao vehicleDao = null;
@@ -118,9 +117,11 @@ public class DaoManager implements JdbcDaoManager {
         } finally {
             try {
                 this.connection.setAutoCommit(true);
+                this.connection.close();
             } catch (Exception e) {
                 throw new DaoException("Error while setAutoCommit true", e);
             }
         }
+        this.connection.close();
     }
 }
