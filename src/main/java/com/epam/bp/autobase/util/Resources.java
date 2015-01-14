@@ -15,9 +15,9 @@ public class Resources {
     @PersistenceContext
     private EntityManager em;
 
-/*    @Produces
+    @Produces
     public Logger log(InjectionPoint injectionPoint) {
         return getLogger(injectionPoint.getMember().getDeclaringClass().getName());
-    }*/
+    }
 
 }
