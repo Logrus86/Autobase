@@ -1,30 +1,25 @@
 package com.epam.bp.autobase.listener;
 
+import com.epam.bp.autobase.dao.BaseDao;
+import com.epam.bp.autobase.dao.ColorDao;
+import com.epam.bp.autobase.dao.JPA.JpaColorDao;
+import com.epam.bp.autobase.entity.Color;
 import com.epam.bp.autobase.pool.ConnectionPool;
 import com.epam.bp.autobase.util.AttributeSetter;
+import com.epam.bp.autobase.util.ListProducer;
 
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class ContextListener implements ServletContextListener {
 
-    private static final String COLOR = "Color";
-    private static final String MODEL = "Model";
-    private static final String MANUFACTURER = "Manufacturer";
-    private static final ResourceBundle RB = ResourceBundle.getBundle("dao");
-
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-
-        String daoType = RB.getString("dao.type");
-        if ("JDBC.H2".equals(daoType)) {
-            ServletContext context = sce.getServletContext();
-            AttributeSetter.setEntityToContext(COLOR, context);
-            AttributeSetter.setEntityToContext(MODEL, context);
-            AttributeSetter.setEntityToContext(MANUFACTURER, context);
-        }
     }
 
     @Override

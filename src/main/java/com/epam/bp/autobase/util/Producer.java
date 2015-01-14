@@ -8,7 +8,7 @@ import javax.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class Resources {
+public class Producer {
 
     @SuppressWarnings("unused")
     @Produces
@@ -16,7 +16,7 @@ public class Resources {
     private EntityManager em;
 
     @Produces
-    public Logger log(InjectionPoint injectionPoint) {
+    public Logger logger(InjectionPoint injectionPoint) {
         return getLogger(injectionPoint.getMember().getDeclaringClass().getName());
     }
 
