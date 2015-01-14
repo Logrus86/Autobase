@@ -6,7 +6,11 @@ import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 
 @Entity
-@NamedQuery(name="Color.getAll",  query = "SELECT c from Color c ORDER BY c.id DESC")
+@NamedQueries({
+        @NamedQuery(name="Color.getAll",  query = "SELECT c FROM Color c ORDER BY c.id"),
+        @NamedQuery(name="getAllSortedByEn", query="SELECT c FROM Color c ORDER BY c.value_en"),
+        @NamedQuery(name="getAllSortedByRu", query="SELECT c FROM Color c ORDER BY c.value_ru")
+})
 public class Color implements Identifiable {
 
     @Id
@@ -26,7 +30,6 @@ public class Color implements Identifiable {
 
     @NotEmpty
     @Pattern(regexp = "[А-Я]{1}[а-я]{2,20}", message = "Incorrect value_ru")
-    @Column(name = "VALUE_RU")
     private String value_ru;
 
     public Color setValue_en(String valueEn) {

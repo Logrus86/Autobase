@@ -2,13 +2,11 @@ package com.epam.bp.autobase.entity;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 
 @Entity
+@NamedQuery(name="Model.getAll",  query = "SELECT m FROM Model m ORDER BY m.id")
 public class Model implements Identifiable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

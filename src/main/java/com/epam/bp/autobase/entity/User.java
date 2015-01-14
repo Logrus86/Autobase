@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -32,6 +33,7 @@ public class User implements Identifiable {
 
     @NotEmpty
     @Temporal(TemporalType.DATE)
+    @Past
     private Date dob;
 
     @Column(unique=true, nullable=false)
