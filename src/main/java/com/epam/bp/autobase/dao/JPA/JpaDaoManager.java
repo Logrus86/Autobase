@@ -2,21 +2,21 @@ package com.epam.bp.autobase.dao.JPA;
 
 import com.epam.bp.autobase.dao.*;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 
-public class DaoManager implements com.epam.bp.autobase.dao.DaoManager{
-    private EntityManager em;
-    private UserDao userDao;
-    private ColorDao colorDao;
 
-    public DaoManager(EntityManager em) {
-        this.em = em;
+public class JpaDaoManager implements DaoManager{
+    private JpaUserDao userDao;
+    private JpaColorDao colorDao;
+
+    public JpaDaoManager() {
     }
 
     @Override
-    public UserDao getUserDao() {
+    public JpaUserDao getUserDao() {
         if (this.userDao == null) {
-            this.userDao = new UserDao(em);
+            this.userDao = new JpaUserDao();
         }
         return userDao;
     }
@@ -27,9 +27,9 @@ public class DaoManager implements com.epam.bp.autobase.dao.DaoManager{
     }
 
     @Override
-    public ColorDao getColorDao() {
+    public JpaColorDao getColorDao() {
         if (this.colorDao == null) {
-            this.colorDao = new ColorDao(em);
+            this.colorDao = new JpaColorDao();
         }
         return colorDao;
     }

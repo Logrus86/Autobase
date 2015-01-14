@@ -1,19 +1,17 @@
 package com.epam.bp.autobase.dao.JPA;
 
 import com.epam.bp.autobase.dao.DaoException;
+import com.epam.bp.autobase.dao.UserDao;
 import com.epam.bp.autobase.entity.User;
-
-import javax.ejb.Stateful;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
-public class UserDao extends AbstractDao<Integer, User> implements com.epam.bp.autobase.dao.UserDao {
-    public UserDao(EntityManager em) {
-        super(em, User.class);
+public class JpaUserDao extends JpaAbstractDao<Integer, User> implements UserDao {
+
+    public JpaUserDao() {
+        super(User.class);
     }
 
     @Override
