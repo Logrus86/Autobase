@@ -1,7 +1,7 @@
-package com.epam.bp.autobase.dao.JDBC.H2;
+package com.epam.bp.autobase.dao.H2;
 
 import com.epam.bp.autobase.dao.DaoException;
-import com.epam.bp.autobase.dao.JDBC.JDBCDao;
+import com.epam.bp.autobase.dao.JDBCDao;
 import com.epam.bp.autobase.entity.Identifiable;
 import com.epam.bp.autobase.pool.ConnectionPool;
 import java.sql.PreparedStatement;
@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractDao<PK extends Integer, T extends Identifiable> implements JDBCDao<PK, T> {
+public abstract class H2AbstractDao<PK extends Integer, T extends Identifiable> implements JDBCDao<PK, T> {
     protected final ConnectionPool.ProxyConnection connection;
 
-    public AbstractDao(ConnectionPool.ProxyConnection connection) {
+    public H2AbstractDao(ConnectionPool.ProxyConnection connection) {
         this.connection = connection;
     }
 
@@ -141,12 +141,12 @@ public abstract class AbstractDao<PK extends Integer, T extends Identifiable> im
         for (String key : params.keySet()) {
             //there are parameters that are require additional compare operator like '>' or '<' (resulting >= or <=)
             String compareOperator = "";
-            if ((VehicleDao.RENT.equals(key)) || (VehicleDao.MILEAGE.equals(key))) compareOperator = "<";
+            if ((H2VehicleDao.RENT.equals(key)) || (H2VehicleDao.MILEAGE.equals(key))) compareOperator = "<";
             else {
-                if ((VehicleDao.PROD_YEAR.equals(key)) ||
-                        (VehicleDao.PAYLOAD.equals(key)) ||
-                        (VehicleDao.PASS_PL_NUM.equals(key)) ||
-                        (VehicleDao.STAND_PL_NUM.equals(key))
+                if ((H2VehicleDao.PROD_YEAR.equals(key)) ||
+                        (H2VehicleDao.PAYLOAD.equals(key)) ||
+                        (H2VehicleDao.PASS_PL_NUM.equals(key)) ||
+                        (H2VehicleDao.STAND_PL_NUM.equals(key))
                         ) compareOperator = ">";
             }
             query.append(" AND ").append(key.toUpperCase()).append(" ").append(compareOperator).append("= ?");

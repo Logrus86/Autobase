@@ -1,6 +1,7 @@
-package com.epam.bp.autobase.dao.JDBC.H2;
+package com.epam.bp.autobase.dao.H2;
 
 import com.epam.bp.autobase.dao.DaoException;
+import com.epam.bp.autobase.dao.ManufacturerDao;
 import com.epam.bp.autobase.entity.Manufacturer;
 import com.epam.bp.autobase.pool.ConnectionPool;
 import org.slf4j.LoggerFactory;
@@ -10,13 +11,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ManufacturerDao extends AbstractDao<Integer, Manufacturer> implements com.epam.bp.autobase.dao.ManufacturerDao {
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ManufacturerDao.class);
-    public static final String ID = "ID";
-    public static final String VALUE = "VALUE";
-    private static final String MANUFACTURER = "MANUFACTURER";
-
-    public ManufacturerDao(ConnectionPool.ProxyConnection connection) {
+public class H2ManufacturerDao extends H2AbstractDao<Integer, Manufacturer> implements ManufacturerDao {
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(H2ManufacturerDao.class);
+    public H2ManufacturerDao(ConnectionPool.ProxyConnection connection) {
         super(connection);
     }
 

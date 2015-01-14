@@ -1,65 +1,66 @@
-package com.epam.bp.autobase.dao.JDBC.H2;
+package com.epam.bp.autobase.dao.H2;
 
 import com.epam.bp.autobase.dao.DaoException;
+import com.epam.bp.autobase.dao.DaoManager;
 import com.epam.bp.autobase.pool.ConnectionPool;
 
-public class DaoManager implements com.epam.bp.autobase.dao.DaoManager {
+public class H2DaoManager implements DaoManager {
     private ConnectionPool.ProxyConnection connection = null;
-    private UserDao userDao = null;
-    private VehicleDao vehicleDao = null;
-    private ColorDao colorDao = null;
-    private ModelDao modelDao = null;
-    private ManufacturerDao manufacturerDao = null;
-    private OrderDao orderDao = null;
+    private H2UserDao userDao = null;
+    private H2VehicleDao vehicleDao = null;
+    private H2ColorDao colorDao = null;
+    private H2ModelDao modelDao = null;
+    private H2ManufacturerDao manufacturerDao = null;
+    private H2OrderDao orderDao = null;
 
-    public DaoManager(ConnectionPool.ProxyConnection connection) {
+    public H2DaoManager(ConnectionPool.ProxyConnection connection) {
         this.connection = connection;
     }
 
     @Override
-    public UserDao getUserDao() {
+    public H2UserDao getUserDao() {
         if (this.userDao == null) {
-            this.userDao = new UserDao(this.connection);
+            this.userDao = new H2UserDao(this.connection);
         }
         return userDao;
     }
 
     @Override
-    public VehicleDao getVehicleDao() {
+    public H2VehicleDao getVehicleDao() {
         if (this.vehicleDao == null) {
-            this.vehicleDao = new VehicleDao(this.connection);
+            this.vehicleDao = new H2VehicleDao(this.connection);
         }
         return vehicleDao;
     }
 
     @Override
-    public ColorDao getColorDao() {
+    public H2ColorDao getColorDao() {
         if (this.colorDao == null) {
-            this.colorDao = new ColorDao(this.connection);
+            this.colorDao = new H2ColorDao(this.connection);
         }
         return colorDao;
     }
 
     @Override
-    public ModelDao getModelDao() {
+    public H2ModelDao getModelDao() {
         if (this.modelDao == null) {
-            this.modelDao = new ModelDao(this.connection);
+            this.modelDao = new H2ModelDao(this.connection);
         }
         return modelDao;
     }
 
     @Override
-    public ManufacturerDao getManufacturerDao() {
+    public H2ManufacturerDao getManufacturerDao() {
         if (this.manufacturerDao == null) {
-            this.manufacturerDao = new ManufacturerDao(this.connection);
+            this.manufacturerDao = new H2ManufacturerDao(this.connection);
         }
         return manufacturerDao;
     }
 
     @Override
-    public OrderDao getOrderDao() {
+    public H2OrderDao getOrderDao() {
         if (this.orderDao == null) {
-            this.orderDao = new OrderDao(this.connection);
+            this.orderDao = new H2OrderDao(this.connection);
         }
         return orderDao;
     }

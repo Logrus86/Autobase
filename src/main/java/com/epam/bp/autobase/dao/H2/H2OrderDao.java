@@ -1,6 +1,7 @@
-package com.epam.bp.autobase.dao.JDBC.H2;
+package com.epam.bp.autobase.dao.H2;
 
 import com.epam.bp.autobase.dao.DaoException;
+import com.epam.bp.autobase.dao.OrderDao;
 import com.epam.bp.autobase.entity.Order;
 import com.epam.bp.autobase.pool.ConnectionPool;
 import org.slf4j.LoggerFactory;
@@ -13,20 +14,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class OrderDao extends AbstractDao<Integer, Order> implements com.epam.bp.autobase.dao.OrderDao {
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(OrderDao.class);
-    public static final String ID = "ID";
-    public static final String VH_ORDER = "VH_ORDER";
-    public static final String CLIENT_ID = "CLIENT_ID";
-    public static final String VEHICLE_ID = "VEHICLE_ID";
-    public static final String DATE_START = "DATE_START";
-    public static final String DAYS_COUNT = "DAYS_COUNT";
-    public static final String DATE_ORDERED = "DATE_ORDERED";
-    public static final String SUM = "SUM";
-    public static final String STATUS = "STATUS";
-    private static final String ORDER_BY_ID = "ORDER BY ID";
+public class H2OrderDao extends H2AbstractDao<Integer, Order> implements OrderDao {
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(H2OrderDao.class);
 
-    public OrderDao(ConnectionPool.ProxyConnection connection) {
+    public H2OrderDao(ConnectionPool.ProxyConnection connection) {
         super(connection);
     }
 

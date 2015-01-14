@@ -1,5 +1,6 @@
-package com.epam.bp.autobase.dao.JDBC.H2;
+package com.epam.bp.autobase.dao.H2;
 
+import com.epam.bp.autobase.dao.ColorDao;
 import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.entity.Color;
 import com.epam.bp.autobase.pool.ConnectionPool;
@@ -10,10 +11,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ColorDao extends AbstractDao<Integer, Color> implements com.epam.bp.autobase.dao.ColorDao {
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ColorDao.class);
+public class H2ColorDao extends H2AbstractDao<Integer, Color> implements ColorDao {
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(H2ColorDao.class);
 
-    public ColorDao(ConnectionPool.ProxyConnection connection) {
+    public H2ColorDao(ConnectionPool.ProxyConnection connection) {
         super(connection);
     }
 
@@ -56,8 +57,8 @@ public class ColorDao extends AbstractDao<Integer, Color> implements com.epam.bp
         Color color = new Color();
         try {
             color.setId(rs.getInt(ID));
-            color.setValueEn(rs.getString(VALUE_EN));
-            color.setValueRu(rs.getString(VALUE_RU));
+            color.setValue_en(rs.getString(VALUE_EN));
+            color.setValue_ru(rs.getString(VALUE_RU));
 
         } catch (Exception e) {
             LOGGER.error("Parsing resultSet to color error");
@@ -69,8 +70,8 @@ public class ColorDao extends AbstractDao<Integer, Color> implements com.epam.bp
     @Override
     public void prepareStatementForInsert(PreparedStatement ps, Color color) throws DaoException {
         try {
-            ps.setString(1, color.getValueEn());
-            ps.setString(2, color.getValueRu());
+            ps.setString(1, color.getValue_en());
+            ps.setString(2, color.getValue_ru());
         } catch (Exception e) {
             LOGGER.error("Preparing statement for Insert color error");
             throw new DaoException("Preparing statement for Insert color error", e);
@@ -80,8 +81,8 @@ public class ColorDao extends AbstractDao<Integer, Color> implements com.epam.bp
     @Override
     public void prepareStatementForUpdate(PreparedStatement ps, Color color) throws DaoException {
         try {
-            ps.setString(1, color.getValueEn());
-            ps.setString(2, color.getValueRu());
+            ps.setString(1, color.getValue_en());
+            ps.setString(2, color.getValue_ru());
             ps.setString(3, String.valueOf(color.getId()));
         } catch (Exception e) {
             LOGGER.error("Preparing statement for Update color error");
