@@ -50,17 +50,18 @@ public class ConnectionPool {
 
     public static void clearConnectionQueue() {
         ProxyConnection connection;
-        while ((connection = connectionQueue.poll()) != null) {
-            try {
-                if (!connection.getAutoCommit()) {
-                    connection.commit();
+        if (connectionQueue!=null) {
+            while ((connection = connectionQueue.poll()) != null) {
+                try {
+                    if (!connection.getAutoCommit()) {
+                        connection.commit();
+                    }
+                    connection.closeActually();
+                } catch (SQLException e) {
+                    throw new ConnectionPoolException("", e);
                 }
-                connection.closeActually();
-            } catch (SQLException e) {
-                throw new ConnectionPoolException("",e);
             }
         }
-
     }
 
     private static void returnConnection(ProxyConnection connection) {
