@@ -11,6 +11,7 @@ import com.epam.bp.autobase.util.AttributeSetter;
 import com.epam.bp.autobase.util.Validator;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -44,6 +45,8 @@ public class ChangeUserAction implements Action {
     private User user;
     private HttpServletRequest request;
     private HttpSession session;
+    @Inject
+    AttributeSetter as;
 
     @Override
     public ActionResult execute(HttpServletRequest req) throws ActionException {
@@ -116,7 +119,7 @@ public class ChangeUserAction implements Action {
                         user.setId(id);
                     } else {
                         session.setAttribute(USER, user);
-                        AttributeSetter.setEntityToSession(USER, session);
+                        as.setToSession(USER, session);
                     }
                     userDao.update(user);
                     session.setAttribute(ERROR, "");
@@ -152,7 +155,7 @@ public class ChangeUserAction implements Action {
                 userDao.delete(id);
             });
             daoFactory.releaseContext();
-            AttributeSetter.setEntityToSession(USER, session);
+            as.setToSession(USER, session);
         } catch (Exception e) {
             LOGGER.error("Error at deleteUser() while performing transaction");
             throw new ActionException("Error at deleteUser() while performing transaction", e);

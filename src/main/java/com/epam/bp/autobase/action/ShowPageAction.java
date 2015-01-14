@@ -2,6 +2,7 @@ package com.epam.bp.autobase.action;
 
 import com.epam.bp.autobase.util.AttributeSetter;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -16,6 +17,8 @@ public class ShowPageAction implements Action {
     private static final String TRUCK = "Truck";
     private ActionResult result;
     private String page;
+    @Inject
+    AttributeSetter as;
 
     public ShowPageAction(String page) {
         result = new ActionResult(page);
@@ -28,35 +31,35 @@ public class ShowPageAction implements Action {
         switch (page) {
             case ActionFactory.PAGE_CABINET : {
                 session.removeAttribute(ATTR_ERROR_USER_CHANGE);
-                AttributeSetter.setEntityToSession(ORDER, session);
+                as.setToSession(ORDER, session);
                 break;
             }
             case ActionFactory.PAGE_ADMIN_BUSES : {
-                AttributeSetter.setEntityToSession(BUS, session);
-                AttributeSetter.setEntityToSession(USER, session);
+                as.setToSession(BUS, session);
+                as.setToSession(USER, session);
                 break;
             }
             case ActionFactory.PAGE_ADMIN_CARS: {
-                AttributeSetter.setEntityToSession(CAR, session);
-                AttributeSetter.setEntityToSession(USER, session);
+                as.setToSession(CAR, session);
+                as.setToSession(USER, session);
                 break;
             }
             case ActionFactory.PAGE_ADMIN_TRUCKS : {
-                AttributeSetter.setEntityToSession(TRUCK, session);
-                AttributeSetter.setEntityToSession(USER, session);
+                as.setToSession(TRUCK, session);
+                as.setToSession(USER, session);
                 break;
             }
             case ActionFactory.PAGE_ADMIN_USERS : {
-                AttributeSetter.setEntityToSession(USER, session);
+                as.setToSession(USER, session);
                 break;
             }
             case ActionFactory.PAGE_ADMIN_ORDERS : {
-                AttributeSetter.setEntityToSession(ORDER, session);
-                AttributeSetter.setEntityToSession(USER, session);
+                as.setToSession(ORDER, session);
+                as.setToSession(USER, session);
                 break;
             }
             case ActionFactory.PAGE_MAIN_DRIVER : {
-                AttributeSetter.setEntityToSession(DRIVER_VEHICLES, session);
+                as.setToSession(DRIVER_VEHICLES, session);
                 break;
             }
         }

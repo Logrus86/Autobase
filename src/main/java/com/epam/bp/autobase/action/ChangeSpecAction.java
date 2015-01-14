@@ -11,6 +11,7 @@ import com.epam.bp.autobase.entity.Model;
 import com.epam.bp.autobase.util.AttributeSetter;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Locale;
@@ -45,6 +46,8 @@ public class ChangeSpecAction implements Action {
     private static HttpServletRequest request;
     private static HttpSession session;
     private String spec_type;
+    @Inject
+    AttributeSetter as;
 
     public ChangeSpecAction(String spec_type) {
         this.spec_type = spec_type;
@@ -123,7 +126,7 @@ public class ChangeSpecAction implements Action {
                 }
             });
             daoFactory.releaseContext();
-            AttributeSetter.setEntityToContext(COLOR, session.getServletContext());
+            as.setToContext(COLOR, session.getServletContext());
         } catch (Exception e) {
             LOGGER.error("Error at changeColor() while performing transaction");
             throw new ActionException("Error at changeColor() while performing transaction", e);
@@ -142,7 +145,7 @@ public class ChangeSpecAction implements Action {
 
             });
             daoFactory.releaseContext();
-            AttributeSetter.setEntityToContext(COLOR, session.getServletContext());
+            as.setToContext(COLOR, session.getServletContext());
         } catch (Exception e) {
             LOGGER.error("Error at deleteColor() while performing transaction");
             throw new ActionException("Error at deleteColor() while performing transaction", e);
@@ -169,7 +172,7 @@ public class ChangeSpecAction implements Action {
                 }
             });
             daoFactory.releaseContext();
-            AttributeSetter.setEntityToContext(MODEL, session.getServletContext());
+            as.setToContext(MODEL, session.getServletContext());
         } catch (Exception e) {
             LOGGER.error("Error at changeModel() while performing transaction");
             throw new ActionException("Error at changeModel() while performing transaction", e);
@@ -187,7 +190,7 @@ public class ChangeSpecAction implements Action {
                 modelDao.delete(id);
             });
             daoFactory.releaseContext();
-            AttributeSetter.setEntityToContext(MODEL, session.getServletContext());
+            as.setToContext(MODEL, session.getServletContext());
         } catch (Exception e) {
             LOGGER.error("Error at deleteModel() while performing transaction");
             throw new ActionException("Error at deleteModel() while performing transaction", e);
@@ -214,7 +217,7 @@ public class ChangeSpecAction implements Action {
                 }
             });
             daoFactory.releaseContext();
-            AttributeSetter.setEntityToContext(MANUFACTURER, session.getServletContext());
+            as.setToContext(MANUFACTURER, session.getServletContext());
         } catch (Exception e) {
             LOGGER.error("Error at changeManufacturer() while performing transaction");
             throw new ActionException("Error at changeManufacturer() while performing transaction", e);
@@ -233,7 +236,7 @@ public class ChangeSpecAction implements Action {
 
             });
             daoFactory.releaseContext();
-            AttributeSetter.setEntityToContext(MANUFACTURER, session.getServletContext());
+            as.setToContext(MANUFACTURER, session.getServletContext());
         } catch (Exception e) {
             LOGGER.error("Error at deleteManufacturer() while performing transaction");
             throw new ActionException("Error at deleteManufacturer() while performing transaction", e);

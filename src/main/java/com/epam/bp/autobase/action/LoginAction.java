@@ -9,6 +9,7 @@ import com.epam.bp.autobase.util.AttributeSetter;
 import com.epam.bp.autobase.util.Validator;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -32,6 +33,8 @@ public class LoginAction implements Action {
     private static final String PASSWORD = "password";
     private static String login_err_msg;
     private ActionResult result;
+    @Inject
+    AttributeSetter as;
 
     public LoginAction() {
     }
@@ -70,8 +73,8 @@ public class LoginAction implements Action {
                     session.setAttribute(ERROR, "");
                     //check user roles
                     if (user.getRole() == User.Role.ADMIN) {
-                        AttributeSetter.setEntityToSession(ORDER, session);
-                        AttributeSetter.setEntityToSession(USER, session);
+                        as.setToSession(ORDER, session);
+                        as.setToSession(USER, session);
                         result = LOGIN_ADMIN;
                     }
                     else if (user.getRole() == User.Role.CLIENT) {
@@ -79,7 +82,7 @@ public class LoginAction implements Action {
                         referer = referer.substring(referer.lastIndexOf("/") + 1, referer.length());
                         result = new ActionResult(referer, true);
                     } else if (user.getRole() == User.Role.DRIVER) {
-                        AttributeSetter.setEntityToSession(DRIVER_VEHICLES, session);
+                        as.setToSession(DRIVER_VEHICLES, session);
                         result = LOGIN_DRIVER;
                     }
 

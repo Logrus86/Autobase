@@ -7,6 +7,7 @@ import com.epam.bp.autobase.util.AttributeSetter;
 import com.epam.bp.autobase.util.Validator;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
@@ -69,6 +70,8 @@ public class CreateEntityAction implements Action {
     private String entityName;
     private HttpServletRequest request;
     private HttpSession session;
+    @Inject
+    AttributeSetter as;
 
     public CreateEntityAction(String entityName) {
         this.entityName = entityName;
@@ -133,7 +136,7 @@ public class CreateEntityAction implements Action {
                         forwardEnteredData();
                     } else {
                         daoManager.executeAndClose(daoManager1 -> colorDao.create((Color) finalSpec));
-                        AttributeSetter.setEntityToContext(COLOR, session.getServletContext());
+                        as.setToContext(COLOR, session.getServletContext());
                     }
                 }
                 if (MODEL.equals(entityName)) {
@@ -143,7 +146,7 @@ public class CreateEntityAction implements Action {
                         forwardEnteredData();
                     } else {
                         daoManager.executeAndClose(daoManager1 -> modelDao.create((Model) finalSpec));
-                        AttributeSetter.setEntityToContext(MODEL, session.getServletContext());
+                        as.setToContext(MODEL, session.getServletContext());
                     }
                 }
                 if (MANUFACTURER.equals(entityName)) {
@@ -153,7 +156,7 @@ public class CreateEntityAction implements Action {
                         forwardEnteredData();
                     } else {
                         daoManager.executeAndClose(daoManager1 -> manufacturerDao.create((Manufacturer) finalSpec));
-                        AttributeSetter.setEntityToContext(MANUFACTURER, session.getServletContext());
+                        as.setToContext(MANUFACTURER, session.getServletContext());
                     }
                 }
             daoFactory.releaseContext();
@@ -195,7 +198,7 @@ public class CreateEntityAction implements Action {
             final User finalUser = user;
             daoManager.executeAndClose(daoManager1 -> userDao.create(finalUser));
             daoFactory.releaseContext();
-            AttributeSetter.setEntityToSession(USER, session);
+            as.setToSession(USER, session);
         } catch (Exception e) {
             LOGGER.error("Error at createUser() while performing transaction");
             throw new ActionException("Error at createUser() while performing transaction", e);
@@ -272,15 +275,15 @@ public class CreateEntityAction implements Action {
             throw new ActionException("Error at createVehicle() while performing transaction", e);
         }
         if (BUS.equals(entityName)) {
-            AttributeSetter.setEntityToSession(BUS, session);
+            as.setToSession(BUS, session);
             result = BUS_PAGE;
         }
         if (CAR.equals(entityName)) {
-            AttributeSetter.setEntityToSession(CAR, session);
+            as.setToSession(CAR, session);
             result = CAR_PAGE;
         }
         if (TRUCK.equals(entityName)) {
-            AttributeSetter.setEntityToSession(TRUCK, session);
+            as.setToSession(TRUCK, session);
             result = TRUCK_PAGE;
         }
     }

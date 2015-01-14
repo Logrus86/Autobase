@@ -11,6 +11,7 @@ import com.epam.bp.autobase.entity.Vehicle;
 import com.epam.bp.autobase.util.AttributeSetter;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
@@ -27,6 +28,8 @@ public class OrderAction implements Action {
     private static final String VEHICLE = "vehicle";
     private static final String DATE_START = "dateStart";
     private static final String ORDER = "order";
+    @Inject
+    AttributeSetter as;
 
     private static ActionResult result;
 
@@ -82,7 +85,7 @@ public class OrderAction implements Action {
             LOGGER.error("Error at OrderAction while performing transaction");
             throw new ActionException("Error at OrderAction while performing transaction", e);
         }
-        AttributeSetter.setEntityToSession(ORDER, session);
+        as.setToSession(ORDER, session);
         return result;
     }
 }

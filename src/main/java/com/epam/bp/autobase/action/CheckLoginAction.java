@@ -5,6 +5,7 @@ import com.epam.bp.autobase.util.AttributeSetter;
 import com.epam.bp.autobase.util.AttributeSetterException;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -20,6 +21,8 @@ public class CheckLoginAction implements Action {
     private static final String USER = "user";
     private static final String ORDER = "order";
     private static final String DRIVER_VEHICLES = "driverVehicles";
+    @Inject
+    AttributeSetter as;
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
@@ -35,8 +38,8 @@ public class CheckLoginAction implements Action {
         User user = (User) session.getAttribute(USER);
         if (user.getRole() == User.Role.ADMIN) {
             try {
-                AttributeSetter.setEntityToSession(ORDER, session);
-                AttributeSetter.setEntityToSession(USER, session);
+                as.setToSession(ORDER, session);
+                as.setToSession(USER, session);
             } catch (AttributeSetterException e) {
                 throw new ActionException(e);
             }
@@ -45,7 +48,7 @@ public class CheckLoginAction implements Action {
         if (user.getRole() == User.Role.CLIENT) return LOGIN_CLIENT;
         if (user.getRole() == User.Role.DRIVER) {
             try {
-                AttributeSetter.setEntityToSession(DRIVER_VEHICLES, session);
+                as.setToSession(DRIVER_VEHICLES, session);
             } catch (AttributeSetterException e) {
                 throw new ActionException(e);
             }

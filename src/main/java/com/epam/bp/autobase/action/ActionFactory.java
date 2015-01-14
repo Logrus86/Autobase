@@ -1,5 +1,6 @@
 package com.epam.bp.autobase.action;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ public class ActionFactory {
     public static final String MANUFACTURER = "Manufacturer";
 
     static {
-        ACTIONS.put("GET/login", new ShowPageAction(PAGE_MAIN));
+     //   ACTIONS.put("GET/login", new ShowPageAction(PAGE_MAIN));
         ACTIONS.put("GET/registered", new ShowPageAction(PAGE_REGISTER_SUCCESS));
         ACTIONS.put("GET/admin_buses", new ShowPageAction(PAGE_ADMIN_BUSES));
         ACTIONS.put("GET/admin_cars", new ShowPageAction(PAGE_ADMIN_CARS));
@@ -47,9 +48,9 @@ public class ActionFactory {
         ACTIONS.put("GET/main", new CheckLoginAction());
         ACTIONS.put("GET/search", new SearchAction());
         ACTIONS.put("GET/quit", new LogoutAction());
-        ACTIONS.put("GET/locale", new ChangeLocaleAction());
+    //    ACTIONS.put("GET/locale", new ChangeLocaleAction());
 
-        ACTIONS.put("POST/login", new LoginAction());
+    //    ACTIONS.put("POST/login", new LoginAction());
         ACTIONS.put("POST/register", new RegisterAction());
         ACTIONS.put("POST/change_user", new ChangeUserAction());
         ACTIONS.put("POST/change_vehicle", new ChangeVehicleAction());

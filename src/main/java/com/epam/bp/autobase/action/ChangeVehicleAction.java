@@ -8,6 +8,7 @@ import com.epam.bp.autobase.util.AttributeSetter;
 import com.epam.bp.autobase.util.Validator;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
@@ -50,6 +51,8 @@ public class ChangeVehicleAction implements Action {
     private User user;
     private HttpServletRequest request;
     private HttpSession session;
+    @Inject
+    AttributeSetter as;
 
     @Override
     public ActionResult execute(HttpServletRequest req) throws ActionException {
@@ -130,7 +133,7 @@ public class ChangeVehicleAction implements Action {
                     ((Bus) vehicle).setPassengerSeatsNumber(passSeatsNum);
                     ((Bus) vehicle).setDoorsNumber(doorsNum);
                     ((Bus) vehicle).setStandingPlacesNumber(standPlacesNum);
-                    AttributeSetter.setEntityToSession(BUS, session);
+                    as.setToSession(BUS, session);
                     if (user.getRole().equals(User.Role.ADMIN)) result = ADMIN_BUSES;
                 }
                 if (vehicle.getType() == Vehicle.Type.CAR) {
@@ -140,7 +143,7 @@ public class ChangeVehicleAction implements Action {
                     ((Car) vehicle).setPassengerSeatsNumber(passSeatsNum);
                     ((Car) vehicle).setDoorsNumber(doorsNum);
                     ((Car) vehicle).setWithConditioner(withConder);
-                    AttributeSetter.setEntityToSession(CAR, session);
+                    as.setToSession(CAR, session);
                     if (user.getRole().equals(User.Role.ADMIN)) result = ADMIN_CARS;
                 }
                 if (vehicle.getType() == Vehicle.Type.TRUCK) {
@@ -150,7 +153,7 @@ public class ChangeVehicleAction implements Action {
                     ((Truck) vehicle).setMaxPayload(maxPayload);
                     ((Truck) vehicle).setEnclosed(enclosed);
                     ((Truck) vehicle).setTipper(tipper);
-                    AttributeSetter.setEntityToSession(TRUCK, session);
+                    as.setToSession(TRUCK, session);
                     if (user.getRole().equals(User.Role.ADMIN)) result = ADMIN_TRUCKS;
                 }
                 vehicleDao.update(vehicle);
@@ -174,15 +177,15 @@ public class ChangeVehicleAction implements Action {
                 Vehicle vehicle = vehicleDao.getById(id);
                 vehicleDao.delete(vehicle);
                 if (vehicle.getType() == Vehicle.Type.CAR) {
-                    AttributeSetter.setEntityToSession(CAR, session);
+                    as.setToSession(CAR, session);
                     result = ADMIN_CARS;
                 }
                 if (vehicle.getType() == Vehicle.Type.BUS) {
-                    AttributeSetter.setEntityToSession(BUS, session);
+                    as.setToSession(BUS, session);
                     result = ADMIN_BUSES;
                 }
                 if (vehicle.getType() == Vehicle.Type.TRUCK) {
-                    AttributeSetter.setEntityToSession(TRUCK, session);
+                    as.setToSession(TRUCK, session);
                     result = ADMIN_TRUCKS;
                 }
             });

@@ -8,6 +8,7 @@ import com.epam.bp.autobase.util.AttributeSetter;
 import com.epam.bp.autobase.util.Validator;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -33,6 +34,8 @@ public class RegisterAction implements Action {
     private static final String USER = "user";
     private static String error_busy_username;
     private ActionResult result;
+    @Inject
+    AttributeSetter as;
 
     public RegisterAction() {
     }
@@ -91,7 +94,7 @@ public class RegisterAction implements Action {
             LOGGER.error("Error at RegisterAction while performing transaction");
             throw new ActionException("Error at RegisterAction while performing transaction", e);
         }
-        AttributeSetter.setEntityToSession(USER, session);
+        as.setToSession(USER, session);
         return result;
     }
 
