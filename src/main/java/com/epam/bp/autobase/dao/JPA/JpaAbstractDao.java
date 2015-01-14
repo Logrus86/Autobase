@@ -10,21 +10,22 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import javax.decorator.Decorator;
+import javax.decorator.Delegate;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractDao<PK extends Integer, T extends Identifiable> implements BaseDao<PK, T> {
+@Stateless
+public abstract class JpaAbstractDao<PK extends Integer, T extends Identifiable> implements BaseDao<PK, T> {
 
+    @PersistenceContext
     private EntityManager em;
-
     private final Class<T> ENTITY_CLASS;
 
-
-    public AbstractDao(EntityManager em, Class<T> entityClass) {
+    public JpaAbstractDao(Class<T> entityClass) {
         this.ENTITY_CLASS = entityClass;
-        this.em = em;
     }
 
     @Override
@@ -54,19 +55,19 @@ public abstract class AbstractDao<PK extends Integer, T extends Identifiable> im
 
     @Override
     public List<T> getAll() throws DaoException {
-          TypedQuery<T> query = em.createQuery("SELECT e FROM " + ENTITY_CLASS.getName() + " e ORDER BY e.id DESC", ENTITY_CLASS);
+          TypedQuery<T> query = em.createQuery("SELECT e FROM " + ENTITY_CLASS.getName() + " e ORDER BY e.id", ENTITY_CLASS);
         return query.getResultList();
     }
 
     @Override
     public List<T> getAllSortedBy(String columnName) throws DaoException {
-        TypedQuery<T> query = em.createQuery("SELECT e FROM " + ENTITY_CLASS.getName() + " e ORDER BY e." + columnName + " DESC, e.id DESC", ENTITY_CLASS);
+        TypedQuery<T> query = em.createQuery("SELECT e FROM " + ENTITY_CLASS.getName() + " e ORDER BY e." + columnName.toLowerCase() + ", e.id DESC", ENTITY_CLASS);
         return query.getResultList();
     }
 
     @Override
     public List<T> getListByParameter(String param_name, String param_value) throws DaoException {
-        TypedQuery<T> query = em.createQuery("SELECT e FROM " + ENTITY_CLASS.getName() + " e WHERE e." + param_name + " = :param_value ORDER_BY e.ID;", ENTITY_CLASS);
+        TypedQuery<T> query = em.createQuery("SELECT e FROM " + ENTITY_CLASS.getName() + " e WHERE e." + param_name + " = :param_value ORDER_BY e.id;", ENTITY_CLASS);
         query.setParameter("param_value", param_value);
         return query.getResultList();
     }
