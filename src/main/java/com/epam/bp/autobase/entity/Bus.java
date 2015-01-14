@@ -51,7 +51,7 @@ public class Bus extends Vehicle {
         return "Bus {PassSeatsNumber: " + getPassengerSeatsNumber() + ", stPlacesNumber: " + getStandingPlacesNumber()
                 + ", doorsNumber: " + getDoorsNumber() + ", rentPrice: " + getRentPrice() + ", operable: " + isOperable()
                 + ", model: " + getModel().getValue() + ", manufact: " + getManufacturer().getValue() + ", driver: "
-                + getDriverId() + ", prodYear: " + getProductionYear() + ", color: " + getColor().getValueEn() + ", mileage: "
+                + getDriverId() + ", prodYear: " + getProductionYear() + ", color: " + getColor().getValue_en() + ", mileage: "
                 + getMileage() + ", fuelType: " + getFuelType() + "}";
     }
 

@@ -22,29 +22,29 @@ public class Color implements Identifiable {
     @NotEmpty
     @Pattern(regexp = "[A-Z]{1}[a-z]{2,20}", message = "Incorrect value_en")
     @Column(name = "VALUE_EN")
-    private String valueEn;
+    private String value_en;
 
     @NotEmpty
     @Pattern(regexp = "[А-Я]{1}[а-я]{2,20}", message = "Incorrect value_ru")
     @Column(name = "VALUE_RU")
-    private String valueRu;
+    private String value_ru;
 
-    public Color setValueEn(String valueEn) {
-        this.valueEn = valueEn;
+    public Color setValue_en(String valueEn) {
+        this.value_en = valueEn;
         return this;
     }
 
-    public Color setValueRu(String valueRu) {
-        this.valueRu = valueRu;
+    public Color setValue_ru(String valueRu) {
+        this.value_ru = valueRu;
         return this;
     }
 
-    public String getValueEn() {
-        return valueEn;
+    public String getValue_en() {
+        return value_en;
     }
 
-    public String getValueRu() {
-        return valueRu;
+    public String getValue_ru() {
+        return value_ru;
     }
 
 }

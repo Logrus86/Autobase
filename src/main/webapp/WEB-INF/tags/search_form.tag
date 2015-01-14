@@ -52,8 +52,8 @@
                         <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true" name="colorId" id="colorId">
                             <c:forEach items="${colors}" var="color">
                                 <option value="${color.id}">
-                                    <c:if test="${locale.language=='ru'}">${color.valueRu}</c:if>
-                                    <c:if test="${locale.language=='en'}">${color.valueEn}</c:if>
+                                    <c:if test="${locale.language=='ru'}">${color.value_ru}</c:if>
+                                    <c:if test="${locale.language=='en'}">${color.value_en}</c:if>
                                 </option>
                             </c:forEach>
                         </select>

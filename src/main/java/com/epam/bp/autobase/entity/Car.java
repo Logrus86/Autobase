@@ -1,7 +1,5 @@
 package com.epam.bp.autobase.entity;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.validation.constraints.NotNull;
@@ -53,7 +51,7 @@ public class Car extends Vehicle {
         return "Car {PassSeatsNumber: " + getPassengerSeatsNumber() + ", doorsNumber: " + getDoorsNumber()
                 + ", conditioner: " + isWithConditioner() + ", rentPrice: " + getRentPrice() + ", operable: "
                 + isOperable() + ", model: " + getModel().getValue() + ", manufacturer: " + getManufacturer().getValue()
-                + ", driver: " + getDriverId() + ", prodYear: " + getProductionYear() + ", color: " + getColor().getValueEn()
+                + ", driver: " + getDriverId() + ", prodYear: " + getProductionYear() + ", color: " + getColor().getValue_en()
                 + ", mileage: " + getMileage() + ", fuelType: " + getFuelType() + "}";
     }
 }

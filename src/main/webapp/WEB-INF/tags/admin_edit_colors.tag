@@ -21,12 +21,12 @@
                 <form method="post" action="change_color">
                     <td><input id="N" type="number" class="form-control" value=${i.count} readonly></td>
                     <c:if test="${locale.language=='ru'}">
-                        <td><input required type="text" class="form-control" name="valueRu" value=${color.valueRu}></td>
-                        <td><input required type="text" class="form-control" name="valueEn" value=${color.valueEn}></td>
+                        <td><input required type="text" class="form-control" name="value_ru" value=${color.valueRu}></td>
+                        <td><input required type="text" class="form-control" name="value_en" value=${color.valueEn}></td>
                     </c:if>
                     <c:if test="${locale.language=='en'}">
-                        <td><input required type="text" class="form-control" name="valueEn" value=${color.valueEn}></td>
-                        <td><input required type="text" class="form-control" name="valueRu" value=${color.valueRu}></td>
+                        <td><input required type="text" class="form-control" name="value_en" value=${color.valueEn}></td>
+                        <td><input required type="text" class="form-control" name="value_ru" value=${color.valueRu}></td>
                     </c:if>
                     <td><button class="btn btn-primary" name="save" value="${color.id}" type="submit"><fmt:message key="default.save"/></button></td>
                     <td><button class="btn btn-danger" name="delete" value="${color.id}" type="submit"><fmt:message key="default.delete"/></button></td>

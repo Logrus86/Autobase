@@ -51,6 +51,6 @@ public class Truck extends Vehicle {
         return "Truck {Payload: " + getMaxPayload() + ", enclosed: " + isEnclosed() + ", tipper: " + isTipper() +
                 ", rentPrice: " + getRentPrice() + ", operable: " + isOperable() + ", model: " + getModel().getValue() +
                 ", manufact: " + getManufacturer().getValue() + ", driver: " + getDriverId() + ", prodYear: " + getProductionYear() +
-                ", color: " + getColor().getValueEn() + ", mileage: " + getMileage() + ", fuelType: " + getFuelType() + "}";
+                ", color: " + getColor().getValue_en() + ", mileage: " + getMileage() + ", fuelType: " + getFuelType() + "}";
     }
 }
