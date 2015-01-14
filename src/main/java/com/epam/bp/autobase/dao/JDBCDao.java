@@ -1,4 +1,4 @@
-package com.epam.bp.autobase.dao.JDBC;
+package com.epam.bp.autobase.dao;
 
 import com.epam.bp.autobase.dao.BaseDao;
 import com.epam.bp.autobase.dao.DaoException;
