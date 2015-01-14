@@ -5,8 +5,6 @@ import com.epam.bp.autobase.dao.VehicleDao;
 import com.epam.bp.autobase.entity.Vehicle;
 import com.epam.bp.autobase.util.Validator;
 import org.slf4j.LoggerFactory;
-
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -49,8 +47,7 @@ public class SearchAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
         HttpSession session = request.getSession();
-        ServletContext context = session.getServletContext();
-        Locale locale = (Locale) context.getAttribute(ATTR_LOCALE);
+        Locale locale = (Locale) session.getAttribute(ATTR_LOCALE);
         ResourceBundle RB = ResourceBundle.getBundle(RB_NAME, locale);
         String error_nothing_checked = RB.getString(RB_ERR_NOTHING_CHECKED);
         RegisterAction.clearRegData(session);
@@ -126,28 +123,28 @@ public class SearchAction implements Action {
         if (ON.equals(req.getParameter(ENCLOSED))) enclosed = TRUE;
         if (ON.equals(req.getParameter(TIPPER))) tipper = TRUE;
 
-        if (modelId != null) result.put(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.MODEL_ID,modelId);
-        if (manufactId != null) result.put(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.MANUFACTURER_ID,manufactId);
-        if (colorId != null) result.put(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.COLOR_ID,colorId);
-        if (fuel != null) result.put(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.FUEL_TYPE,fuel);
-        if (mileage != null) result.put(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.MILEAGE,mileage);
-        if (standN != null) result.put(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.STAND_PL_NUM,standN);
-        if (passNbus != null) result.put(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.PASS_PL_NUM,passNbus);
-        if (passNcar != null) result.put(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.PASS_PL_NUM,passNcar);
-        if (doorsBus != null) result.put(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.DOORS_NUM,doorsBus);
-        if (doorsCar != null) result.put(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.DOORS_NUM,doorsCar);
-        if (condit != null) result.put(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.CONDITIONER,condit);
-        if (enclosed != null) result.put(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.ENCLOSED,enclosed);
-        if (tipper != null) result.put(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.TIPPER,tipper);
-        if (notOlder != null) result.put(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.PROD_YEAR,notOlder);
-        if (rent != null) result.put(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.RENT,rent);
-        if (payload != null) result.put(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.PAYLOAD,payload);
+        if (modelId != null) result.put(VehicleDao.MODEL_ID,modelId);
+        if (manufactId != null) result.put(VehicleDao.MANUFACTURER_ID,manufactId);
+        if (colorId != null) result.put(VehicleDao.COLOR_ID,colorId);
+        if (fuel != null) result.put(VehicleDao.FUEL_TYPE,fuel);
+        if (mileage != null) result.put(VehicleDao.MILEAGE,mileage);
+        if (standN != null) result.put(VehicleDao.STAND_PL_NUM,standN);
+        if (passNbus != null) result.put(VehicleDao.PASS_PL_NUM,passNbus);
+        if (passNcar != null) result.put(VehicleDao.PASS_PL_NUM,passNcar);
+        if (doorsBus != null) result.put(VehicleDao.DOORS_NUM,doorsBus);
+        if (doorsCar != null) result.put(VehicleDao.DOORS_NUM,doorsCar);
+        if (condit != null) result.put(VehicleDao.CONDITIONER,condit);
+        if (enclosed != null) result.put(VehicleDao.ENCLOSED,enclosed);
+        if (tipper != null) result.put(VehicleDao.TIPPER,tipper);
+        if (notOlder != null) result.put(VehicleDao.PROD_YEAR,notOlder);
+        if (rent != null) result.put(VehicleDao.RENT,rent);
+        if (payload != null) result.put(VehicleDao.PAYLOAD,payload);
 
         //if there are some other parameters, do search by defined vehicle type & operable only
         if (!result.isEmpty()) {
             String vhType = req.getParameter(VH_TYPE);
-            if (!vhType.isEmpty()) result.put(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.VEHICLE_TYPE,vhType);
-            result.put(com.epam.bp.autobase.dao.JDBC.H2.VehicleDao.OPERABLE,TRUE);
+            if (!vhType.isEmpty()) result.put(VehicleDao.VEHICLE_TYPE,vhType);
+            result.put(VehicleDao.OPERABLE,TRUE);
         }
         return result;
     }

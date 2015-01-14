@@ -40,8 +40,7 @@ public class RegisterAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
         HttpSession session = request.getSession();
-        ServletContext context = session.getServletContext();
-        Locale locale = (Locale) context.getAttribute(LOCALE);
+        Locale locale = (Locale) session.getAttribute(LOCALE);
         ResourceBundle RB = ResourceBundle.getBundle(RB_NAME, locale);
         error_busy_username = RB.getString(ERROR_BUSY_USERNAME);
         //validate inputs

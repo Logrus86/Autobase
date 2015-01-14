@@ -39,8 +39,7 @@ public class LoginAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
         HttpSession session = request.getSession();
-        ServletContext context = session.getServletContext();
-        Locale locale = (Locale) context.getAttribute(ATTR_LOCALE);
+        Locale locale = (Locale) session.getAttribute(ATTR_LOCALE);
         ResourceBundle RB = ResourceBundle.getBundle(RB_NAME, locale);
         login_err_msg = RB.getString(ERROR_LOGIN);
 

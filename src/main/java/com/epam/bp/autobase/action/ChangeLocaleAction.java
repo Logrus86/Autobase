@@ -17,9 +17,8 @@ public class ChangeLocaleAction implements Action {
     public ActionResult execute(HttpServletRequest request) throws ActionException {
         String language = request.getParameter(LOCALE);
         HttpSession session = request.getSession();
-        ServletContext context = session.getServletContext();
         Locale locale = new Locale(language);
-        context.setAttribute(LOCALE, locale);
+        session.setAttribute(LOCALE, locale);
         LOGGER.info(MSG + language);
         String referrer = request.getHeader(REFERRER);
         referrer = referrer.substring(referrer.lastIndexOf("/") + 1, referrer.length());

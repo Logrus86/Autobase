@@ -11,7 +11,6 @@ import com.epam.bp.autobase.entity.Model;
 import com.epam.bp.autobase.util.AttributeSetter;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Locale;
@@ -55,8 +54,7 @@ public class ChangeSpecAction implements Action {
     public ActionResult execute(HttpServletRequest req) throws ActionException {
         request = req;
         session = req.getSession();
-        ServletContext context = session.getServletContext();
-        Locale locale = (Locale) context.getAttribute(LOCALE);
+        Locale locale = (Locale) session.getAttribute(LOCALE);
         ResourceBundle RB = ResourceBundle.getBundle(RB_NAME, locale);
         color_busy = RB.getString(ERROR_BUSY_COLOR);
         model_busy = RB.getString(ERROR_BUSY_MODEL);
@@ -108,16 +106,16 @@ public class ChangeSpecAction implements Action {
                 String valueEn = request.getParameter(VALUE_EN);
                 String valueRu = request.getParameter(VALUE_RU);
                 //check to unique if old value not equals new value, check valueEn
-                if ((!color.getValueEn().equals(valueEn)) && (colorDao.getByValueEn(valueEn) != null)) {
+                if ((!color.getValue_en().equals(valueEn)) && (colorDao.getByValueEn(valueEn) != null)) {
                     session.setAttribute(ERROR_COLOR, color_busy);
                 } else {
                     // valueEn isn't busy, check valueRu
-                    if ((!color.getValueRu().equals(valueRu)) && (colorDao.getByValueRu(valueRu) != null)) {
+                    if ((!color.getValue_ru().equals(valueRu)) && (colorDao.getByValueRu(valueRu) != null)) {
                         session.setAttribute(ERROR_COLOR, color_busy);
                     } else {
                         //all is ok, proceed
-                        color.setValueEn(valueEn);
-                        color.setValueRu(valueRu);
+                        color.setValue_en(valueEn);
+                        color.setValue_ru(valueRu);
                         colorDao.update(color);
                         session.removeAttribute(ERROR_COLOR);
 

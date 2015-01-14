@@ -13,8 +13,7 @@ public class SessionListener implements HttpSessionListener {
     @Override
     public void sessionCreated(HttpSessionEvent se) {
         HttpSession session = se.getSession();
-        ServletContext context = session.getServletContext();
-        context.setAttribute(ATTR_LOCALE, DEFAULT_LOCALE);
+        session.setAttribute(ATTR_LOCALE, DEFAULT_LOCALE);
     }
 
     @Override

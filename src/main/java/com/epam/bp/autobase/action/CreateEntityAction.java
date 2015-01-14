@@ -7,7 +7,6 @@ import com.epam.bp.autobase.util.AttributeSetter;
 import com.epam.bp.autobase.util.Validator;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
@@ -80,8 +79,7 @@ public class CreateEntityAction implements Action {
         request = req;
         session = req.getSession();
         session.removeAttribute(ERROR);
-        ServletContext context = session.getServletContext();
-        Locale locale = (Locale) context.getAttribute(LOCALE);
+        Locale locale = (Locale) session.getAttribute(LOCALE);
         ResourceBundle RB = ResourceBundle.getBundle(RB_NAME, locale);
         color_busy = RB.getString(ERROR_BUSY_COLOR);
         model_busy = RB.getString(ERROR_BUSY_MODEL);
@@ -119,8 +117,8 @@ public class CreateEntityAction implements Action {
         String valueRu = request.getParameter(VALUE_RU);
         String value = request.getParameter(VALUE);
         if (COLOR.equals(entityName)) prop = new Color()
-                .setValueEn(valueEn)
-                .setValueRu(valueRu);
+                .setValue_en(valueEn)
+                .setValue_ru(valueRu);
         if (MODEL.equals(entityName)) prop = new Model().setValue(value);
         if (MANUFACTURER.equals(entityName)) prop = new Manufacturer().setValue(value);
         try {
