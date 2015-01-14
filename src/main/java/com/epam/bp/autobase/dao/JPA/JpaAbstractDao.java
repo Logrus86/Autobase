@@ -13,16 +13,21 @@ import javax.decorator.Decorator;
 import javax.decorator.Delegate;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Map;
 
 @Stateless
-public abstract class JpaAbstractDao<PK extends Integer, T extends Identifiable> implements BaseDao<PK, T> {
+@Named
+public class JpaAbstractDao<PK extends Integer, T extends Identifiable> implements BaseDao<PK, T> {
 
-    @PersistenceContext
+    @Inject
     private EntityManager em;
-    private final Class<T> ENTITY_CLASS;
+    private Class<T> ENTITY_CLASS;
+
+    public JpaAbstractDao() {
+    }
 
     public JpaAbstractDao(Class<T> entityClass) {
         this.ENTITY_CLASS = entityClass;
@@ -55,7 +60,7 @@ public abstract class JpaAbstractDao<PK extends Integer, T extends Identifiable>
 
     @Override
     public List<T> getAll() throws DaoException {
-          TypedQuery<T> query = em.createQuery("SELECT e FROM " + ENTITY_CLASS.getName() + " e ORDER BY e.id", ENTITY_CLASS);
+        TypedQuery<T> query = em.createQuery("SELECT e FROM " + ENTITY_CLASS.getName() + " e ORDER BY e.id", ENTITY_CLASS);
         return query.getResultList();
     }
 
