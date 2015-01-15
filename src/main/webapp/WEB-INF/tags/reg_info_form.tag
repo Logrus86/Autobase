@@ -13,7 +13,7 @@
                     <div class="col-lg-12">
                         <div class="input-group">
                             <span class="input-group-addon"><fmt:message key="default.firstname"/>:</span>
-                            <input type="text" class="form-control" value="${user.firstname}" readonly>
+                            <input type="text" class="form-control" value="${newUser.firstname}" readonly>
                         </div>
                     </div>
                 </div>
@@ -21,7 +21,7 @@
                     <div class="col-lg-12">
                         <div class="input-group">
                             <span class="input-group-addon"><fmt:message key="default.lastname"/>:</span>
-                            <input type="text" class="form-control" value="${user.lastname}" readonly>
+                            <input type="text" class="form-control" value="${newUser.lastname}" readonly>
                         </div>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                     <div class="col-lg-12">
                         <div class="input-group">
                             <span class="input-group-addon"><fmt:message key="default.dob"/>:</span>
-                            <input type="text" class="form-control" value="${user.dob}" readonly>
+                            <input type="text" class="form-control" value="${newUser.dob}" readonly>
                         </div>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                     <div class="col-lg-12">
                         <div class="input-group">
                             <span class="input-group-addon"><fmt:message key="default.username"/>:</span>
-                            <input type="text" class="form-control" value="${user.username}" readonly>
+                            <input type="text" class="form-control" value="${newUser.username}" readonly>
                         </div>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                     <div class="col-lg-12">
                         <div class="input-group">
                             <span class="input-group-addon"><fmt:message key="default.password"/>:</span>
-                            <input type="text" class="form-control" value="${user.password}" readonly>
+                            <input type="text" class="form-control" value="${newUser.password}" readonly>
                         </div>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                     <div class="col-lg-12">
                         <div class="input-group">
                             <span class="input-group-addon"><fmt:message key="default.email"/>:</span>
-                            <input type="text" class="form-control" value="${user.email}" readonly>
+                            <input type="text" class="form-control" value="${newUser.email}" readonly>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                         <div class="input-group">
                             <span class="input-group-addon"><fmt:message key="default.balance"/>:</span>
                             <input type="text" class="form-control"
-                                   value="${user.balance} <fmt:message key="default.currency"/>" readonly>
+                                   value="${newUser.balance} <fmt:message key="default.currency"/>" readonly>
                         </div>
                     </div>
                 </div>
