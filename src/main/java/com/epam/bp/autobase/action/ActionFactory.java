@@ -44,7 +44,7 @@ public class ActionFactory {
         ACTIONS.put("GET/main_driver", new ShowPageAction(PAGE_MAIN_DRIVER));
         ACTIONS.put("GET/ordered", new ShowPageAction(PAGE_ORDERED));
         ACTIONS.put("GET/cabinet", new ShowPageAction(PAGE_CABINET));
-
+        ACTIONS.put("HEAD/main", new CheckLoginAction());
         ACTIONS.put("GET/main", new CheckLoginAction());
         ACTIONS.put("GET/search", new SearchAction());
         ACTIONS.put("GET/quit", new LogoutAction());
