@@ -35,7 +35,7 @@ public class User implements Identifiable, Serializable {
     @Pattern(regexp = "([A-Z]{1}[a-z]{0,19})|([А-Я]{1}[а-я]{0,19})", message = "Incorrect last name")
     private String lastname;
 
-    @NotEmpty
+    @NotNull
     @Temporal(TemporalType.DATE)
     @Past
     private Date dob;
@@ -59,9 +59,9 @@ public class User implements Identifiable, Serializable {
     @NotNull
     private BigDecimal balance;
 
-    @Nullable
+   /* @Nullable
     @OneToMany(mappedBy = "client")
-    private List<Order> orders;
+    private List<Order> orders;*/
 
 /*    @Nullable
     @OneToMany(mappedBy = "driver")
@@ -86,13 +86,13 @@ public class User implements Identifiable, Serializable {
     }
     */
 
-    public List<Order> getOrders() {
+  /*  public List<Order> getOrders() {
         return orders;
     }
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
-    }
+    }*/
 
     public Integer getId() {
         return id;
@@ -125,6 +125,9 @@ public class User implements Identifiable, Serializable {
     }
 
     public String getDob() {
+        if (dob==null) {
+            return "";
+        }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(dob);
     }
@@ -184,7 +187,7 @@ public class User implements Identifiable, Serializable {
         return this;
     }
 
-    public List<Order> getClientOrders() {
+   /* public List<Order> getClientOrders() {
         try {
             com.epam.bp.autobase.dao.DaoFactory daoFactory = DaoFactory.getInstance();
             DaoManager daoManager = daoFactory.getDaoManager();
@@ -197,7 +200,7 @@ public class User implements Identifiable, Serializable {
             throw new RuntimeException("Error getting client's order list", e);
         }
         return orders;
-    }
+    }*/
 
     @Override
     public String toString() {
