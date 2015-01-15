@@ -10,14 +10,18 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-@javax.persistence.Entity
-public class User implements Identifiable {
+@Entity
+@NamedQueries({
+        @NamedQuery(name = "findByCredentials", query = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password")
+})
+public class User implements Identifiable, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
