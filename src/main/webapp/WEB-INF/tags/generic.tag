@@ -8,19 +8,6 @@
 <%@attribute name="footer" fragment="true" %>
 <%@attribute name="hide_footer" fragment="true" %>
 
-<c:if test="${empty roles}">
-    <c:set var="roles" value="<%=User.Role.values()%>" scope="application"/>
-</c:if>
-<c:if test="${empty fuelTypes}">
-    <c:set var="fuelTypes" value="<%=Vehicle.Fuel.values()%>" scope="application"/>
-</c:if>
-<c:if test="${empty vehicleTypes}">
-    <c:set var="vehicleTypes" value="<%=Vehicle.Type.values()%>" scope="application"/>
-</c:if>
-<c:if test="${empty statuses}">
-    <c:set var="statuses" value="<%=Order.Status.values()%>" scope="application"/>
-</c:if>
-
 <html>
 <body>
 <div id="header">
