@@ -1,15 +1,14 @@
 package com.epam.bp.autobase.entity;
 
 import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 
 @Entity
 @NamedQueries({
         @NamedQuery(name="Color.getAll",  query = "SELECT c FROM Color c ORDER BY c.id"),
-        @NamedQuery(name="getAllSortedByEn", query="SELECT c FROM Color c ORDER BY c.value_en"),
-        @NamedQuery(name="getAllSortedByRu", query="SELECT c FROM Color c ORDER BY c.value_ru")
+        @NamedQuery(name="Color.getAllSortedByEn", query="SELECT c FROM Color c ORDER BY c.value_en"),
+        @NamedQuery(name="Color.getAllSortedByRu", query="SELECT c FROM Color c ORDER BY c.value_ru")
 })
 public class Color implements Identifiable {
 
