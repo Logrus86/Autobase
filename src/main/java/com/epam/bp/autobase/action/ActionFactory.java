@@ -15,7 +15,7 @@ public class ActionFactory {
     public static final String PAGE_ADMIN_COLORS = "admin_colors";
     public static final String PAGE_ADMIN_MANUFACTURERS = "admin_manufacturers";
     public static final String PAGE_ADMIN_MODELS = "admin_models";
-    public static final String PAGE_ADMIN_ORDERS = "admin_orders";
+    public static final String PAGE_ADMIN_ORDERS = "mainADMIN";
     public static final String PAGE_ADMIN_TRUCKS = "admin_trucks";
     public static final String PAGE_ADMIN_USERS = "admin_users";
     public static final String PAGE_ORDERED = "ordered";
@@ -32,7 +32,7 @@ public class ActionFactory {
 
     static {
      //   ACTIONS.put("GET/login", new ShowPageAction(PAGE_MAIN));
-        ACTIONS.put("GET/registered", new ShowPageAction(PAGE_REGISTER_SUCCESS));
+     //   ACTIONS.put("GET/registered", new ShowPageAction(PAGE_REGISTER_SUCCESS));
         ACTIONS.put("GET/admin_buses", new ShowPageAction(PAGE_ADMIN_BUSES));
         ACTIONS.put("GET/admin_cars", new ShowPageAction(PAGE_ADMIN_CARS));
         ACTIONS.put("GET/admin_colors", new ShowPageAction(PAGE_ADMIN_COLORS));
@@ -44,14 +44,13 @@ public class ActionFactory {
         ACTIONS.put("GET/main_driver", new ShowPageAction(PAGE_MAIN_DRIVER));
         ACTIONS.put("GET/ordered", new ShowPageAction(PAGE_ORDERED));
         ACTIONS.put("GET/cabinet", new ShowPageAction(PAGE_CABINET));
-        ACTIONS.put("HEAD/main", new CheckLoginAction());
-        ACTIONS.put("GET/main", new CheckLoginAction());
+    //    ACTIONS.put("HEAD/main", new CheckLoginAction());
+    //    ACTIONS.put("GET/main", new CheckLoginAction());
         ACTIONS.put("GET/search", new SearchAction());
-        ACTIONS.put("GET/quit", new LogoutAction());
+    //    ACTIONS.put("GET/quit", new LogoutAction());
     //    ACTIONS.put("GET/locale", new ChangeLocaleAction());
-
     //    ACTIONS.put("POST/login", new LoginAction());
-        ACTIONS.put("POST/register", new RegisterAction());
+    //    ACTIONS.put("POST/register", new RegisterAction());
         ACTIONS.put("POST/change_user", new ChangeUserAction());
         ACTIONS.put("POST/change_vehicle", new ChangeVehicleAction());
         ACTIONS.put("POST/change_color", new ChangeSpecAction(COLOR));

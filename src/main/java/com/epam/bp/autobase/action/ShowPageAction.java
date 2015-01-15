@@ -17,8 +17,7 @@ public class ShowPageAction implements Action {
     private static final String TRUCK = "Truck";
     private ActionResult result;
     private String page;
-    @Inject
-    AttributeSetter as;
+
 
     public ShowPageAction(String page) {
         result = new ActionResult(page);
@@ -31,35 +30,35 @@ public class ShowPageAction implements Action {
         switch (page) {
             case ActionFactory.PAGE_CABINET : {
                 session.removeAttribute(ATTR_ERROR_USER_CHANGE);
-                as.setToSession(ORDER, session);
+        //        as.setToSession(ORDER, session);
                 break;
             }
             case ActionFactory.PAGE_ADMIN_BUSES : {
-                as.setToSession(BUS, session);
-                as.setToSession(USER, session);
+        //        as.setToSession(BUS, session);
+        //        as.setToSession(USER, session);
                 break;
             }
             case ActionFactory.PAGE_ADMIN_CARS: {
-                as.setToSession(CAR, session);
-                as.setToSession(USER, session);
+        //        as.setToSession(CAR, session);
+        //        as.setToSession(USER, session);
                 break;
             }
             case ActionFactory.PAGE_ADMIN_TRUCKS : {
-                as.setToSession(TRUCK, session);
-                as.setToSession(USER, session);
+        //        as.setToSession(TRUCK, session);
+        //        as.setToSession(USER, session);
                 break;
             }
             case ActionFactory.PAGE_ADMIN_USERS : {
-                as.setToSession(USER, session);
+         //       as.setToSession(USER, session);
                 break;
             }
             case ActionFactory.PAGE_ADMIN_ORDERS : {
-                as.setToSession(ORDER, session);
-                as.setToSession(USER, session);
+         //       as.setToSession(ORDER, session);
+         //       as.setToSession(USER, session);
                 break;
             }
             case ActionFactory.PAGE_MAIN_DRIVER : {
-                as.setToSession(DRIVER_VEHICLES, session);
+         //       as.setToSession(DRIVER_VEHICLES, session);
                 break;
             }
         }
