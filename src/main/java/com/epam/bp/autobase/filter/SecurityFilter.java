@@ -19,8 +19,8 @@ public class SecurityFilter implements javax.servlet.Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         roleMap.put("/admin", User.Role.ADMIN);
-        roleMap.put("/main-admin", User.Role.ADMIN);
-        roleMap.put("/main-driver", User.Role.DRIVER);
+        roleMap.put("/mainADMIN", User.Role.ADMIN);
+        roleMap.put("/mainDRIVER", User.Role.DRIVER);
     }
 
     @Override
