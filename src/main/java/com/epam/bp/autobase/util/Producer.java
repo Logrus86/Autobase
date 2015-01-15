@@ -4,9 +4,7 @@ import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-import org.slf4j.Logger;
-import static org.slf4j.LoggerFactory.getLogger;
+import java.util.logging.Logger;
 
 public class Producer {
 
@@ -17,7 +15,7 @@ public class Producer {
 
     @Produces
     public Logger logger(InjectionPoint injectionPoint) {
-        return getLogger(injectionPoint.getMember().getDeclaringClass().getName());
+        return Logger.getLogger(injectionPoint.getMember().getDeclaringClass().getName());
     }
 
 }
