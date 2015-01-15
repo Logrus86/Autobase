@@ -21,12 +21,12 @@
                 <form method="post" action="change_color">
                     <td><input id="N" type="number" class="form-control" value=${i.count} readonly></td>
                     <c:if test="${locale.language=='ru'}">
-                        <td><input required type="text" class="form-control" name="value_ru" value=${color.valueRu}></td>
-                        <td><input required type="text" class="form-control" name="value_en" value=${color.valueEn}></td>
+                        <td><input required type="text" class="form-control" name="value_ru" value=${color.value_ru}></td>
+                        <td><input required type="text" class="form-control" name="value_en" value=${color.value_en}></td>
                     </c:if>
                     <c:if test="${locale.language=='en'}">
-                        <td><input required type="text" class="form-control" name="value_en" value=${color.valueEn}></td>
-                        <td><input required type="text" class="form-control" name="value_ru" value=${color.valueRu}></td>
+                        <td><input required type="text" class="form-control" name="value_en" value=${color.value_en}></td>
+                        <td><input required type="text" class="form-control" name="value_ru" value=${color.value_ru}></td>
                     </c:if>
                     <td><button class="btn btn-primary" name="save" value="${color.id}" type="submit"><fmt:message key="default.save"/></button></td>
                     <td><button class="btn btn-danger" name="delete" value="${color.id}" type="submit"><fmt:message key="default.delete"/></button></td>
@@ -56,13 +56,13 @@
                             <div class="col-lg-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><fmt:message key="default.valueRu"/></span>
-                                    <input required type="text" class="form-control" id="valueRu" name="valueRu" value=${valueRu}>
+                                    <input required type="text" class="form-control" id="value_ru" name="valueRu" value=${value_ru}>
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><fmt:message key="default.valueEn"/></span>
-                                    <input required type="text" class="form-control" id="valueEn" name="valueEn" value=${valueEn}>
+                                    <input required type="text" class="form-control" id="value_en" name="valueEn" value=${value_en}>
                                 </div>
                             </div>
                         </c:if>
@@ -70,13 +70,13 @@
                             <div class="col-lg-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><fmt:message key="default.valueEn"/></span>
-                                    <input required type="text" class="form-control" id="valueEn" name="valueEn" value=${valueEn}>
+                                    <input required type="text" class="form-control" id="value_en" name="valueEn" value=${value_en}>
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><fmt:message key="default.valueRu"/></span>
-                                    <input required type="text" class="form-control" id="valueRu" name="valueRu" value=${valueRu}>
+                                    <input required type="text" class="form-control" id="value_ru" name="valueRu" value=${value_ru}>
                                 </div>
                             </div>
                         </c:if>
