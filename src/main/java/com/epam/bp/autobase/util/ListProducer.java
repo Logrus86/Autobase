@@ -1,14 +1,12 @@
 package com.epam.bp.autobase.util;
 
-import com.epam.bp.autobase.entity.Color;
-import com.epam.bp.autobase.entity.Manufacturer;
-import com.epam.bp.autobase.entity.Model;
+import com.epam.bp.autobase.entity.*;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
-import javax.enterprise.event.Reception;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.enterprise.event.Reception;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -17,11 +15,30 @@ import java.util.List;
 public class ListProducer {
     @Inject
     private EntityManager em;
-
     private List<Color> colors;
     private List<Model> models;
     private List<Manufacturer> manufacturers;
 
+    @Produces
+    @Named
+    public Vehicle.Fuel[] getFuelTypes() {
+        return Vehicle.Fuel.values();
+    }
+    @Produces
+    @Named
+    public Vehicle.Type[] getVehicleTypes() {
+        return Vehicle.Type.values();
+    }
+    @Produces
+    @Named
+    public User.Role[] getRoles() {
+        return User.Role.values();
+    }
+    @Produces
+    @Named
+    public Order.Status[] getStatuses() {
+        return Order.Status.values();
+    }
     @Produces
     @Named
     public List<Color> getColors() {
@@ -34,7 +51,6 @@ public class ListProducer {
         retrieveAllModels();
         return models;
     }
-
     @Produces
     @Named
     public List<Manufacturer> getManufacturers() {
