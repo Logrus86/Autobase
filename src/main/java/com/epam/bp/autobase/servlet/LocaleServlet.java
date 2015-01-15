@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Locale;
+import java.util.logging.Logger;
 
 @WebServlet("/do/locale")
 public class LocaleServlet extends HttpServlet{
@@ -19,7 +20,7 @@ public class LocaleServlet extends HttpServlet{
     @Inject
     AttributeSetter as;
     @Inject
-    org.slf4j.Logger logger;
+    Logger logger;
 
     public LocaleServlet() {
     }
@@ -31,7 +32,6 @@ public class LocaleServlet extends HttpServlet{
         Locale locale = new Locale(language);
         session.setAttribute(LOCALE, locale);
         logger.info(MSG + language);
-        as.setToSession(AttributeSetter.COLOR, session);
         resp.sendRedirect(req.getHeader(REFERRER));
     }
 }
