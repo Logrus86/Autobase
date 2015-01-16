@@ -1,8 +1,8 @@
 package com.epam.bp.autobase.servlet;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.jboss.logging.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class ErrorHandler extends HttpServlet {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ErrorHandler.class);
+    @Inject
+    Logger logger;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
@@ -23,8 +24,8 @@ public class ErrorHandler extends HttpServlet {
         if (requestUri == null) {
             requestUri = "Unknown";
         }
-        LOGGER.error("Status code: {}, message: {}, requestUri: {}, servletName: {}.",statusCode, message, requestUri, servletName);
-        request.setAttribute("statuscode",statusCode);
+        logger.error("Status code: {"+statusCode+"}, message: {"+message+"}, requestUri: {"+requestUri+"}, servletName: {"+servletName+"}.");
+        request.setAttribute("status code",statusCode);
         request.setAttribute("message",message);
         request.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);
     }

@@ -1,8 +1,8 @@
 package com.epam.bp.autobase.filter;
 
 import com.epam.bp.autobase.entity.User;
-import org.slf4j.LoggerFactory;
-
+import org.jboss.logging.Logger;
+import javax.inject.Inject;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SecurityFilter implements javax.servlet.Filter {
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SecurityFilter.class);
+    @Inject
+    Logger logger;
     private static final String USER = "user";
     private static Map<String, User.Role> roleMap = new HashMap<>();
 
@@ -43,7 +44,7 @@ public class SecurityFilter implements javax.servlet.Filter {
                 }
             }
             if ((requiredRole != null) && (!requiredRole.equals(currentRole))) {
-                LOGGER.error("Access forbidden. Page: "+pathInfo+". Rights: "+currentRole+", required rights: "+requiredRole);
+                logger.error("Access forbidden. Page: "+pathInfo+". Rights: "+currentRole+", required rights: "+requiredRole);
                 resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Have not required rights. Access forbidden.");
                 return;
             }
