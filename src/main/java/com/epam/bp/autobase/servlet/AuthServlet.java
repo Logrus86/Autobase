@@ -30,11 +30,6 @@ public class AuthServlet extends HttpServlet {
     @Inject
     private Logger logger;
 
-    //head method is required by idea startup check
-    @Override
-    protected void doHead(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    }
-
     //get method = log-out or login-check
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,11 +38,11 @@ public class AuthServlet extends HttpServlet {
         if (req.getServletPath().equals("/do/quit")) {
             if (user != null) {
                 logger.info("User '" + user.getUsername() + "' have logged-out");
-                us.clearSessionUser();
+                us.initNewUser();
             }
             rd = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
         } else {
-            if (user == null) {
+            if (user.getRole() == null) {
                 logger.info("User isn't logged in, going to main page");
                 rd = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
             } else {
@@ -66,7 +61,7 @@ public class AuthServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         User user = us.findByCredentials(username, password);
-        if (user != null) {
+        if (user.getRole() != null) {
             logger.info("User '" + username + "' with password '" + password + "' has logged in with role: " + user.getRole());
             us.setSessionUser(user);
             session.removeAttribute(ATTRIBUTE_ERROR);
@@ -78,7 +73,7 @@ public class AuthServlet extends HttpServlet {
             }
         } else {
             logger.info("User '" + username + "' with password '" + password + "' wasn't found.");
-            us.clearSessionUser();
+            us.initNewUser();
             session.setAttribute(ATTRIBUTE_ERROR, login_err_msg);
             RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
             rd.forward(req, resp);
