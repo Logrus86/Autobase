@@ -2,6 +2,7 @@ package com.epam.bp.autobase.servlet;
 
 import com.epam.bp.autobase.entity.User;
 import com.epam.bp.autobase.service.UserService;
+import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
@@ -19,6 +20,8 @@ import java.math.BigDecimal;
 public class RegisterServlet extends HttpServlet {
     @Inject
     UserService us;
+    @Inject
+    Logger logger;
     private static final String FIRST_NAME = "firstname";
     private static final String LAST_NAME = "lastname";
     private static final String EMAIL = "email";
@@ -38,7 +41,7 @@ public class RegisterServlet extends HttpServlet {
             String password = req.getParameter(PASSWORD);
             String email = req.getParameter(EMAIL);
             User user;
-            while ((user = us.getNewUser()) == null) {
+            while ((user = us.getSessionUser()) == null) {
                 us.initNewUser();
             }
             user.setFirstname(firstname);
@@ -50,7 +53,7 @@ public class RegisterServlet extends HttpServlet {
             user.setRole(User.Role.CLIENT);
             user.setBalance(BigDecimal.ZERO);
             us.register();
-
+            logger.info("Newly registered user: " + us.getSessionUser().toString());
             RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/registered.jsp");
             resultView.forward(req, resp);
         } catch (Exception e) {

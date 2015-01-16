@@ -1,35 +1,56 @@
 package com.epam.bp.autobase.service;
 
 import com.epam.bp.autobase.entity.User;
+import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
-import javax.enterprise.inject.Model;
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.validation.ConstraintViolationException;
-import java.util.logging.Logger;
+import java.io.Serializable;
+import java.util.Locale;
+
 
 @Stateful
-@Model
-public class UserService {
-    @Inject
-    private Logger logger;
+@Named
+@SessionScoped
+public class UserService implements Serializable {
     @Inject
     private EntityManager em;
     @Inject
     private Event<User> userEventSrc;
-    private User newUser;
+    @Inject
+    Logger logger;
+    private User sessionUser;
+    private Locale locale;
 
-    @Produces
-    @Named
-    public User getNewUser() {
-        return newUser;
+    public Locale getLocale() {
+        if (locale == null) {
+            return Locale.getDefault();
+        }
+        return locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
+
+    public void setLocaleFromLangCode(String lang_code) {
+        this.locale = new Locale(lang_code);
+    }
+
+    public void setSessionUser(User user) {
+        this.sessionUser = user;
+    }
+
+    public User getSessionUser() {
+        return sessionUser;
     }
 
     public User findByCredentials(String username, String password) {
@@ -47,9 +68,8 @@ public class UserService {
     public String register() throws Exception {
         StringBuilder result = new StringBuilder();
         try {
-            em.persist(newUser);
-            userEventSrc.fire(newUser);
-            logger.info("Newly registered user: " + newUser.toString());
+            em.persist(sessionUser);
+            userEventSrc.fire(sessionUser);
         } catch (ConstraintViolationException cve) {
             result.append(cve.getConstraintViolations());
         }
@@ -58,6 +78,10 @@ public class UserService {
 
     @PostConstruct
     public void initNewUser() {
-        newUser = new User();
+        sessionUser = new User();
+    }
+
+    public void clearSessionUser() {
+        sessionUser = null;
     }
 }
