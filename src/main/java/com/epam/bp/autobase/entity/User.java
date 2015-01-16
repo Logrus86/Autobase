@@ -2,23 +2,22 @@ package com.epam.bp.autobase.entity;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @NamedQueries({
         @NamedQuery(name = "findByCredentials", query = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password"),
         @NamedQuery(name = "User.getAll", query = "SELECT u FROM User u ORDER BY u.role, u.username")
 })
-public class User implements Identifiable, Serializable {
+public class User implements Identifiable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
