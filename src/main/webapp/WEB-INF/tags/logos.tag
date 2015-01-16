@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@attribute name="user_panel" fragment="true" %>
 
-<fmt:setLocale value="${locale}"/>
+<fmt:setLocale value="${userService.locale}" scope="application"/>
 <fmt:bundle basename="i18n.text">
 <div id="logo_header" align="center">
     <div class="container">

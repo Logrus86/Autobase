@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link href='<c:url value="/static/img/favicon.ico"/>' rel="icon" type="image/x-icon">
 
-<fmt:setLocale value="${locale}"/>
+<fmt:setLocale value="${userService.locale}"/>
 <fmt:bundle basename="i18n.text">
     <t:generic>
         <jsp:attribute name="hide_footer">hidden="hidden"</jsp:attribute>

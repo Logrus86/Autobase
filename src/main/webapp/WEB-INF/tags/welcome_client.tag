@@ -5,8 +5,8 @@
 <div class="btn-group" id="userbar" align="right">
     <p>
        <fmt:message key="default.welcome"/>
-        <a title="<fmt:message key="default.to-cabinet"/>" href='<c:url value="/do/cabinet"/>'>${user.firstname}</a>!
-       <fmt:message key="default.at-balance"/> ${user.balance} <fmt:message key="default.currency"/>
+        <a title="<fmt:message key="default.to-cabinet"/>" href='<c:url value="/do/cabinet"/>'>${userService.sessionUser.firstname}</a>!
+       <fmt:message key="default.at-balance"/> ${userService.sessionUser.balance} <fmt:message key="default.currency"/>
        <button type="button" class="btn btn-default" onclick="location.href='<c:url value="/do/quit"/>'"><fmt:message key="default.doexit"/>
        </button>
     </p>

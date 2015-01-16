@@ -70,8 +70,8 @@
                                     data-live-search="true" name="color_id${vehicle.id}">
                                 <c:forEach items="${colors}" var="color">
                                     <option <c:if test="${vehicle.color.id==color.id}">selected</c:if> value="${color.id}">
-                                        <c:if test="${locale.language=='ru'}">${color.value_ru}</c:if>
-                                        <c:if test="${locale.language=='en'}">${color.value_en}</c:if>
+                                        <c:if test="${userService.locale.language=='ru'}">${color.value_ru}</c:if>
+                                        <c:if test="${userService.locale.language=='en'}">${color.value_en}</c:if>
                                     </option>
                                 </c:forEach>
                             </select>

@@ -47,8 +47,8 @@
                     <td><select class="selectpicker show-menu-arrow" data-width="120" data-live-search="true" name="color_id">
                             <c:forEach items="${colors}" var="color">
                                 <option <c:if test="${vehicle.color.id==color.id}">selected</c:if> value="${color.id}">
-                                    <c:if test="${locale.language=='ru'}">${color.value_ru}</c:if>
-                                    <c:if test="${locale.language=='en'}">${color.value_en}</c:if>
+                                    <c:if test="${userService.locale.language=='ru'}">${color.value_ru}</c:if>
+                                    <c:if test="${userService.locale.language=='en'}">${color.value_en}</c:if>
                                 </option>
                             </c:forEach>
                         </select>
@@ -139,8 +139,8 @@
                                 <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true" name="color_id">
                                     <c:forEach items="${colors}" var="color">
                                         <option value="${color.id}">
-                                            <c:if test="${locale.language=='ru'}">${color.value_ru}</c:if>
-                                            <c:if test="${locale.language=='en'}">${color.value_en}</c:if>
+                                            <c:if test="${userService.locale.language=='ru'}">${color.value_ru}</c:if>
+                                            <c:if test="${userService.locale.language=='en'}">${color.value_en}</c:if>
                                         </option>
                                     </c:forEach>
                                 </select>

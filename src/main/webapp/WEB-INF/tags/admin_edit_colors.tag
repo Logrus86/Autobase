@@ -20,11 +20,11 @@
             <tr>
                 <form method="post" action="change_color">
                     <td><input id="N" type="number" class="form-control" value=${i.count} readonly></td>
-                    <c:if test="${locale.language=='ru'}">
+                    <c:if test="${userService.locale.language=='ru'}">
                         <td><input required type="text" class="form-control" name="value_ru" value=${color.value_ru}></td>
                         <td><input required type="text" class="form-control" name="value_en" value=${color.value_en}></td>
                     </c:if>
-                    <c:if test="${locale.language=='en'}">
+                    <c:if test="${userService.locale.language=='en'}">
                         <td><input required type="text" class="form-control" name="value_en" value=${color.value_en}></td>
                         <td><input required type="text" class="form-control" name="value_ru" value=${color.value_ru}></td>
                     </c:if>
@@ -52,7 +52,7 @@
             <div class="modal-body">
                 <form id="create-color-form" class="createForm" method="post" action="create_color">
                     <div class="input-group">
-                        <c:if test="${locale.language=='ru'}">
+                        <c:if test="${userService.locale.language=='ru'}">
                             <div class="col-lg-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><fmt:message key="default.valueRu"/></span>

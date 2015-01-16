@@ -8,6 +8,7 @@
 <%@attribute name="footer" fragment="true" %>
 <%@attribute name="hide_footer" fragment="true" %>
 
+<fmt:setLocale value="${userService.locale}"/>
 <html>
 <body>
 <div id="header">
@@ -22,8 +23,8 @@
 
     <div id="locale_changer" class="dropdown">
         <button class="btn btn-default dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
-            <c:if test="${locale.language=='ru'}"><img src='<c:url value="/static/img/RU.png"/>'/></c:if>
-            <c:if test="${locale.language=='en'}"><img src='<c:url value="/static/img/EN.png"/>'/></c:if>
+            <c:if test="${userService.locale.language=='ru'}"><img src='<c:url value="/static/img/RU.png"/>'/></c:if>
+            <c:if test="${userService.locale.language=='en'}"><img src='<c:url value="/static/img/EN.png"/>'/></c:if>
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">

@@ -56,13 +56,6 @@
         </cookie-config>
     </session-config>
 
-    <listener>
-        <listener-class>com.epam.bp.autobase.listener.SessionListener</listener-class>
-    </listener>
-    <listener>
-        <listener-class>com.epam.bp.autobase.listener.ContextListener</listener-class>
-    </listener>
-
     <error-page>
         <location>/error</location>
     </error-page>
