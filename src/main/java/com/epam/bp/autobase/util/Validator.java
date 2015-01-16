@@ -1,14 +1,11 @@
 package com.epam.bp.autobase.util;
 
-import org.slf4j.LoggerFactory;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 public class Validator {
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Validator.class);
     private static final ResourceBundle VALIDATOR_PROPS = ResourceBundle.getBundle("validator");
     private static final ResourceBundle RB = ResourceBundle.getBundle("i18n.text");
     private static final String INCORRECT_VALUE = RB.getString("error.incorrect-input");
@@ -35,7 +32,7 @@ public class Validator {
                 if (result.length() != 0) result.append("<br>");
                 else result.append(INCORRECT_VALUE);
                 result.append(RB.getString("default." + key));
-                LOGGER.info("Incorrect input: "+RB.getString("default." + key) + ": " + parametersMap.get(key)[0]);
+       //         LOGGER.info("Incorrect input: "+RB.getString("default." + key) + ": " + parametersMap.get(key)[0]);
             }
         }
         if ((parametersMap.containsKey(PASSWORD)) & (parametersMap.containsKey(PASSWORD2))) {
