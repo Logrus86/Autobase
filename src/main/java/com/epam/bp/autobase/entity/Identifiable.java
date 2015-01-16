@@ -1,6 +1,8 @@
 package com.epam.bp.autobase.entity;
 
-public interface Identifiable {
+import java.io.Serializable;
+
+public interface Identifiable extends Serializable {
 
     public Integer getId();
 
