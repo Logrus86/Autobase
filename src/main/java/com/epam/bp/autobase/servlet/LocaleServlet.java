@@ -13,7 +13,6 @@ import java.io.IOException;
 
 @WebServlet("/do/locale")
 public class LocaleServlet extends HttpServlet{
-    private static final String REFERRER = "Referer";
     private static final String PARAMETER_LOCALE = "locale";
     private static final String MSG = "Locale was changed to: ";
     @Inject
@@ -29,6 +28,6 @@ public class LocaleServlet extends HttpServlet{
         String lang_code = req.getParameter(PARAMETER_LOCALE);
         us.setLocaleFromLangCode(lang_code);
         logger.info(MSG + lang_code);
-        resp.sendRedirect(req.getHeader(REFERRER));
+        resp.sendRedirect(req.getHeader("Referer"));
     }
 }
