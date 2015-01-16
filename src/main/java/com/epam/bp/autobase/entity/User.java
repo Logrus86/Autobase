@@ -1,9 +1,5 @@
 package com.epam.bp.autobase.entity;
 
-import com.epam.bp.autobase.dao.DaoFactory;
-import com.epam.bp.autobase.dao.DaoManager;
-import com.epam.bp.autobase.dao.OrderDao;
-import com.sun.istack.internal.Nullable;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
@@ -19,7 +15,8 @@ import java.util.List;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "findByCredentials", query = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password")
+        @NamedQuery(name = "findByCredentials", query = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password"),
+        @NamedQuery(name = "User.getAll", query = "SELECT u FROM User u ORDER BY u.role, u.username")
 })
 public class User implements Identifiable, Serializable {
 
