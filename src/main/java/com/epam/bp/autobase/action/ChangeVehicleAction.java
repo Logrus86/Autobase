@@ -4,17 +4,13 @@ import com.epam.bp.autobase.dao.DaoFactory;
 import com.epam.bp.autobase.dao.DaoManager;
 import com.epam.bp.autobase.dao.VehicleDao;
 import com.epam.bp.autobase.entity.*;
-import com.epam.bp.autobase.util.AttributeSetter;
 import com.epam.bp.autobase.util.Validator;
-import org.slf4j.LoggerFactory;
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 
 public class ChangeVehicleAction implements Action {
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ChangeVehicleAction.class);
     private static final ActionResult MAIN_DRIVER = new ActionResult(ActionFactory.PAGE_MAIN_DRIVER, true);
     private static final ActionResult ADMIN_CARS = new ActionResult(ActionFactory.PAGE_ADMIN_CARS, true);
     private static final ActionResult ADMIN_BUSES = new ActionResult(ActionFactory.PAGE_ADMIN_BUSES, true);
@@ -51,8 +47,6 @@ public class ChangeVehicleAction implements Action {
     private User user;
     private HttpServletRequest request;
     private HttpSession session;
-    @Inject
-    AttributeSetter as;
 
     @Override
     public ActionResult execute(HttpServletRequest req) throws ActionException {
@@ -133,7 +127,7 @@ public class ChangeVehicleAction implements Action {
                     ((Bus) vehicle).setPassengerSeatsNumber(passSeatsNum);
                     ((Bus) vehicle).setDoorsNumber(doorsNum);
                     ((Bus) vehicle).setStandingPlacesNumber(standPlacesNum);
-                    as.setToSession(BUS, session);
+     //               as.setToSession(BUS, session);
                     if (user.getRole().equals(User.Role.ADMIN)) result = ADMIN_BUSES;
                 }
                 if (vehicle.getType() == Vehicle.Type.CAR) {
@@ -143,7 +137,7 @@ public class ChangeVehicleAction implements Action {
                     ((Car) vehicle).setPassengerSeatsNumber(passSeatsNum);
                     ((Car) vehicle).setDoorsNumber(doorsNum);
                     ((Car) vehicle).setWithConditioner(withConder);
-                    as.setToSession(CAR, session);
+        //            as.setToSession(CAR, session);
                     if (user.getRole().equals(User.Role.ADMIN)) result = ADMIN_CARS;
                 }
                 if (vehicle.getType() == Vehicle.Type.TRUCK) {
@@ -153,7 +147,7 @@ public class ChangeVehicleAction implements Action {
                     ((Truck) vehicle).setMaxPayload(maxPayload);
                     ((Truck) vehicle).setEnclosed(enclosed);
                     ((Truck) vehicle).setTipper(tipper);
-                    as.setToSession(TRUCK, session);
+              //      as.setToSession(TRUCK, session);
                     if (user.getRole().equals(User.Role.ADMIN)) result = ADMIN_TRUCKS;
                 }
                 vehicleDao.update(vehicle);
@@ -161,7 +155,7 @@ public class ChangeVehicleAction implements Action {
             });
             daoFactory.releaseContext();
         } catch (Exception e) {
-            LOGGER.error("Error at changeVehicle() while performing transaction");
+      //      LOGGER.error("Error at changeVehicle() while performing transaction");
             throw new ActionException("Error at changeVehicle() while performing transaction", e);
         }
         if (user.getRole().equals(User.Role.DRIVER)) result = MAIN_DRIVER;
@@ -177,21 +171,21 @@ public class ChangeVehicleAction implements Action {
                 Vehicle vehicle = vehicleDao.getById(id);
                 vehicleDao.delete(vehicle);
                 if (vehicle.getType() == Vehicle.Type.CAR) {
-                    as.setToSession(CAR, session);
+        //            as.setToSession(CAR, session);
                     result = ADMIN_CARS;
                 }
                 if (vehicle.getType() == Vehicle.Type.BUS) {
-                    as.setToSession(BUS, session);
+        //            as.setToSession(BUS, session);
                     result = ADMIN_BUSES;
                 }
                 if (vehicle.getType() == Vehicle.Type.TRUCK) {
-                    as.setToSession(TRUCK, session);
+          //          as.setToSession(TRUCK, session);
                     result = ADMIN_TRUCKS;
                 }
             });
             daoFactory.releaseContext();
         } catch (Exception e) {
-            LOGGER.error("Error at deleteVehicle() while performing transaction");
+      //      LOGGER.error("Error at deleteVehicle() while performing transaction");
             throw new ActionException("Error at deleteVehicle() while performing transaction", e);
         }
     }

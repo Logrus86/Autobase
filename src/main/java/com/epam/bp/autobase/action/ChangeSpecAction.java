@@ -8,17 +8,12 @@ import com.epam.bp.autobase.dao.ModelDao;
 import com.epam.bp.autobase.entity.Color;
 import com.epam.bp.autobase.entity.Manufacturer;
 import com.epam.bp.autobase.entity.Model;
-import com.epam.bp.autobase.util.AttributeSetter;
-import org.slf4j.LoggerFactory;
-
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class ChangeSpecAction implements Action {
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ChangeSpecAction.class);
     private static final ActionResult ADMIN_COLORS = new ActionResult(ActionFactory.PAGE_ADMIN_COLORS, true);
     private static final ActionResult ADMIN_MANUFACTURERS = new ActionResult(ActionFactory.PAGE_ADMIN_MANUFACTURERS, true);
     private static final ActionResult ADMIN_MODELS = new ActionResult(ActionFactory.PAGE_ADMIN_MODELS, true);
@@ -46,8 +41,6 @@ public class ChangeSpecAction implements Action {
     private static HttpServletRequest request;
     private static HttpSession session;
     private String spec_type;
-    @Inject
-    AttributeSetter as;
 
     public ChangeSpecAction(String spec_type) {
         this.spec_type = spec_type;
@@ -126,9 +119,9 @@ public class ChangeSpecAction implements Action {
                 }
             });
             daoFactory.releaseContext();
-            as.setToContext(COLOR, session.getServletContext());
+    //        as.setToContext(COLOR, session.getServletContext());
         } catch (Exception e) {
-            LOGGER.error("Error at changeColor() while performing transaction");
+    //        LOGGER.error("Error at changeColor() while performing transaction");
             throw new ActionException("Error at changeColor() while performing transaction", e);
         }
         result = ADMIN_COLORS;
@@ -145,9 +138,9 @@ public class ChangeSpecAction implements Action {
 
             });
             daoFactory.releaseContext();
-            as.setToContext(COLOR, session.getServletContext());
+     //       as.setToContext(COLOR, session.getServletContext());
         } catch (Exception e) {
-            LOGGER.error("Error at deleteColor() while performing transaction");
+     //       LOGGER.error("Error at deleteColor() while performing transaction");
             throw new ActionException("Error at deleteColor() while performing transaction", e);
         }
         result = ADMIN_COLORS;
@@ -172,9 +165,9 @@ public class ChangeSpecAction implements Action {
                 }
             });
             daoFactory.releaseContext();
-            as.setToContext(MODEL, session.getServletContext());
+      //      as.setToContext(MODEL, session.getServletContext());
         } catch (Exception e) {
-            LOGGER.error("Error at changeModel() while performing transaction");
+      //      LOGGER.error("Error at changeModel() while performing transaction");
             throw new ActionException("Error at changeModel() while performing transaction", e);
         }
         result = ADMIN_MODELS;
@@ -190,9 +183,9 @@ public class ChangeSpecAction implements Action {
                 modelDao.delete(id);
             });
             daoFactory.releaseContext();
-            as.setToContext(MODEL, session.getServletContext());
+      //      as.setToContext(MODEL, session.getServletContext());
         } catch (Exception e) {
-            LOGGER.error("Error at deleteModel() while performing transaction");
+       //     LOGGER.error("Error at deleteModel() while performing transaction");
             throw new ActionException("Error at deleteModel() while performing transaction", e);
         }
         result = ADMIN_MODELS;
@@ -217,9 +210,9 @@ public class ChangeSpecAction implements Action {
                 }
             });
             daoFactory.releaseContext();
-            as.setToContext(MANUFACTURER, session.getServletContext());
+   //         as.setToContext(MANUFACTURER, session.getServletContext());
         } catch (Exception e) {
-            LOGGER.error("Error at changeManufacturer() while performing transaction");
+    //        LOGGER.error("Error at changeManufacturer() while performing transaction");
             throw new ActionException("Error at changeManufacturer() while performing transaction", e);
         }
         result = ADMIN_MANUFACTURERS;
@@ -236,9 +229,9 @@ public class ChangeSpecAction implements Action {
 
             });
             daoFactory.releaseContext();
-            as.setToContext(MANUFACTURER, session.getServletContext());
+     //       as.setToContext(MANUFACTURER, session.getServletContext());
         } catch (Exception e) {
-            LOGGER.error("Error at deleteManufacturer() while performing transaction");
+    //        LOGGER.error("Error at deleteManufacturer() while performing transaction");
             throw new ActionException("Error at deleteManufacturer() while performing transaction", e);
         }
         result = ADMIN_MANUFACTURERS;

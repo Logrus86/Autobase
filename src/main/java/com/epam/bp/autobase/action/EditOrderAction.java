@@ -4,20 +4,13 @@ import com.epam.bp.autobase.dao.DaoFactory;
 import com.epam.bp.autobase.dao.DaoManager;
 import com.epam.bp.autobase.dao.OrderDao;
 import com.epam.bp.autobase.entity.Order;
-import com.epam.bp.autobase.util.AttributeSetter;
-import org.slf4j.LoggerFactory;
-
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 public class EditOrderAction implements Action {
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(EditOrderAction.class);
     private static final ActionResult FINISHED = new ActionResult(ActionFactory.PAGE_ADMIN_ORDERS, true);
     private static final String ORDER_ID = "orderId";
     private static final String ORDER = "order";
     private static final String STATUS = "status";
-    @Inject
-    AttributeSetter as;
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
@@ -33,10 +26,10 @@ public class EditOrderAction implements Action {
 
             daoFactory.releaseContext();
         } catch (Exception e) {
-            LOGGER.error("Error at EditOrderAction while performing transaction");
+    //        LOGGER.error("Error at EditOrderAction while performing transaction");
             throw new ActionException("Error at EditOrderAction while performing transaction", e);
         }
-        as.setToSession(ORDER, request.getSession());
+    //    as.setToSession(ORDER, request.getSession());
         return FINISHED;
     }
 }

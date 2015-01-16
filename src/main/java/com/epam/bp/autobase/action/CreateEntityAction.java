@@ -3,11 +3,7 @@ package com.epam.bp.autobase.action;
 import com.epam.bp.autobase.dao.*;
 import com.epam.bp.autobase.entity.*;
 import com.epam.bp.autobase.dao.DaoManager;
-import com.epam.bp.autobase.util.AttributeSetter;
 import com.epam.bp.autobase.util.Validator;
-import org.slf4j.LoggerFactory;
-
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
@@ -15,7 +11,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class CreateEntityAction implements Action {
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CreateEntityAction.class);
     private static final ActionResult BUS_PAGE = new ActionResult(ActionFactory.PAGE_ADMIN_BUSES);
     private static final ActionResult CAR_PAGE = new ActionResult(ActionFactory.PAGE_ADMIN_CARS);
     private static final ActionResult TRUCK_PAGE = new ActionResult(ActionFactory.PAGE_ADMIN_TRUCKS);
@@ -70,8 +65,6 @@ public class CreateEntityAction implements Action {
     private String entityName;
     private HttpServletRequest request;
     private HttpSession session;
-    @Inject
-    AttributeSetter as;
 
     public CreateEntityAction(String entityName) {
         this.entityName = entityName;
@@ -136,7 +129,7 @@ public class CreateEntityAction implements Action {
                         forwardEnteredData();
                     } else {
                         daoManager.executeAndClose(daoManager1 -> colorDao.create((Color) finalSpec));
-                        as.setToContext(COLOR, session.getServletContext());
+         ///               as.setToContext(COLOR, session.getServletContext());
                     }
                 }
                 if (MODEL.equals(entityName)) {
@@ -146,7 +139,7 @@ public class CreateEntityAction implements Action {
                         forwardEnteredData();
                     } else {
                         daoManager.executeAndClose(daoManager1 -> modelDao.create((Model) finalSpec));
-                        as.setToContext(MODEL, session.getServletContext());
+         //               as.setToContext(MODEL, session.getServletContext());
                     }
                 }
                 if (MANUFACTURER.equals(entityName)) {
@@ -156,12 +149,12 @@ public class CreateEntityAction implements Action {
                         forwardEnteredData();
                     } else {
                         daoManager.executeAndClose(daoManager1 -> manufacturerDao.create((Manufacturer) finalSpec));
-                        as.setToContext(MANUFACTURER, session.getServletContext());
+         //               as.setToContext(MANUFACTURER, session.getServletContext());
                     }
                 }
             daoFactory.releaseContext();
         } catch (Exception e) {
-            LOGGER.error("Error at createSpec() while performing transaction");
+         //   LOGGER.error("Error at createSpec() while performing transaction");
             throw new ActionException("Error at createSpec() while performing transaction", e);
         }
         if (COLOR.equals(entityName)) result = COLOR_PAGE;
@@ -198,9 +191,9 @@ public class CreateEntityAction implements Action {
             final User finalUser = user;
             daoManager.executeAndClose(daoManager1 -> userDao.create(finalUser));
             daoFactory.releaseContext();
-            as.setToSession(USER, session);
+      //      as.setToSession(USER, session);
         } catch (Exception e) {
-            LOGGER.error("Error at createUser() while performing transaction");
+      //      LOGGER.error("Error at createUser() while performing transaction");
             throw new ActionException("Error at createUser() while performing transaction", e);
         }
         result = USER_PAGE;
@@ -271,19 +264,19 @@ public class CreateEntityAction implements Action {
             daoManager.executeAndClose(daoManager1 -> vehicleDao.create(finalVehicle));
             daoFactory.releaseContext();
         } catch (Exception e) {
-            LOGGER.error("Error at createVehicle() while performing transaction");
+     //       LOGGER.error("Error at createVehicle() while performing transaction");
             throw new ActionException("Error at createVehicle() while performing transaction", e);
         }
         if (BUS.equals(entityName)) {
-            as.setToSession(BUS, session);
+     //       as.setToSession(BUS, session);
             result = BUS_PAGE;
         }
         if (CAR.equals(entityName)) {
-            as.setToSession(CAR, session);
+      //      as.setToSession(CAR, session);
             result = CAR_PAGE;
         }
         if (TRUCK.equals(entityName)) {
-            as.setToSession(TRUCK, session);
+      //      as.setToSession(TRUCK, session);
             result = TRUCK_PAGE;
         }
     }

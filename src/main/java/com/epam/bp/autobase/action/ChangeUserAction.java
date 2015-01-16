@@ -2,14 +2,11 @@ package com.epam.bp.autobase.action;
 
 import com.epam.bp.autobase.dao.DaoFactory;
 import com.epam.bp.autobase.dao.DaoManager;
-import com.epam.bp.autobase.dao.H2.H2VehicleDao;
 import com.epam.bp.autobase.dao.UserDao;
 import com.epam.bp.autobase.dao.VehicleDao;
 import com.epam.bp.autobase.entity.User;
 import com.epam.bp.autobase.entity.Vehicle;
-import com.epam.bp.autobase.util.AttributeSetter;
 import com.epam.bp.autobase.util.Validator;
-import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
@@ -21,7 +18,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class ChangeUserAction implements Action {
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ChangeUserAction.class);
     private static final ActionResult CABINET_USER = new ActionResult(ActionFactory.PAGE_CABINET);
     private static final ActionResult CABINET_DRIVER = new ActionResult(ActionFactory.PAGE_MAIN_DRIVER);
     private static final ActionResult ADMIN_USERS = new ActionResult(ActionFactory.PAGE_ADMIN_USERS, true);
@@ -45,8 +41,6 @@ public class ChangeUserAction implements Action {
     private User user;
     private HttpServletRequest request;
     private HttpSession session;
-    @Inject
-    AttributeSetter as;
 
     @Override
     public ActionResult execute(HttpServletRequest req) throws ActionException {
@@ -119,7 +113,7 @@ public class ChangeUserAction implements Action {
                         user.setId(id);
                     } else {
                         session.setAttribute(USER, user);
-                        as.setToSession(USER, session);
+               //         as.setToSession(USER, session);
                     }
                     userDao.update(user);
                     session.setAttribute(ERROR, "");
@@ -127,7 +121,7 @@ public class ChangeUserAction implements Action {
             });
             daoFactory.releaseContext();
         } catch (Exception e) {
-            LOGGER.error("Error at changeUser() while performing transaction");
+         //   LOGGER.error("Error at changeUser() while performing transaction");
             throw new ActionException("Error at changeUser() while performing transaction", e);
         }
         if (User.Role.CLIENT.equals(user.getRole())) result = CABINET_USER;
@@ -144,7 +138,7 @@ public class ChangeUserAction implements Action {
             UserDao userDao = daoManager.getUserDao();
             daoManager.transactionAndClose(daoManager1 -> {
                 //find vehicles linked with our user by driver-id field and set their field DRIVER_ID to null
-                List<Vehicle> list = vehicleDao.getListByParameter(H2VehicleDao.DRIVER_ID, String.valueOf(id));
+                List<Vehicle> list = null;// = vehicleDao.getListByParameter(H2VehicleDao.DRIVER_ID, String.valueOf(id));
                 if (!list.isEmpty()) {
                     for (Vehicle vehicle : list) {
                         vehicle.setDriverId(null);
@@ -155,9 +149,9 @@ public class ChangeUserAction implements Action {
                 userDao.delete(id);
             });
             daoFactory.releaseContext();
-            as.setToSession(USER, session);
+       //     as.setToSession(USER, session);
         } catch (Exception e) {
-            LOGGER.error("Error at deleteUser() while performing transaction");
+       //     LOGGER.error("Error at deleteUser() while performing transaction");
             throw new ActionException("Error at deleteUser() while performing transaction", e);
         }
         result = ADMIN_USERS;

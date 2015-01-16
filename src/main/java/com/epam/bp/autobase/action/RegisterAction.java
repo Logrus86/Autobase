@@ -4,12 +4,7 @@ import com.epam.bp.autobase.dao.DaoFactory;
 import com.epam.bp.autobase.dao.DaoManager;
 import com.epam.bp.autobase.dao.UserDao;
 import com.epam.bp.autobase.entity.User;
-import com.epam.bp.autobase.util.AttributeSetter;
 import com.epam.bp.autobase.util.Validator;
-import org.slf4j.LoggerFactory;
-
-import javax.inject.Inject;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
@@ -18,7 +13,6 @@ import java.util.ResourceBundle;
 
 public class RegisterAction implements Action {
 
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(RegisterAction.class);
     private static final ActionResult REG_SUCCESS = new ActionResult("registered");
     private static final ActionResult REG_FAILED = new ActionResult("main",true);
     private static final String RB_NAME = "i18n.text";
@@ -34,8 +28,6 @@ public class RegisterAction implements Action {
     private static final String USER = "user";
     private static String error_busy_username;
     private ActionResult result;
-    @Inject
-    AttributeSetter as;
 
     public RegisterAction() {
     }
@@ -84,17 +76,17 @@ public class RegisterAction implements Action {
                     //get user from db to get his db ID to entity
                     user = userDao.getUsersListByUsername(username).get(0);
                     clearRegData(session);
-                    LOGGER.info("Newly registered user: " + user.toString());
+         //           LOGGER.info("Newly registered user: " + user.toString());
                     result = REG_SUCCESS;
                     session.setAttribute(USER, user);
                 }
             });
             daoFactory.releaseContext();
         } catch (Exception e) {
-            LOGGER.error("Error at RegisterAction while performing transaction");
+        //    LOGGER.error("Error at RegisterAction while performing transaction");
             throw new ActionException("Error at RegisterAction while performing transaction", e);
         }
-        as.setToSession(USER, session);
+      //  as.setToSession(USER, session);
         return result;
     }
 

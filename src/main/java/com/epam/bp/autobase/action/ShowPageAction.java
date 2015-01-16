@@ -1,8 +1,5 @@
 package com.epam.bp.autobase.action;
 
-import com.epam.bp.autobase.util.AttributeSetter;
-
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 

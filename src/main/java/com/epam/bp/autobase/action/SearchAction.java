@@ -4,13 +4,11 @@ import com.epam.bp.autobase.dao.DaoFactory;
 import com.epam.bp.autobase.dao.VehicleDao;
 import com.epam.bp.autobase.entity.Vehicle;
 import com.epam.bp.autobase.util.Validator;
-import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
 public class SearchAction implements Action {
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SearchAction.class);
     private static final ActionResult FIND_LOGINED = new ActionResult(ActionFactory.PAGE_SEARCH_RESULT);
     private static final ActionResult FIND_GUEST = new ActionResult(ActionFactory.PAGE_SEARCH_RESULT_GUEST);
     private static final ActionResult ERR_LOGINED = new ActionResult(ActionFactory.PAGE_MAIN_CLIENT);
@@ -65,7 +63,7 @@ public class SearchAction implements Action {
             VehicleDao vehicleDao = DaoFactory.getInstance().getDaoManager().getVehicleDao();
             Map<String, String> params = parseRequestToMap(request);
             if (params.isEmpty()) {
-                LOGGER.info("Nothing was checked.");
+     //           LOGGER.info("Nothing was checked.");
                 session.setAttribute(ERROR, error_nothing_checked);
                 session.setAttribute(FOUNDED_LIST, null);
                 if (session.getAttribute(USER) == null) return ERR_GUEST;
@@ -75,7 +73,7 @@ public class SearchAction implements Action {
 
             //vehicle was not found
             if (vehicles.isEmpty()) {
-                LOGGER.info("Vehicles wasn't found.");
+      //          LOGGER.info("Vehicles wasn't found.");
                 session.removeAttribute(ERROR);
                 session.removeAttribute(FOUNDED_LIST);
                 if (session.getAttribute(USER) == null) return FIND_GUEST;
@@ -83,11 +81,11 @@ public class SearchAction implements Action {
             }
 
             //vehicle was found, all is ok
-            LOGGER.info("Vehicle was found.");
+      //      LOGGER.info("Vehicle was found.");
             session.setAttribute(FOUNDED_LIST, vehicles);
             session.removeAttribute(ERROR);
         } catch (Exception e) {
-            LOGGER.error("Error at SearchAction while searching for vehicle");
+       //     LOGGER.error("Error at SearchAction while searching for vehicle");
             throw new ActionException("Error at SearchAction while searching for vehicle", e);
         }
         if (session.getAttribute(USER) == null) {
