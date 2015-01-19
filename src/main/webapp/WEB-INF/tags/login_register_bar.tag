@@ -44,12 +44,13 @@
                             <div class="msg-error">${userService.errorMap.username_msg}</div>
                             <input type="text" class="form-control" id="username" name="username"
                                    value="${userService.errorMap.username}"
-                                   value="" placeholder="<fmt:message key="default.username"/>" required>
+
+                                   placeholder="<fmt:message key="default.username"/>" required>
                             <input type="password" class="form-control" name="password"
                                    placeholder="<fmt:message key="default.password"/>" required
-                                   title="<fmt:message key="ttip.password8"/>" value="" id="pass">
+                                   title="<fmt:message key="ttip.password8"/>" id="pass">
 
-                            <div class="msg-error" id="msg">${userService.errorMap.password_msg}</div>
+                            <div class="msg-error">${userService.errorMap.password_msg}</div>
                             <input type="password" class="form-control" name="password-repeat" id="pass-repeat"
                                    placeholder="<fmt:message key="default.password-repeat"/>" required
                                    title="<fmt:message key="ttip.password8"/>">

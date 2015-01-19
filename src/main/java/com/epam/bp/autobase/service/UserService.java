@@ -1,6 +1,7 @@
 package com.epam.bp.autobase.service;
 
 import com.epam.bp.autobase.entity.User;
+import com.epam.bp.autobase.servlet.RegisterServlet;
 import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -17,9 +18,8 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.io.Serializable;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.math.BigDecimal;
+import java.util.*;
 
 
 @Stateful
@@ -28,6 +28,7 @@ import java.util.Set;
 public class UserService implements Serializable {
     private static final ResourceBundle RB = ResourceBundle.getBundle("i18n.text");
     private static final String ERROR_PASSES_NOT_EQUALS = RB.getString("error.passes-not-equals");
+
     @Inject
     Logger logger;
     @Inject
@@ -38,6 +39,11 @@ public class UserService implements Serializable {
     private ValidatorFactory vf;
     private User sessionUser;
     private Locale locale;
+    private HashMap<String, String> errorMap;
+
+    public Map getErrorMap() {
+        return errorMap;
+    }
 
     private Validator getValidator() {
         if (vf == null) {
@@ -80,27 +86,35 @@ public class UserService implements Serializable {
         }
     }
 
-    public void register(String firstName, String lastName, String dob, String username, String password, String passwordRepeat, String email) throws ServiceException {
-        StringBuilder sb = new StringBuilder();
+    public void register(HashMap<String, String> userDataMap) throws ServiceException {
         initNewUser();
-        sessionUser.setFirstname(firstName).setLastname(lastName).setDob(dob).setUsername(username).setPassword(password).setEmail(email);
+        sessionUser.setFirstname(userDataMap.get(RegisterServlet.PARAM_FIRSTNAME))
+                .setLastname(userDataMap.get(RegisterServlet.PARAM_LASTNAME))
+                .setDob(userDataMap.get(RegisterServlet.PARAM_DOB))
+                .setUsername(userDataMap.get(RegisterServlet.PARAM_USERNAME))
+                .setPassword(userDataMap.get(RegisterServlet.PARAM_PASSWORD))
+                .setEmail(userDataMap.get(RegisterServlet.PARAM_EMAIL))
+                .setRole(User.Role.CLIENT)
+                .setBalance(BigDecimal.ZERO);
         Set<ConstraintViolation<User>> cvs = getValidator().validate(sessionUser);
+        errorMap = userDataMap;
         for (ConstraintViolation<User> cv : cvs) {
-            sb.append(cv.getMessage()).append(", ");
+            errorMap.put(cv.getPropertyPath() + "_" + RegisterServlet.ATTRIBUTE_ERROR, cv.getMessage());
+            errorMap.remove(cv.getPropertyPath().toString());
         }
-        if (!password.equals(passwordRepeat)) {
-            sb.append(ERROR_PASSES_NOT_EQUALS);
+        if (!userDataMap.get(RegisterServlet.PARAM_PASSWORD).equals(userDataMap.get(RegisterServlet.PARAM_PASSWORD_REPEAT))) {
+            errorMap.put(RegisterServlet.PARAM_PASSWORD + "_" + RegisterServlet.ATTRIBUTE_ERROR, ERROR_PASSES_NOT_EQUALS);
         }
-        if (sb.toString().equals("")) {
+        if (errorMap.isEmpty()) {
             em.persist(sessionUser);
             userEventSrc.fire(sessionUser);
+            errorMap = null;
         } else {
             initNewUser();
-            throw new ServiceException(sb.toString());
+            throw new ServiceException("Error while user registration due invalid data");
         }
     }
 
-    
     @PostConstruct
     public void initNewUser() {
         sessionUser = new User();

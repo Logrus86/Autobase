@@ -12,19 +12,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 
 @WebServlet({
         "do/register",
 })
 public class RegisterServlet extends HttpServlet {
-    private static final String FIRST_NAME = "firstname";
-    private static final String LAST_NAME = "lastname";
-    private static final String EMAIL = "email";
-    private static final String DOB = "dob";
-    private static final String USERNAME = "username";
-    private static final String PASSWORD = "password";
-    private static final String ATTRIBUTE_ERROR = "reg_error";
-    private static final String PASSWORD_REPEAT = "password-repeat";
+    public static final String ATTRIBUTE_ERROR = "msg";
+    public static final String PARAM_FIRSTNAME = "firstname";
+    public static final String PARAM_LASTNAME = "lastname";
+    public static final String PARAM_EMAIL = "email";
+    public static final String PARAM_DOB = "dob";
+    public static final String PARAM_USERNAME = "username";
+    public static final String PARAM_PASSWORD = "password";
+    public static final String PARAM_PASSWORD_REPEAT = "password-repeat";
     @Inject
     UserService us;
     @Inject
@@ -32,21 +33,21 @@ public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String firstName = req.getParameter(FIRST_NAME);
-        String lastName = req.getParameter(LAST_NAME);
-        String dob = req.getParameter(DOB);
-        String username = req.getParameter(USERNAME);
-        String password = req.getParameter(PASSWORD);
-        String password_repeat = req.getParameter(PASSWORD_REPEAT);
-        String email = req.getParameter(EMAIL);
+        HashMap<String, String> userDataMap = new HashMap<>();
+        userDataMap.put(PARAM_FIRSTNAME, req.getParameter(PARAM_FIRSTNAME));
+        userDataMap.put(PARAM_LASTNAME, req.getParameter(PARAM_LASTNAME));
+        userDataMap.put(PARAM_DOB, req.getParameter(PARAM_DOB));
+        userDataMap.put(PARAM_USERNAME, req.getParameter(PARAM_USERNAME));
+        userDataMap.put(PARAM_PASSWORD, req.getParameter(PARAM_PASSWORD));
+        userDataMap.put(PARAM_PASSWORD_REPEAT, req.getParameter(PARAM_PASSWORD_REPEAT));
+        userDataMap.put(PARAM_EMAIL, req.getParameter(PARAM_EMAIL));
         try {
-            us.register(firstName, lastName, dob, username, password, password_repeat, email);
+            us.register(userDataMap);
             logger.info("Newly registered user: " + us.getSessionUser().toString());
             RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/registered.jsp");
             resultView.forward(req, resp);
         } catch (ServiceException se) {
             logger.info(se.getMessage());
-            req.setAttribute(ATTRIBUTE_ERROR, se.getMessage());
             RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
             resultView.forward(req, resp);
         }
