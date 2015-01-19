@@ -2,8 +2,10 @@ package com.epam.bp.autobase.filter;
 
 import com.epam.bp.autobase.entity.User;
 import org.jboss.logging.Logger;
+
 import javax.inject.Inject;
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -11,6 +13,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+@WebFilter(filterName = "SecurityFilter", urlPatterns = "/*", dispatcherTypes = DispatcherType.FORWARD)
 public class SecurityFilter implements javax.servlet.Filter {
     @Inject
     Logger logger;

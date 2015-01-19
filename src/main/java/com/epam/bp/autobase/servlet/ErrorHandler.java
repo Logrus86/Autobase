@@ -4,11 +4,13 @@ import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@WebServlet("/error")
 public class ErrorHandler extends HttpServlet {
     @Inject
     Logger logger;
@@ -25,7 +27,7 @@ public class ErrorHandler extends HttpServlet {
             requestUri = "Unknown";
         }
         logger.error("Status code: {"+statusCode+"}, message: {"+message+"}, requestUri: {"+requestUri+"}, servletName: {"+servletName+"}.");
-        request.setAttribute("status code",statusCode);
+        request.setAttribute("statusCode", statusCode);
         request.setAttribute("message",message);
         request.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);
     }
