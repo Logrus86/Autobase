@@ -11,7 +11,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
@@ -59,16 +58,14 @@ public class AuthServlet extends HttpServlet {
     // post method = log-in
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
         ResourceBundle RB = ResourceBundle.getBundle(RB_NAME, us.getLocale());
         String login_err_msg = RB.getString(RB_ERROR_LOGIN_KEY);
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         User user = us.findByCredentials(username, password);
-        if (user.getRole() != null) {
+        if (user != null) {
             logger.info("User '" + username + "' with password '" + password + "' has logged in with role: " + user.getRole());
             us.setSessionUser(user);
-            session.removeAttribute(ATTRIBUTE_ERROR);
             if (user.getRole().equals(User.Role.CLIENT) & (!req.getServletPath().equals("/do/quit"))) {
                 resp.sendRedirect(req.getHeader(REFERRER));
             } else {
@@ -78,7 +75,7 @@ public class AuthServlet extends HttpServlet {
         } else {
             logger.info("User '" + username + "' with password '" + password + "' wasn't found.");
             us.initNewUser();
-            session.setAttribute(ATTRIBUTE_ERROR, login_err_msg);
+            req.setAttribute(ATTRIBUTE_ERROR, login_err_msg);
             RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
             rd.forward(req, resp);
         }
