@@ -100,6 +100,7 @@ public class UserService implements Serializable {
         }
     }
 
+    
     @PostConstruct
     public void initNewUser() {
         sessionUser = new User();
