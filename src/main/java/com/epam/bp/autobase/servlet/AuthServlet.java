@@ -58,8 +58,8 @@ public class AuthServlet extends HttpServlet {
     // post method = log-in
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ResourceBundle RB = ResourceBundle.getBundle(RB_NAME, us.getLocale());
-        String login_err_msg = RB.getString(RB_ERROR_LOGIN_KEY);
+        ResourceBundle rb = ResourceBundle.getBundle(RB_NAME, us.getLocale());
+        String login_err_msg = rb.getString(RB_ERROR_LOGIN_KEY);
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         User user = us.findByCredentials(username, password);
