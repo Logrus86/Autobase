@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 public class Producer {
 
     @SuppressWarnings("unused")
+
     @Produces
     @PersistenceContext
     private EntityManager em;
@@ -18,5 +19,4 @@ public class Producer {
     public Logger logger(InjectionPoint injectionPoint) {
         return Logger.getLogger(injectionPoint.getMember().getDeclaringClass().getName());
     }
-
 }
