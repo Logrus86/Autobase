@@ -14,8 +14,8 @@ import java.util.Date;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "findByCredentials", query = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password"),
-        @NamedQuery(name = "User.getAll", query = "SELECT u FROM User u ORDER BY u.role, u.username")
+        @NamedQuery(name = "User.findByCredentials", query = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password"),
+        @NamedQuery(name = "User.getAll", query = "SELECT u FROM User u ORDER BY u.role, u.username"),
 })
 public class User implements Identifiable {
 
@@ -37,7 +37,7 @@ public class User implements Identifiable {
     private Date dob;
 
     @NotNull
-    @Column(unique=true)
+    @Column(unique=true, nullable=false)
     @Pattern(regexp = "[a-zA-Z]{1}[\\w_]{3,19}", message = "Incorrect username")
     private String username;
 
@@ -45,9 +45,9 @@ public class User implements Identifiable {
     @Pattern(regexp = "[\\w]{3,20}", message = "Incorrect password")
     private String password;
 
-    @Email
     @NotNull
-    @Column(unique=true)
+    @Email
+    @Column(unique=true, nullable=false)
     private String email;
 
     @NotNull
