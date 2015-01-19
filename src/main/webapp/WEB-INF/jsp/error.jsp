@@ -12,11 +12,12 @@
             <div align="center" id="error-box">
                 <img src="<c:url value="/static/img/error.jpg"/>"/>
                 <H1><fmt:message key="default.wrongturn"/> ${statuscode}</H1>
-                <p>
+
+                <p>${statusCode}:
                     <c:choose>
-                        <c:when test="${statuscode=='403'}"><fmt:message key="error.403"/></c:when>
-                        <c:when test="${statuscode=='404'}"><fmt:message key="error.404"><fmt:param value="${message}"/></fmt:message></c:when>
-                        <c:when test="${statuscode=='500'}"><fmt:message key="error.500"/></c:when>
+                        <c:when test="${statusCode=='403'}"><fmt:message key="error.403"/></c:when>
+                        <c:when test="${statusCode=='404'}"><fmt:message key="error.404"><fmt:param value="${message}"/></fmt:message></c:when>
+                        <c:when test="${statusCode=='500'}"><fmt:message key="error.500"/><br>${message}</c:when>
                         <c:otherwise>${message}</c:otherwise>
                     </c:choose>
                 </p>
