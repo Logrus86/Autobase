@@ -101,8 +101,8 @@ public class ListProducer {
         manufacturers = query.getResultList();
     }
 
-    public void onMemberListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Color color) {
-        retrieveAllColors(); //TODO use this where specs are being changed
+    public void onColorListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Color color) {
+        retrieveAllColors();
     }
 
     public void onUserListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final User user) {
