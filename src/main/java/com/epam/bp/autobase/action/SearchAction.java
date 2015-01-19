@@ -4,6 +4,7 @@ import com.epam.bp.autobase.dao.DaoFactory;
 import com.epam.bp.autobase.dao.VehicleDao;
 import com.epam.bp.autobase.entity.Vehicle;
 import com.epam.bp.autobase.util.Validator;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -48,7 +49,7 @@ public class SearchAction implements Action {
         Locale locale = (Locale) session.getAttribute(ATTR_LOCALE);
         ResourceBundle RB = ResourceBundle.getBundle(RB_NAME, locale);
         String error_nothing_checked = RB.getString(RB_ERR_NOTHING_CHECKED);
-        RegisterAction.clearRegData(session);
+        //RegisterAction.clearRegData(session);
         //check inputs
         String error = Validator.validateRequestParameters(request);
         if (!error.isEmpty()) {
