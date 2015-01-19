@@ -6,6 +6,7 @@ div#header, div#logo_header {
 a#main_logo {
     float: left;
     margin-left: 100px;
+    margin-bottom: 5px;
 }
 
 div#footer {
