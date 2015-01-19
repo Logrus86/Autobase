@@ -36,7 +36,8 @@ public class User implements Identifiable {
     @Past
     private Date dob;
 
-    @Column(unique=true, nullable=false)
+    @NotNull
+    @Column(unique=true)
     @Pattern(regexp = "[a-zA-Z]{1}[\\w_]{3,19}", message = "Incorrect username")
     private String username;
 
@@ -45,7 +46,8 @@ public class User implements Identifiable {
     private String password;
 
     @Email
-    @Column(unique=true, nullable=false)
+    @NotNull
+    @Column(unique=true)
     private String email;
 
     @NotNull
