@@ -2,6 +2,9 @@ package com.epam.bp.autobase.service;
 
 import com.epam.bp.autobase.entity.User;
 import com.epam.bp.autobase.servlet.RegisterServlet;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -28,7 +31,9 @@ import java.util.*;
 public class UserService implements Serializable {
     private static final ResourceBundle RB = ResourceBundle.getBundle("i18n.text");
     private static final String ERROR_PASSES_NOT_EQUALS = RB.getString("error.passes-not-equals");
-
+    private static final String ERROR_BUSY_USERNAME = RB.getString("error.busy-username");
+    private static final String ERROR_BUSY_EMAIL = RB.getString("error.busy-email"); // CREATE !!!!!!!
+    
     @Inject
     Logger logger;
     @Inject
@@ -51,7 +56,7 @@ public class UserService implements Serializable {
         }
         return vf.getValidator();
     }
-    
+
     public Locale getLocale() {
         if (locale == null) {
             return Locale.getDefault();
@@ -76,7 +81,7 @@ public class UserService implements Serializable {
     }
 
     public User findByCredentials(String username, String password) {
-        TypedQuery<User> query = em.createNamedQuery("findByCredentials", User.class)
+        TypedQuery<User> query = em.createNamedQuery("User.findByCredentials", User.class)
                 .setParameter("username", username)
                 .setParameter("password", password);
         try {
@@ -87,6 +92,7 @@ public class UserService implements Serializable {
     }
 
     public void register(HashMap<String, String> userDataMap) throws ServiceException {
+        StringBuilder sb = new StringBuilder();
         initNewUser();
         sessionUser.setFirstname(userDataMap.get(RegisterServlet.PARAM_FIRSTNAME))
                 .setLastname(userDataMap.get(RegisterServlet.PARAM_LASTNAME))
@@ -99,19 +105,43 @@ public class UserService implements Serializable {
         Set<ConstraintViolation<User>> cvs = getValidator().validate(sessionUser);
         errorMap = userDataMap;
         for (ConstraintViolation<User> cv : cvs) {
+            sb.append(cv.getMessage()).append(": ").append(cv.getInvalidValue()).append("; ");
             errorMap.put(cv.getPropertyPath() + "_" + RegisterServlet.ATTRIBUTE_ERROR, cv.getMessage());
             errorMap.remove(cv.getPropertyPath().toString());
         }
         if (!userDataMap.get(RegisterServlet.PARAM_PASSWORD).equals(userDataMap.get(RegisterServlet.PARAM_PASSWORD_REPEAT))) {
+            sb.append(ERROR_PASSES_NOT_EQUALS);
             errorMap.put(RegisterServlet.PARAM_PASSWORD + "_" + RegisterServlet.ATTRIBUTE_ERROR, ERROR_PASSES_NOT_EQUALS);
         }
-        if (errorMap.isEmpty()) {
+        if (checkFieldValueExists(RegisterServlet.PARAM_USERNAME, sessionUser.getUsername())) {
+            String s = errorMap.get(RegisterServlet.PARAM_USERNAME + "_" + RegisterServlet.ATTRIBUTE_ERROR);
+            if (s != null) {
+                sb.append(s).append(", ").append(ERROR_BUSY_USERNAME);
+                errorMap.put(RegisterServlet.PARAM_USERNAME + "_" + RegisterServlet.ATTRIBUTE_ERROR, s);
+            } else {
+                sb.append(ERROR_BUSY_USERNAME);
+                errorMap.put(RegisterServlet.PARAM_USERNAME + "_" + RegisterServlet.ATTRIBUTE_ERROR, ERROR_BUSY_USERNAME);
+            }
+            errorMap.remove(RegisterServlet.PARAM_USERNAME);
+        }
+        if (checkFieldValueExists(RegisterServlet.PARAM_EMAIL, sessionUser.getEmail())) {
+            String s = errorMap.get(RegisterServlet.PARAM_EMAIL + "_" + RegisterServlet.ATTRIBUTE_ERROR);
+            if (s != null) {
+                sb.append(s).append(", ").append(ERROR_BUSY_EMAIL);
+                errorMap.put(RegisterServlet.PARAM_EMAIL + "_" + RegisterServlet.ATTRIBUTE_ERROR, s);
+            } else {
+                sb.append(ERROR_BUSY_EMAIL);
+                errorMap.put(RegisterServlet.PARAM_EMAIL + "_" + RegisterServlet.ATTRIBUTE_ERROR, ERROR_BUSY_EMAIL);
+            }
+            errorMap.remove(RegisterServlet.PARAM_EMAIL);
+        }
+        if (sb.toString().isEmpty()) {
             em.persist(sessionUser);
             userEventSrc.fire(sessionUser);
             errorMap = null;
         } else {
             initNewUser();
-            throw new ServiceException("Error while user registration due invalid data");
+            throw new ServiceException("Error while user registration due invalid data: " + sb.toString());
         }
     }
 
@@ -120,4 +150,10 @@ public class UserService implements Serializable {
         sessionUser = new User();
     }
 
+    public boolean checkFieldValueExists(String field, String value) {
+        Session session = (Session) em.getDelegate();
+        Criteria criteria = session.createCriteria(User.class);
+        criteria.add(Restrictions.eq(field, value));
+        return !criteria.list().isEmpty();
+    }
 }
