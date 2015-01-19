@@ -23,7 +23,7 @@
 </html>
 </fmt:bundle>
 
-<c:if test="${reg_error!=null}">
+<c:if test="${userService.errorMap!=null}">
     <script language="javascript">
         showModalByDefault('#modalRegForm');
     </script>
