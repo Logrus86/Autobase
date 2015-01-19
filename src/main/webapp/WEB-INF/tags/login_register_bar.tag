@@ -47,8 +47,8 @@
 
                                    placeholder="<fmt:message key="default.username"/>" required>
                             <input type="password" class="form-control" name="password"
-                                   placeholder="<fmt:message key="default.password"/>" required
-                                   title="<fmt:message key="ttip.password8"/>" id="pass">
+                                   placeholder="<fmt:message key="default.password"/>"
+                                   title="<fmt:message key="ttip.password8"/>" id="pass" required>
 
                             <div class="msg-error">${userService.errorMap.password_msg}</div>
                             <input type="password" class="form-control" name="password-repeat" id="pass-repeat"
