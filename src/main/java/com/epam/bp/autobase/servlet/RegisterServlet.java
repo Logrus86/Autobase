@@ -32,6 +32,12 @@ public class RegisterServlet extends HttpServlet {
     Logger logger;
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
+        resultView.forward(req, resp);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HashMap<String, String> userDataMap = new HashMap<>();
         userDataMap.put(PARAM_FIRSTNAME, req.getParameter(PARAM_FIRSTNAME));
