@@ -16,6 +16,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -51,9 +52,14 @@ public class UserService implements Serializable {
         return Validation.buildDefaultValidatorFactory().getValidator();
     }
 
+
+    @SuppressWarnings("CdiUnproxyableBeanTypesInspection")
+    @Inject
+    HttpServletRequest req;
+    
     public Locale getLocale() {
         if (locale == null) {
-            return Locale.getDefault();
+            return req.getLocale();
         }
         return locale;
     }
