@@ -51,7 +51,8 @@
                                    placeholder="<fmt:message key="default.password"/>" id="pass" required>
                             <input type="password" class="form-control" name="password-repeat" id="pass-repeat"
                                    placeholder="<fmt:message key="default.password-repeat"/>" required>
-                            <div class="msg-error" id="msg">${userService.errorMap.email_msg}</div>
+
+                            <div class="msg-error">${userService.errorMap.email_msg}</div>
                             <input type="text" class="form-control" id="email_r" name="email"
                                    value="${userService.errorMap.email}"
                                    placeholder="<fmt:message key="default.email"/>" required>
