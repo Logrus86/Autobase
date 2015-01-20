@@ -24,11 +24,11 @@ public class User implements Identifiable {
     private Integer id;
 
     @NotEmpty
-    @Pattern(regexp = "([A-Z]{1}[a-z]{0,19})|([А-Я]{1}[а-я]{0,19})", message = "Incorrect first name")
+    @Pattern(regexp = "([A-Z]{1}[a-z]{0,19})|([А-Я]{1}[а-я]{0,19})", message = "{com.epam.bp.autobase.entity.user.firstname.message}")
     private String firstname;
 
     @NotEmpty
-    @Pattern(regexp = "([A-Z]{1}[a-z]{0,19})|([А-Я]{1}[а-я]{0,19})", message = "Incorrect last name")
+    @Pattern(regexp = "([A-Z]{1}[a-z]{0,19})|([А-Я]{1}[а-я]{0,19})", message = "{com.epam.bp.autobase.entity.user.lastname.message}")
     private String lastname;
 
     @NotNull
@@ -38,15 +38,15 @@ public class User implements Identifiable {
 
     @NotNull
     @Column(unique=true, nullable=false)
-    @Pattern(regexp = "[a-zA-Z]{1}[\\w_]{3,19}", message = "Incorrect username")
+    @Pattern(regexp = "[a-zA-Z]{1}[\\w_]{3,19}", message = "{com.epam.bp.autobase.entity.user.username.message}")
     private String username;
 
     @NotEmpty
-    @Pattern(regexp = "[\\w]{3,20}", message = "Incorrect password")
+    @Pattern(regexp = "[\\w]{3,20}", message = "{com.epam.bp.autobase.entity.user.password.message}")
     private String password;
 
     @NotNull
-    @Email
+    @Email(regexp = "[\\w\\u002E\\u005F]{0,20}@([a-zA-Z]+\\u002E){1,2}[a-zA-Z]{2,3}")
     @Column(unique=true, nullable=false)
     private String email;
 

@@ -53,7 +53,7 @@ public class RegisterServlet extends HttpServlet {
             RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/registered.jsp");
             resultView.forward(req, resp);
         } catch (ServiceException se) {
-            logger.info(se.getMessage());
+            logger.error(se.getMessage());
             RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
             resultView.forward(req, resp);
         }

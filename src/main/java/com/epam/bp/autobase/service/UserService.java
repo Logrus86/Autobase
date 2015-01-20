@@ -19,21 +19,15 @@ import javax.persistence.TypedQuery;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.*;
-
 
 @Stateful
 @Named
 @SessionScoped
 public class UserService implements Serializable {
-    private static final ResourceBundle RB = ResourceBundle.getBundle("i18n.text");
-    private static final String ERROR_PASSES_NOT_EQUALS = RB.getString("error.passes-not-equals");
-    private static final String ERROR_BUSY_USERNAME = RB.getString("error.busy-username");
-    private static final String ERROR_BUSY_EMAIL = RB.getString("error.busy-email"); // CREATE !!!!!!!
-    
+    private static final String RB = "i18n.text";
     @Inject
     Logger logger;
     @Inject
@@ -41,7 +35,6 @@ public class UserService implements Serializable {
     @Inject
     private Event<User> userEventSrc;
 
-    private ValidatorFactory vf;
     private User sessionUser;
     private Locale locale;
     private HashMap<String, String> errorMap;
@@ -50,11 +43,12 @@ public class UserService implements Serializable {
         return errorMap;
     }
 
+    public void clearErrorMap() {
+        this.errorMap = null;
+    }
+
     private Validator getValidator() {
-        if (vf == null) {
-            vf = Validation.buildDefaultValidatorFactory();
-        }
-        return vf.getValidator();
+        return Validation.buildDefaultValidatorFactory().getValidator();
     }
 
     public Locale getLocale() {
@@ -92,6 +86,8 @@ public class UserService implements Serializable {
     }
 
     public void register(HashMap<String, String> userDataMap) throws ServiceException {
+        Locale oldLocale = Locale.getDefault();
+        Locale.setDefault(getLocale());
         StringBuilder sb = new StringBuilder();
         initNewUser();
         sessionUser.setFirstname(userDataMap.get(RegisterServlet.PARAM_FIRSTNAME))
@@ -102,6 +98,7 @@ public class UserService implements Serializable {
                 .setEmail(userDataMap.get(RegisterServlet.PARAM_EMAIL))
                 .setRole(User.Role.CLIENT)
                 .setBalance(BigDecimal.ZERO);
+        //ejb validation
         Set<ConstraintViolation<User>> cvs = getValidator().validate(sessionUser);
         errorMap = userDataMap;
         for (ConstraintViolation<User> cv : cvs) {
@@ -109,36 +106,33 @@ public class UserService implements Serializable {
             errorMap.put(cv.getPropertyPath() + "_" + RegisterServlet.ATTRIBUTE_ERROR, cv.getMessage());
             errorMap.remove(cv.getPropertyPath().toString());
         }
+        //check password and password-repeat are the same
         if (!userDataMap.get(RegisterServlet.PARAM_PASSWORD).equals(userDataMap.get(RegisterServlet.PARAM_PASSWORD_REPEAT))) {
-            sb.append(ERROR_PASSES_NOT_EQUALS);
-            errorMap.put(RegisterServlet.PARAM_PASSWORD + "_" + RegisterServlet.ATTRIBUTE_ERROR, ERROR_PASSES_NOT_EQUALS);
+            String error = ResourceBundle.getBundle(RB).getString("error.passes-not-equals");
+            sb.append(error);
+            errorMap.put(RegisterServlet.PARAM_PASSWORD + "_" + RegisterServlet.ATTRIBUTE_ERROR, error);
         }
+        // check busyness of username
         if (checkFieldValueExists(RegisterServlet.PARAM_USERNAME, sessionUser.getUsername())) {
-            String s = errorMap.get(RegisterServlet.PARAM_USERNAME + "_" + RegisterServlet.ATTRIBUTE_ERROR);
-            if (s != null) {
-                sb.append(s).append(", ").append(ERROR_BUSY_USERNAME);
-                errorMap.put(RegisterServlet.PARAM_USERNAME + "_" + RegisterServlet.ATTRIBUTE_ERROR, s);
-            } else {
-                sb.append(ERROR_BUSY_USERNAME);
-                errorMap.put(RegisterServlet.PARAM_USERNAME + "_" + RegisterServlet.ATTRIBUTE_ERROR, ERROR_BUSY_USERNAME);
-            }
+            String error = ResourceBundle.getBundle(RB).getString("error.busy-username");
+            sb.append(error);
+            errorMap.put(RegisterServlet.PARAM_USERNAME + "_" + RegisterServlet.ATTRIBUTE_ERROR, error);
             errorMap.remove(RegisterServlet.PARAM_USERNAME);
         }
+        // check busyness of email
         if (checkFieldValueExists(RegisterServlet.PARAM_EMAIL, sessionUser.getEmail())) {
-            String s = errorMap.get(RegisterServlet.PARAM_EMAIL + "_" + RegisterServlet.ATTRIBUTE_ERROR);
-            if (s != null) {
-                sb.append(s).append(", ").append(ERROR_BUSY_EMAIL);
-                errorMap.put(RegisterServlet.PARAM_EMAIL + "_" + RegisterServlet.ATTRIBUTE_ERROR, s);
-            } else {
-                sb.append(ERROR_BUSY_EMAIL);
-                errorMap.put(RegisterServlet.PARAM_EMAIL + "_" + RegisterServlet.ATTRIBUTE_ERROR, ERROR_BUSY_EMAIL);
-            }
+            String error = ResourceBundle.getBundle(RB).getString("error.busy-email");
+            sb.append(error);
+            errorMap.put(RegisterServlet.PARAM_EMAIL + "_" + RegisterServlet.ATTRIBUTE_ERROR, error);
             errorMap.remove(RegisterServlet.PARAM_EMAIL);
         }
+        // if sb is empty all is ok, proceed to persist
+        Locale.setDefault(oldLocale);
         if (sb.toString().isEmpty()) {
             em.persist(sessionUser);
             userEventSrc.fire(sessionUser);
             errorMap = null;
+            //...or clear user and throw exception
         } else {
             initNewUser();
             throw new ServiceException("Error while user registration due invalid data: " + sb.toString());
