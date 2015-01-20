@@ -39,12 +39,15 @@ public class AuthServlet extends HttpServlet {
         User user = us.getSessionUser();
         RequestDispatcher rd;
         if (req.getServletPath().equals("/do/quit")) {
+            //log-out
             if (user.getRole() != null) {
                 logger.info("User '" + user.getUsername() + "' have logged-out");
                 us.initNewUser();
             }
             rd = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
         } else {
+            //log-in check and errorMap clear
+            us.clearErrorMap();
             if (user.getRole() == null) {
                 logger.info("User isn't logged in, going to main page");
                 rd = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
