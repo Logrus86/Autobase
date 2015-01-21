@@ -16,7 +16,6 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -35,7 +34,6 @@ public class UserService implements Serializable {
     private EntityManager em;
     @Inject
     private Event<User> userEventSrc;
-
     private User sessionUser;
     private Locale locale;
     private HashMap<String, String> errorMap;
@@ -51,16 +49,8 @@ public class UserService implements Serializable {
     private Validator getValidator() {
         return Validation.buildDefaultValidatorFactory().getValidator();
     }
-
-
-    @SuppressWarnings("CdiUnproxyableBeanTypesInspection")
-    @Inject
-    HttpServletRequest req;
     
     public Locale getLocale() {
-        if (locale == null) {
-            return req.getLocale();
-        }
         return locale;
     }
 
