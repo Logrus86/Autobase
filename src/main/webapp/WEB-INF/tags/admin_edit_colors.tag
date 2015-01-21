@@ -7,11 +7,11 @@
         <div class="msg-error">${color_change_error}</div>
         <tr align="center">
             <td>№</td>
-            <c:if test="${locale.language=='ru'}">
+            <c:if test="${userService.locale.language=='ru'}">
                 <td><fmt:message key="default.valueRu"/></td>
                 <td><fmt:message key="default.valueEn"/></td>
             </c:if>
-            <c:if test="${locale.language=='en'}">
+            <c:if test="${userService.locale.language=='en'}">
                 <td><fmt:message key="default.valueEn"/></td>
                 <td><fmt:message key="default.valueRu"/></td>
             </c:if>

@@ -69,7 +69,8 @@
                     <td><select class="selectpicker show-menu-arrow" data-width="160" data-live-search="true" name="driverId">
                         <c:forEach items="${userList}" var="user">
                             <c:if test="${user.role=='DRIVER'}">
-                                <option <c:if test="${vehicle.driverId==user.id}">selected</c:if> value="${user.id}">
+                                <option
+                                        <c:if test="${vehicle.driver.id==user.id}">selected</c:if> value="${user.id}">
                                     ${user.lastname} ${user.firstname}
                                 </option>
                             </c:if>
@@ -196,7 +197,9 @@
                                 <select class="selectpicker show-menu-arrow" data-width="80" data-live-search="true" name="driverId">
                                     <c:forEach items="${userList}" var="user">
                                         <c:if test="${user.role=='DRIVER'}">
-                                            <option <c:if test="${user.id==driverId}">selected</c:if> value="${user.id}">
+                                            <option
+                                                    <c:if test="${user.id==driver.id}">selected</c:if>
+                                                    value="${user.id}">
                                                 ${user.lastname} ${user.firstname}
                                             </option>
                                         </c:if>
