@@ -1,6 +1,5 @@
 package com.epam.bp.autobase.action;
 
-import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,7 +50,7 @@ public class ActionFactory {
     //    ACTIONS.put("GET/locale", new ChangeLocaleAction());
     //    ACTIONS.put("POST/login", new LoginAction());
     //    ACTIONS.put("POST/register", new RegisterAction());
-        ACTIONS.put("POST/change_user", new ChangeUserAction());
+        //    ACTIONS.put("POST/change_user", new ChangeUserAction());
         ACTIONS.put("POST/change_vehicle", new ChangeVehicleAction());
         ACTIONS.put("POST/change_color", new ChangeSpecAction(COLOR));
         ACTIONS.put("POST/change_model", new ChangeSpecAction(MODEL));
@@ -60,7 +59,7 @@ public class ActionFactory {
         ACTIONS.put("POST/create_car", new CreateEntityAction(CAR));
         ACTIONS.put("POST/create_truck", new CreateEntityAction(TRUCK));
         ACTIONS.put("POST/create_user", new CreateEntityAction(USER));
-        ACTIONS.put("POST/create_color", new CreateEntityAction(COLOR));
+        //   ACTIONS.put("POST/create_color", new CreateEntityAction(COLOR));
         ACTIONS.put("POST/create_model", new CreateEntityAction(MODEL));
         ACTIONS.put("POST/create_manufacturer", new CreateEntityAction(MANUFACTURER));
         ACTIONS.put("POST/order", new OrderAction());
