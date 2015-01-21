@@ -19,7 +19,7 @@ import java.util.HashMap;
         "do/change_user",
         "do/create_user"
 })
-public class RegisterServlet extends HttpServlet {
+public class ChangeEntityServlet extends HttpServlet {
     public static final String ATTRIBUTE_ERROR = "msg";
     public static final String PARAM_FIRSTNAME = "firstname";
     public static final String PARAM_LASTNAME = "lastname";

@@ -1,7 +1,7 @@
 package com.epam.bp.autobase.service;
 
 import com.epam.bp.autobase.entity.User;
-import com.epam.bp.autobase.servlet.RegisterServlet;
+import com.epam.bp.autobase.servlet.ChangeEntityServlet;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -88,12 +88,12 @@ public class UserService implements Serializable {
         Locale.setDefault(getLocale());
         StringBuilder sb = new StringBuilder();
         initNewUser();
-        sessionUser.setFirstname(userDataMap.get(RegisterServlet.PARAM_FIRSTNAME))
-                .setLastname(userDataMap.get(RegisterServlet.PARAM_LASTNAME))
-                .setDob(userDataMap.get(RegisterServlet.PARAM_DOB))
-                .setUsername(userDataMap.get(RegisterServlet.PARAM_USERNAME))
-                .setPassword(userDataMap.get(RegisterServlet.PARAM_PASSWORD))
-                .setEmail(userDataMap.get(RegisterServlet.PARAM_EMAIL))
+        sessionUser.setFirstname(userDataMap.get(ChangeEntityServlet.PARAM_FIRSTNAME))
+                .setLastname(userDataMap.get(ChangeEntityServlet.PARAM_LASTNAME))
+                .setDob(userDataMap.get(ChangeEntityServlet.PARAM_DOB))
+                .setUsername(userDataMap.get(ChangeEntityServlet.PARAM_USERNAME))
+                .setPassword(userDataMap.get(ChangeEntityServlet.PARAM_PASSWORD))
+                .setEmail(userDataMap.get(ChangeEntityServlet.PARAM_EMAIL))
                 .setRole(User.Role.CLIENT)
                 .setBalance(BigDecimal.ZERO);
         //ejb validation
@@ -101,28 +101,28 @@ public class UserService implements Serializable {
         errorMap = userDataMap;
         for (ConstraintViolation<User> cv : cvs) {
             sb.append(cv.getMessage()).append(": ").append(cv.getInvalidValue()).append("; ");
-            errorMap.put(cv.getPropertyPath() + "_" + RegisterServlet.ATTRIBUTE_ERROR, cv.getMessage());
+            errorMap.put(cv.getPropertyPath() + "_" + ChangeEntityServlet.ATTRIBUTE_ERROR, cv.getMessage());
             errorMap.remove(cv.getPropertyPath().toString());
         }
         //check password and password-repeat are the same
-        if (!userDataMap.get(RegisterServlet.PARAM_PASSWORD).equals(userDataMap.get(RegisterServlet.PARAM_PASSWORD_REPEAT))) {
+        if (!userDataMap.get(ChangeEntityServlet.PARAM_PASSWORD).equals(userDataMap.get(ChangeEntityServlet.PARAM_PASSWORD_REPEAT))) {
             String error = ResourceBundle.getBundle(RB).getString("error.passes-not-equals");
             sb.append(error);
-            errorMap.put(RegisterServlet.PARAM_PASSWORD + "_" + RegisterServlet.ATTRIBUTE_ERROR, error);
+            errorMap.put(ChangeEntityServlet.PARAM_PASSWORD + "_" + ChangeEntityServlet.ATTRIBUTE_ERROR, error);
         }
         // check busyness of username
-        if (checkFieldValueExists(RegisterServlet.PARAM_USERNAME, sessionUser.getUsername())) {
+        if (checkFieldValueExists(ChangeEntityServlet.PARAM_USERNAME, sessionUser.getUsername())) {
             String error = ResourceBundle.getBundle(RB).getString("error.busy-username");
             sb.append(error);
-            errorMap.put(RegisterServlet.PARAM_USERNAME + "_" + RegisterServlet.ATTRIBUTE_ERROR, error);
-            errorMap.remove(RegisterServlet.PARAM_USERNAME);
+            errorMap.put(ChangeEntityServlet.PARAM_USERNAME + "_" + ChangeEntityServlet.ATTRIBUTE_ERROR, error);
+            errorMap.remove(ChangeEntityServlet.PARAM_USERNAME);
         }
         // check busyness of email
-        if (checkFieldValueExists(RegisterServlet.PARAM_EMAIL, sessionUser.getEmail())) {
+        if (checkFieldValueExists(ChangeEntityServlet.PARAM_EMAIL, sessionUser.getEmail())) {
             String error = ResourceBundle.getBundle(RB).getString("error.busy-email");
             sb.append(error);
-            errorMap.put(RegisterServlet.PARAM_EMAIL + "_" + RegisterServlet.ATTRIBUTE_ERROR, error);
-            errorMap.remove(RegisterServlet.PARAM_EMAIL);
+            errorMap.put(ChangeEntityServlet.PARAM_EMAIL + "_" + ChangeEntityServlet.ATTRIBUTE_ERROR, error);
+            errorMap.remove(ChangeEntityServlet.PARAM_EMAIL);
         }
         //return JVM locale back
         Locale.setDefault(oldLocale);
@@ -161,7 +161,7 @@ public class UserService implements Serializable {
         Set<ConstraintViolation<User>> cvs = getValidator().validate(user);
         for (ConstraintViolation<User> cv : cvs) {
             sb.append(cv.getMessage()).append(": ").append(cv.getInvalidValue()).append("; ");
-            errorMap.put(cv.getPropertyPath() + "_" + RegisterServlet.ATTRIBUTE_ERROR, cv.getMessage());
+            errorMap.put(cv.getPropertyPath() + "_" + ChangeEntityServlet.ATTRIBUTE_ERROR, cv.getMessage());
             try {
                 String propertyValue = String.valueOf(User.class.getMethod("get" + cv.getPropertyPath()).invoke(null));
                 errorMap.put(cv.getPropertyPath().toString(), propertyValue);
@@ -172,21 +172,21 @@ public class UserService implements Serializable {
         // if username was changed
         if (!em.find(User.class, user.getId()).getUsername().equals(user.getUsername())) {
             // check busyness of new username
-            if (checkFieldValueExists(RegisterServlet.PARAM_USERNAME, user.getUsername())) {
+            if (checkFieldValueExists(ChangeEntityServlet.PARAM_USERNAME, user.getUsername())) {
                 String error = ResourceBundle.getBundle(RB).getString("error.busy-username");
                 sb.append(error);
-                errorMap.put(RegisterServlet.PARAM_USERNAME + "_" + RegisterServlet.ATTRIBUTE_ERROR, error);
-                errorMap.remove(RegisterServlet.PARAM_USERNAME);
+                errorMap.put(ChangeEntityServlet.PARAM_USERNAME + "_" + ChangeEntityServlet.ATTRIBUTE_ERROR, error);
+                errorMap.remove(ChangeEntityServlet.PARAM_USERNAME);
             }
         }
         // if email was changed
         if (!em.find(User.class, user.getId()).getEmail().equals(user.getEmail())) {
             //check busyness of new email
-            if (checkFieldValueExists(RegisterServlet.PARAM_EMAIL, user.getEmail())) {
+            if (checkFieldValueExists(ChangeEntityServlet.PARAM_EMAIL, user.getEmail())) {
                 String error = ResourceBundle.getBundle(RB).getString("error.busy-email");
                 sb.append(error);
-                errorMap.put(RegisterServlet.PARAM_EMAIL + "_" + RegisterServlet.ATTRIBUTE_ERROR, error);
-                errorMap.remove(RegisterServlet.PARAM_EMAIL);
+                errorMap.put(ChangeEntityServlet.PARAM_EMAIL + "_" + ChangeEntityServlet.ATTRIBUTE_ERROR, error);
+                errorMap.remove(ChangeEntityServlet.PARAM_EMAIL);
             }
         }
         //return JVM locale back
