@@ -2,16 +2,22 @@ package com.epam.bp.autobase.entity;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @javax.persistence.Entity
 @DiscriminatorValue(value = "CAR")
 public class Car extends Vehicle {
     @NotNull
+    @Min(1)
+    @Max(6)
     @Column(name = "PASSENGER_SEATS_NUMBER")
     private int passengerSeatsNumber;
 
     @NotNull
+    @Min(1)
+    @Max(5)
     @Column(name = "DOORS_NUMBER")
     private int doorsNumber;
 
@@ -48,10 +54,10 @@ public class Car extends Vehicle {
 
     @Override
     public String toString() {
-        return "Car {PassSeatsNumber: " + getPassengerSeatsNumber() + ", doorsNumber: " + getDoorsNumber()
+        return "Car {Id: " + getId() + ", PassSeatsNumber: " + getPassengerSeatsNumber() + ", doorsNumber: " + getDoorsNumber()
                 + ", conditioner: " + isWithConditioner() + ", rentPrice: " + getRentPrice() + ", operable: "
                 + isOperable() + ", model: " + getModel().getValue() + ", manufacturer: " + getManufacturer().getValue()
-                + ", driver: " + getDriverId() + ", prodYear: " + getProductionYear() + ", color: " + getColor().getValue_en()
+                + ", driver: " + getDriver().getId() + ", prodYear: " + getProductionYear() + ", color: " + getColor().getValue_en()
                 + ", mileage: " + getMileage() + ", fuelType: " + getFuelType() + "}";
     }
 }

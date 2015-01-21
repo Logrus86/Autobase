@@ -1,6 +1,7 @@
 package com.epam.bp.autobase.entity;
 
 import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 
@@ -23,12 +24,13 @@ public class Color implements Identifiable {
     }
 
     @NotEmpty
-    @Pattern(regexp = "[A-Z]{1}[a-z]{2,20}", message = "Incorrect value_en")
+    @Pattern(regexp = "[A-Z]{1}[a-z]{2,20}", message = "{com.epam.bp.autobase.entity.color.value_en.message}")
     @Column(name = "VALUE_EN")
     private String value_en;
 
     @NotEmpty
-    @Pattern(regexp = "[А-Я]{1}[а-я]{2,20}", message = "Incorrect value_ru")
+    @Pattern(regexp = "[А-Я]{1}[а-я]{2,20}", message = "{com.epam.bp.autobase.entity.color.value_ru.message}")
+    @Column(name = "VALUE_RU")
     private String value_ru;
 
     public Color setValue_en(String valueEn) {
@@ -49,4 +51,8 @@ public class Color implements Identifiable {
         return value_ru;
     }
 
+    @Override
+    public String toString() {
+        return "Color{id: " + id + ", value_ru:" + value_ru + ", value_en:" + value_en + '}';
+    }
 }

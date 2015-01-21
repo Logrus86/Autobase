@@ -2,6 +2,8 @@ package com.epam.bp.autobase.entity;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
@@ -10,6 +12,8 @@ import java.math.BigDecimal;
 public class Truck extends Vehicle {
 
     @NotNull
+    @Min(1)
+    @Max(105)
     @Column(name = "MAX_PAYLOAD")
     private BigDecimal maxPayload;
 
@@ -48,9 +52,9 @@ public class Truck extends Vehicle {
 
     @Override
     public String toString() {
-        return "Truck {Payload: " + getMaxPayload() + ", enclosed: " + isEnclosed() + ", tipper: " + isTipper() +
+        return "Truck {Id: " + getId() + ", Payload: " + getMaxPayload() + ", enclosed: " + isEnclosed() + ", tipper: " + isTipper() +
                 ", rentPrice: " + getRentPrice() + ", operable: " + isOperable() + ", model: " + getModel().getValue() +
-                ", manufact: " + getManufacturer().getValue() + ", driver: " + getDriverId() + ", prodYear: " + getProductionYear() +
+                ", manufacturer: " + getManufacturer().getValue() + ", driver: " + getDriver().getId() + ", prodYear: " + getProductionYear() +
                 ", color: " + getColor().getValue_en() + ", mileage: " + getMileage() + ", fuelType: " + getFuelType() + "}";
     }
 }

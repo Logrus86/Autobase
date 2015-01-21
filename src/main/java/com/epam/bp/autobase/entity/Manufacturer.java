@@ -11,16 +11,18 @@ public class Manufacturer implements Identifiable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
+    @NotEmpty
+    @Pattern(regexp = "[\\w]{2,20}", message = "{com.epam.bp.autobase.entity.value.message}")
+    private String value;
+
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
-
-    @NotEmpty
-    @Pattern(regexp = "[\\w]{2,20}", message = "Incorrect value")
-    private String value;
 
     public String getValue() {
         return value;
@@ -29,5 +31,10 @@ public class Manufacturer implements Identifiable {
     public Manufacturer setValue(String value) {
         this.value = value;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Manufacturer{id: " + id + ", value:" + value + '}';
     }
 }

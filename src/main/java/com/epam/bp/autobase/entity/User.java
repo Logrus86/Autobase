@@ -1,5 +1,6 @@
 package com.epam.bp.autobase.entity;
 
+import com.sun.istack.internal.Nullable;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -11,6 +12,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @NamedQueries({
@@ -57,11 +59,11 @@ public class User implements Identifiable {
     @NotNull
     private BigDecimal balance;
 
-   /* @Nullable
+    @Nullable
     @OneToMany(mappedBy = "client")
-    private List<Order> orders;*/
+    private List<Order> orders;
 
-/*    @Nullable
+    @Nullable
     @OneToMany(mappedBy = "driver")
     private List<Vehicle> vehicles;
 
@@ -79,18 +81,9 @@ public class User implements Identifiable {
         return vehicles;
     }
 
-    public void setVehicles(List<Vehicle> vehicles) {
-        this.vehicles = vehicles;
-    }
-    */
-
-  /*  public List<Order> getOrders() {
+    public List<Order> getOrders() {
         return orders;
     }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }*/
 
     public Integer getId() {
         return id;
@@ -185,27 +178,10 @@ public class User implements Identifiable {
         return this;
     }
 
-   /* public List<Order> getClientOrders() {
-        try {
-            com.epam.bp.autobase.dao.DaoFactory daoFactory = DaoFactory.getInstance();
-            DaoManager daoManager = daoFactory.getDaoManager();
-            daoManager.transactionAndClose(daoManager1 -> {
-                OrderDao orderDao = daoManager1.getOrderDao();
-                orders = orderDao.getListByClientId(this.getId());
-            });
-            daoFactory.releaseContext();
-        } catch (Exception e) {
-            throw new RuntimeException("Error getting client's order list", e);
-        }
-        return orders;
-    }*/
-
     @Override
     public String toString() {
         return "User {ID: " + this.getId() + ", firstname: " + firstname + ", lastname: " + lastname + ", dob: " + getDob() + ", username: " + username + ", password: " + password + ", email: " + email + ", role: " + role + ", balance: " + balance + "}";
     }
-
-
 
     public enum Role {
         ADMIN, CLIENT, DRIVER
