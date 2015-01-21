@@ -49,7 +49,7 @@ public class UserService implements Serializable {
     private Validator getValidator() {
         return Validation.buildDefaultValidatorFactory().getValidator();
     }
-    
+
     public Locale getLocale() {
         return locale;
     }
@@ -81,8 +81,10 @@ public class UserService implements Serializable {
         }
     }
 
-    public void register(HashMap<String, String> userDataMap) throws ServiceException {
+    public void create(HashMap<String, String> userDataMap) throws ServiceException {
+        //remember current JVM locale
         Locale oldLocale = Locale.getDefault();
+        //change it to current sessionScoped locale to get localized validator & error messages
         Locale.setDefault(getLocale());
         StringBuilder sb = new StringBuilder();
         initNewUser();
@@ -122,8 +124,9 @@ public class UserService implements Serializable {
             errorMap.put(RegisterServlet.PARAM_EMAIL + "_" + RegisterServlet.ATTRIBUTE_ERROR, error);
             errorMap.remove(RegisterServlet.PARAM_EMAIL);
         }
-        // if sb is empty all is ok, proceed to persist
+        //return JVM locale back
         Locale.setDefault(oldLocale);
+        // if sb is empty all is ok, proceed to persist
         if (sb.toString().isEmpty()) {
             em.persist(sessionUser);
             userEventSrc.fire(sessionUser);
@@ -131,7 +134,7 @@ public class UserService implements Serializable {
             //...or clear user and throw exception
         } else {
             initNewUser();
-            throw new ServiceException("Error while user registration due invalid data: " + sb.toString());
+            throw new ServiceException("Error while user registration: " + sb.toString());
         }
     }
 
@@ -145,5 +148,57 @@ public class UserService implements Serializable {
         Criteria criteria = session.createCriteria(User.class);
         criteria.add(Restrictions.eq(field, value));
         return !criteria.list().isEmpty();
+    }
+
+    public void updateUser(User user) throws ServiceException {
+        //remember current JVM locale
+        Locale oldLocale = Locale.getDefault();
+        //change it to current sessionScoped locale to get localized validator & error messages
+        Locale.setDefault(getLocale());
+        StringBuilder sb = new StringBuilder();
+        //ejb validation
+        errorMap = new HashMap<>();
+        Set<ConstraintViolation<User>> cvs = getValidator().validate(user);
+        for (ConstraintViolation<User> cv : cvs) {
+            sb.append(cv.getMessage()).append(": ").append(cv.getInvalidValue()).append("; ");
+            errorMap.put(cv.getPropertyPath() + "_" + RegisterServlet.ATTRIBUTE_ERROR, cv.getMessage());
+            try {
+                String propertyValue = String.valueOf(User.class.getMethod("get" + cv.getPropertyPath()).invoke(null));
+                errorMap.put(cv.getPropertyPath().toString(), propertyValue);
+            } catch (Exception e) {
+                throw new ServiceException(e.getMessage());
+            }
+        }
+        // if username was changed
+        if (!em.find(User.class, user.getId()).getUsername().equals(user.getUsername())) {
+            // check busyness of new username
+            if (checkFieldValueExists(RegisterServlet.PARAM_USERNAME, user.getUsername())) {
+                String error = ResourceBundle.getBundle(RB).getString("error.busy-username");
+                sb.append(error);
+                errorMap.put(RegisterServlet.PARAM_USERNAME + "_" + RegisterServlet.ATTRIBUTE_ERROR, error);
+                errorMap.remove(RegisterServlet.PARAM_USERNAME);
+            }
+        }
+        // if email was changed
+        if (!em.find(User.class, user.getId()).getEmail().equals(user.getEmail())) {
+            //check busyness of new email
+            if (checkFieldValueExists(RegisterServlet.PARAM_EMAIL, user.getEmail())) {
+                String error = ResourceBundle.getBundle(RB).getString("error.busy-email");
+                sb.append(error);
+                errorMap.put(RegisterServlet.PARAM_EMAIL + "_" + RegisterServlet.ATTRIBUTE_ERROR, error);
+                errorMap.remove(RegisterServlet.PARAM_EMAIL);
+            }
+        }
+        //return JVM locale back
+        Locale.setDefault(oldLocale);
+        // if sb is empty all is ok, proceed to persist
+        if (sb.toString().isEmpty()) {
+            em.refresh(user);
+            userEventSrc.fire(user);
+            errorMap = null;
+            //...or throw ServiceException
+        } else {
+            throw new ServiceException("Error while user updating: " + sb.toString());
+        }
     }
 }
