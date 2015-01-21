@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @javax.persistence.Entity
-@DiscriminatorValue(value = "TRUCK")
+@DiscriminatorValue(value = "2")
 public class Truck extends Vehicle {
 
     @NotNull

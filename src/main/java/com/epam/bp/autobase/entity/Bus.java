@@ -7,7 +7,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @javax.persistence.Entity
-@DiscriminatorValue(value = "BUS")
+@DiscriminatorValue(value = "0")
 public class Bus extends Vehicle {
     @NotNull
     @Min(value = 7)

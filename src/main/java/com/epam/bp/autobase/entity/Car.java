@@ -7,7 +7,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @javax.persistence.Entity
-@DiscriminatorValue(value = "CAR")
+@DiscriminatorValue(value = "1")
 public class Car extends Vehicle {
     @NotNull
     @Min(1)
@@ -21,7 +21,6 @@ public class Car extends Vehicle {
     @Column(name = "DOORS_NUMBER")
     private int doorsNumber;
 
-    @NotNull
     @Column(name = "CONDITIONER")
     private boolean withConditioner;
 

@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "VEHICLE_TYPE")
+@DiscriminatorColumn(name = "VEHICLE_TYPE", discriminatorType = DiscriminatorType.INTEGER)
 public abstract class Vehicle implements Identifiable {
 
     @Id
