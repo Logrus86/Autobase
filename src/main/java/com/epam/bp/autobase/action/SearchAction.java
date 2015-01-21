@@ -3,7 +3,6 @@ package com.epam.bp.autobase.action;
 import com.epam.bp.autobase.dao.DaoFactory;
 import com.epam.bp.autobase.dao.VehicleDao;
 import com.epam.bp.autobase.entity.Vehicle;
-import com.epam.bp.autobase.util.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -51,7 +50,7 @@ public class SearchAction implements Action {
         String error_nothing_checked = RB.getString(RB_ERR_NOTHING_CHECKED);
         //RegisterAction.clearRegData(session);
         //check inputs
-        String error = Validator.validateRequestParameters(request);
+        String error = "";//Validator.validateRequestParameters(request);
         if (!error.isEmpty()) {
             session.setAttribute(ERROR, error);
             session.setAttribute(FOUNDED_LIST, null);

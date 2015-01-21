@@ -2,8 +2,7 @@ package com.epam.bp.autobase.action;
 
 import com.epam.bp.autobase.dao.*;
 import com.epam.bp.autobase.entity.*;
-import com.epam.bp.autobase.dao.DaoManager;
-import com.epam.bp.autobase.util.Validator;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
@@ -84,7 +83,7 @@ public class CreateEntityAction implements Action {
         clearEnteredData(session);
 
         //validate data
-        String error = Validator.validateRequestParameters(request);
+        String error = "";//Validator.validateRequestParameters(request);
         //if error isn't empty, open the same page with entered data and error message
         if (!error.isEmpty()) {
             session.setAttribute(ERROR, error);
@@ -247,14 +246,14 @@ public class CreateEntityAction implements Action {
         }
         if (vehicle != null) {
             vehicle.setOperable(true);
-            vehicle.setColorId(colorId);
-            vehicle.setModelId(modelId);
-            vehicle.setManufacturerId(manufacturerId);
+            //    vehicle.setColor(color);
+            //  vehicle.setModelId(modelId);
+            //   vehicle.setManufacturerId(manufacturerId);
             vehicle.setProductionYear(prodYear);
             vehicle.setFuelType(fuel);
             vehicle.setMileage(mileage);
             vehicle.setRentPrice(rentPrice);
-            vehicle.setDriverId(driverId);
+            //    vehicle.setDriverId(driverId);
         }
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();

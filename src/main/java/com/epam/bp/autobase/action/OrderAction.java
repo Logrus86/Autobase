@@ -1,14 +1,10 @@
 package com.epam.bp.autobase.action;
 
-import com.epam.bp.autobase.dao.DaoFactory;
-import com.epam.bp.autobase.dao.DaoManager;
-import com.epam.bp.autobase.dao.OrderDao;
-import com.epam.bp.autobase.dao.UserDao;
-import com.epam.bp.autobase.dao.VehicleDao;
+import com.epam.bp.autobase.dao.*;
 import com.epam.bp.autobase.entity.Order;
 import com.epam.bp.autobase.entity.User;
 import com.epam.bp.autobase.entity.Vehicle;
-import javax.inject.Inject;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
@@ -55,8 +51,8 @@ public class OrderAction implements Action {
                     user.setBalance(balance.subtract(sum));
                     vehicle.setOperable(false);
                     Order order = new Order();
-                    order.setClientId(user.getId());
-                    order.setVehicleId(vehicle.getId());
+                    //     order.setClientId(user.getId());
+                    //       order.setVehicleId(vehicle.getId());
                     order.setDateStart(dateStart);
                     order.setDayCount(dayCount.intValue());
                     Date dateOrdered = new Date();
