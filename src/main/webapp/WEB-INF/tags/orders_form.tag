@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div>
-    <c:if test="${user.role == 'CLIENT'}">
+    <c:if test="${userService.sessionUser.role == 'CLIENT'}">
         <div class="panel panel-primary">
             <div class="panel-heading" align="center">
                 <h3 class="panel-title"><fmt:message key="default.yours"/> <fmt:message key="default.orders"/></h3>
@@ -14,7 +14,7 @@
         <thead>
             <tr class="success">
                 <th>#</th>
-                <c:if test="${user.role == 'ADMIN'}">
+                <c:if test="${userService.sessionUser.role == 'ADMIN'}">
                     <th><fmt:message key="order.client"/></th>
                 </c:if>
                 <th><fmt:message key="order.vehicle"/></th>
@@ -27,10 +27,10 @@
             </tr>
         </thead>
         <tbody>
-            <c:forEach items="${user.role=='CLIENT' ? user.clientOrders : orderList}" var="order" varStatus="i">
+            <c:forEach items="${userService.sessionUser.role=='CLIENT' ? userService.sessionUser.clientOrders : orderList}" var="order" varStatus="i">
                 <tr>
                     <td>${order.id}</td>
-                    <c:if test="${user.role == 'ADMIN'}">
+                    <c:if test="${userService.sessionUser.role == 'ADMIN'}">
                         <td>${order.client.lastname} ${order.client.firstname}</td>
                     </c:if>
                     <td>${order.vehicle.manufacturer.value} ${order.vehicle.model.value}</td>
@@ -41,10 +41,10 @@
                     <td>${order.dayCount} <fmt:message key="order.days"/></td>
                     <td>
                         <c:choose>
-                            <c:when test="${user.role == 'CLIENT'}">
+                            <c:when test="${userService.sessionUser.role == 'CLIENT'}">
                                 <fmt:message key="order.${order.status}"/>
                             </c:when>
-                            <c:when test="${user.role == 'ADMIN'}">
+                            <c:when test="${userService.sessionUser.role == 'ADMIN'}">
                                 <form method="post" action="order_edit">
                                     <div class="input-group">
                                         <input hidden name="orderId" value="${order.id}">
@@ -64,7 +64,7 @@
             </c:forEach>
         </tbody>
     </table>
-    <c:if test="${user.role == 'CLIENT'}">
+    <c:if test="${userService.sessionUser.role == 'CLIENT'}">
             </div>
         </div>
     </c:if>
