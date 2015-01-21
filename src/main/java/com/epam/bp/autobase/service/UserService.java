@@ -2,7 +2,6 @@ package com.epam.bp.autobase.service;
 
 import com.epam.bp.autobase.entity.User;
 import com.epam.bp.autobase.entity.Vehicle;
-import com.epam.bp.autobase.servlet.ChangeEntityServlet;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -59,7 +58,7 @@ public class UserService implements Serializable {
         this.errorMap = null;
     }
 
-    private Validator getValidator() {
+    private Validator validator() {
         return Validation.buildDefaultValidatorFactory().getValidator();
     }
 
@@ -110,12 +109,11 @@ public class UserService implements Serializable {
                 .setRole(User.Role.CLIENT)
                 .setBalance(BigDecimal.ZERO);
         //ejb validation
-        Set<ConstraintViolation<User>> cvs = getValidator().validate(sessionUser);
+        Set<ConstraintViolation<User>> cvs = validator().validate(sessionUser);
         errorMap = userDataMap;
         for (ConstraintViolation<User> cv : cvs) {
             sb.append(cv.getMessage()).append(": ").append(cv.getInvalidValue()).append("; ");
-            errorMap.put(cv.getPropertyPath() + "_" + ChangeEntityServlet.MSG, cv.getMessage());
-            errorMap.remove(cv.getPropertyPath().toString());
+            errorMap.put(cv.getPropertyPath() + "_" + MSG, cv.getMessage());
         }
         //check password and password-repeat are the same
         if (!userDataMap.get(PASSWORD).equals(userDataMap.get(PASSWORD_REPEAT))) {
@@ -127,15 +125,13 @@ public class UserService implements Serializable {
         if (checkFieldValueExists(USERNAME, sessionUser.getUsername())) {
             String error = ResourceBundle.getBundle(RB).getString("error.busy-username");
             sb.append(error);
-            errorMap.put(USERNAME + "_" + ChangeEntityServlet.MSG, error);
-            errorMap.remove(USERNAME);
+            errorMap.put(USERNAME + "_" + MSG, error);
         }
         // check busyness of email
         if (checkFieldValueExists(EMAIL, sessionUser.getEmail())) {
             String error = ResourceBundle.getBundle(RB).getString("error.busy-email");
             sb.append(error);
-            errorMap.put(EMAIL + "_" + ChangeEntityServlet.MSG, error);
-            errorMap.remove(EMAIL);
+            errorMap.put(EMAIL + "_" + MSG, error);
         }
         //return JVM locale back
         Locale.setDefault(oldLocale);
@@ -184,10 +180,10 @@ public class UserService implements Serializable {
         if (userDataMap.get(ID) != null) user.setId(Integer.parseInt(idString));
         //ejb validation
         errorMap = new HashMap<>();
-        Set<ConstraintViolation<User>> cvs = getValidator().validate(user);
+        Set<ConstraintViolation<User>> cvs = validator().validate(user);
         for (ConstraintViolation<User> cv : cvs) {
             sb.append(cv.getMessage()).append(": ").append(cv.getInvalidValue()).append("; ");
-            errorMap.put(cv.getPropertyPath() + "_" + ChangeEntityServlet.MSG, cv.getMessage());
+            errorMap.put(cv.getPropertyPath() + "_" + MSG, cv.getMessage());
             try {
                 String propertyValue = String.valueOf(User.class.getMethod("get" + cv.getPropertyPath()).invoke(null));
                 errorMap.put(cv.getPropertyPath().toString(), propertyValue);
@@ -201,8 +197,7 @@ public class UserService implements Serializable {
             if (checkFieldValueExists(USERNAME, user.getUsername())) {
                 String error = ResourceBundle.getBundle(RB).getString("error.busy-username");
                 sb.append(error);
-                errorMap.put(USERNAME + "_" + ChangeEntityServlet.MSG, error);
-                errorMap.remove(USERNAME);
+                errorMap.put(USERNAME + "_" + MSG, error);
             }
         }
         // if email was changed
@@ -211,8 +206,7 @@ public class UserService implements Serializable {
             if (checkFieldValueExists(EMAIL, user.getEmail())) {
                 String error = ResourceBundle.getBundle(RB).getString("error.busy-email");
                 sb.append(error);
-                errorMap.put(EMAIL + "_" + ChangeEntityServlet.MSG, error);
-                errorMap.remove(EMAIL);
+                errorMap.put(EMAIL + "_" + MSG, error);
             }
         }
         //return JVM locale back
