@@ -138,7 +138,7 @@ public class ChangeUserAction implements Action {
                 List<Vehicle> list = null;// = vehicleDao.getListByParameter(H2VehicleDao.DRIVER_ID, String.valueOf(id));
                 if (!list.isEmpty()) {
                     for (Vehicle vehicle : list) {
-                        vehicle.setDriverId(null);
+                        //         vehicle.setDriverId(null);
                         vehicleDao.update(vehicle);
                     }
                 }

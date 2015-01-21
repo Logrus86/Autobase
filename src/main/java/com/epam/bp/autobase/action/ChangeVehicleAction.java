@@ -4,8 +4,7 @@ import com.epam.bp.autobase.dao.DaoFactory;
 import com.epam.bp.autobase.dao.DaoManager;
 import com.epam.bp.autobase.dao.VehicleDao;
 import com.epam.bp.autobase.entity.*;
-import com.epam.bp.autobase.util.Validator;
-import javax.inject.Inject;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
@@ -55,7 +54,7 @@ public class ChangeVehicleAction implements Action {
         user = (User) session.getAttribute(USER);
         if (user.getRole().equals(User.Role.DRIVER)) vehicle = (Vehicle) session.getAttribute(VEHICLE);
 
-        String error = Validator.validateRequestParameters(req);
+        String error = "";//= Validator.validateRequestParameters(req);
         if (!error.isEmpty()) {
             session.setAttribute(ERROR, error);
             if (user.getRole().equals(User.Role.ADMIN)) {
@@ -66,7 +65,7 @@ public class ChangeVehicleAction implements Action {
             if (user.getRole().equals(User.Role.DRIVER)) return MAIN_DRIVER;
         }
 
-        //changing vehicle if we are client or driver; if we are admin, do it if SAVE parameter not null only
+        //changing vehicle if we are client or driver; if we are admin, do it if PARAM_SAVE parameter not null only
         if (!user.getRole().equals(User.Role.ADMIN) || req.getParameter(SAVE) != null)
             changeVehicle();
 
@@ -92,7 +91,7 @@ public class ChangeVehicleAction implements Action {
                     driverId = Integer.valueOf(request.getParameter(DRIVER_ID));
                     vehicle = vehicleDao.getById(id);
                     vehicle.setRentPrice(rentPrice);
-                    vehicle.setDriverId(driverId);
+                    //      vehicle.setDriverId(driverId);
                 }
                 String idString = "";
                 if (user.getRole().equals(User.Role.DRIVER)) {
@@ -114,9 +113,9 @@ public class ChangeVehicleAction implements Action {
                 Boolean enclosed = null;
                 Boolean tipper = null;
                 vehicle.setOperable(operable);
-                vehicle.setModelId(modelId);
-                vehicle.setManufacturerId(manufacturerId);
-                vehicle.setColorId(colorId);
+                //        vehicle.setModelId(modelId);
+                //       vehicle.setManufacturerId(manufacturerId);
+                //       vehicle.setColorId(colorId);
                 vehicle.setFuelType(fuel);
                 vehicle.setMileage(mileage);
                 vehicle.setProductionYear(prodYear);
