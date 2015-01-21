@@ -48,7 +48,7 @@ public class RegisterServlet extends HttpServlet {
         userDataMap.put(PARAM_PASSWORD_REPEAT, req.getParameter(PARAM_PASSWORD_REPEAT));
         userDataMap.put(PARAM_EMAIL, req.getParameter(PARAM_EMAIL));
         try {
-            us.register(userDataMap);
+            us.create(userDataMap);
             logger.info("Newly registered user: " + us.getSessionUser().toString());
             RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/registered.jsp");
             resultView.forward(req, resp);
