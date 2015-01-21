@@ -16,6 +16,8 @@ import java.util.HashMap;
 
 @WebServlet({
         "do/register",
+        "do/change_user",
+        "do/create_user"
 })
 public class RegisterServlet extends HttpServlet {
     public static final String ATTRIBUTE_ERROR = "msg";
