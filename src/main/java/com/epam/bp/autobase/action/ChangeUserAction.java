@@ -6,10 +6,7 @@ import com.epam.bp.autobase.dao.UserDao;
 import com.epam.bp.autobase.dao.VehicleDao;
 import com.epam.bp.autobase.entity.User;
 import com.epam.bp.autobase.entity.Vehicle;
-import com.epam.bp.autobase.util.Validator;
 
-import javax.inject.Inject;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
@@ -54,7 +51,7 @@ public class ChangeUserAction implements Action {
         //changing user if we are client or driver; if we are admin, do it if SAVE parameter not null only
         if (!user.getRole().equals(User.Role.ADMIN) || request.getParameter(SAVE) != null) {
             //validate data
-            String error = Validator.validateRequestParameters(request);
+            String error = "";//Validator.validateRequestParameters(request);
             if (!error.isEmpty()) {
                 session.setAttribute(ERROR, error);
                 if (user.getRole() == User.Role.CLIENT) return CABINET_USER;
