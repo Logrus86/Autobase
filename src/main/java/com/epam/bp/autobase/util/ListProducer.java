@@ -17,53 +17,36 @@ import java.util.List;
 @ApplicationScoped
 public class ListProducer {
     @Inject
-    private EntityManager em;
-    @Inject
     UserService us;
+    @Inject
+    private EntityManager em;
     private List<Color> colors;
     private List<Model> models;
     private List<Manufacturer> manufacturers;
     private List<User> userList;
+
     @Produces
     @Named
     public Vehicle.Fuel[] getFuelTypes() {
         return Vehicle.Fuel.values();
     }
+
     @Produces
     @Named
     public Vehicle.Type[] getVehicleTypes() {
         return Vehicle.Type.values();
     }
+
     @Produces
     @Named
     public User.Role[] getRoles() {
         return User.Role.values();
     }
+
     @Produces
     @Named
     public Order.Status[] getStatuses() {
         return Order.Status.values();
-    }
-    @Produces
-    @Named
-    @RequestScoped
-    public List<Color> getColors() {
-        retrieveAllColors();
-        return colors;
-    }
-    @Produces
-    @Named
-    @RequestScoped
-    public List<Model> getModels() {
-        retrieveAllModels();
-        return models;
-    }
-    @Produces
-    @Named
-    @RequestScoped
-    public List<Manufacturer> getManufacturers() {
-        retrieveAllManufacturers();
-        return manufacturers;
     }
 
     @Produces
@@ -74,6 +57,33 @@ public class ListProducer {
             retrieveAllUsers();
         }
         return userList;
+    }
+
+    @Produces
+    @Named
+    @RequestScoped
+    public List<Color> getColors() {
+        //add retrieve if null only
+        retrieveAllColors();
+        return colors;
+    }
+
+    @Produces
+    @Named
+    @RequestScoped
+    public List<Model> getModels() {
+        //add retrieve if null only
+        retrieveAllModels();
+        return models;
+    }
+
+    @Produces
+    @Named
+    @RequestScoped
+    public List<Manufacturer> getManufacturers() {
+        //add retrieve if null only
+        retrieveAllManufacturers();
+        return manufacturers;
     }
 
     private void retrieveAllUsers() {
@@ -101,11 +111,19 @@ public class ListProducer {
         manufacturers = query.getResultList();
     }
 
+    public void onUserListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final User user) {
+        retrieveAllUsers();
+    }
+
     public void onColorListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Color color) {
         retrieveAllColors();
     }
 
-    public void onUserListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final User user) {
-        retrieveAllUsers();
+    public void onModelListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Model model) {
+        retrieveAllModels();
+    }
+
+    public void onManufacturerListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Manufacturer manufacturer) {
+        retrieveAllManufacturers();
     }
 }
