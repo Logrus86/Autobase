@@ -2,15 +2,17 @@ package com.epam.bp.autobase.entity;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.NamedQuery;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @javax.persistence.Entity
 @DiscriminatorValue(value = "0")
+@NamedQuery(name = "Bus.getAll", query = "SELECT b FROM Bus b ORDER BY b.id")
 public class Bus extends Vehicle {
     @NotNull
-    @Min(value = 7)
+    @Min(7)
     @Max(99)
     @Column(name = "PASSENGER_SEATS_NUMBER")
     private int passengerSeatsNumber;

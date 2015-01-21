@@ -2,6 +2,7 @@ package com.epam.bp.autobase.entity;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.NamedQuery;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
 
 @javax.persistence.Entity
 @DiscriminatorValue(value = "2")
+@NamedQuery(name = "Truck.getAll", query = "SELECT t FROM Truck t ORDER BY t.id")
 public class Truck extends Vehicle {
 
     @NotNull
