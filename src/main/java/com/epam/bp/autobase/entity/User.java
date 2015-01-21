@@ -186,6 +186,11 @@ public class User implements Identifiable {
         return this;
     }
 
+    public User setRole(String role) {
+        this.role = Role.valueOf(role);
+        return this;
+    }
+    
     @Override
     public String toString() {
         return "User {ID: " + this.getId() + ", firstname: " + firstname + ", lastname: " + lastname + ", dob: " + getDob() + ", username: " + username + ", password: " + password + ", email: " + email + ", role: " + role + ", balance: " + balance + "}";
