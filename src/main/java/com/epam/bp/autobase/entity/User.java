@@ -85,6 +85,14 @@ public class User implements Identifiable {
         return orders;
     }
 
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public void setVehicles(List<Vehicle> vehicles) {
+        this.vehicles = vehicles;
+    }
+
     public Integer getId() {
         return id;
     }
