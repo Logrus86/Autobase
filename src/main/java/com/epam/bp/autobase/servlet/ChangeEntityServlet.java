@@ -1,6 +1,7 @@
 package com.epam.bp.autobase.servlet;
 
 import com.epam.bp.autobase.entity.User;
+import com.epam.bp.autobase.service.ColorService;
 import com.epam.bp.autobase.service.ServiceException;
 import com.epam.bp.autobase.service.UserService;
 import org.jboss.logging.Logger;
@@ -19,14 +20,16 @@ import java.util.Map;
 @WebServlet({
         "do/register",
         "do/change_user",
-        "do/create_user"
+        "do/create_user",
+        "do/create_color"
 })
 public class ChangeEntityServlet extends HttpServlet {
-    public static final String MSG = "msg";
     public static final String PARAM_SAVE = "save";
     public static final String PARAM_DELETE = "delete";
     @Inject
     UserService us;
+    @Inject
+    ColorService cs;
     @Inject
     Logger logger;
 
@@ -41,33 +44,55 @@ public class ChangeEntityServlet extends HttpServlet {
         String servletPath = req.getServletPath();
 
         if (servletPath.equals("/do/register")) {
-
-            try {
-                us.create(getServiceMapFromRequest(req));
-                logger.info("Newly registered user: " + us.getSessionUser().toString());
-                RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/registered.jsp");
-                resultView.forward(req, resp);
-            } catch (ServiceException se) {
-                logger.error(se.getMessage());
-                forwardDependsRole(req, resp);
-            }
-        }
-
-        if (servletPath.equals("/do/change_user")) {
-            //changing user if we are client or driver; if we are admin, do it if PARAM_SAVE parameter not null only
-            if (!User.Role.ADMIN.equals(us.getSessionUser().getRole()) || req.getParameter(PARAM_SAVE) != null) {
-                try {
-                    us.update(getServiceMapFromRequest(req));
-                    logger.info("User '" + req.getParameter("username") + "' had successfully updated");
-                } catch (ServiceException se) {
-                    logger.error(se.getMessage());
+            registerUser(req, resp);
+        } else {
+            if (servletPath.equals("/do/change_user")) {
+                changeUser(req, resp);
+            } else {
+                if (servletPath.equals("/do/create_color")) {
+                    createColor(req, resp);
                 }
             }
-            String stringId = req.getParameter(PARAM_DELETE);
-            if (stringId != null) {
-                us.delete(Integer.valueOf(stringId));
-                logger.info("User '" + req.getParameter("username") + "' had successfully deleted");
+        }
+    }
+
+    private void createColor(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            cs.create(req.getParameter("value_en"), req.getParameter("value_ru"));
+            logger.info("Color created successfully");
+        } catch (ServiceException se) {
+            logger.error(se.getMessage());
+        }
+        RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/admin_colors.jsp");
+        resultView.forward(req, resp);
+    }
+
+    private void changeUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //changing user if we are client or driver; if we are admin, do it if PARAM_SAVE parameter not null only
+        if (!User.Role.ADMIN.equals(us.getSessionUser().getRole()) || req.getParameter(PARAM_SAVE) != null) {
+            try {
+                us.update(getServiceMapFromRequest(req));
+                logger.info("User '" + req.getParameter("username") + "' had successfully updated");
+            } catch (ServiceException se) {
+                logger.error(se.getMessage());
             }
+        }
+        String stringId = req.getParameter(PARAM_DELETE);
+        if (stringId != null) {
+            us.delete(Integer.valueOf(stringId));
+            logger.info("User '" + req.getParameter("username") + "' had successfully deleted");
+        }
+        forwardDependsRole(req, resp);
+    }
+
+    private void registerUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            us.create(getServiceMapFromRequest(req));
+            logger.info("Newly registered user: " + us.getSessionUser().toString());
+            RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/registered.jsp");
+            resultView.forward(req, resp);
+        } catch (ServiceException se) {
+            logger.error(se.getMessage());
             forwardDependsRole(req, resp);
         }
     }
