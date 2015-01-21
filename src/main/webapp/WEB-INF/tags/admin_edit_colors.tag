@@ -66,7 +66,7 @@
                                 </div>
                             </div>
                         </c:if>
-                        <c:if test="${locale.language=='en'}">
+                        <c:if test="${userService.locale.language=='en'}">
                             <div class="col-lg-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><fmt:message key="default.valueEn"/></span>
