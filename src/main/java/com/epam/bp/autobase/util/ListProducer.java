@@ -24,6 +24,10 @@ public class ListProducer {
     private List<Model> models;
     private List<Manufacturer> manufacturers;
     private List<User> userList;
+    private List<Order> orderList;
+    private List<Bus> busList;
+    private List<Car> carList;
+    private List<Truck> truckList;
 
     @Produces
     @Named
@@ -86,6 +90,39 @@ public class ListProducer {
         return manufacturers;
     }
 
+    @Produces
+    @Named
+    @RequestScoped
+    public List<Order> getOrderList() {
+        //add retrieve if null only
+        retrieveAllOrders();
+        return orderList;
+    }
+
+    @Produces
+    @Named
+    public List<Bus> getBusList() {
+        //add retrieve if null only
+        retrieveAllBuses();
+        return busList;
+    }
+
+    @Produces
+    @Named
+    public List<Car> getCarList() {
+        //add retrieve if null only
+        retrieveAllCars();
+        return carList;
+    }
+
+    @Produces
+    @Named
+    public List<Truck> getTruckList() {
+        //add retrieve if null only
+        retrieveAllTrucks();
+        return truckList;
+    }
+    
     private void retrieveAllUsers() {
         TypedQuery<User> query = em.createNamedQuery("User.getAll", User.class);
         userList = query.getResultList();
@@ -111,6 +148,26 @@ public class ListProducer {
         manufacturers = query.getResultList();
     }
 
+    private void retrieveAllOrders() {
+        TypedQuery<Order> query = em.createNamedQuery("Order.getAll", Order.class);
+        orderList = query.getResultList();
+    }
+
+    private void retrieveAllBuses() {
+        TypedQuery<Bus> query = em.createNamedQuery("Bus.getAll", Bus.class);
+        busList = query.getResultList();
+    }
+
+    private void retrieveAllCars() {
+        TypedQuery<Car> query = em.createNamedQuery("Car.getAll", Car.class);
+        carList = query.getResultList();
+    }
+
+    private void retrieveAllTrucks() {
+        TypedQuery<Truck> query = em.createNamedQuery("Truck.getAll", Truck.class);
+        truckList = query.getResultList();
+    }
+
     public void onUserListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final User user) {
         retrieveAllUsers();
     }
@@ -125,5 +182,21 @@ public class ListProducer {
 
     public void onManufacturerListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Manufacturer manufacturer) {
         retrieveAllManufacturers();
+    }
+
+    public void onOrderListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Order order) {
+        retrieveAllOrders();
+    }
+
+    public void onBusListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Bus bus) {
+        retrieveAllBuses();
+    }
+
+    public void onCarListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Car car) {
+        retrieveAllCars();
+    }
+
+    public void onTruckListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Truck truck) {
+        retrieveAllTrucks();
     }
 }
