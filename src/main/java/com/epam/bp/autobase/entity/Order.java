@@ -13,6 +13,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "VH_ORDER")
+@NamedQuery(name = "Order.getAll", query = "SELECT o FROM Order o ORDER BY o.id")
 public class Order implements Identifiable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
