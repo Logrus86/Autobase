@@ -57,7 +57,7 @@
                                 <div class="msg-error">${colorService.errorMap.value_ru_msg}</div>
                                 <div class="input-group">
                                     <span class="input-group-addon"><fmt:message key="default.valueRu"/></span>
-                                    <input required type="text" class="form-control" id="value_ru" name="valueRu"
+                                    <input required type="text" class="form-control" id="value_ru" name="value_ru"
                                            value=${colorService.errorMap.value_ru}>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@
                                 <div class="msg-error">${colorService.errorMap.value_en_msg}</div>
                                 <div class="input-group">
                                     <span class="input-group-addon"><fmt:message key="default.valueEn"/></span>
-                                    <input required type="text" class="form-control" id="value_en" name="valueEn"
+                                    <input required type="text" class="form-control" id="value_en" name="value_en"
                                            value=${colorService.errorMap.value_en}>
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
                                 <div class="msg-error">${colorService.errorMap.value_en_msg}</div>
                                 <div class="input-group">
                                     <span class="input-group-addon"><fmt:message key="default.valueEn"/></span>
-                                    <input required type="text" class="form-control" id="value_en" name="valueEn"
+                                    <input required type="text" class="form-control" id="value_en" name="value_en"
                                            value=${colorService.errorMap.value_en}>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@
                                 <div class="msg-error">${colorService.errorMap.value_ru_msg}</div>
                                 <div class="input-group">
                                     <span class="input-group-addon"><fmt:message key="default.valueRu"/></span>
-                                    <input required type="text" class="form-control" id="value_ru" name="valueRu"
+                                    <input required type="text" class="form-control" id="value_ru" name="value_ru"
                                            value=${colorService.errorMap.value_ru}>
                                 </div>
                             </div>
