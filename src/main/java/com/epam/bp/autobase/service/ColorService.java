@@ -90,4 +90,59 @@ public class ColorService {
         criteria.add(Restrictions.eq(field, value));
         return !criteria.list().isEmpty();
     }
+
+    public void update(Integer id, String valueEn, String valueRu) throws ServiceException {
+        //remember current JVM locale
+        Locale oldLocale = Locale.getDefault();
+        //change it to current sessionScoped locale to get localized validator & error messages
+        Locale.setDefault(us.getLocale());
+        StringBuilder sb = new StringBuilder();
+        Color color = new Color()
+                .setValue_en(valueEn)
+                .setValue_ru(valueRu);
+        color.setId(id);
+        //ejb validation
+        errorMap = new HashMap<>();
+        Set<ConstraintViolation<Color>> cvs = validator().validate(color);
+        for (ConstraintViolation<Color> cv : cvs) {
+            sb.append(cv.getMessage()).append(": ").append(cv.getInvalidValue()).append("; ");
+            errorMap.put(cv.getPropertyPath() + "_" + MSG, cv.getMessage());
+        }
+        // if value_en was changed
+        if (!em.find(Color.class, color.getId()).getValue_en().equals(color.getValue_en())) {
+            // check busyness of new value_en
+            if (checkFieldValueExists(VALUE_EN, color.getValue_en())) {
+                String error = ResourceBundle.getBundle(RB).getString("error.busy-color");
+                sb.append(error);
+                errorMap.put(VALUE_EN + "_" + MSG, error);
+            }
+        }
+        // if value_ru was changed
+        if (!em.find(Color.class, color.getId()).getValue_ru().equals(color.getValue_ru())) {
+            // check busyness of new value_ru
+            if (checkFieldValueExists(VALUE_RU, color.getValue_ru())) {
+                String error = ResourceBundle.getBundle(RB).getString("error.busy-color");
+                sb.append(error);
+                errorMap.put(VALUE_RU + "_" + MSG, error);
+            }
+        }
+        //return JVM locale back
+        Locale.setDefault(oldLocale);
+        // if sb is empty all is ok, proceed to persist
+        if (sb.toString().isEmpty()) {
+            em.merge(color);
+            colorEventSrc.fire(color);
+            errorMap = null;
+            //...or clear color and throw exception
+        } else {
+            throw new ServiceException("Error while color updating: " + sb.toString());
+        }
+    }
+
+    public void delete(Integer id) {
+        // retrieve user by id
+        Color colorToDelete = em.find(Color.class, id);
+        em.remove(colorToDelete);
+        colorEventSrc.fire(colorToDelete);
+    }
 }

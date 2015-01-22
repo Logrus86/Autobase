@@ -52,7 +52,7 @@ public class ActionFactory {
     //    ACTIONS.put("POST/register", new RegisterAction());
         //    ACTIONS.put("POST/change_user", new ChangeUserAction());
         ACTIONS.put("POST/change_vehicle", new ChangeVehicleAction());
-        ACTIONS.put("POST/change_color", new ChangeSpecAction(COLOR));
+        //    ACTIONS.put("POST/change_color", new ChangeSpecAction(COLOR));
         ACTIONS.put("POST/change_model", new ChangeSpecAction(MODEL));
         ACTIONS.put("POST/change_manufacturer", new ChangeSpecAction(MANUFACTURER));
         ACTIONS.put("POST/create_bus", new CreateEntityAction(BUS));

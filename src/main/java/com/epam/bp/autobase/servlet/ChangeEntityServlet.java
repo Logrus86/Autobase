@@ -19,9 +19,10 @@ import java.util.Map;
 
 @WebServlet({
         "do/register",
-        "do/change_user",
         "do/create_user",
-        "do/create_color"
+        "do/create_color",
+        "do/change_user",
+        "do/change_color"
 })
 public class ChangeEntityServlet extends HttpServlet {
     public static final String PARAM_SAVE = "save";
@@ -51,9 +52,30 @@ public class ChangeEntityServlet extends HttpServlet {
             } else {
                 if (servletPath.equals("/do/create_color")) {
                     createColor(req, resp);
+                } else if (servletPath.equals("/do/change_color")) {
+                    changeColor(req, resp);
                 }
             }
         }
+    }
+
+    private void changeColor(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            String stringId;
+            if (req.getParameter(PARAM_SAVE) == null) {
+                stringId = req.getParameter(PARAM_DELETE);
+                cs.delete(Integer.valueOf(stringId));
+                logger.info("Color with id = " + stringId + " had successfully deleted");
+            } else {
+                stringId = req.getParameter(PARAM_SAVE);
+                cs.update(Integer.valueOf(stringId), req.getParameter("value_en"), req.getParameter("value_ru"));
+                logger.info("Color '" + req.getParameter("value_en") + "' had successfully updated");
+            }
+        } catch (ServiceException se) {
+            logger.error(se.getMessage());
+        }
+        RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/admin_colors.jsp");
+        resultView.forward(req, resp);
     }
 
     private void createColor(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -76,11 +98,12 @@ public class ChangeEntityServlet extends HttpServlet {
             } catch (ServiceException se) {
                 logger.error(se.getMessage());
             }
-        }
-        String stringId = req.getParameter(PARAM_DELETE);
-        if (stringId != null) {
-            us.delete(Integer.valueOf(stringId));
-            logger.info("User '" + req.getParameter("username") + "' had successfully deleted");
+        } else {
+            String stringId = req.getParameter(PARAM_DELETE);
+            if (stringId != null) {
+                us.delete(Integer.valueOf(stringId));
+                logger.info("User '" + req.getParameter("username") + "' had successfully deleted");
+            }
         }
         forwardDependsRole(req, resp);
     }
