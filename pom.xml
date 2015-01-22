@@ -76,7 +76,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jpamodelgen</artifactId>
-            <scope>provided</scope>
+            <version>4.3.8.Final</version>
         </dependency>
         <dependency>
             <groupId>javax.enterprise</groupId>
