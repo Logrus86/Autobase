@@ -67,8 +67,9 @@ public class ListProducer {
     @Named
     @RequestScoped
     public List<Color> getColors() {
-        //add retrieve if null only
-        retrieveAllColors();
+        if (colors == null) {
+            retrieveAllColors();
+        }
         return colors;
     }
 
