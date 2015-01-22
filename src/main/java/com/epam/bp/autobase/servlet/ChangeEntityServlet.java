@@ -58,7 +58,7 @@ public class ChangeEntityServlet extends HttpServlet {
 
     private void createColor(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            cs.create(req.getParameter("value_en"), req.getParameter("value_ru"));
+            cs.create(req.getParameter("valueEn"), req.getParameter("valueRu"));
             logger.info("Color created successfully");
         } catch (ServiceException se) {
             logger.error(se.getMessage());
