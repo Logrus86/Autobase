@@ -1,14 +1,10 @@
 package com.epam.bp.autobase.action;
 
-import com.epam.bp.autobase.dao.*;
-import com.epam.bp.autobase.entity.Order;
-import com.epam.bp.autobase.entity.User;
-import com.epam.bp.autobase.entity.Vehicle;
+import com.epam.bp.autobase.model.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
-import java.util.Date;
 
 public class OrderAction implements Action {
     private static final ActionResult ORDER_FAIL = new ActionResult(ActionFactory.PAGE_SEARCH_RESULT);
@@ -34,7 +30,7 @@ public class OrderAction implements Action {
         BigDecimal balance = user.getBalance();
 
         try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
+         /*   DaoFactory daoFactory = DaoFactory.getInstance();
             DaoManager daoManager = daoFactory.getDaoManager();
             daoManager.transactionAndClose(daoManager1 -> {
                 UserDao userDao = daoManager1.getUserDao();
@@ -69,7 +65,7 @@ public class OrderAction implements Action {
                     result = ORDER_SUCCESS;
                 }
             });
-            daoFactory.releaseContext();
+            daoFactory.releaseContext();*/
         } catch (Exception e) {
        //     LOGGER.error("Error at OrderAction while performing transaction");
             throw new ActionException("Error at OrderAction while performing transaction", e);

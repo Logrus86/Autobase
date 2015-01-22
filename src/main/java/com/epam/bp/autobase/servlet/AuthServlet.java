@@ -1,6 +1,6 @@
 package com.epam.bp.autobase.servlet;
 
-import com.epam.bp.autobase.entity.User;
+import com.epam.bp.autobase.model.entity.User;
 import com.epam.bp.autobase.service.UserService;
 import org.jboss.logging.Logger;
 

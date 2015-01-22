@@ -1,7 +1,7 @@
 package com.epam.bp.autobase.service;
 
-import com.epam.bp.autobase.entity.User;
-import com.epam.bp.autobase.entity.Vehicle;
+import com.epam.bp.autobase.model.entity.User;
+import com.epam.bp.autobase.model.entity.Vehicle;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;

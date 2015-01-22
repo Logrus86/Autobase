@@ -1,7 +1,6 @@
 package com.epam.bp.autobase.action;
 
-import com.epam.bp.autobase.dao.*;
-import com.epam.bp.autobase.entity.*;
+import com.epam.bp.autobase.model.entity.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -117,41 +116,41 @@ public class CreateEntityAction implements Action {
         if (MODEL.equals(entityName)) prop = new Model().setValue(value);
         if (MANUFACTURER.equals(entityName)) prop = new Manufacturer().setValue(value);
         try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
-            DaoManager daoManager = daoFactory.getDaoManager();
+            //       DaoFactory daoFactory = DaoFactory.getInstance();
+            //         DaoManager daoManager = daoFactory.getDaoManager();
             final Object finalSpec = prop;
 
                 if (COLOR.equals(entityName)) {
-                    ColorDao colorDao = daoManager.getColorDao();
-                    if ((colorDao.getByValueEn(valueEn) != null) || (colorDao.getByValueRu(valueRu) != null)) {
+                    //              ColorDao colorDao = daoManager.getColorDao();
+                    //          if ((colorDao.getByValueEn(valueEn) != null) || (colorDao.getByValueRu(valueRu) != null)) {
                         session.setAttribute(ERROR, color_busy);
                         forwardEnteredData();
                     } else {
-                        daoManager.executeAndClose(daoManager1 -> colorDao.create((Color) finalSpec));
+                    //                daoManager.executeAndClose(daoManager1 -> colorDao.create((Color) finalSpec));
          ///               as.setToContext(COLOR, session.getServletContext());
                     }
-                }
+            //       }
                 if (MODEL.equals(entityName)) {
-                    ModelDao modelDao = daoManager.getModelDao();
-                    if (modelDao.getByValue(value) != null) {
+                    //            ModelDao modelDao = daoManager.getModelDao();
+                    //           if (modelDao.getByValue(value) != null) {
                         session.setAttribute(ERROR, model_busy);
                         forwardEnteredData();
                     } else {
-                        daoManager.executeAndClose(daoManager1 -> modelDao.create((Model) finalSpec));
+                    //             daoManager.executeAndClose(daoManager1 -> modelDao.create((Model) finalSpec));
          //               as.setToContext(MODEL, session.getServletContext());
                     }
-                }
+            //     }
                 if (MANUFACTURER.equals(entityName)) {
-                    ManufacturerDao manufacturerDao = daoManager.getManufacturerDao();
-                    if (manufacturerDao.getByValue(value) != null) {
+                    //         ManufacturerDao manufacturerDao = daoManager.getManufacturerDao();
+                    //        if (manufacturerDao.getByValue(value) != null) {
                         session.setAttribute(ERROR, manufacturer_busy);
                         forwardEnteredData();
                     } else {
-                        daoManager.executeAndClose(daoManager1 -> manufacturerDao.create((Manufacturer) finalSpec));
+                    //             daoManager.executeAndClose(daoManager1 -> manufacturerDao.create((Manufacturer) finalSpec));
          //               as.setToContext(MANUFACTURER, session.getServletContext());
                     }
-                }
-            daoFactory.releaseContext();
+            //        }
+            //    daoFactory.releaseContext();
         } catch (Exception e) {
          //   LOGGER.error("Error at createSpec() while performing transaction");
             throw new ActionException("Error at createSpec() while performing transaction", e);
@@ -184,12 +183,12 @@ public class CreateEntityAction implements Action {
                 .setBalance(balance)
                 .setRole(role);
         try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
-            DaoManager daoManager = daoFactory.getDaoManager();
-            UserDao userDao = daoManager.getUserDao();
+            //     DaoFactory daoFactory = DaoFactory.getInstance();
+            //     DaoManager daoManager = daoFactory.getDaoManager();
+            //     UserDao userDao = daoManager.getUserDao();
             final User finalUser = user;
-            daoManager.executeAndClose(daoManager1 -> userDao.create(finalUser));
-            daoFactory.releaseContext();
+            //      daoManager.executeAndClose(daoManager1 -> userDao.create(finalUser));
+            //     daoFactory.releaseContext();
       //      as.setToSession(USER, session);
         } catch (Exception e) {
       //      LOGGER.error("Error at createUser() while performing transaction");
@@ -256,12 +255,12 @@ public class CreateEntityAction implements Action {
             //    vehicle.setDriverId(driverId);
         }
         try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
-            DaoManager daoManager = daoFactory.getDaoManager();
-            VehicleDao vehicleDao = daoManager.getVehicleDao();
+            //       DaoFactory daoFactory = DaoFactory.getInstance();
+            //       DaoManager daoManager = daoFactory.getDaoManager();
+            //       VehicleDao vehicleDao = daoManager.getVehicleDao();
             final Vehicle finalVehicle = vehicle;
-            daoManager.executeAndClose(daoManager1 -> vehicleDao.create(finalVehicle));
-            daoFactory.releaseContext();
+            //        daoManager.executeAndClose(daoManager1 -> vehicleDao.create(finalVehicle));
+            //        daoFactory.releaseContext();
         } catch (Exception e) {
      //       LOGGER.error("Error at createVehicle() while performing transaction");
             throw new ActionException("Error at createVehicle() while performing transaction", e);

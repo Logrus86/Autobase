@@ -1,9 +1,5 @@
 package com.epam.bp.autobase.action;
 
-import com.epam.bp.autobase.dao.DaoFactory;
-import com.epam.bp.autobase.dao.VehicleDao;
-import com.epam.bp.autobase.entity.Vehicle;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -60,7 +56,7 @@ public class SearchAction implements Action {
 
         //looking for vehicle
         try {
-            VehicleDao vehicleDao = DaoFactory.getInstance().getDaoManager().getVehicleDao();
+         /*   VehicleDao vehicleDao = DaoFactory.getInstance().getDaoManager().getVehicleDao();
             Map<String, String> params = parseRequestToMap(request);
             if (params.isEmpty()) {
      //           LOGGER.info("Nothing was checked.");
@@ -83,7 +79,7 @@ public class SearchAction implements Action {
             //vehicle was found, all is ok
       //      LOGGER.info("Vehicle was found.");
             session.setAttribute(FOUNDED_LIST, vehicles);
-            session.removeAttribute(ERROR);
+            session.removeAttribute(ERROR);*/
         } catch (Exception e) {
        //     LOGGER.error("Error at SearchAction while searching for vehicle");
             throw new ActionException("Error at SearchAction while searching for vehicle", e);
@@ -121,7 +117,7 @@ public class SearchAction implements Action {
         if (ON.equals(req.getParameter(ENCLOSED))) enclosed = TRUE;
         if (ON.equals(req.getParameter(TIPPER))) tipper = TRUE;
 
-        if (modelId != null) result.put(VehicleDao.MODEL_ID,modelId);
+       /* if (modelId != null) result.put(VehicleDao.MODEL_ID,modelId);
         if (manufactId != null) result.put(VehicleDao.MANUFACTURER_ID,manufactId);
         if (colorId != null) result.put(VehicleDao.COLOR_ID,colorId);
         if (fuel != null) result.put(VehicleDao.FUEL_TYPE,fuel);
@@ -143,7 +139,7 @@ public class SearchAction implements Action {
             String vhType = req.getParameter(VH_TYPE);
             if (!vhType.isEmpty()) result.put(VehicleDao.VEHICLE_TYPE,vhType);
             result.put(VehicleDao.OPERABLE,TRUE);
-        }
+        }*/
         return result;
     }
 }

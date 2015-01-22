@@ -1,6 +1,6 @@
 package com.epam.bp.autobase.util;
 
-import com.epam.bp.autobase.entity.*;
+import com.epam.bp.autobase.model.entity.*;
 import com.epam.bp.autobase.service.UserService;
 
 import javax.enterprise.context.ApplicationScoped;

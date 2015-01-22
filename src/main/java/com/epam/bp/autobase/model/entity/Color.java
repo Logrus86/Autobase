@@ -1,4 +1,4 @@
-package com.epam.bp.autobase.entity;
+package com.epam.bp.autobase.model.entity;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -24,12 +24,12 @@ public class Color implements Identifiable {
     }
 
     @NotEmpty
-    @Pattern(regexp = "[A-Z]{1}[a-z]{2,20}", message = "{com.epam.bp.autobase.entity.color.value_en.message}")
+    @Pattern(regexp = "[A-Z]{1}[a-z]{2,20}", message = "{com.epam.bp.autobase.model.entity.color.value_en.message}")
     @Column(name = "VALUE_EN")
     private String value_en;
 
     @NotEmpty
-    @Pattern(regexp = "[А-Я]{1}[а-я]{2,20}", message = "{com.epam.bp.autobase.entity.color.value_ru.message}")
+    @Pattern(regexp = "[А-Я]{1}[а-я]{2,20}", message = "{com.epam.bp.autobase.model.entity.color.value_ru.message}")
     @Column(name = "VALUE_RU")
     private String value_ru;
 

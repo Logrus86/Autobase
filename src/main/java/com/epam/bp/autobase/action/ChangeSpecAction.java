@@ -1,13 +1,9 @@
 package com.epam.bp.autobase.action;
 
 import com.epam.bp.autobase.dao.ColorDao;
-import com.epam.bp.autobase.dao.DaoFactory;
-import com.epam.bp.autobase.dao.DaoManager;
-import com.epam.bp.autobase.dao.ManufacturerDao;
-import com.epam.bp.autobase.dao.ModelDao;
-import com.epam.bp.autobase.entity.Color;
-import com.epam.bp.autobase.entity.Manufacturer;
-import com.epam.bp.autobase.entity.Model;
+import com.epam.bp.autobase.dao.DaoException;
+import com.epam.bp.autobase.model.entity.Color;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Locale;
@@ -65,7 +61,7 @@ public class ChangeSpecAction implements Action {
         if (request.getParameter(SAVE) != null) {
             switch (spec_type) {
                 case COLOR:
-                    changeColor();
+                    //      changeColor();
                     break;
                 case MODEL:
                     changeModel();
@@ -91,14 +87,14 @@ public class ChangeSpecAction implements Action {
         return result;
     }
 
-    private void changeColor() throws ActionException {
+    private void changeColor() throws ActionException, DaoException {
         try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
-            DaoManager daoManager = daoFactory.getDaoManager();
-            daoManager.transactionAndClose(daoManager1 -> {
-                ColorDao colorDao = daoManager1.getColorDao();
+            //     DaoFactory daoFactory = DaoFactory.getInstance();
+            //     DaoManager daoManager = daoFactory.getDaoManager();
+            //      daoManager.transactionAndClose(daoManager1 -> {
+            ColorDao colorDao = null;//= daoManager1.getColorDao();
                 Integer id = Integer.valueOf(request.getParameter(SAVE));
-                Color color = colorDao.getById(id);
+            Color color = null;// = colorDao.getById(id);
                 String valueEn = request.getParameter(VALUE_EN);
                 String valueRu = request.getParameter(VALUE_RU);
                 //check to unique if old value not equals new value, check valueEn
@@ -112,13 +108,13 @@ public class ChangeSpecAction implements Action {
                         //all is ok, proceed
                         color.setValue_en(valueEn);
                         color.setValue_ru(valueRu);
-                        colorDao.update(color);
+                        //             colorDao.update(color);
                         session.removeAttribute(ERROR_COLOR);
 
                     }
                 }
-            });
-            daoFactory.releaseContext();
+            //    });
+            //    daoFactory.releaseContext();
     //        as.setToContext(COLOR, session.getServletContext());
         } catch (Exception e) {
     //        LOGGER.error("Error at changeColor() while performing transaction");
@@ -129,15 +125,15 @@ public class ChangeSpecAction implements Action {
 
     private void deleteColor() throws ActionException {
         try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
-            DaoManager daoManager = daoFactory.getDaoManager();
-            daoManager.transactionAndClose(daoManager1 -> {
-                ColorDao colorDao = daoManager1.getColorDao();
-                Integer id = Integer.valueOf(request.getParameter(DELETE));
-                colorDao.delete(id);
+            //     DaoFactory daoFactory = DaoFactory.getInstance();
+            //     DaoManager daoManager = daoFactory.getDaoManager();
+            //     daoManager.transactionAndClose(daoManager1 -> {
+            //        ColorDao colorDao = daoManager1.getColorDao();
+            //        Integer id = Integer.valueOf(request.getParameter(DELETE));
+            //         colorDao.delete(id);
 
-            });
-            daoFactory.releaseContext();
+            //    });
+            //    daoFactory.releaseContext();
      //       as.setToContext(COLOR, session.getServletContext());
         } catch (Exception e) {
      //       LOGGER.error("Error at deleteColor() while performing transaction");
@@ -148,23 +144,23 @@ public class ChangeSpecAction implements Action {
 
     private void changeModel() throws ActionException {
         try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
-            DaoManager daoManager = daoFactory.getDaoManager();
-            daoManager.transactionAndClose(daoManager1 -> {
-                ModelDao modelDao = daoManager1.getModelDao();
+            //     DaoFactory daoFactory = DaoFactory.getInstance();
+            //     DaoManager daoManager = daoFactory.getDaoManager();
+            //     daoManager.transactionAndClose(daoManager1 -> {
+            //         ModelDao modelDao = daoManager1.getModelDao();
                 Integer id = Integer.valueOf(request.getParameter(SAVE));
-                Model model = modelDao.getById(id);
+            //        Model model = modelDao.getById(id);
                 String value = request.getParameter(VALUE);
                 //check to unique if old value not equals new value
-                if ((!model.getValue().equals(value)) && (modelDao.getByValue(value) != null)) {
-                    session.setAttribute(ERROR_MODEL, model_busy);
-                } else {
-                    model.setValue(value);
-                    modelDao.update(model);
+            //       if ((!model.getValue().equals(value)) && (modelDao.getByValue(value) != null)) {
+            //            session.setAttribute(ERROR_MODEL, model_busy);
+            //        } else {
+            //            model.setValue(value);
+            //            modelDao.update(model);
                     session.removeAttribute(ERROR_MODEL);
-                }
-            });
-            daoFactory.releaseContext();
+            //        }
+            //    });
+            //    daoFactory.releaseContext();
       //      as.setToContext(MODEL, session.getServletContext());
         } catch (Exception e) {
       //      LOGGER.error("Error at changeModel() while performing transaction");
@@ -175,14 +171,14 @@ public class ChangeSpecAction implements Action {
 
     private void deleteModel() throws ActionException {
         try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
-            DaoManager daoManager = daoFactory.getDaoManager();
-            daoManager.transactionAndClose(daoManager1 -> {
-                ModelDao modelDao = daoManager1.getModelDao();
+            //    DaoFactory daoFactory = DaoFactory.getInstance();
+            //    DaoManager daoManager = daoFactory.getDaoManager();
+            //    daoManager.transactionAndClose(daoManager1 -> {
+            //       ModelDao modelDao = daoManager1.getModelDao();
                 Integer id = Integer.valueOf(request.getParameter(DELETE));
-                modelDao.delete(id);
-            });
-            daoFactory.releaseContext();
+            //      modelDao.delete(id);
+            //   });
+            //       daoFactory.releaseContext();
       //      as.setToContext(MODEL, session.getServletContext());
         } catch (Exception e) {
        //     LOGGER.error("Error at deleteModel() while performing transaction");
@@ -193,23 +189,23 @@ public class ChangeSpecAction implements Action {
 
     private void changeManufacturer() throws ActionException {
         try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
-            DaoManager daoManager = daoFactory.getDaoManager();
-            daoManager.transactionAndClose(daoManager1 -> {
-                ManufacturerDao manufacturerDao = daoManager1.getManufacturerDao();
+            //     DaoFactory daoFactory = DaoFactory.getInstance();
+            //     DaoManager daoManager = daoFactory.getDaoManager();
+            //     daoManager.transactionAndClose(daoManager1 -> {
+            //         ManufacturerDao manufacturerDao = daoManager1.getManufacturerDao();
                 Integer id = Integer.valueOf(request.getParameter(SAVE));
-                Manufacturer manufacturer = manufacturerDao.getById(id);
+            //           Manufacturer manufacturer = manufacturerDao.getById(id);
                 String value = request.getParameter(VALUE);
                 //check to unique if old value not equals new value
-                if ((!manufacturer.getValue().equals(value)) && (manufacturerDao.getByValue(value) != null)) {
+            //        if ((!manufacturer.getValue().equals(value)) && (manufacturerDao.getByValue(value) != null)) {
                     session.setAttribute(ERROR_MANUFACTURER, manufacturer_busy);
-                } else {
-                    manufacturer.setValue(value);
-                    manufacturerDao.update(manufacturer);
+            //       } else {
+            //           manufacturer.setValue(value);
+            //          manufacturerDao.update(manufacturer);
                     session.removeAttribute(ERROR_MANUFACTURER);
-                }
-            });
-            daoFactory.releaseContext();
+            //       }
+            //   });
+            //   daoFactory.releaseContext();
    //         as.setToContext(MANUFACTURER, session.getServletContext());
         } catch (Exception e) {
     //        LOGGER.error("Error at changeManufacturer() while performing transaction");
@@ -220,15 +216,15 @@ public class ChangeSpecAction implements Action {
 
     private void deleteManufacturer() throws ActionException {
         try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
-            DaoManager daoManager = daoFactory.getDaoManager();
-            daoManager.transactionAndClose(daoManager1 -> {
-                ManufacturerDao manufacturerDao = daoManager1.getManufacturerDao();
+            //     DaoFactory daoFactory = DaoFactory.getInstance();
+            //     DaoManager daoManager = daoFactory.getDaoManager();
+            //     daoManager.transactionAndClose(daoManager1 -> {
+            //         ManufacturerDao manufacturerDao = daoManager1.getManufacturerDao();
                 Integer id = Integer.valueOf(request.getParameter(DELETE));
-                manufacturerDao.delete(id);
+            //         manufacturerDao.delete(id);
 
-            });
-            daoFactory.releaseContext();
+            //     });
+            //     daoFactory.releaseContext();
      //       as.setToContext(MANUFACTURER, session.getServletContext());
         } catch (Exception e) {
     //        LOGGER.error("Error at deleteManufacturer() while performing transaction");

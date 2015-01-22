@@ -1,8 +1,12 @@
 package com.epam.bp.autobase;
 
-import com.epam.bp.autobase.entity.Identifiable;
-import com.epam.bp.autobase.entity.User;
-import javax.persistence.*;
+import com.epam.bp.autobase.model.entity.Identifiable;
+import com.epam.bp.autobase.model.entity.User;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 import java.math.BigDecimal;
 import java.util.Random;
 

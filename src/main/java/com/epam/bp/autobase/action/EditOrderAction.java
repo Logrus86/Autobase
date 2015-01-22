@@ -1,9 +1,7 @@
 package com.epam.bp.autobase.action;
 
-import com.epam.bp.autobase.dao.DaoFactory;
-import com.epam.bp.autobase.dao.DaoManager;
-import com.epam.bp.autobase.dao.OrderDao;
-import com.epam.bp.autobase.entity.Order;
+import com.epam.bp.autobase.model.entity.Order;
+
 import javax.servlet.http.HttpServletRequest;
 
 public class EditOrderAction implements Action {
@@ -17,14 +15,14 @@ public class EditOrderAction implements Action {
         Integer id = Integer.valueOf(request.getParameter(ORDER_ID));
         Order.Status status = Order.Status.valueOf(request.getParameter(STATUS));
         try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
+        /*    DaoFactory daoFactory = DaoFactory.getInstance();
             DaoManager daoManager = daoFactory.getDaoManager();
                 OrderDao orderDao = daoManager.getOrderDao();
                 Order order = orderDao.getById(id);
                 order.setStatus(status);
                 orderDao.update(order);
 
-            daoFactory.releaseContext();
+            daoFactory.releaseContext();*/
         } catch (Exception e) {
     //        LOGGER.error("Error at EditOrderAction while performing transaction");
             throw new ActionException("Error at EditOrderAction while performing transaction", e);

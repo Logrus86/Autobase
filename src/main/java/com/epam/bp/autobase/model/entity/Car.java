@@ -1,4 +1,4 @@
-package com.epam.bp.autobase.entity;
+package com.epam.bp.autobase.model.entity;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;

@@ -1,13 +1,10 @@
 package com.epam.bp.autobase.action;
 
-import com.epam.bp.autobase.dao.DaoFactory;
-import com.epam.bp.autobase.dao.DaoManager;
-import com.epam.bp.autobase.dao.VehicleDao;
-import com.epam.bp.autobase.entity.*;
+import com.epam.bp.autobase.model.entity.User;
+import com.epam.bp.autobase.model.entity.Vehicle;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.math.BigDecimal;
 
 public class ChangeVehicleAction implements Action {
     private static final ActionResult MAIN_DRIVER = new ActionResult(ActionFactory.PAGE_MAIN_DRIVER, true);
@@ -78,7 +75,7 @@ public class ChangeVehicleAction implements Action {
 
     private void changeVehicle() throws ActionException {
         try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
+           /* DaoFactory daoFactory = DaoFactory.getInstance();
             DaoManager daoManager = daoFactory.getDaoManager();
             daoManager.transactionAndClose(daoManager1 -> {
                 VehicleDao vehicleDao = daoManager1.getVehicleDao();
@@ -152,7 +149,7 @@ public class ChangeVehicleAction implements Action {
                 vehicleDao.update(vehicle);
                 session.setAttribute(ERROR, "");
             });
-            daoFactory.releaseContext();
+            daoFactory.releaseContext();*/
         } catch (Exception e) {
       //      LOGGER.error("Error at changeVehicle() while performing transaction");
             throw new ActionException("Error at changeVehicle() while performing transaction", e);
@@ -162,7 +159,7 @@ public class ChangeVehicleAction implements Action {
 
     private void deleteVehicle() throws ActionException {
         try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
+           /* DaoFactory daoFactory = DaoFactory.getInstance();
             DaoManager daoManager = daoFactory.getDaoManager();
             daoManager.transactionAndClose(daoManager1 -> {
                 Integer id = Integer.valueOf(request.getParameter(DELETE));
@@ -182,7 +179,7 @@ public class ChangeVehicleAction implements Action {
                     result = ADMIN_TRUCKS;
                 }
             });
-            daoFactory.releaseContext();
+            daoFactory.releaseContext();*/
         } catch (Exception e) {
       //      LOGGER.error("Error at deleteVehicle() while performing transaction");
             throw new ActionException("Error at deleteVehicle() while performing transaction", e);

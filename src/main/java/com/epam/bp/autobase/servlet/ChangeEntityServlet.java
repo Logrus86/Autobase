@@ -1,6 +1,7 @@
 package com.epam.bp.autobase.servlet;
 
-import com.epam.bp.autobase.entity.User;
+import com.epam.bp.autobase.model.dto.ColorDto;
+import com.epam.bp.autobase.model.entity.User;
 import com.epam.bp.autobase.service.ColorService;
 import com.epam.bp.autobase.service.ServiceException;
 import com.epam.bp.autobase.service.UserService;
@@ -68,11 +69,15 @@ public class ChangeEntityServlet extends HttpServlet {
                 logger.info("Color with id = " + stringId + " had successfully deleted");
             } else {
                 stringId = req.getParameter(PARAM_SAVE);
-                cs.update(Integer.valueOf(stringId), req.getParameter("value_en"), req.getParameter("value_ru"));
+                ColorDto colorDto = new ColorDto()
+                        .setValue_en(req.getParameter("value_en"))
+                        .setValue_ru(req.getParameter("value_ru"));
+                colorDto.setId(Integer.valueOf(stringId));
+                cs.update(colorDto);
                 logger.info("Color '" + req.getParameter("value_en") + "' had successfully updated");
             }
         } catch (ServiceException se) {
-            logger.error(se.getMessage());
+            logger.error(se.getMessage() + ", " + se.getCause());
         }
         RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/admin_colors.jsp");
         resultView.forward(req, resp);
@@ -80,10 +85,13 @@ public class ChangeEntityServlet extends HttpServlet {
 
     private void createColor(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            cs.create(req.getParameter("value_en"), req.getParameter("value_ru"));
+            ColorDto colorDto = new ColorDto()
+                    .setValue_en(req.getParameter("value_en"))
+                    .setValue_ru(req.getParameter("value_ru"));
+            cs.create(colorDto);
             logger.info("Color created successfully");
         } catch (ServiceException se) {
-            logger.error(se.getMessage());
+            logger.error(se.getMessage() + ", " + se.getCause());
         }
         RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/admin_colors.jsp");
         resultView.forward(req, resp);
