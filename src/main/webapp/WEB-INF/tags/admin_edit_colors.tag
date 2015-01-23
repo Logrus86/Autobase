@@ -54,37 +54,37 @@
                     <div class="input-group">
                         <c:if test="${userService.locale.language=='ru'}">
                             <div class="col-lg-12">
-                                <div class="msg-error">${colorService.errorMap.value_ru_msg}</div>
+                                <div class="msg-error">${commonService.errorMap.value_ru_msg}</div>
                                 <div class="input-group">
                                     <span class="input-group-addon"><fmt:message key="default.valueRu"/></span>
                                     <input required type="text" class="form-control" id="value_ru" name="value_ru"
-                                           value=${colorService.errorMap.value_ru}>
+                                           value=${errorMap.value_ru}>
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="msg-error">${colorService.errorMap.value_en_msg}</div>
+                                <div class="msg-error">${errorMap.value_en_msg}</div>
                                 <div class="input-group">
                                     <span class="input-group-addon"><fmt:message key="default.valueEn"/></span>
                                     <input required type="text" class="form-control" id="value_en" name="value_en"
-                                           value=${colorService.errorMap.value_en}>
+                                           value=${errorMap.value_en}>
                                 </div>
                             </div>
                         </c:if>
                         <c:if test="${userService.locale.language=='en'}">
                             <div class="col-lg-12">
-                                <div class="msg-error">${colorService.errorMap.value_en_msg}</div>
+                                <div class="msg-error">${errorMap.value_en_msg}</div>
                                 <div class="input-group">
                                     <span class="input-group-addon"><fmt:message key="default.valueEn"/></span>
                                     <input required type="text" class="form-control" id="value_en" name="value_en"
-                                           value=${colorService.errorMap.value_en}>
+                                           value=${errorMap.value_en}>
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="msg-error">${colorService.errorMap.value_ru_msg}</div>
+                                <div class="msg-error">${errorMap.value_ru_msg}</div>
                                 <div class="input-group">
                                     <span class="input-group-addon"><fmt:message key="default.valueRu"/></span>
                                     <input required type="text" class="form-control" id="value_ru" name="value_ru"
-                                           value=${colorService.errorMap.value_ru}>
+                                           value=${errorMap.value_ru}>
                                 </div>
                             </div>
                         </c:if>

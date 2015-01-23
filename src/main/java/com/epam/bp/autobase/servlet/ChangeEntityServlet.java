@@ -91,7 +91,7 @@ public class ChangeEntityServlet extends HttpServlet {
             cs.create(colorDto);
             logger.info("Color created successfully");
         } catch (ServiceException se) {
-            logger.error(se.getMessage() + ", " + se.getCause());
+            logger.error(se.getMessage() + (se.getCause() != null ? ", " + se.getCause() : ""));
         }
         RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/admin_colors.jsp");
         resultView.forward(req, resp);

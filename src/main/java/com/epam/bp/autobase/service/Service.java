@@ -6,7 +6,7 @@ import com.epam.bp.autobase.model.entity.Identifiable;
 import java.io.Serializable;
 
 public interface Service<T extends BaseDto> extends Serializable {
-
+    
     public void create(T dto) throws ServiceException;
 
     public T getById(int id) throws ServiceException;

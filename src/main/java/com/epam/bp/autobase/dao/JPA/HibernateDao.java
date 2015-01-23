@@ -15,7 +15,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @RequestScoped
-@Transactional
 public class HibernateDao implements Dao {
 
     @Inject
@@ -32,51 +31,87 @@ public class HibernateDao implements Dao {
     @Transactional(Transactional.TxType.REQUIRED)
     @Override
     public void create(Identifiable entity) throws DaoException {
-        em.persist(entity);
+        try {
+            em.persist(entity);
+        } catch (Exception e) {
+            throw new DaoException(e.getMessage(), e.getCause());
+        }
     }
 
     @Transactional(Transactional.TxType.NOT_SUPPORTED)
     @Override
     public Identifiable getById(Integer id) throws DaoException {
-        return em.find(entityClass, id);
+        try {
+            return em.find(entityClass, id);
+        } catch (Exception e) {
+            throw new DaoException(e.getMessage(), e.getCause());
+        }
     }
 
     @Transactional(Transactional.TxType.NOT_SUPPORTED)
     @Override
     public List getAll() throws DaoException {
-        TypedQuery<? extends Identifiable> query = em.createQuery(entityClass.getSimpleName() + ".getAll", entityClass);
-        return query.getResultList();
+        try {
+            TypedQuery<? extends Identifiable> query = em.createQuery(entityClass.getSimpleName() + ".getAll", entityClass);
+            return query.getResultList();
+        } catch (Exception e) {
+            throw new DaoException(e.getMessage(), e.getCause());
+        }
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
     @Override
     public void update(Identifiable entity) throws DaoException {
-        em.merge(entity);
+        try {
+            em.merge(entity);
+        } catch (Exception e) {
+            throw new DaoException(e.getMessage(), e.getCause());
+        }
     }
 
     @Override
     public void delete(Integer id) throws DaoException {
-        em.remove(em.find(entityClass, id));
+        try {
+            em.remove(em.find(entityClass, id));
+        } catch (Exception e) {
+            throw new DaoException(e.getMessage(), e.getCause());
+        }
     }
 
     @Override
     public void delete(Identifiable entity) throws DaoException {
-        em.remove(entity);
+        try {
+            em.remove(entity);
+        } catch (Exception e) {
+            throw new DaoException(e.getMessage(), e.getCause());
+        }
     }
 
-    public List<Identifiable> getListByFieldValue(String field, String value) {
-        Session session = (Session) em.getDelegate();
-        Criteria criteria = session.createCriteria(entityClass);
-        criteria.add(Restrictions.eq(field, value));
-        if (criteria.list().isEmpty()) return null;
-        return criteria.list();
+    public List<Identifiable> getListByFieldValue(String field, String value) throws DaoException {
+        try {
+            Session session = (Session) em.getDelegate();
+            Criteria criteria = session.createCriteria(entityClass);
+            criteria.add(Restrictions.eq(field, value));
+            if (criteria.list().isEmpty()) return null;
+            return criteria.list();
+        } catch (Exception e) {
+            throw new DaoException(e.getMessage(), e.getCause());
+        }
     }
 
-    public Identifiable getByFieldValue(String field, String value) {
-        return getListByFieldValue(field, value).get(0);
+    public Identifiable getByFieldValue(String field, String value) throws DaoException {
+        try {
+            return getListByFieldValue(field, value).get(0);
+        } catch (Exception e) {
+            throw new DaoException(e.getMessage(), e.getCause());
+        }
     }
 
-    public boolean checkFieldValueExists(String field, String value) {
-        return getListByFieldValue(field, value).isEmpty();
+    public boolean checkFieldValueExists(String field, String value) throws DaoException {
+        try {
+            return getListByFieldValue(field, value)!=null;
+        } catch (Exception e) {
+            throw new DaoException(e.getMessage(), e.getCause());
+        }
     }
 }

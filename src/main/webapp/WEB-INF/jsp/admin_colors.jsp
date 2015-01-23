@@ -17,7 +17,7 @@
     </t:generic>
 </fmt:bundle>
 
-<c:if test="${colorService.errorMap.isEmpty()!=null}">
+<c:if test="${!errorMap.isEmpty}">
     <script language="javascript">
         showModalByDefault('#modalCreateColor');
     </script>

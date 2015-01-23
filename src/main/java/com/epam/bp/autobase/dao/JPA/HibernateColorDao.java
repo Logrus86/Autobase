@@ -5,10 +5,8 @@ import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.model.entity.Color;
 
 import javax.enterprise.context.RequestScoped;
-import javax.transaction.Transactional;
 
 @RequestScoped
-@Transactional
 public class HibernateColorDao extends HibernateDao implements ColorDao {
 
     public HibernateColorDao() {
