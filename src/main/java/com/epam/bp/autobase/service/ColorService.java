@@ -8,11 +8,12 @@ import com.epam.bp.autobase.model.entity.Color;
 import com.epam.bp.autobase.model.entity.Identifiable;
 
 import javax.enterprise.event.Event;
+import javax.enterprise.inject.Model;
 import javax.inject.Inject;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-
+@Model
 public class ColorService extends CommonService implements Service {
 
     @Inject
@@ -27,7 +28,7 @@ public class ColorService extends CommonService implements Service {
         try {
             Color color = (Color) getEntityFromDto(dto);
             String errors = validate(color, us.getLocale());
-            if (getErrorMap() == null) {
+            if ("".equals(errors)) {
                 dao.create(color);
                 event.fire(color);
             } else {
@@ -51,8 +52,13 @@ public class ColorService extends CommonService implements Service {
     public void update(BaseDto dto) throws ServiceException {
         try {
             Color color = (Color) getEntityFromDto(dto);
-            dao.update(color);
-            event.fire(color);
+            String errors = validate(color, dto, us.getLocale());
+            if ("".equals(errors)) {
+                dao.update(color);
+                event.fire(color);
+            } else {
+                throw new ServiceException("Color isn't updated due validation error: " + errors);
+            }
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e.getCause());
         }
@@ -105,7 +111,7 @@ public class ColorService extends CommonService implements Service {
     }
 
     @Override
-    public String checkNecessaryFieldsNotBusy(Identifiable identifiable) throws ServiceException {
+    public String checkAllFieldsNotBusy(Identifiable identifiable) throws ServiceException {
         StringBuilder sb = new StringBuilder();
         Color color = (Color) identifiable;
         Locale locale = us.getLocale();
@@ -118,6 +124,38 @@ public class ColorService extends CommonService implements Service {
             }
             // check busyness of value_ru
             if (dao.checkFieldValueExists(VALUE_RU, color.getValue_ru())) {
+                if (!"".equals(sb.toString())) {
+                    sb.append("; ");
+                }
+                String error = ResourceBundle.getBundle(RB, locale).getString("error.busy-color");
+                sb.append(error);
+                getErrorMap().put(VALUE_RU + "_" + MSG, error);
+            }
+            return sb.toString();
+        } catch (DaoException e) {
+            e.printStackTrace();
+            throw new ServiceException(e.getMessage(), e.getCause());
+        }
+    }
+
+    @Override
+    public String checkChangedFieldsNotBusy(Identifiable identifiable, BaseDto dto) throws ServiceException {
+        StringBuilder sb = new StringBuilder();
+        Color color = (Color) identifiable;
+        ColorDto colorDto = (ColorDto) dto;
+        Locale locale = us.getLocale();
+        try {
+            // check busyness of value_en if its changed
+            if ((!color.getValue_en().equals(colorDto.getValue_en())) && (dao.checkFieldValueExists(VALUE_EN, color.getValue_en()))) {
+                String error = ResourceBundle.getBundle(RB, locale).getString("error.busy-color");
+                sb.append(error);
+                getErrorMap().put(VALUE_EN + "_" + MSG, error);
+            }
+            // check busyness of value_ru if its changed
+            if ((!color.getValue_ru().equals(colorDto.getValue_ru())) && (dao.checkFieldValueExists(VALUE_RU, color.getValue_ru()))) {
+                if (!"".equals(sb.toString())) {
+                    sb.append("; ");
+                }
                 String error = ResourceBundle.getBundle(RB, locale).getString("error.busy-color");
                 sb.append(error);
                 getErrorMap().put(VALUE_RU + "_" + MSG, error);

@@ -66,7 +66,7 @@ public class ChangeEntityServlet extends HttpServlet {
             if (req.getParameter(PARAM_SAVE) == null) {
                 stringId = req.getParameter(PARAM_DELETE);
                 cs.delete(Integer.valueOf(stringId));
-                logger.info("Color with id = " + stringId + " had successfully deleted");
+                logger.info("Color with id = " + stringId + " was successfully deleted");
             } else {
                 stringId = req.getParameter(PARAM_SAVE);
                 ColorDto colorDto = new ColorDto()
@@ -102,7 +102,7 @@ public class ChangeEntityServlet extends HttpServlet {
         if (!User.Role.ADMIN.equals(us.getSessionUser().getRole()) || req.getParameter(PARAM_SAVE) != null) {
             try {
                 us.update(getServiceMapFromRequest(req));
-                logger.info("User '" + req.getParameter("username") + "' had successfully updated");
+                logger.info("User '" + req.getParameter("username") + "' was successfully updated");
             } catch (ServiceException se) {
                 logger.error(se.getMessage());
             }
@@ -110,7 +110,7 @@ public class ChangeEntityServlet extends HttpServlet {
             String stringId = req.getParameter(PARAM_DELETE);
             if (stringId != null) {
                 us.delete(Integer.valueOf(stringId));
-                logger.info("User '" + req.getParameter("username") + "' had successfully deleted");
+                logger.info("User '" + req.getParameter("username") + "' was successfully deleted");
             }
         }
         forwardDependsRole(req, resp);
