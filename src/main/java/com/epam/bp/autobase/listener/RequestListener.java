@@ -1,6 +1,6 @@
 package com.epam.bp.autobase.listener;
 
-import com.epam.bp.autobase.service.UserService;
+import com.epam.bp.autobase.service.SessionState;
 
 import javax.inject.Inject;
 import javax.servlet.ServletRequestEvent;
@@ -10,7 +10,7 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class RequestListener implements ServletRequestListener {
     @Inject
-    UserService us;
+    SessionState ss;
 
     @Override
     public void requestDestroyed(ServletRequestEvent sre) {
@@ -19,8 +19,8 @@ public class RequestListener implements ServletRequestListener {
 
     @Override
     public void requestInitialized(ServletRequestEvent sre) {
-        if (us.getLocale() == null) {
-            us.setLocale(sre.getServletRequest().getLocale());
+        if (ss.getLocale() == null) {
+            ss.setLocale(sre.getServletRequest().getLocale());
         }
     }
 }

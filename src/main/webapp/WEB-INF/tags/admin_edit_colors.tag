@@ -7,11 +7,11 @@
         <div class="msg-error">${colorService.errorMap.update_err}</div>
         <tr align="center">
             <td>№</td>
-            <c:if test="${userService.locale.language=='ru'}">
+            <c:if test="${sessionState.locale.language=='ru'}">
                 <td><fmt:message key="default.valueRu"/></td>
                 <td><fmt:message key="default.valueEn"/></td>
             </c:if>
-            <c:if test="${userService.locale.language=='en'}">
+            <c:if test="${sessionState.locale.language=='en'}">
                 <td><fmt:message key="default.valueEn"/></td>
                 <td><fmt:message key="default.valueRu"/></td>
             </c:if>
@@ -20,13 +20,13 @@
             <tr>
                 <form method="post" action="change_color">
                     <td><input id="N" type="number" class="form-control" value=${i.count} readonly></td>
-                    <c:if test="${userService.locale.language=='ru'}">
+                    <c:if test="${sessionState.locale.language=='ru'}">
                         <td><input required type="text" class="form-control" name="value_ru" value=${color.value_ru}>
                         </td>
                         <td><input required type="text" class="form-control" name="value_en" value=${color.value_en}>
                         </td>
                     </c:if>
-                    <c:if test="${userService.locale.language=='en'}">
+                    <c:if test="${sessionState.locale.language=='en'}">
                         <td><input required type="text" class="form-control" name="value_en" value=${color.value_en}>
                         </td>
                         <td><input required type="text" class="form-control" name="value_ru" value=${color.value_ru}>
@@ -64,7 +64,7 @@
             <div class="modal-body">
                 <form id="create-color-form" class="createForm" method="post" action="create_color">
                     <div class="input-group">
-                        <c:if test="${userService.locale.language=='ru'}">
+                        <c:if test="${sessionState.locale.language=='ru'}">
                             <div class="col-lg-12">
                                 <c:if test="${colorService.errorMap.create_err!=null}">
                                     <div class="msg-error">${colorService.errorMap.value_ru_msg}</div>
@@ -86,7 +86,7 @@
                                 </div>
                             </div>
                         </c:if>
-                        <c:if test="${userService.locale.language=='en'}">
+                        <c:if test="${sessionState.locale.language=='en'}">
                             <div class="col-lg-12">
                                 <c:if test="${colorService.errorMap.create_err!=null}">
                                     <div class="msg-error">${colorService.errorMap.value_en_msg}</div>

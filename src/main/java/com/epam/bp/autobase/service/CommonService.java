@@ -32,7 +32,7 @@ public class CommonService {
     public static final String VALUE_RU = "value_ru";
     private Map<String, String> errorMap;
 
-    public Map getErrorMap() {
+    public Map<String, String> getErrorMap() {
         return errorMap;
     }
 
@@ -65,14 +65,18 @@ public class CommonService {
     //for create method
     public String validate(Identifiable identifiable, Locale locale) throws ServiceException {
         String result = validate0(identifiable, locale).append(checkAllFieldsNotBusy(identifiable)).toString();
-        errorMap.put(CREATE_ERR, result);
+        if (!"".equals(result)) {
+            errorMap.put(CREATE_ERR, result);
+        }
         return result;
     }
 
     //for update method
     public String validate(Identifiable identifiable, BaseDto dto, Locale locale) throws ServiceException {
         String result = validate0(identifiable, locale).append(checkChangedFieldsNotBusy(identifiable, dto)).toString();
-        errorMap.put(UPDATE_ERR, result);
+        if (!"".equals(result)) {
+            errorMap.put(UPDATE_ERR, result);
+        }
         return result;
     }
 

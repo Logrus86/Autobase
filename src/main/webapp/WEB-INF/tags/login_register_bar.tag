@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type='text/javascript' src='<c:url value="/static/js/bp.js"/>'></script>
 
-<fmt:setLocale value="${userService.locale}" scope="application"/>
+<fmt:setLocale value="${sessionState.locale}" scope="application"/>
 <fmt:bundle basename="i18n.text">
     <div class="btn-group" id="logins">
         <form method="post" action="login">

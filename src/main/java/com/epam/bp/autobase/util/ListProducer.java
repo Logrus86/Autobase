@@ -1,7 +1,7 @@
 package com.epam.bp.autobase.util;
 
 import com.epam.bp.autobase.model.entity.*;
-import com.epam.bp.autobase.service.UserService;
+import com.epam.bp.autobase.service.SessionState;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
@@ -17,7 +17,7 @@ import java.util.List;
 @ApplicationScoped
 public class ListProducer {
     @Inject
-    UserService us;
+    SessionState ss;
     @Inject
     private EntityManager em;
     private List<Color> colors;
@@ -67,8 +67,9 @@ public class ListProducer {
     @Named
     @RequestScoped
     public List<Color> getColors() {
-        //retrieve w/out checks because colors depends on locale
-        retrieveAllColors();
+        if (colors == null) {
+            retrieveAllColors();
+        }
         return colors;
     }
 
@@ -122,7 +123,7 @@ public class ListProducer {
         retrieveAllTrucks();
         return truckList;
     }
-    
+
     private void retrieveAllUsers() {
         TypedQuery<User> query = em.createNamedQuery("User.getAll", User.class);
         userList = query.getResultList();
@@ -130,7 +131,7 @@ public class ListProducer {
 
     private void retrieveAllColors() {
         TypedQuery<Color> query;
-        if ("ru".equals(us.getLocale().getLanguage())) {
+        if ("ru".equals(ss.getLocale().getLanguage())) {
             query = em.createNamedQuery("Color.getAllSortedByRu", Color.class);
         } else {
             query = em.createNamedQuery("Color.getAllSortedByEn", Color.class);

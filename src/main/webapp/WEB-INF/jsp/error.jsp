@@ -4,13 +4,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link href='<c:url value="/static/img/favicon.ico"/>' rel="icon" type="image/x-icon">
 
-<fmt:setLocale value="${userService.locale}"/>
+<fmt:setLocale value="${sessionState.locale}"/>
 <fmt:bundle basename="i18n.text">
     <t:generic>
         <jsp:attribute name="hide_footer">hidden="hidden"</jsp:attribute>
         <jsp:body>
             <div align="center" id="error-box">
                 <img src="<c:url value="/static/img/error.jpg"/>"/>
+
                 <H1><fmt:message key="default.wrongturn"/> ${statuscode}</H1>
 
                 <p>${statusCode}:
@@ -21,6 +22,7 @@
                         <c:otherwise>${message}</c:otherwise>
                     </c:choose>
                 </p>
+
                 <p><a href='<c:url value="/"/>'><fmt:message key="default.backto"/> autobase.com</a></p>
             </div>
         </jsp:body>

@@ -1,8 +1,10 @@
 package com.epam.bp.autobase.servlet;
 
-import com.epam.bp.autobase.service.UserService;
+import com.epam.bp.autobase.model.entity.Color;
+import com.epam.bp.autobase.service.SessionState;
 import org.jboss.logging.Logger;
 
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,13 +14,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/do/locale")
-public class LocaleServlet extends HttpServlet{
+public class LocaleServlet extends HttpServlet {
     private static final String PARAMETER_LOCALE = "locale";
     private static final String MSG = "Locale was changed to: ";
     @Inject
     Logger logger;
     @Inject
-    UserService us;
+    SessionState ss;
+    @Inject
+    Event<Color> event;
 
     public LocaleServlet() {
     }
@@ -26,7 +30,8 @@ public class LocaleServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String lang_code = req.getParameter(PARAMETER_LOCALE);
-        us.setLocaleFromLangCode(lang_code);
+        ss.setLocaleFromLangCode(lang_code);
+        event.fire(new Color());
         logger.info(MSG + lang_code);
         resp.sendRedirect(req.getHeader("Referer"));
     }

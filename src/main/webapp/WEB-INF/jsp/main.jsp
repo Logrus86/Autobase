@@ -4,9 +4,9 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <link href='<c:url value="/static/img/favicon.ico"/>' rel="icon" type="image/x-icon">
 
-<fmt:setLocale value="${userService.locale}"/>
+<fmt:setLocale value="${sessionState.locale}"/>
 <fmt:bundle basename="i18n.text">
-<html>
+    <html>
     <head>
         <title>autobase.com</title>
     </head>
@@ -20,7 +20,7 @@
             <t:search_form/>
         </jsp:body>
     </t:generic>
-</html>
+    </html>
 </fmt:bundle>
 
 <c:if test="${userService.errorMap!=null}">

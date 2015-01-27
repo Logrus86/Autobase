@@ -49,8 +49,8 @@
                 <td>${vehicle.model.value}</td>
                 <td>${vehicle.manufacturer.value}</td>
                 <td>${vehicle.productionYear}</td>
-                <td><c:if test="${userService.locale.language=='ru'}">${vehicle.color.value_ru}</c:if>
-                    <c:if test="${userService.locale.language=='en'}">${vehicle.color.value_en}</c:if>
+                <td><c:if test="${sessionState.locale.language=='ru'}">${vehicle.color.value_ru}</c:if>
+                    <c:if test="${sessionState.locale.language=='en'}">${vehicle.color.value_en}</c:if>
                 </td>
                 <td><fmt:message key="default.${vehicle.fuelType}"/></td>
                 <td>${vehicle.mileage}</td>
@@ -132,6 +132,7 @@
             <div class="modal-body">
                 <form id="order-form" method="post" action="order">
                     <input id="vhId" name="vhId" type="hidden" value="">
+
                     <div class="input-group">
                         <div class="col-lg-12">
                             <div class="input-group">

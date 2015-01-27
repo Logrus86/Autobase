@@ -8,25 +8,24 @@ import org.hibernate.criterion.Restrictions;
 import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.Stateful;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
+import javax.enterprise.inject.Model;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.Set;
 
-@Stateful
-@Named
-@SessionScoped
+@Model
 public class UserService implements Serializable {
     public static final String FIRSTNAME = "firstname";
     public static final String LASTNAME = "lastname";
@@ -46,12 +45,15 @@ public class UserService implements Serializable {
     @Inject
     private EntityManager em;
     @Inject
+    private SessionState ss;
+    @Inject
     private Event<User> userEventSrc;
-    private User sessionUser;
-    private Locale locale;
+
+    private User user;
+
     private Map<String, String> errorMap;
 
-    @RequestScoped
+
     public Map getErrorMap() {
         return errorMap;
     }
@@ -60,24 +62,12 @@ public class UserService implements Serializable {
         return Validation.buildDefaultValidatorFactory().getValidator();
     }
 
-    public Locale getLocale() {
-        return locale;
+    public User getUser() {
+        return user;
     }
 
-    public void setLocale(Locale locale) {
-        this.locale = locale;
-    }
-
-    public void setLocaleFromLangCode(String lang_code) {
-        this.locale = new Locale(lang_code);
-    }
-
-    public User getSessionUser() {
-        return sessionUser;
-    }
-
-    public void setSessionUser(User user) {
-        this.sessionUser = user;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public User findByCredentials(String username, String password) {
@@ -91,14 +81,11 @@ public class UserService implements Serializable {
         }
     }
 
+    @Transactional(Transactional.TxType.REQUIRED)
     public void create(Map<String, String> userDataMap) throws ServiceException {
-        //remember current JVM locale
-        Locale oldLocale = Locale.getDefault();
-        //change it to current sessionScoped locale to get localized validator & error messages
-        Locale.setDefault(getLocale());
         StringBuilder sb = new StringBuilder();
         initNewUser();
-        sessionUser.setFirstname(userDataMap.get(FIRSTNAME))
+        user.setFirstname(userDataMap.get(FIRSTNAME))
                 .setLastname(userDataMap.get(LASTNAME))
                 .setDob(userDataMap.get(DOB))
                 .setUsername(userDataMap.get(USERNAME))
@@ -107,7 +94,7 @@ public class UserService implements Serializable {
                 .setRole(User.Role.CLIENT)
                 .setBalance(BigDecimal.ZERO);
         //ejb validation
-        Set<ConstraintViolation<User>> cvs = validator().validate(sessionUser);
+        Set<ConstraintViolation<User>> cvs = validator().validate(user);
         errorMap = userDataMap;
         for (ConstraintViolation<User> cv : cvs) {
             sb.append(cv.getMessage()).append(": ").append(cv.getInvalidValue()).append("; ");
@@ -120,23 +107,22 @@ public class UserService implements Serializable {
             errorMap.put(PASSWORD + "_" + MSG, error);
         }
         // check busyness of username
-        if (checkFieldValueExists(USERNAME, sessionUser.getUsername())) {
+        if (checkFieldValueExists(USERNAME, user.getUsername())) {
             String error = ResourceBundle.getBundle(RB).getString("error.busy-username");
             sb.append(error);
             errorMap.put(USERNAME + "_" + MSG, error);
         }
         // check busyness of email
-        if (checkFieldValueExists(EMAIL, sessionUser.getEmail())) {
+        if (checkFieldValueExists(EMAIL, user.getEmail())) {
             String error = ResourceBundle.getBundle(RB).getString("error.busy-email");
             sb.append(error);
             errorMap.put(EMAIL + "_" + MSG, error);
         }
-        //return JVM locale back
-        Locale.setDefault(oldLocale);
         // if sb is empty all is ok, proceed to persist
         if (sb.toString().isEmpty()) {
-            em.persist(sessionUser);
-            userEventSrc.fire(sessionUser);
+            em.persist(user);
+            ss.setSessionUser(user);
+            userEventSrc.fire(user);
             errorMap = null;
             //...or clear user and throw exception
         } else {
@@ -147,7 +133,7 @@ public class UserService implements Serializable {
 
     @PostConstruct
     public void initNewUser() {
-        sessionUser = new User();
+        user = new User();
     }
 
     public boolean checkFieldValueExists(String field, String value) {
@@ -158,10 +144,6 @@ public class UserService implements Serializable {
     }
 
     public void update(Map<String, String> userDataMap) throws ServiceException {
-        //remember current JVM locale
-        Locale oldLocale = Locale.getDefault();
-        //change it to current sessionScoped locale to get localized validator & error messages
-        Locale.setDefault(getLocale());
         StringBuilder sb = new StringBuilder();
         User user = new User()
                 .setFirstname(userDataMap.get(FIRSTNAME))
@@ -207,8 +189,6 @@ public class UserService implements Serializable {
                 errorMap.put(EMAIL + "_" + MSG, error);
             }
         }
-        //return JVM locale back
-        Locale.setDefault(oldLocale);
         // if sb is empty all is ok, proceed to persist
         if (sb.toString().isEmpty()) {
             em.merge(user);

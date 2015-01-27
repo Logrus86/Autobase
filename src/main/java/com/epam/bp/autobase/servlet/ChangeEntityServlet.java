@@ -99,7 +99,7 @@ public class ChangeEntityServlet extends HttpServlet {
 
     private void changeUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //changing user if we are client or driver; if we are admin, do it if PARAM_SAVE parameter not null only
-        if (!User.Role.ADMIN.equals(us.getSessionUser().getRole()) || req.getParameter(PARAM_SAVE) != null) {
+        if (!User.Role.ADMIN.equals(us.getUser().getRole()) || req.getParameter(PARAM_SAVE) != null) {
             try {
                 us.update(getServiceMapFromRequest(req));
                 logger.info("User '" + req.getParameter("username") + "' was successfully updated");
@@ -119,7 +119,7 @@ public class ChangeEntityServlet extends HttpServlet {
     private void registerUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             us.create(getServiceMapFromRequest(req));
-            logger.info("Newly registered user: " + us.getSessionUser().toString());
+            logger.info("Newly registered user: " + us.getUser().toString());
             RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/registered.jsp");
             resultView.forward(req, resp);
         } catch (ServiceException se) {
@@ -130,13 +130,13 @@ public class ChangeEntityServlet extends HttpServlet {
 
     private void forwardDependsRole(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher resultView;
-        if (User.Role.CLIENT.equals(us.getSessionUser().getRole())) {
+        if (User.Role.CLIENT.equals(us.getUser().getRole())) {
             resultView = req.getRequestDispatcher("/WEB-INF/jsp/cabinet.jsp");
         } else {
-            if (User.Role.DRIVER.equals(us.getSessionUser().getRole())) {
+            if (User.Role.DRIVER.equals(us.getUser().getRole())) {
                 resultView = req.getRequestDispatcher("/WEB-INF/jsp/main_driver.jsp");
             } else {
-                if (User.Role.ADMIN.equals(us.getSessionUser().getRole())) {
+                if (User.Role.ADMIN.equals(us.getUser().getRole())) {
                     resultView = req.getRequestDispatcher("/WEB-INF/jsp/admin_users.jsp");
                 } else resultView = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
             }

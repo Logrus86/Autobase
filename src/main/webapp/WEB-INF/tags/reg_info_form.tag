@@ -1,6 +1,6 @@
-<%@tag description="registration info form" pageEncoding="UTF-8"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@tag description="registration info form" pageEncoding="UTF-8" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <form id="reg_info">
     <div class="panel panel-primary">
@@ -13,7 +13,8 @@
                     <div class="col-lg-12">
                         <div class="input-group">
                             <span class="input-group-addon"><fmt:message key="default.firstname"/>:</span>
-                            <input type="text" class="form-control" value="${userService.sessionUser.firstname}" readonly>
+                            <input type="text" class="form-control" value="${sessionState.sessionUser.firstname}"
+                                   readonly>
                         </div>
                     </div>
                 </div>
@@ -21,7 +22,8 @@
                     <div class="col-lg-12">
                         <div class="input-group">
                             <span class="input-group-addon"><fmt:message key="default.lastname"/>:</span>
-                            <input type="text" class="form-control" value="${userService.sessionUser.lastname}" readonly>
+                            <input type="text" class="form-control" value="${sessionState.sessionUser.lastname}"
+                                   readonly>
                         </div>
                     </div>
                 </div>
@@ -29,7 +31,7 @@
                     <div class="col-lg-12">
                         <div class="input-group">
                             <span class="input-group-addon"><fmt:message key="default.dob"/>:</span>
-                            <input type="text" class="form-control" value="${userService.sessionUser.dob}" readonly>
+                            <input type="text" class="form-control" value="${sessionState.sessionUser.dob}" readonly>
                         </div>
                     </div>
                 </div>
@@ -37,7 +39,8 @@
                     <div class="col-lg-12">
                         <div class="input-group">
                             <span class="input-group-addon"><fmt:message key="default.username"/>:</span>
-                            <input type="text" class="form-control" value="${userService.sessionUser.username}" readonly>
+                            <input type="text" class="form-control" value="${sessionState.sessionUser.username}"
+                                   readonly>
                         </div>
                     </div>
                 </div>
@@ -45,7 +48,8 @@
                     <div class="col-lg-12">
                         <div class="input-group">
                             <span class="input-group-addon"><fmt:message key="default.password"/>:</span>
-                            <input type="text" class="form-control" value="${userService.sessionUser.password}" readonly>
+                            <input type="text" class="form-control" value="${sessionState.sessionUser.password}"
+                                   readonly>
                         </div>
                     </div>
                 </div>
@@ -53,7 +57,7 @@
                     <div class="col-lg-12">
                         <div class="input-group">
                             <span class="input-group-addon"><fmt:message key="default.email"/>:</span>
-                            <input type="text" class="form-control" value="${userService.sessionUser.email}" readonly>
+                            <input type="text" class="form-control" value="${sessionState.sessionUser.email}" readonly>
                         </div>
                     </div>
                 </div>
@@ -62,7 +66,8 @@
                         <div class="input-group">
                             <span class="input-group-addon"><fmt:message key="default.balance"/>:</span>
                             <input type="text" class="form-control"
-                                   value="${userService.sessionUser.balance} <fmt:message key="default.currency"/>" readonly>
+                                   value="${sessionState.sessionUser.balance} <fmt:message key="default.currency"/>"
+                                   readonly>
                         </div>
                     </div>
                 </div>

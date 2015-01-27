@@ -1,6 +1,7 @@
 package com.epam.bp.autobase.servlet;
 
 import com.epam.bp.autobase.model.entity.User;
+import com.epam.bp.autobase.service.SessionState;
 import com.epam.bp.autobase.service.UserService;
 import org.jboss.logging.Logger;
 
@@ -27,6 +28,8 @@ public class AuthServlet extends HttpServlet {
     @Inject
     UserService us;
     @Inject
+    SessionState ss;
+    @Inject
     private Logger logger;
 
     @Override
@@ -36,18 +39,16 @@ public class AuthServlet extends HttpServlet {
     //get method = log-out or login-check
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = us.getSessionUser();
+        User user = ss.getSessionUser();
         RequestDispatcher rd;
-        if (req.getServletPath().equals("/do/quit")) {
+        if ((req.getServletPath().equals("/do/quit")) & (user != null)) {
             //log-out
-            if (user.getRole() != null) {
-                logger.info("User '" + user.getUsername() + "' have logged-out");
-                us.initNewUser();
-            }
+            logger.info("User '" + user.getUsername() + "' have logged-out");
+            ss.setSessionUser(null);
             rd = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
         } else {
             //log-in check
-            if (user.getRole() == null) {
+            if (user == null) {
                 logger.info("User isn't logged in, going to main page");
                 rd = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
             } else {
@@ -60,15 +61,15 @@ public class AuthServlet extends HttpServlet {
     // post method = log-in
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ResourceBundle rb = ResourceBundle.getBundle(RB_NAME, us.getLocale());
+        ResourceBundle rb = ResourceBundle.getBundle(RB_NAME, ss.getLocale());
         String login_err_msg = rb.getString(RB_ERROR_LOGIN_KEY);
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         User user = us.findByCredentials(username, password);
         if (user != null) {
             logger.info("User '" + username + "' with password '" + password + "' has logged in with role: " + user.getRole());
-            us.setSessionUser(user);
-            if (user.getRole().equals(User.Role.CLIENT) & (!req.getServletPath().equals("/do/quit"))) {
+            ss.setSessionUser(user);
+            if (user.getRole().equals(User.Role.CLIENT) & (!req.getHeader(REFERRER).contains("/do/quit"))) {
                 resp.sendRedirect(req.getHeader(REFERRER));
             } else {
                 RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/jsp/main" + user.getRole() + ".jsp");
@@ -76,8 +77,8 @@ public class AuthServlet extends HttpServlet {
             }
         } else {
             logger.info("User '" + username + "' with password '" + password + "' wasn't found.");
-            us.initNewUser();
             req.setAttribute(ATTRIBUTE_ERROR, login_err_msg);
+            ss.setSessionUser(null);
             RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
             rd.forward(req, resp);
         }
