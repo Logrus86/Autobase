@@ -93,31 +93,31 @@ public class ChangeSpecAction implements Action {
             //     DaoManager daoManager = daoFactory.getDaoManager();
             //      daoManager.transactionAndClose(daoManager1 -> {
             ColorDao colorDao = null;//= daoManager1.getColorDao();
-                Integer id = Integer.valueOf(request.getParameter(SAVE));
+            Integer id = Integer.valueOf(request.getParameter(SAVE));
             Color color = null;// = colorDao.getById(id);
-                String valueEn = request.getParameter(VALUE_EN);
-                String valueRu = request.getParameter(VALUE_RU);
-                //check to unique if old value not equals new value, check valueEn
-                if ((!color.getValue_en().equals(valueEn)) && (colorDao.getByValueEn(valueEn) != null)) {
+            String valueEn = request.getParameter(VALUE_EN);
+            String valueRu = request.getParameter(VALUE_RU);
+            //check to unique if old value not equals new value, check valueEn
+            if ((!color.getValue_en().equals(valueEn)) && (colorDao.getByValueEn(valueEn) != null)) {
+                session.setAttribute(ERROR_COLOR, color_busy);
+            } else {
+                // valueEn isn't busy, check valueRu
+                if ((!color.getValue_ru().equals(valueRu)) && (colorDao.getByValueRu(valueRu) != null)) {
                     session.setAttribute(ERROR_COLOR, color_busy);
                 } else {
-                    // valueEn isn't busy, check valueRu
-                    if ((!color.getValue_ru().equals(valueRu)) && (colorDao.getByValueRu(valueRu) != null)) {
-                        session.setAttribute(ERROR_COLOR, color_busy);
-                    } else {
-                        //all is ok, proceed
-                        color.setValue_en(valueEn);
-                        color.setValue_ru(valueRu);
-                        //             colorDao.update(color);
-                        session.removeAttribute(ERROR_COLOR);
+                    //all is ok, proceed
+                    color.setValue_en(valueEn);
+                    color.setValue_ru(valueRu);
+                    //             colorDao.update(color);
+                    session.removeAttribute(ERROR_COLOR);
 
-                    }
                 }
+            }
             //    });
             //    daoFactory.releaseContext();
-    //        as.setToContext(COLOR, session.getServletContext());
+            //        as.setToContext(COLOR, session.getServletContext());
         } catch (Exception e) {
-    //        LOGGER.error("Error at changeColor() while performing transaction");
+            //        LOGGER.error("Error at changeColor() while performing transaction");
             throw new ActionException("Error at changeColor() while performing transaction", e);
         }
         result = ADMIN_COLORS;
@@ -134,9 +134,9 @@ public class ChangeSpecAction implements Action {
 
             //    });
             //    daoFactory.releaseContext();
-     //       as.setToContext(COLOR, session.getServletContext());
+            //       as.setToContext(COLOR, session.getServletContext());
         } catch (Exception e) {
-     //       LOGGER.error("Error at deleteColor() while performing transaction");
+            //       LOGGER.error("Error at deleteColor() while performing transaction");
             throw new ActionException("Error at deleteColor() while performing transaction", e);
         }
         result = ADMIN_COLORS;
@@ -148,22 +148,22 @@ public class ChangeSpecAction implements Action {
             //     DaoManager daoManager = daoFactory.getDaoManager();
             //     daoManager.transactionAndClose(daoManager1 -> {
             //         ModelDao modelDao = daoManager1.getModelDao();
-                Integer id = Integer.valueOf(request.getParameter(SAVE));
+            Integer id = Integer.valueOf(request.getParameter(SAVE));
             //        Model model = modelDao.getById(id);
-                String value = request.getParameter(VALUE);
-                //check to unique if old value not equals new value
+            String value = request.getParameter(VALUE);
+            //check to unique if old value not equals new value
             //       if ((!model.getValue().equals(value)) && (modelDao.getByValue(value) != null)) {
             //            session.setAttribute(ERROR_MODEL, model_busy);
             //        } else {
             //            model.setValue(value);
             //            modelDao.update(model);
-                    session.removeAttribute(ERROR_MODEL);
+            session.removeAttribute(ERROR_MODEL);
             //        }
             //    });
             //    daoFactory.releaseContext();
-      //      as.setToContext(MODEL, session.getServletContext());
+            //      as.setToContext(MODEL, session.getServletContext());
         } catch (Exception e) {
-      //      LOGGER.error("Error at changeModel() while performing transaction");
+            //      LOGGER.error("Error at changeModel() while performing transaction");
             throw new ActionException("Error at changeModel() while performing transaction", e);
         }
         result = ADMIN_MODELS;
@@ -175,13 +175,13 @@ public class ChangeSpecAction implements Action {
             //    DaoManager daoManager = daoFactory.getDaoManager();
             //    daoManager.transactionAndClose(daoManager1 -> {
             //       ModelDao modelDao = daoManager1.getModelDao();
-                Integer id = Integer.valueOf(request.getParameter(DELETE));
+            Integer id = Integer.valueOf(request.getParameter(DELETE));
             //      modelDao.delete(id);
             //   });
             //       daoFactory.releaseContext();
-      //      as.setToContext(MODEL, session.getServletContext());
+            //      as.setToContext(MODEL, session.getServletContext());
         } catch (Exception e) {
-       //     LOGGER.error("Error at deleteModel() while performing transaction");
+            //     LOGGER.error("Error at deleteModel() while performing transaction");
             throw new ActionException("Error at deleteModel() while performing transaction", e);
         }
         result = ADMIN_MODELS;
@@ -193,22 +193,22 @@ public class ChangeSpecAction implements Action {
             //     DaoManager daoManager = daoFactory.getDaoManager();
             //     daoManager.transactionAndClose(daoManager1 -> {
             //         ManufacturerDao manufacturerDao = daoManager1.getManufacturerDao();
-                Integer id = Integer.valueOf(request.getParameter(SAVE));
+            Integer id = Integer.valueOf(request.getParameter(SAVE));
             //           Manufacturer manufacturer = manufacturerDao.getById(id);
-                String value = request.getParameter(VALUE);
-                //check to unique if old value not equals new value
+            String value = request.getParameter(VALUE);
+            //check to unique if old value not equals new value
             //        if ((!manufacturer.getValue().equals(value)) && (manufacturerDao.getByValue(value) != null)) {
-                    session.setAttribute(ERROR_MANUFACTURER, manufacturer_busy);
+            session.setAttribute(ERROR_MANUFACTURER, manufacturer_busy);
             //       } else {
             //           manufacturer.setValue(value);
             //          manufacturerDao.update(manufacturer);
-                    session.removeAttribute(ERROR_MANUFACTURER);
+            session.removeAttribute(ERROR_MANUFACTURER);
             //       }
             //   });
             //   daoFactory.releaseContext();
-   //         as.setToContext(MANUFACTURER, session.getServletContext());
+            //         as.setToContext(MANUFACTURER, session.getServletContext());
         } catch (Exception e) {
-    //        LOGGER.error("Error at changeManufacturer() while performing transaction");
+            //        LOGGER.error("Error at changeManufacturer() while performing transaction");
             throw new ActionException("Error at changeManufacturer() while performing transaction", e);
         }
         result = ADMIN_MANUFACTURERS;
@@ -220,14 +220,14 @@ public class ChangeSpecAction implements Action {
             //     DaoManager daoManager = daoFactory.getDaoManager();
             //     daoManager.transactionAndClose(daoManager1 -> {
             //         ManufacturerDao manufacturerDao = daoManager1.getManufacturerDao();
-                Integer id = Integer.valueOf(request.getParameter(DELETE));
+            Integer id = Integer.valueOf(request.getParameter(DELETE));
             //         manufacturerDao.delete(id);
 
             //     });
             //     daoFactory.releaseContext();
-     //       as.setToContext(MANUFACTURER, session.getServletContext());
+            //       as.setToContext(MANUFACTURER, session.getServletContext());
         } catch (Exception e) {
-    //        LOGGER.error("Error at deleteManufacturer() while performing transaction");
+            //        LOGGER.error("Error at deleteManufacturer() while performing transaction");
             throw new ActionException("Error at deleteManufacturer() while performing transaction", e);
         }
         result = ADMIN_MANUFACTURERS;

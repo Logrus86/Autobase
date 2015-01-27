@@ -151,7 +151,7 @@ public class ChangeVehicleAction implements Action {
             });
             daoFactory.releaseContext();*/
         } catch (Exception e) {
-      //      LOGGER.error("Error at changeVehicle() while performing transaction");
+            //      LOGGER.error("Error at changeVehicle() while performing transaction");
             throw new ActionException("Error at changeVehicle() while performing transaction", e);
         }
         if (user.getRole().equals(User.Role.DRIVER)) result = MAIN_DRIVER;
@@ -181,7 +181,7 @@ public class ChangeVehicleAction implements Action {
             });
             daoFactory.releaseContext();*/
         } catch (Exception e) {
-      //      LOGGER.error("Error at deleteVehicle() while performing transaction");
+            //      LOGGER.error("Error at deleteVehicle() while performing transaction");
             throw new ActionException("Error at deleteVehicle() while performing transaction", e);
         }
     }

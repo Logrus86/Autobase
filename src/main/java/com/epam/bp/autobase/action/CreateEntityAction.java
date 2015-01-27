@@ -68,6 +68,52 @@ public class CreateEntityAction implements Action {
         this.entityName = entityName;
     }
 
+    public static void clearEnteredData(HttpSession session) {
+        session.removeAttribute(VALUE_EN);
+        session.removeAttribute(VALUE_RU);
+        session.removeAttribute(VALUE);
+        session.removeAttribute(MODEL_ID);
+        session.removeAttribute(MANUFACTURER_ID);
+        session.removeAttribute(PRODUCTION_YEAR);
+        session.removeAttribute(COLOR_ID);
+        session.removeAttribute(FUEL_TYPE);
+        session.removeAttribute(MILEAGE);
+        session.removeAttribute(RENT);
+        session.removeAttribute(DRIVER_ID);
+        session.removeAttribute(DOORS_NUM);
+        session.removeAttribute(PASS_SEATS_NUM);
+        session.removeAttribute(STAND_PLACES_NUM);
+        session.removeAttribute(MODEL_ID);
+        session.removeAttribute(MANUFACTURER_ID);
+        session.removeAttribute(PRODUCTION_YEAR);
+        session.removeAttribute(COLOR_ID);
+        session.removeAttribute(FUEL_TYPE);
+        session.removeAttribute(MILEAGE);
+        session.removeAttribute(RENT);
+        session.removeAttribute(DRIVER_ID);
+        session.removeAttribute(DOORS_NUM);
+        session.removeAttribute(PASS_SEATS_NUM);
+        session.removeAttribute(WITH_CONDITIONER);
+        session.removeAttribute(MODEL_ID);
+        session.removeAttribute(MANUFACTURER_ID);
+        session.removeAttribute(PRODUCTION_YEAR);
+        session.removeAttribute(COLOR_ID);
+        session.removeAttribute(FUEL_TYPE);
+        session.removeAttribute(MILEAGE);
+        session.removeAttribute(RENT);
+        session.removeAttribute(DRIVER_ID);
+        session.removeAttribute(MAX_PAYLOAD);
+        session.removeAttribute(ENCLOSED);
+        session.removeAttribute(TIPPER);
+        session.removeAttribute(FIRSTNAME);
+        session.removeAttribute(LASTNAME);
+        session.removeAttribute(DOB);
+        session.removeAttribute(USERNAME);
+        session.removeAttribute(EMAIL);
+        session.removeAttribute(ROLE);
+        session.removeAttribute(BALANCE);
+    }
+
     @Override
     public ActionResult execute(HttpServletRequest req) throws ActionException {
         request = req;
@@ -120,39 +166,39 @@ public class CreateEntityAction implements Action {
             //         DaoManager daoManager = daoFactory.getDaoManager();
             final Object finalSpec = prop;
 
-                if (COLOR.equals(entityName)) {
-                    //              ColorDao colorDao = daoManager.getColorDao();
-                    //          if ((colorDao.getByValueEn(valueEn) != null) || (colorDao.getByValueRu(valueRu) != null)) {
-                        session.setAttribute(ERROR, color_busy);
-                        forwardEnteredData();
-                    } else {
-                    //                daoManager.executeAndClose(daoManager1 -> colorDao.create((Color) finalSpec));
-         ///               as.setToContext(COLOR, session.getServletContext());
-                    }
+            if (COLOR.equals(entityName)) {
+                //              ColorDao colorDao = daoManager.getColorDao();
+                //          if ((colorDao.getByValueEn(valueEn) != null) || (colorDao.getByValueRu(valueRu) != null)) {
+                session.setAttribute(ERROR, color_busy);
+                forwardEnteredData();
+            } else {
+                //                daoManager.executeAndClose(daoManager1 -> colorDao.create((Color) finalSpec));
+                ///               as.setToContext(COLOR, session.getServletContext());
+            }
             //       }
-                if (MODEL.equals(entityName)) {
-                    //            ModelDao modelDao = daoManager.getModelDao();
-                    //           if (modelDao.getByValue(value) != null) {
-                        session.setAttribute(ERROR, model_busy);
-                        forwardEnteredData();
-                    } else {
-                    //             daoManager.executeAndClose(daoManager1 -> modelDao.create((Model) finalSpec));
-         //               as.setToContext(MODEL, session.getServletContext());
-                    }
+            if (MODEL.equals(entityName)) {
+                //            ModelDao modelDao = daoManager.getModelDao();
+                //           if (modelDao.getByValue(value) != null) {
+                session.setAttribute(ERROR, model_busy);
+                forwardEnteredData();
+            } else {
+                //             daoManager.executeAndClose(daoManager1 -> modelDao.create((Model) finalSpec));
+                //               as.setToContext(MODEL, session.getServletContext());
+            }
             //     }
-                if (MANUFACTURER.equals(entityName)) {
-                    //         ManufacturerDao manufacturerDao = daoManager.getManufacturerDao();
-                    //        if (manufacturerDao.getByValue(value) != null) {
-                        session.setAttribute(ERROR, manufacturer_busy);
-                        forwardEnteredData();
-                    } else {
-                    //             daoManager.executeAndClose(daoManager1 -> manufacturerDao.create((Manufacturer) finalSpec));
-         //               as.setToContext(MANUFACTURER, session.getServletContext());
-                    }
+            if (MANUFACTURER.equals(entityName)) {
+                //         ManufacturerDao manufacturerDao = daoManager.getManufacturerDao();
+                //        if (manufacturerDao.getByValue(value) != null) {
+                session.setAttribute(ERROR, manufacturer_busy);
+                forwardEnteredData();
+            } else {
+                //             daoManager.executeAndClose(daoManager1 -> manufacturerDao.create((Manufacturer) finalSpec));
+                //               as.setToContext(MANUFACTURER, session.getServletContext());
+            }
             //        }
             //    daoFactory.releaseContext();
         } catch (Exception e) {
-         //   LOGGER.error("Error at createSpec() while performing transaction");
+            //   LOGGER.error("Error at createSpec() while performing transaction");
             throw new ActionException("Error at createSpec() while performing transaction", e);
         }
         if (COLOR.equals(entityName)) result = COLOR_PAGE;
@@ -189,9 +235,9 @@ public class CreateEntityAction implements Action {
             final User finalUser = user;
             //      daoManager.executeAndClose(daoManager1 -> userDao.create(finalUser));
             //     daoFactory.releaseContext();
-      //      as.setToSession(USER, session);
+            //      as.setToSession(USER, session);
         } catch (Exception e) {
-      //      LOGGER.error("Error at createUser() while performing transaction");
+            //      LOGGER.error("Error at createUser() while performing transaction");
             throw new ActionException("Error at createUser() while performing transaction", e);
         }
         result = USER_PAGE;
@@ -262,19 +308,19 @@ public class CreateEntityAction implements Action {
             //        daoManager.executeAndClose(daoManager1 -> vehicleDao.create(finalVehicle));
             //        daoFactory.releaseContext();
         } catch (Exception e) {
-     //       LOGGER.error("Error at createVehicle() while performing transaction");
+            //       LOGGER.error("Error at createVehicle() while performing transaction");
             throw new ActionException("Error at createVehicle() while performing transaction", e);
         }
         if (BUS.equals(entityName)) {
-     //       as.setToSession(BUS, session);
+            //       as.setToSession(BUS, session);
             result = BUS_PAGE;
         }
         if (CAR.equals(entityName)) {
-      //      as.setToSession(CAR, session);
+            //      as.setToSession(CAR, session);
             result = CAR_PAGE;
         }
         if (TRUCK.equals(entityName)) {
-      //      as.setToSession(TRUCK, session);
+            //      as.setToSession(TRUCK, session);
             result = TRUCK_PAGE;
         }
     }
@@ -290,7 +336,7 @@ public class CreateEntityAction implements Action {
             session.setAttribute(VALUE, request.getParameter(VALUE));
             return;
         }
-        if ((BUS.equals(entityName)) || (CAR.equals(entityName)) || (TRUCK.equals(entityName))){
+        if ((BUS.equals(entityName)) || (CAR.equals(entityName)) || (TRUCK.equals(entityName))) {
             session.setAttribute(MODEL_ID, request.getParameter(MODEL_ID));
             session.setAttribute(MANUFACTURER_ID, request.getParameter(MANUFACTURER_ID));
             session.setAttribute(PRODUCTION_YEAR, request.getParameter(PRODUCTION_YEAR));
@@ -330,51 +376,5 @@ public class CreateEntityAction implements Action {
             session.setAttribute(ROLE, request.getParameter(ROLE));
             session.setAttribute(BALANCE, request.getParameter(BALANCE));
         }
-    }
-
-    public static void clearEnteredData(HttpSession session) {
-        session.removeAttribute(VALUE_EN);
-        session.removeAttribute(VALUE_RU);
-        session.removeAttribute(VALUE);
-        session.removeAttribute(MODEL_ID);
-        session.removeAttribute(MANUFACTURER_ID);
-        session.removeAttribute(PRODUCTION_YEAR);
-        session.removeAttribute(COLOR_ID);
-        session.removeAttribute(FUEL_TYPE);
-        session.removeAttribute(MILEAGE);
-        session.removeAttribute(RENT);
-        session.removeAttribute(DRIVER_ID);
-        session.removeAttribute(DOORS_NUM);
-        session.removeAttribute(PASS_SEATS_NUM);
-        session.removeAttribute(STAND_PLACES_NUM);
-        session.removeAttribute(MODEL_ID);
-        session.removeAttribute(MANUFACTURER_ID);
-        session.removeAttribute(PRODUCTION_YEAR);
-        session.removeAttribute(COLOR_ID);
-        session.removeAttribute(FUEL_TYPE);
-        session.removeAttribute(MILEAGE);
-        session.removeAttribute(RENT);
-        session.removeAttribute(DRIVER_ID);
-        session.removeAttribute(DOORS_NUM);
-        session.removeAttribute(PASS_SEATS_NUM);
-        session.removeAttribute(WITH_CONDITIONER);
-        session.removeAttribute(MODEL_ID);
-        session.removeAttribute(MANUFACTURER_ID);
-        session.removeAttribute(PRODUCTION_YEAR);
-        session.removeAttribute(COLOR_ID);
-        session.removeAttribute(FUEL_TYPE);
-        session.removeAttribute(MILEAGE);
-        session.removeAttribute(RENT);
-        session.removeAttribute(DRIVER_ID);
-        session.removeAttribute(MAX_PAYLOAD);
-        session.removeAttribute(ENCLOSED);
-        session.removeAttribute(TIPPER);
-        session.removeAttribute(FIRSTNAME);
-        session.removeAttribute(LASTNAME);
-        session.removeAttribute(DOB);
-        session.removeAttribute(USERNAME);
-        session.removeAttribute(EMAIL);
-        session.removeAttribute(ROLE);
-        session.removeAttribute(BALANCE);
     }
 }

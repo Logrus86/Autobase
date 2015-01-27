@@ -81,7 +81,7 @@ public class SearchAction implements Action {
             session.setAttribute(FOUNDED_LIST, vehicles);
             session.removeAttribute(ERROR);*/
         } catch (Exception e) {
-       //     LOGGER.error("Error at SearchAction while searching for vehicle");
+            //     LOGGER.error("Error at SearchAction while searching for vehicle");
             throw new ActionException("Error at SearchAction while searching for vehicle", e);
         }
         if (session.getAttribute(USER) == null) {

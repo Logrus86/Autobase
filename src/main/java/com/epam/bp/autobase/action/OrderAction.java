@@ -67,10 +67,10 @@ public class OrderAction implements Action {
             });
             daoFactory.releaseContext();*/
         } catch (Exception e) {
-       //     LOGGER.error("Error at OrderAction while performing transaction");
+            //     LOGGER.error("Error at OrderAction while performing transaction");
             throw new ActionException("Error at OrderAction while performing transaction", e);
         }
-      //  as.setToSession(ORDER, session);
+        //  as.setToSession(ORDER, session);
         return result;
     }
 }
