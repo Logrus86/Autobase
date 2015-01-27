@@ -18,6 +18,7 @@ public class HibernateColorDao extends HibernateDao implements ColorDao {
         return (Color) getByFieldValue("value_en", valueEn);
     }
 
+    
     @Override
     public Color getByValueRu(String valueRu) throws DaoException {
         return (Color) getByFieldValue("value_ru", valueRu);

@@ -110,7 +110,6 @@ public class HibernateDao implements Dao {
         }
     }
 
-
     public boolean checkFieldValueExists(String field, String value) throws DaoException {
         try {
             return getListByFieldValue(field, value) != null;
