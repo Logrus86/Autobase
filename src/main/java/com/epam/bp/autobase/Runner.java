@@ -17,13 +17,14 @@ public class Runner {
         return new User()
                 .setFirstname("Blabla")
                 .setLastname("Blablabla")
-                .setEmail("mail"+String.valueOf(i)+"@mail.com")
-                .setUsername("USER_TEST"+String.valueOf(i))
+                .setEmail("mail" + String.valueOf(i) + "@mail.com")
+                .setUsername("USER_TEST" + String.valueOf(i))
                 .setPassword("111")
-                .setBalance(new BigDecimal(i*100))
+                .setBalance(new BigDecimal(i * 100))
                 .setRole(User.Role.CLIENT)
                 .setDob("1986-09-15");
     }
+
     private static void addEntity(Identifiable entity) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("RUNNER");
         EntityManager em = emf.createEntityManager();
@@ -34,7 +35,8 @@ public class Runner {
         em.close();
         emf.close();
     }
-    private static Object getEntity(Class entityClass, Integer id){
+
+    private static Object getEntity(Class entityClass, Integer id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("RUNNER");
         EntityManager em = emf.createEntityManager();
         EntityTransaction et = em.getTransaction();
@@ -46,7 +48,7 @@ public class Runner {
         return entity;
     }
 
-    public static void deleteEntity(Class entityClass, Integer id){
+    public static void deleteEntity(Class entityClass, Integer id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("RUNNER");
         EntityManager em = emf.createEntityManager();
         EntityTransaction et = em.getTransaction();
@@ -62,6 +64,6 @@ public class Runner {
 
         addEntity(user);
         System.out.println(getEntity(User.class, user.getId()));
-      //  deleteEntity(User.class, user.getId());
+        //  deleteEntity(User.class, user.getId());
     }
 }

@@ -3,6 +3,8 @@ package com.epam.bp.autobase.servlet;
 import com.epam.bp.autobase.action.Action;
 import com.epam.bp.autobase.action.ActionFactory;
 import com.epam.bp.autobase.action.ActionResult;
+import org.jboss.logging.Logger;
+
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import org.jboss.logging.Logger;
 
 public class Controller extends HttpServlet {
     @Inject

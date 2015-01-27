@@ -99,10 +99,6 @@ public class Order implements Identifiable {
         return sdf.format(dateStart);
     }
 
-    public void setDateStart(Date dateStart) {
-        this.dateStart = dateStart;
-    }
-
     public void setDateStart(String dateStart) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -110,6 +106,10 @@ public class Order implements Identifiable {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setDateStart(Date dateStart) {
+        this.dateStart = dateStart;
     }
 
     public String getDateEndString() {
@@ -132,10 +132,6 @@ public class Order implements Identifiable {
         return sdf.format(dateOrdered);
     }
 
-    public void setDateOrdered(Date dateOrdered) {
-        this.dateOrdered = dateOrdered;
-    }
-
     public void setDateOrdered(String dateOrdered) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
@@ -145,16 +141,16 @@ public class Order implements Identifiable {
         }
     }
 
+    public void setDateOrdered(Date dateOrdered) {
+        this.dateOrdered = dateOrdered;
+    }
+
     public Vehicle getVehicle() {
         return vehicle;
     }
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
-    }
-
-    public enum Status {
-        PENDING, PERFORMING, DONE, CANCELED
     }
 
     @Override
@@ -169,6 +165,10 @@ public class Order implements Identifiable {
                 ", sum=" + sum +
                 ", status=" + status +
                 '}';
+    }
+
+    public enum Status {
+        PENDING, PERFORMING, DONE, CANCELED
     }
 }
 

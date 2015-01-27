@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 
 @Entity
-@NamedQuery(name="Manufacturer.getAll",  query = "SELECT m FROM Manufacturer m ORDER BY m.id")
+@NamedQuery(name = "Manufacturer.getAll", query = "SELECT m FROM Manufacturer m ORDER BY m.id")
 public class Manufacturer implements Identifiable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

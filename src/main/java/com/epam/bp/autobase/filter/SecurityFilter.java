@@ -15,10 +15,10 @@ import java.util.Map;
 
 @WebFilter(filterName = "SecurityFilter", urlPatterns = "/*", dispatcherTypes = DispatcherType.FORWARD)
 public class SecurityFilter implements javax.servlet.Filter {
-    @Inject
-    Logger logger;
     private static final String USER = "user";
     private static Map<String, User.Role> roleMap = new HashMap<>();
+    @Inject
+    Logger logger;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -47,12 +47,12 @@ public class SecurityFilter implements javax.servlet.Filter {
                 }
             }
             if ((requiredRole != null) && (!requiredRole.equals(currentRole))) {
-                logger.error("Access forbidden. Page: "+pathInfo+". Rights: "+currentRole+", required rights: "+requiredRole);
+                logger.error("Access forbidden. Page: " + pathInfo + ". Rights: " + currentRole + ", required rights: " + requiredRole);
                 resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Have not required rights. Access forbidden.");
                 return;
             }
         }
-        chain.doFilter(req,resp);
+        chain.doFilter(req, resp);
     }
 
     @Override

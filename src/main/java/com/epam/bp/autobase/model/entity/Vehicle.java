@@ -68,28 +68,12 @@ public abstract class Vehicle implements Identifiable {
     public void setId(Integer id) {
         this.id = id;
     }
-    
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    public void setModel(Model model) {
-        this.model = model;
-    }
-
-    public void setManufacturer(Manufacturer manufacturer) {
-        this.manufacturer = manufacturer;
-    }
 
     public Boolean setDriver(User driver) {
         if (driver.getRole().equals(User.Role.DRIVER)) {
             this.driver = driver;
             return true;
         } else return false;
-    }
-
-    public void setProductionYear(Integer productionYear) {
-        this.productionYear = productionYear;
     }
 
     public Type getType() {
@@ -103,6 +87,10 @@ public abstract class Vehicle implements Identifiable {
 
     public int getProductionYear() {
         return productionYear;
+    }
+
+    public void setProductionYear(Integer productionYear) {
+        this.productionYear = productionYear;
     }
 
     public BigDecimal getMileage() {
@@ -141,12 +129,24 @@ public abstract class Vehicle implements Identifiable {
         return model;
     }
 
+    public void setModel(Model model) {
+        this.model = model;
+    }
+
     public Manufacturer getManufacturer() {
         return manufacturer;
     }
 
+    public void setManufacturer(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
     public Color getColor() {
         return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     public User getDriver() {
