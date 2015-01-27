@@ -39,7 +39,7 @@ public class User implements Identifiable {
     private Date dob;
 
     @NotNull
-    @Column(unique=true, nullable=false)
+    @Column(unique = true, nullable = false)
     @Pattern(regexp = "[a-zA-Z]{1}[\\w_]{3,19}", message = "{com.epam.bp.autobase.model.entity.user.username.message}")
     private String username;
 
@@ -49,7 +49,7 @@ public class User implements Identifiable {
 
     @NotNull
     @Email(regexp = "[\\w\\u002E\\u005F]{0,20}@([a-zA-Z]+\\u002E){1,2}[a-zA-Z]{2,3}")
-    @Column(unique=true, nullable=false)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @NotNull
@@ -60,19 +60,21 @@ public class User implements Identifiable {
     private BigDecimal balance;
 
     @Nullable
-    @OneToMany(mappedBy = "client")
+    @OrderBy
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private List<Order> orders;
 
     @Nullable
-    @OneToMany(mappedBy = "driver")
+    @OrderBy
+    @OneToMany(mappedBy = "driver", fetch = FetchType.EAGER)
     private List<Vehicle> vehicles;
 
-    public void addOrder(Order order){
+    public void addOrder(Order order) {
         order.setClient(this);
         orders.add(order);
     }
 
-    public void addVehicle(Vehicle vehicle){
+    public void addVehicle(Vehicle vehicle) {
         vehicle.setDriver(this);
         vehicles.add(vehicle);
     }
@@ -81,16 +83,16 @@ public class User implements Identifiable {
         return vehicles;
     }
 
+    public void setVehicles(List<Vehicle> vehicles) {
+        this.vehicles = vehicles;
+    }
+
     public List<Order> getOrders() {
         return orders;
     }
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
-    }
-
-    public void setVehicles(List<Vehicle> vehicles) {
-        this.vehicles = vehicles;
     }
 
     public Integer getId() {
@@ -124,7 +126,7 @@ public class User implements Identifiable {
     }
 
     public String getDob() {
-        if (dob==null) {
+        if (dob == null) {
             return "";
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -181,16 +183,16 @@ public class User implements Identifiable {
         return role;
     }
 
+    public User setRole(String role) {
+        this.role = Role.valueOf(role);
+        return this;
+    }
+
     public User setRole(Role role) {
         this.role = role;
         return this;
     }
 
-    public User setRole(String role) {
-        this.role = Role.valueOf(role);
-        return this;
-    }
-    
     @Override
     public String toString() {
         return "User {ID: " + this.getId() + ", firstname: " + firstname + ", lastname: " + lastname + ", dob: " + getDob() + ", username: " + username + ", password: " + password + ", email: " + email + ", role: " + role + ", balance: " + balance + "}";
