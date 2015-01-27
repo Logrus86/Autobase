@@ -1,4 +1,4 @@
-package com.epam.bp.autobase.dao.jpa;
+package com.epam.bp.autobase.dao.hibernate;
 
 import com.epam.bp.autobase.dao.ColorDao;
 import com.epam.bp.autobase.dao.DaoException;
