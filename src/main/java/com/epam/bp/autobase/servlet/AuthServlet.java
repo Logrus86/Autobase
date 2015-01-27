@@ -46,8 +46,7 @@ public class AuthServlet extends HttpServlet {
             }
             rd = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
         } else {
-            //log-in check and errorMap clear
-            us.clearErrorMap();
+            //log-in check
             if (user.getRole() == null) {
                 logger.info("User isn't logged in, going to main page");
                 rd = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");

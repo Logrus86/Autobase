@@ -27,7 +27,6 @@ public class LocaleServlet extends HttpServlet{
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String lang_code = req.getParameter(PARAMETER_LOCALE);
         us.setLocaleFromLangCode(lang_code);
-        us.clearErrorMap();
         logger.info(MSG + lang_code);
         resp.sendRedirect(req.getHeader("Referer"));
     }

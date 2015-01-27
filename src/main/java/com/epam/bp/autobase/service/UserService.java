@@ -9,6 +9,7 @@ import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
@@ -27,7 +28,6 @@ import java.util.*;
 @Named
 @SessionScoped
 public class UserService implements Serializable {
-    private static final String RB = "i18n.text";
     public static final String FIRSTNAME = "firstname";
     public static final String LASTNAME = "lastname";
     public static final String EMAIL = "email";
@@ -35,11 +35,12 @@ public class UserService implements Serializable {
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String PASSWORD_REPEAT = "password-repeat";
+    private static final String RB = "i18n.text";
     private static final String BALANCE = "balance";
     private static final String ROLE = "role";
     private static final String ID = "id";
     private static final String MSG = "msg";
-    
+
     @Inject
     Logger logger;
     @Inject
@@ -50,12 +51,9 @@ public class UserService implements Serializable {
     private Locale locale;
     private Map<String, String> errorMap;
 
+    @RequestScoped
     public Map getErrorMap() {
         return errorMap;
-    }
-
-    public void clearErrorMap() {
-        this.errorMap = null;
     }
 
     private Validator validator() {
