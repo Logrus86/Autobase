@@ -69,6 +69,7 @@ public class HibernateDao implements Dao {
         }
     }
 
+    @Transactional(Transactional.TxType.REQUIRED)
     @Override
     public void delete(Integer id) throws DaoException {
         try {
@@ -78,6 +79,7 @@ public class HibernateDao implements Dao {
         }
     }
 
+    @Transactional(Transactional.TxType.REQUIRED)
     @Override
     public void delete(Identifiable entity) throws DaoException {
         try {
@@ -87,6 +89,7 @@ public class HibernateDao implements Dao {
         }
     }
 
+    @Transactional(Transactional.TxType.NOT_SUPPORTED)
     public List<Identifiable> getListByFieldValue(String field, String value) throws DaoException {
         try {
             Session session = (Session) em.getDelegate();
@@ -107,6 +110,7 @@ public class HibernateDao implements Dao {
         }
     }
 
+    
     public boolean checkFieldValueExists(String field, String value) throws DaoException {
         try {
             return getListByFieldValue(field, value)!=null;
