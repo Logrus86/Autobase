@@ -1,4 +1,4 @@
-package com.epam.bp.autobase.dao.jpa;
+package com.epam.bp.autobase.dao.JPA;
 
 import com.epam.bp.autobase.dao.ColorDao;
 import com.epam.bp.autobase.dao.DaoException;
@@ -18,7 +18,6 @@ public class HibernateColorDao extends HibernateDao implements ColorDao {
         return (Color) getByFieldValue("value_en", valueEn);
     }
 
-    
     @Override
     public Color getByValueRu(String valueRu) throws DaoException {
         return (Color) getByFieldValue("value_ru", valueRu);
