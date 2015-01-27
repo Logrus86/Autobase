@@ -67,9 +67,8 @@ public class ListProducer {
     @Named
     @RequestScoped
     public List<Color> getColors() {
-        if (colors == null) {
-            retrieveAllColors();
-        }
+        //retrieve w/out checks because colors depends on locale
+        retrieveAllColors();
         return colors;
     }
 
