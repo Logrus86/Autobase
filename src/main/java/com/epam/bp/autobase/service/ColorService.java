@@ -1,7 +1,7 @@
 package com.epam.bp.autobase.service;
 
 import com.epam.bp.autobase.dao.DaoException;
-import com.epam.bp.autobase.dao.JPA.HibernateColorDao;
+import com.epam.bp.autobase.dao.JPA1.HibernateColorDao;
 import com.epam.bp.autobase.model.dto.BaseDto;
 import com.epam.bp.autobase.model.dto.ColorDto;
 import com.epam.bp.autobase.model.entity.Color;
