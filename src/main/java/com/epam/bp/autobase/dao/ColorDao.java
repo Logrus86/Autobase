@@ -2,7 +2,7 @@ package com.epam.bp.autobase.dao;
 
 import com.epam.bp.autobase.model.entity.Color;
 
-public interface ColorDao {
+public interface ColorDao extends BaseDao<Color> {
 
     public Color getByValueEn(String valueEn) throws DaoException;
 
