@@ -1,11 +1,11 @@
 package com.epam.bp.autobase.service;
 
+import com.epam.bp.autobase.cdi.SessionState;
+import com.epam.bp.autobase.dao.ColorDao;
 import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.hibernate.HibernateColorDao;
-import com.epam.bp.autobase.model.dto.BaseDto;
 import com.epam.bp.autobase.model.dto.ColorDto;
 import com.epam.bp.autobase.model.entity.Color;
-import com.epam.bp.autobase.model.entity.Identifiable;
 
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Model;
@@ -15,7 +15,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 @Model
-public class ColorService extends CommonService implements Service {
+public class ColorService extends AbstractService<Color, ColorDto, ColorDao> {
 
     @Inject
     SessionState ss;
@@ -25,71 +25,32 @@ public class ColorService extends CommonService implements Service {
     private Event<Color> event;
 
     @Override
-    public void create(BaseDto dto) throws ServiceException {
-        try {
-            Color color = (Color) getEntityFromDto(dto);
-            String errors = validate(color, ss.getLocale());
-            if ("".equals(errors)) {
-                dao.create(color);
-                event.fire(color);
-            } else {
-                throw new ServiceException("Color isn't created due validation error: " + errors);
-            }
-        } catch (DaoException e) {
-            throw new ServiceException(e.getMessage(), e.getCause());
-        }
+    public void create(ColorDto dto) throws ServiceException {
+        create(dto, dao, event, ss.getLocale());
     }
 
     @Override
-    public BaseDto getById(int id) throws ServiceException {
-        try {
-            return getDtoFromEntity(dao.getById(id));
-        } catch (DaoException e) {
-            throw new ServiceException(e.getMessage(), e.getCause());
-        }
+    public ColorDto getById(Integer id) throws ServiceException {
+        return getById(id, dao);
     }
 
     @Override
-    public void update(BaseDto dto) throws ServiceException {
-        try {
-            Color color = (Color) getEntityFromDto(dto);
-            String errors = validate(color, dto, ss.getLocale());
-            if ("".equals(errors)) {
-                dao.update(color);
-                event.fire(color);
-            } else {
-                throw new ServiceException("Color isn't updated due validation error: " + errors);
-            }
-        } catch (DaoException e) {
-            throw new ServiceException(e.getMessage(), e.getCause());
-        }
+    public void update(ColorDto dto) throws ServiceException {
+        update(dto, dao, event, ss.getLocale());
     }
 
     @Override
-    public void delete(int id) throws ServiceException {
-        try {
-            Color color = (Color) dao.getById(id);
-            dao.delete(id);
-            event.fire(color);
-        } catch (DaoException e) {
-            throw new ServiceException(e.getMessage(), e.getCause());
-        }
+    public void delete(Integer id) throws ServiceException {
+        delete(id, dao, event);
     }
 
     @Override
-    public void delete(BaseDto dto) throws ServiceException {
-        try {
-            Color color = (Color) getEntityFromDto(dto);
-            dao.delete(color);
-            event.fire(color);
-        } catch (DaoException e) {
-            throw new ServiceException(e.getMessage(), e.getCause());
-        }
+    public void delete(ColorDto dto) throws ServiceException {
+        delete(dto, dao, event);
     }
 
     @Override
-    public BaseDto getDtoFromEntity(Identifiable entity) {
-        Color color = (Color) entity;
+    public ColorDto getDtoFromEntity(Color color) {
         ColorDto colorDto = new ColorDto()
                 .setValue_en(color.getValue_en())
                 .setValue_ru(color.getValue_ru());
@@ -100,21 +61,19 @@ public class ColorService extends CommonService implements Service {
     }
 
     @Override
-    public Identifiable getEntityFromDto(BaseDto dto) {
-        ColorDto colorDto = (ColorDto) dto;
+    public Color getEntityFromDto(ColorDto dto) {
         Color color = new Color()
-                .setValue_en(colorDto.getValue_en())
-                .setValue_ru(colorDto.getValue_ru());
-        if (colorDto.getId() != null) {
-            color.setId(colorDto.getId());
+                .setValue_en(dto.getValue_en())
+                .setValue_ru(dto.getValue_ru());
+        if (dto.getId() != null) {
+            color.setId(dto.getId());
         }
         return color;
     }
 
     @Override
-    public String checkAllFieldsNotBusy(Identifiable identifiable) throws ServiceException {
+    public String checkAllFieldsNotBusy(Color color) throws ServiceException {
         StringBuilder sb = new StringBuilder();
-        Color color = (Color) identifiable;
         Locale locale = ss.getLocale();
         try {
             // check busyness of value_en
@@ -140,14 +99,12 @@ public class ColorService extends CommonService implements Service {
     }
 
     @Override
-    public String checkChangedFieldsNotBusy(Identifiable identifiable, BaseDto dto) throws ServiceException {
+    public String checkChangedFieldsNotBusy(Color color, ColorDto dto) throws ServiceException {
         StringBuilder sb = new StringBuilder();
-        Color color = (Color) identifiable;
-        ColorDto colorDto = (ColorDto) dto;
         Locale locale = ss.getLocale();
         try {
             // check busyness of value_en if its changed
-            if ((!color.getValue_en().equals(colorDto.getValue_en())) && (dao.checkFieldValueExists(VALUE_EN, color.getValue_en()))) {
+            if ((!color.getValue_en().equals(dto.getValue_en())) && (dao.checkFieldValueExists(VALUE_EN, color.getValue_en()))) {
                 String error = ResourceBundle.getBundle(RB, locale).getString("error.busy-color");
                 sb.append(error);
                 if (getErrorMap() == null) {
@@ -156,7 +113,7 @@ public class ColorService extends CommonService implements Service {
                 getErrorMap().put(VALUE_EN + "_" + MSG, error);
             }
             // check busyness of value_ru if its changed
-            if ((!color.getValue_ru().equals(colorDto.getValue_ru())) && (dao.checkFieldValueExists(VALUE_RU, color.getValue_ru()))) {
+            if ((!color.getValue_ru().equals(dto.getValue_ru())) && (dao.checkFieldValueExists(VALUE_RU, color.getValue_ru()))) {
                 if (!"".equals(sb.toString())) {
                     sb.append("; ");
                 }

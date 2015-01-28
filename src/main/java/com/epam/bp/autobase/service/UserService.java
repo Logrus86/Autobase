@@ -1,88 +1,104 @@
 package com.epam.bp.autobase.service;
 
+import com.epam.bp.autobase.cdi.SessionState;
+import com.epam.bp.autobase.dao.UserDao;
+import com.epam.bp.autobase.dao.hibernate.HibernateUserDao;
+import com.epam.bp.autobase.model.dto.UserDto;
 import com.epam.bp.autobase.model.entity.User;
-import com.epam.bp.autobase.model.entity.Vehicle;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 import org.jboss.logging.Logger;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
 
 @Model
-public class UserService implements Serializable {
-    public static final String FIRSTNAME = "firstname";
-    public static final String LASTNAME = "lastname";
-    public static final String EMAIL = "email";
-    public static final String DOB = "dob";
-    public static final String USERNAME = "username";
-    public static final String PASSWORD = "password";
-    public static final String PASSWORD_REPEAT = "password-repeat";
-    private static final String RB = "i18n.text";
-    private static final String BALANCE = "balance";
-    private static final String ROLE = "role";
-    private static final String ID = "id";
-    private static final String MSG = "msg";
+public class UserService extends AbstractService<User, UserDto, UserDao> {
 
     @Inject
     Logger logger;
     @Inject
-    private EntityManager em;
+    private HibernateUserDao dao;
     @Inject
     private SessionState ss;
     @Inject
-    private Event<User> userEventSrc;
+    private Event<User> event;
 
-    private User user;
-
-    private Map<String, String> errorMap;
-
-
-    public Map getErrorMap() {
-        return errorMap;
+    @Override
+    public void create(UserDto dto) throws ServiceException {
+        create(dto, dao, event, ss.getLocale());
     }
 
-    private Validator validator() {
-        return Validation.buildDefaultValidatorFactory().getValidator();
+    @Override
+    public UserDto getById(Integer id) throws ServiceException {
+        return getById(id, dao);
     }
 
-    public User getUser() {
+    @Override
+    public void update(UserDto dto) throws ServiceException {
+        update(dto, dao, event, ss.getLocale());
+    }
+
+    @Override
+    public void delete(Integer id) throws ServiceException {
+        delete(id, dao, event);
+    }
+
+    @Override
+    public void delete(UserDto dto) throws ServiceException {
+        delete(dto, dao, event);
+    }
+
+    @Override
+    public UserDto getDtoFromEntity(User user) {
+        UserDto userDto = new UserDto()
+                .setUsername(user.getUsername())
+                .setPassword(user.getPassword())
+                .setFirstname(user.getFirstname())
+                .setLastname(user.getLastname())
+                .setDobString(user.getDob())
+                .setEmail(user.getEmail())
+                .setRole(user.getRole())
+                .setBalance(user.getBalance());
+        if (user.getId() != null) userDto.setId(user.getId());
+        // if (user.getVehicles() != null) userDto.setVehicleDtoList(user.getVehicles()); TODO: how it must be done ?
+        // if (user.getOrders() != null) userDto.setOrderDtoList(
+        return userDto;
+    }
+
+    @Override
+    public User getEntityFromDto(UserDto dto) {
+        User user = new User()
+                .setUsername(dto.getUsername())
+                .setPassword(dto.getPassword())
+                .setFirstname(dto.getFirstname())
+                .setLastname(dto.getLastname())
+                .setDob(dto.getDobString())
+                .setEmail(dto.getEmail())
+                .setRole(dto.getRole())
+                .setBalance(dto.getBalance());
+        if (dto.getId() != null) {
+            user.setId(dto.getId());
+        }
+        // if (dto.getVehicleDtoList() != null) user.setVehicles(); TODO: reverse operation
+        // if (dto.getOrderDtoList() != null) user.setOrders();
         return user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    @Override
+    public String checkAllFieldsNotBusy(User user) throws ServiceException {
+        return null;
     }
 
-    public User findByCredentials(String username, String password) {
-        TypedQuery<User> query = em.createNamedQuery("User.findByCredentials", User.class)
-                .setParameter("username", username)
-                .setParameter("password", password);
-        try {
-            return query.getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
+    @Override
+    public String checkChangedFieldsNotBusy(User user, UserDto dto) throws ServiceException {
+        return null;
     }
 
-    @Transactional(Transactional.TxType.REQUIRED)
-    public void create(Map<String, String> userDataMap) throws ServiceException {
+    public User findByCredentials(UserDto userDto) {
+        return dao.findByCredentials(userDto.getUsername(), userDto.getPassword());
+    }
+    
+    /* public void create(Map<String, String> userDataMap) throws ServiceException {
         StringBuilder sb = new StringBuilder();
         initNewUser();
         user.setFirstname(userDataMap.get(FIRSTNAME))
@@ -94,7 +110,7 @@ public class UserService implements Serializable {
                 .setRole(User.Role.CLIENT)
                 .setBalance(BigDecimal.ZERO);
         //ejb validation
-        Set<ConstraintViolation<User>> cvs = validator().validate(user);
+        Set<ConstraintViolation<User>> cvs = validator().validateWhileCreate(user);
         errorMap = userDataMap;
         for (ConstraintViolation<User> cv : cvs) {
             sb.append(cv.getMessage()).append(": ").append(cv.getInvalidValue()).append("; ");
@@ -122,7 +138,7 @@ public class UserService implements Serializable {
         if (sb.toString().isEmpty()) {
             em.persist(user);
             ss.setSessionUser(user);
-            userEventSrc.fire(user);
+            event.fire(user);
             errorMap = null;
             //...or clear user and throw exception
         } else {
@@ -160,7 +176,7 @@ public class UserService implements Serializable {
         if (userDataMap.get(ID) != null) user.setId(Integer.parseInt(idString));
         //ejb validation
         errorMap = new HashMap<>();
-        Set<ConstraintViolation<User>> cvs = validator().validate(user);
+        Set<ConstraintViolation<User>> cvs = validator().validateWhileCreate(user);
         for (ConstraintViolation<User> cv : cvs) {
             sb.append(cv.getMessage()).append(": ").append(cv.getInvalidValue()).append("; ");
             errorMap.put(cv.getPropertyPath() + "_" + MSG, cv.getMessage());
@@ -192,7 +208,7 @@ public class UserService implements Serializable {
         // if sb is empty all is ok, proceed to persist
         if (sb.toString().isEmpty()) {
             em.merge(user);
-            userEventSrc.fire(user);
+            event.fire(user);
             errorMap = null;
             //...or throw ServiceException
         } else {
@@ -210,6 +226,6 @@ public class UserService implements Serializable {
             }
         }
         em.remove(userToDelete);
-        userEventSrc.fire(userToDelete);
-    }
+        event.fire(userToDelete);
+    }*/
 }

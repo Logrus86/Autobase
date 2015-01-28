@@ -1,7 +1,8 @@
 package com.epam.bp.autobase.servlet;
 
+import com.epam.bp.autobase.cdi.SessionState;
+import com.epam.bp.autobase.model.dto.UserDto;
 import com.epam.bp.autobase.model.entity.User;
-import com.epam.bp.autobase.service.SessionState;
 import com.epam.bp.autobase.service.UserService;
 import org.jboss.logging.Logger;
 
@@ -63,11 +64,12 @@ public class AuthServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ResourceBundle rb = ResourceBundle.getBundle(RB_NAME, ss.getLocale());
         String login_err_msg = rb.getString(RB_ERROR_LOGIN_KEY);
-        String username = req.getParameter("username");
-        String password = req.getParameter("password");
-        User user = us.findByCredentials(username, password);
+        UserDto userDto = new UserDto()
+                .setUsername(req.getParameter("username"))
+                .setPassword(req.getParameter("password"));
+        User user = us.findByCredentials(userDto);
         if (user != null) {
-            logger.info("User '" + username + "' with password '" + password + "' has logged in with role: " + user.getRole());
+            logger.info("User '" + userDto.getUsername() + "' with password '" + userDto.getPassword() + "' has logged in with role: " + user.getRole());
             ss.setSessionUser(user);
             if (user.getRole().equals(User.Role.CLIENT) & (!req.getHeader(REFERRER).contains("/do/quit"))) {
                 resp.sendRedirect(req.getHeader(REFERRER));
@@ -76,7 +78,7 @@ public class AuthServlet extends HttpServlet {
                 rd.forward(req, resp);
             }
         } else {
-            logger.info("User '" + username + "' with password '" + password + "' wasn't found.");
+            logger.info("User '" + userDto.getUsername() + "' with password '" + userDto.getPassword() + "' wasn't found.");
             req.setAttribute(ATTRIBUTE_ERROR, login_err_msg);
             ss.setSessionUser(null);
             RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");

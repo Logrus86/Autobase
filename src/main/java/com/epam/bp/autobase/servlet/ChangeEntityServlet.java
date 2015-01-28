@@ -1,7 +1,6 @@
 package com.epam.bp.autobase.servlet;
 
 import com.epam.bp.autobase.model.dto.ColorDto;
-import com.epam.bp.autobase.model.entity.User;
 import com.epam.bp.autobase.service.ColorService;
 import com.epam.bp.autobase.service.ServiceException;
 import com.epam.bp.autobase.service.UserService;
@@ -98,7 +97,7 @@ public class ChangeEntityServlet extends HttpServlet {
     }
 
     private void changeUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //changing user if we are client or driver; if we are admin, do it if PARAM_SAVE parameter not null only
+        /*//changing user if we are client or driver; if we are admin, do it if PARAM_SAVE parameter not null only
         if (!User.Role.ADMIN.equals(us.getUser().getRole()) || req.getParameter(PARAM_SAVE) != null) {
             try {
                 us.update(getServiceMapFromRequest(req));
@@ -112,12 +111,12 @@ public class ChangeEntityServlet extends HttpServlet {
                 us.delete(Integer.valueOf(stringId));
                 logger.info("User '" + req.getParameter("username") + "' was successfully deleted");
             }
-        }
+        }*/
         forwardDependsRole(req, resp);
     }
 
     private void registerUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
+        /*try {
             us.create(getServiceMapFromRequest(req));
             logger.info("Newly registered user: " + us.getUser().toString());
             RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/registered.jsp");
@@ -125,11 +124,11 @@ public class ChangeEntityServlet extends HttpServlet {
         } catch (ServiceException se) {
             logger.error(se.getMessage());
             forwardDependsRole(req, resp);
-        }
+        }*/
     }
 
     private void forwardDependsRole(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher resultView;
+        /*RequestDispatcher resultView;
         if (User.Role.CLIENT.equals(us.getUser().getRole())) {
             resultView = req.getRequestDispatcher("/WEB-INF/jsp/cabinet.jsp");
         } else {
@@ -141,7 +140,7 @@ public class ChangeEntityServlet extends HttpServlet {
                 } else resultView = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
             }
         }
-        resultView.forward(req, resp);
+        resultView.forward(req, resp);*/
     }
 
     private Map<String, String> getServiceMapFromRequest(HttpServletRequest request) {

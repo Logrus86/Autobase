@@ -4,7 +4,7 @@ import com.epam.bp.autobase.model.entity.Identifiable;
 
 import java.util.List;
 
-public interface Dao<T extends Identifiable> {
+public interface BaseDao<T extends Identifiable> {
 
     public void create(T entity) throws DaoException;
 
