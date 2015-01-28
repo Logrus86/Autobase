@@ -1,10 +1,8 @@
 package com.epam.bp.autobase.servlet;
 
 import com.epam.bp.autobase.cdi.SessionState;
-import com.epam.bp.autobase.model.entity.Color;
 import org.jboss.logging.Logger;
 
-import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,8 +19,6 @@ public class LocaleServlet extends HttpServlet {
     Logger logger;
     @Inject
     SessionState ss;
-    @Inject
-    Event<Color> event;
 
     public LocaleServlet() {
     }
@@ -31,7 +27,6 @@ public class LocaleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String lang_code = req.getParameter(PARAMETER_LOCALE);
         ss.setLocaleFromLangCode(lang_code);
-        event.fire(new Color());
         logger.info(MSG + lang_code);
         resp.sendRedirect(req.getHeader("Referer"));
     }
