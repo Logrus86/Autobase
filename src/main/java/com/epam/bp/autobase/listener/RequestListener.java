@@ -1,6 +1,6 @@
 package com.epam.bp.autobase.listener;
 
-import com.epam.bp.autobase.service.SessionState;
+import com.epam.bp.autobase.cdi.SessionState;
 
 import javax.inject.Inject;
 import javax.servlet.ServletRequestEvent;

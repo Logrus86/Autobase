@@ -1,7 +1,7 @@
 package com.epam.bp.autobase.servlet;
 
+import com.epam.bp.autobase.cdi.SessionState;
 import com.epam.bp.autobase.model.entity.Color;
-import com.epam.bp.autobase.service.SessionState;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.event.Event;

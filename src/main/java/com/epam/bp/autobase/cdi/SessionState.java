@@ -1,4 +1,4 @@
-package com.epam.bp.autobase.service;
+package com.epam.bp.autobase.cdi;
 
 import com.epam.bp.autobase.model.entity.User;
 

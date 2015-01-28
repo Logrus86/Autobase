@@ -1,7 +1,7 @@
 package com.epam.bp.autobase.util;
 
+import com.epam.bp.autobase.cdi.SessionState;
 import com.epam.bp.autobase.model.entity.*;
-import com.epam.bp.autobase.service.SessionState;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
