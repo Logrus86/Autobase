@@ -1,5 +1,6 @@
 package com.epam.bp.autobase.filter;
 
+import com.epam.bp.autobase.cdi.SessionState;
 import com.epam.bp.autobase.model.entity.User;
 import org.jboss.logging.Logger;
 
@@ -8,7 +9,6 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +19,8 @@ public class SecurityFilter implements javax.servlet.Filter {
     private static Map<String, User.Role> roleMap = new HashMap<>();
     @Inject
     Logger logger;
+    @Inject
+    SessionState ss;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -33,9 +35,9 @@ public class SecurityFilter implements javax.servlet.Filter {
     }
 
     private void doFilter0(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException, ServletException {
-        HttpSession session = req.getSession();
+
         String pathInfo = req.getPathInfo();
-        User user = (User) session.getAttribute(USER);
+        User user = ss.getSessionUser();
         User.Role currentRole = null;
         if (user != null) currentRole = user.getRole();
         if ((pathInfo != null) && (currentRole != User.Role.ADMIN)) {
