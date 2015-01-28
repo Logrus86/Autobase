@@ -1,6 +1,6 @@
 package com.epam.bp.autobase.model.dto;
 
-public class ColorDto extends BaseDto {
+public class ColorDto extends AbstractDto {
     private String value_en;
     private String value_ru;
 

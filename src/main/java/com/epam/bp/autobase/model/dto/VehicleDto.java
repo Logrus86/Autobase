@@ -4,7 +4,7 @@ import com.epam.bp.autobase.model.entity.Vehicle;
 
 import java.math.BigDecimal;
 
-public class VehicleDto extends BaseDto {
+public class VehicleDto extends AbstractDto {
     private BigDecimal rentPrice;
     private Vehicle.Type type;
     private ColorDto colorDto;

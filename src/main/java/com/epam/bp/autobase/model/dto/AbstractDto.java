@@ -1,6 +1,6 @@
 package com.epam.bp.autobase.model.dto;
 
-public abstract class BaseDto {
+public abstract class AbstractDto {
     private Integer id;
 
     public Integer getId() {

@@ -1,6 +1,6 @@
 package com.epam.bp.autobase.model.dto;
 
-public class ModelAndManufacturerDto extends BaseDto {
+public class ModelAndManufacturerDto extends AbstractDto {
     private String value;
 
     public String getValue() {

@@ -5,7 +5,7 @@ import com.epam.bp.autobase.model.entity.User;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class UserDto extends BaseDto {
+public class UserDto extends AbstractDto {
     private String firstname;
     private String lastname;
     private String dobString;

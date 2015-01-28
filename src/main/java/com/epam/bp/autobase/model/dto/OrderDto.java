@@ -5,7 +5,7 @@ import com.epam.bp.autobase.model.entity.Order;
 import java.math.BigDecimal;
 
 
-public class OrderDto extends BaseDto {
+public class OrderDto extends AbstractDto {
     private UserDto clientDto;
     private VehicleDto vehicleDto;
     private String dateStartString;
