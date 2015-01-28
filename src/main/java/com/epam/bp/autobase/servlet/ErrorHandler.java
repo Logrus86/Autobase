@@ -15,21 +15,21 @@ public class ErrorHandler extends HttpServlet {
     @Inject
     Logger logger;
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-        String servletName = (String) request.getAttribute("javax.servlet.error.servlet_name");
-        String message = (String) request.getAttribute("javax.servlet.error.message");
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Integer statusCode = (Integer) req.getAttribute("javax.servlet.error.status_code");
+        String servletName = (String) req.getAttribute("javax.servlet.error.servlet_name");
+        String message = (String) req.getAttribute("javax.servlet.error.message");
         if (servletName == null) {
             servletName = "Unknown";
         }
-        String requestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
+        String requestUri = (String) req.getAttribute("javax.servlet.error.request_uri");
         if (requestUri == null) {
             requestUri = "Unknown";
         }
         logger.error("Status code: {" + statusCode + "}, message: {" + message + "}, requestUri: {" + requestUri + "}, servletName: {" + servletName + "}.");
-        request.setAttribute("statusCode", statusCode);
-        request.setAttribute("message", message);
-        request.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);
+        req.setAttribute("statusCode", statusCode);
+        req.setAttribute("message", message);
+        req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, resp);
     }
 
 }
