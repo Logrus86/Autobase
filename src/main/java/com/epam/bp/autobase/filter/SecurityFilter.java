@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebFilter(filterName = "SecurityFilter", urlPatterns = "/*", dispatcherTypes = DispatcherType.FORWARD)
+@WebFilter(filterName = "SecurityFilter", urlPatterns = "/*", dispatcherTypes = DispatcherType.REQUEST)
 public class SecurityFilter implements javax.servlet.Filter {
     private static final String USER = "user";
     private static Map<String, User.Role> roleMap = new HashMap<>();
