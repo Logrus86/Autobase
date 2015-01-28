@@ -1,36 +1,29 @@
 package com.epam.bp.autobase.dao.hibernate;
 
-import com.epam.bp.autobase.dao.Dao;
+import com.epam.bp.autobase.dao.BaseDao;
 import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.model.entity.Identifiable;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@RequestScoped
-public class HibernateDao implements Dao {
+public abstract class AbstractHibernateDao<T extends Identifiable> implements BaseDao<T> {
 
-    @Inject
-    protected EntityManager em;
-    private Class<? extends Identifiable> entityClass;
+    private Class<T> entityClass;
+    private EntityManager em;
 
-    public HibernateDao() {
-    }
-
-    public HibernateDao(Class<? extends Identifiable> entityClass) {
+    public AbstractHibernateDao(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
     @Override
-    public void create(Identifiable entity) throws DaoException {
+    public void create(T entity) throws DaoException {
         try {
             em.persist(entity);
         } catch (Exception e) {
@@ -40,7 +33,7 @@ public class HibernateDao implements Dao {
 
     @Transactional(Transactional.TxType.NOT_SUPPORTED)
     @Override
-    public Identifiable getById(Integer id) throws DaoException {
+    public T getById(Integer id) throws DaoException {
         try {
             return em.find(entityClass, id);
         } catch (Exception e) {
@@ -50,9 +43,9 @@ public class HibernateDao implements Dao {
 
     @Transactional(Transactional.TxType.NOT_SUPPORTED)
     @Override
-    public List getAll() throws DaoException {
+    public List<T> getAll() throws DaoException {
         try {
-            TypedQuery<? extends Identifiable> query = em.createQuery(entityClass.getSimpleName() + ".getAll", entityClass);
+            TypedQuery<T> query = em.createQuery(entityClass.getSimpleName() + ".getAll", entityClass);
             return query.getResultList();
         } catch (Exception e) {
             throw new DaoException(e.getMessage(), e.getCause());
@@ -61,7 +54,7 @@ public class HibernateDao implements Dao {
 
     @Transactional(Transactional.TxType.REQUIRED)
     @Override
-    public void update(Identifiable entity) throws DaoException {
+    public void update(T entity) throws DaoException {
         try {
             em.merge(entity);
         } catch (Exception e) {
@@ -81,7 +74,7 @@ public class HibernateDao implements Dao {
 
     @Transactional(Transactional.TxType.REQUIRED)
     @Override
-    public void delete(Identifiable entity) throws DaoException {
+    public void delete(T entity) throws DaoException {
         try {
             em.remove(entity);
         } catch (Exception e) {
@@ -90,7 +83,7 @@ public class HibernateDao implements Dao {
     }
 
     @Transactional(Transactional.TxType.NOT_SUPPORTED)
-    public List<Identifiable> getListByFieldValue(String field, String value) throws DaoException {
+    public List<T> getListByFieldValue(String field, String value) throws DaoException {
         try {
             Session session = (Session) em.getDelegate();
             Criteria criteria = session.createCriteria(entityClass);
@@ -102,7 +95,7 @@ public class HibernateDao implements Dao {
         }
     }
 
-    public Identifiable getByFieldValue(String field, String value) throws DaoException {
+    public T getByFieldValue(String field, String value) throws DaoException {
         try {
             return getListByFieldValue(field, value).get(0);
         } catch (Exception e) {
