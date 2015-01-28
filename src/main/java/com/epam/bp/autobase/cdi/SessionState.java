@@ -1,9 +1,12 @@
 package com.epam.bp.autobase.cdi;
 
+import com.epam.bp.autobase.model.entity.Color;
 import com.epam.bp.autobase.model.entity.User;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Locale;
@@ -12,6 +15,8 @@ import java.util.Locale;
 @Stateful
 @SessionScoped
 public class SessionState implements Serializable {
+    @Inject
+    Event<Color> event;
     private User sessionUser;
     private Locale locale;
 
@@ -33,5 +38,7 @@ public class SessionState implements Serializable {
 
     public void setLocaleFromLangCode(String lang_code) {
         this.locale = new Locale(lang_code);
+        //fires entities which lists depends of locale:
+        event.fire(new Color());
     }
 }
