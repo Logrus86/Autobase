@@ -104,8 +104,8 @@ public abstract class Vehicle<T extends Vehicle> implements Identifiable<Vehicle
         return this;
     }
 
-    public String getFuelType() {
-        return fuelType.toString();
+    public Fuel getFuelType() {
+        return fuelType;
     }
 
     public Vehicle setFuelType(Fuel fuelType) {
