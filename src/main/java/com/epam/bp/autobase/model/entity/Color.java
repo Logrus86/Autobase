@@ -11,7 +11,7 @@ import javax.validation.constraints.Pattern;
         @NamedQuery(name = "Color.getAllSortedByEn", query = "SELECT c FROM Color c ORDER BY c.value_en"),
         @NamedQuery(name = "Color.getAllSortedByRu", query = "SELECT c FROM Color c ORDER BY c.value_ru")
 })
-public class Color implements Identifiable {
+public class Color implements Identifiable<Color> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,8 +29,9 @@ public class Color implements Identifiable {
         return id;
     }
 
-    public void setId(Integer id) {
+    public Color setId(Integer id) {
         this.id = id;
+        return this;
     }
 
     public String getValue_en() {

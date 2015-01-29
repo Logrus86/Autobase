@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @javax.persistence.Entity
 @DiscriminatorValue(value = "2")
 @NamedQuery(name = "Truck.getAll", query = "SELECT t FROM Truck t ORDER BY t.id")
-public class Truck extends Vehicle {
+public class Truck extends Vehicle<Truck> {
 
     @NotNull
     @Min(1)

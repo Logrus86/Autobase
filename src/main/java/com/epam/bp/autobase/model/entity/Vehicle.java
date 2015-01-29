@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "VEHICLE_TYPE", discriminatorType = DiscriminatorType.INTEGER)
-public abstract class Vehicle implements Identifiable {
+public abstract class Vehicle<T extends Vehicle> implements Identifiable<Vehicle> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -65,8 +65,9 @@ public abstract class Vehicle implements Identifiable {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    @Override
+    public T setId(Integer id) {
+        return (T) this;
     }
 
     public Boolean setDriver(User driver) {
@@ -89,64 +90,72 @@ public abstract class Vehicle implements Identifiable {
         return productionYear;
     }
 
-    public void setProductionYear(Integer productionYear) {
+    public Vehicle setProductionYear(Integer productionYear) {
         this.productionYear = productionYear;
+        return this;
     }
 
     public BigDecimal getMileage() {
         return mileage;
     }
 
-    public void setMileage(BigDecimal mileage) {
+    public Vehicle setMileage(BigDecimal mileage) {
         this.mileage = mileage;
+        return this;
     }
 
     public String getFuelType() {
         return fuelType.toString();
     }
 
-    public void setFuelType(Fuel fuelType) {
+    public Vehicle setFuelType(Fuel fuelType) {
         this.fuelType = fuelType;
+        return this;
     }
 
     public BigDecimal getRentPrice() {
         return rentPrice;
     }
 
-    public void setRentPrice(BigDecimal rentPrice) {
+    public Vehicle setRentPrice(BigDecimal rentPrice) {
         this.rentPrice = rentPrice;
+        return this;
     }
 
     public boolean isOperable() {
         return operable;
     }
 
-    public void setOperable(boolean operable) {
+    public Vehicle setOperable(boolean operable) {
         this.operable = operable;
+        return this;
     }
 
     public Model getModel() {
         return model;
     }
 
-    public void setModel(Model model) {
+    public Vehicle setModel(Model model) {
         this.model = model;
+        return this;
     }
 
     public Manufacturer getManufacturer() {
         return manufacturer;
     }
 
-    public void setManufacturer(Manufacturer manufacturer) {
+    public Vehicle setManufacturer(Manufacturer manufacturer) {
         this.manufacturer = manufacturer;
+        return this;
     }
 
     public Color getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
+    public Vehicle setColor(Color color) {
         this.color = color;
+        return this;
     }
 
     public User getDriver() {

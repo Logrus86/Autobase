@@ -7,7 +7,7 @@ import javax.validation.constraints.Pattern;
 
 @Entity
 @NamedQuery(name = "Model.getAll", query = "SELECT m FROM Model m ORDER BY m.id")
-public class Model implements Identifiable {
+public class Model implements Identifiable<Model> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -20,8 +20,9 @@ public class Model implements Identifiable {
         return id;
     }
 
-    public void setId(Integer id) {
+    public Model setId(Integer id) {
         this.id = id;
+        return this;
     }
 
     public String getValue() {

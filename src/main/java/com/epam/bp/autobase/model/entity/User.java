@@ -19,7 +19,7 @@ import java.util.List;
         @NamedQuery(name = "User.findByCredentials", query = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password"),
         @NamedQuery(name = "User.getAll", query = "SELECT u FROM User u ORDER BY u.role, u.username"),
 })
-public class User implements Identifiable {
+public class User implements Identifiable<User> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -99,12 +99,14 @@ public class User implements Identifiable {
         return id;
     }
 
-    public void setId(Integer id) {
+    public User setId(Integer id) {
         this.id = id;
+        return this;
     }
 
-    public void setDob(Date dob) {
+    public User setDob(Date dob) {
         this.dob = dob;
+        return this;
     }
 
     public String getFirstname() {
@@ -183,13 +185,13 @@ public class User implements Identifiable {
         return role;
     }
 
-    public User setRole(String role) {
-        this.role = Role.valueOf(role);
+    public User setRole(Role role) {
+        this.role = role;
         return this;
     }
 
-    public User setRole(Role role) {
-        this.role = role;
+    public User setRole(String role) {
+        this.role = Role.valueOf(role);
         return this;
     }
 

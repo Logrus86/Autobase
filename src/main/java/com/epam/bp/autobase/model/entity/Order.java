@@ -14,7 +14,7 @@ import java.util.Date;
 @Entity
 @Table(name = "VH_ORDER")
 @NamedQuery(name = "Order.getAll", query = "SELECT o FROM Order o ORDER BY o.id")
-public class Order implements Identifiable {
+public class Order implements Identifiable<Order> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -55,43 +55,48 @@ public class Order implements Identifiable {
         return id;
     }
 
-    public void setId(Integer id) {
+    public Order setId(Integer id) {
         this.id = id;
+        return this;
     }
 
     public User getClient() {
         return client;
     }
 
-    public Boolean setClient(User client) {
+    public Order setClient(User client) {
         if (client.getRole().equals(User.Role.CLIENT)) {
             this.client = client;
-            return true;
-        } else return false;
+            return this;
+        }
+        return this;
     }
 
     public Status getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public Order setStatus(Status status) {
         this.status = status;
+        return this;
     }
 
     public BigDecimal getSum() {
         return sum;
     }
 
-    public void setSum(BigDecimal sum) {
+    public Order setSum(BigDecimal sum) {
         this.sum = sum;
+        return this;
     }
 
     public Integer getDayCount() {
         return dayCount;
     }
 
-    public void setDayCount(Integer dayCount) {
+    public Order setDayCount(Integer dayCount) {
         this.dayCount = dayCount;
+        return this;
     }
 
     public String getDateStart() {
@@ -99,17 +104,19 @@ public class Order implements Identifiable {
         return sdf.format(dateStart);
     }
 
-    public void setDateStart(String dateStart) {
+    public Order setDateStart(Date dateStart) {
+        this.dateStart = dateStart;
+        return this;
+    }
+
+    public Order setDateStart(String dateStart) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             this.dateStart = sdf.parse(dateStart);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-    }
-
-    public void setDateStart(Date dateStart) {
-        this.dateStart = dateStart;
+        return this;
     }
 
     public String getDateEndString() {
@@ -132,25 +139,28 @@ public class Order implements Identifiable {
         return sdf.format(dateOrdered);
     }
 
-    public void setDateOrdered(String dateOrdered) {
+    public Order setDateOrdered(Date dateOrdered) {
+        this.dateOrdered = dateOrdered;
+        return this;
+    }
+
+    public Order setDateOrdered(String dateOrdered) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             this.dateOrdered = sdf.parse(dateOrdered);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-    }
-
-    public void setDateOrdered(Date dateOrdered) {
-        this.dateOrdered = dateOrdered;
+        return this;
     }
 
     public Vehicle getVehicle() {
         return vehicle;
     }
 
-    public void setVehicle(Vehicle vehicle) {
+    public Order setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
+        return this;
     }
 
     @Override
