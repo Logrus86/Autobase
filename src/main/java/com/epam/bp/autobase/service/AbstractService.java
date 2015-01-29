@@ -18,8 +18,8 @@ import java.util.Set;
 
 public abstract class AbstractService<I extends Identifiable, T extends AbstractDto, M extends BaseDao<I>> {
     public static final String RB = "i18n.text";
-    public static final String ID = "id";
     public static final String MSG = "msg";
+    public static final String ID = "id";
     public static final String FIRSTNAME = "firstname";
     public static final String LASTNAME = "lastname";
     public static final String EMAIL = "email";
@@ -29,10 +29,10 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
     public static final String PASSWORD_REPEAT = "password-repeat";
     public static final String BALANCE = "balance";
     public static final String ROLE = "role";
-    public static final String CREATE_ERR = "create_err";
-    public static final String UPDATE_ERR = "update_err";
     public static final String VALUE_EN = "value_en";
     public static final String VALUE_RU = "value_ru";
+    public static final String CREATE_ERR = "create_err";
+    public static final String UPDATE_ERR = "update_err";
     private Map<String, String> errorMap;
 
     public Map<String, String> getErrorMap() {
