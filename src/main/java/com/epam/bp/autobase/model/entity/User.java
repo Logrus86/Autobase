@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -71,10 +72,12 @@ public class User implements Identifiable<User> {
 
     public void addOrder(Order order) {
         order.setClient(this);
+        if (orders == null) orders = new LinkedList<>();
         orders.add(order);
     }
 
     public void addVehicle(Vehicle vehicle) {
+        if ((vehicles == null)) vehicles = new LinkedList<>();
         vehicle.setDriver(this);
         vehicles.add(vehicle);
     }
@@ -185,13 +188,13 @@ public class User implements Identifiable<User> {
         return role;
     }
 
-    public User setRole(Role role) {
-        this.role = role;
+    public User setRole(String role) {
+        this.role = Role.valueOf(role);
         return this;
     }
 
-    public User setRole(String role) {
-        this.role = Role.valueOf(role);
+    public User setRole(Role role) {
+        this.role = role;
         return this;
     }
 
