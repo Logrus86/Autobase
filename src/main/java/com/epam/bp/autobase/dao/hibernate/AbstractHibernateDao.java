@@ -9,21 +9,17 @@ import org.hibernate.criterion.Restrictions;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 import java.util.List;
 
 public abstract class AbstractHibernateDao<T extends Identifiable> implements BaseDao<T> {
 
     private Class<T> entityClass;
-    private EntityManager em;
 
     public AbstractHibernateDao(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
 
-    @Transactional(Transactional.TxType.REQUIRED)
-    @Override
-    public void create(T entity) throws DaoException {
+    protected void create(T entity, EntityManager em) throws DaoException {
         try {
             em.persist(entity);
         } catch (Exception e) {
@@ -31,9 +27,7 @@ public abstract class AbstractHibernateDao<T extends Identifiable> implements Ba
         }
     }
 
-    @Transactional(Transactional.TxType.NOT_SUPPORTED)
-    @Override
-    public T getById(Integer id) throws DaoException {
+    protected T getById(Integer id, EntityManager em) throws DaoException {
         try {
             return em.find(entityClass, id);
         } catch (Exception e) {
@@ -41,9 +35,7 @@ public abstract class AbstractHibernateDao<T extends Identifiable> implements Ba
         }
     }
 
-    @Transactional(Transactional.TxType.NOT_SUPPORTED)
-    @Override
-    public List<T> getAll() throws DaoException {
+    protected List<T> getAll(EntityManager em) throws DaoException {
         try {
             TypedQuery<T> query = em.createQuery(entityClass.getSimpleName() + ".getAll", entityClass);
             return query.getResultList();
@@ -52,9 +44,7 @@ public abstract class AbstractHibernateDao<T extends Identifiable> implements Ba
         }
     }
 
-    @Transactional(Transactional.TxType.REQUIRED)
-    @Override
-    public void update(T entity) throws DaoException {
+    protected void update(T entity, EntityManager em) throws DaoException {
         try {
             em.merge(entity);
         } catch (Exception e) {
@@ -62,9 +52,7 @@ public abstract class AbstractHibernateDao<T extends Identifiable> implements Ba
         }
     }
 
-    @Transactional(Transactional.TxType.REQUIRED)
-    @Override
-    public void delete(Integer id) throws DaoException {
+    protected void delete(Integer id, EntityManager em) throws DaoException {
         try {
             em.remove(em.find(entityClass, id));
         } catch (Exception e) {
@@ -72,9 +60,7 @@ public abstract class AbstractHibernateDao<T extends Identifiable> implements Ba
         }
     }
 
-    @Transactional(Transactional.TxType.REQUIRED)
-    @Override
-    public void delete(T entity) throws DaoException {
+    protected void delete(T entity, EntityManager em) throws DaoException {
         try {
             em.remove(entity);
         } catch (Exception e) {
@@ -82,8 +68,9 @@ public abstract class AbstractHibernateDao<T extends Identifiable> implements Ba
         }
     }
 
-    @Transactional(Transactional.TxType.NOT_SUPPORTED)
-    public List<T> getListByFieldValue(String field, String value) throws DaoException {
+    public abstract List<T> getListByFieldValue(String field, String value) throws DaoException;
+
+    protected List<T> getListByFieldValue(String field, String value, EntityManager em) throws DaoException {
         try {
             Session session = (Session) em.getDelegate();
             Criteria criteria = session.createCriteria(entityClass);
@@ -95,17 +82,21 @@ public abstract class AbstractHibernateDao<T extends Identifiable> implements Ba
         }
     }
 
-    public T getByFieldValue(String field, String value) throws DaoException {
+    public abstract T getByFieldValue(String field, String value) throws DaoException;
+
+    protected T getByFieldValue(String field, String value, EntityManager em) throws DaoException {
         try {
-            return getListByFieldValue(field, value).get(0);
+            return getListByFieldValue(field, value, em).get(0);
         } catch (Exception e) {
             throw new DaoException(e.getMessage(), e.getCause());
         }
     }
 
-    public boolean checkFieldValueExists(String field, String value) throws DaoException {
+    public abstract boolean checkFieldValueExists(String field, String value) throws DaoException;
+
+    protected boolean checkFieldValueExists(String field, String value, EntityManager em) throws DaoException {
         try {
-            return getListByFieldValue(field, value) != null;
+            return getListByFieldValue(field, value, em) != null;
         } catch (Exception e) {
             throw new DaoException(e.getMessage(), e.getCause());
         }
