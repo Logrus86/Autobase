@@ -4,7 +4,7 @@
 
 <div id="users">
     <table>
-        <div class="msg-error">${user_change_error}</div>
+        <div class="msg-error">${userService.errorMap.update_err}</div>
         <tr align="center">
             <td>№</td>
             <td><fmt:message key="default.username"/></td>
@@ -71,32 +71,42 @@
                 <form id="create-user-form" class="createForm" method="post" action="create_user">
                     <div class="input-group">
                         <div class="col-lg-12">
+                            <div class="msg-error">${userService.errorMap.create_err!=null ? userService.errorMap.firstname_msg : ""}</div>
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="default.firstname"/></span>
                                 <input type="text" class="form-control" id="firstname_u" name="firstname"
-                                       value="${firstname}" placeholder="..." required>
+                                       value="${userService.errorMap.create_err!=null ? userService.errorMap.firstname : ""}"
+                                       placeholder="..." required>
                             </div>
                         </div>
+                        <div class="msg-error">${userService.errorMap.create_err!=null ? userService.errorMap.lastname_msg : ""}</div>
                         <div class="col-lg-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="default.lastname"/></span>
                                 <input type="text" class="form-control" id="lastname_u" name="lastname"
-                                       value="${lastname}" placeholder="..." required>
+                                       value="${userService.errorMap.create_err!=null ? userService.errorMap.lastname : ""}"
+                                       placeholder="..." required>
                             </div>
                         </div>
+                        <div class="msg-error">${userService.errorMap.create_err!=null ? userService.errorMap.dob_msg : ""}</div>
                         <div class="col-lg-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="default.dob"/></span>
-                                <input type="date" class="form-control" id="dob_u" value="${dob}" name="dob" required>
+                                <input type="date" class="form-control" id="dob_u"
+                                       value="${userService.errorMap.create_err!=null ? userService.errorMap.dob : ""}"
+                                       name="dob" required>
                             </div>
                         </div>
+                        <div class="msg-error">${userService.errorMap.create_err!=null ? userService.errorMap.username_msg : ""}</div>
                         <div class="col-lg-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="default.username"/></span>
                                 <input type="text" class="form-control" id="username_u" name="username"
-                                       value="${username}" placeholder="..." required>
+                                       value="${userService.errorMap.create_err!=null ? userService.errorMap.username : ""}"
+                                       placeholder="..." required>
                             </div>
                         </div>
+                        <div class="msg-error">${userService.errorMap.create_err!=null ? userService.errorMap.password_msg : ""}</div>
                         <div class="col-lg-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="default.password"/></span>
@@ -109,10 +119,12 @@
                                 <input type="password" class="form-control" name="password-repeat" required>
                             </div>
                         </div>
+                        <div class="msg-error">${userService.errorMap.create_err!=null ? userService.errorMap.email_msg : ""}</div>
                         <div class="col-lg-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="default.email"/></span>
-                                <input type="email" class="form-control" id="email_u" name="email" value="${email}"
+                                <input type="email" class="form-control" id="email_u" name="email"
+                                       value="${userService.errorMap.create_err!=null ? userService.errorMap.email : ""}"
                                        placeholder="..." required>
                             </div>
                         </div>
@@ -121,18 +133,21 @@
                                 <span class="input-group-addon"><fmt:message key="default.role"/></span>
                                 <select class="selectpicker show-menu-arrow" data-width="auto" name="role">
                                     <c:forEach items="${roles}" var="role1">
-                                        <option value="${role1}" <c:if test="${role1==role}">selected</c:if>>
+                                        <option value="${role1}"
+                                                <c:if test="${role1==userService.errorMap.role}">selected</c:if>>
                                                 ${role1}
                                         </option>
                                     </c:forEach>
                                 </select>
                             </div>
                         </div>
+                        <div class="msg-error">${userService.errorMap.create_err!=null ? userService.errorMap.balance_msg : ""}</div>
                         <div class="col-lg-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="default.balance"/></span>
                                 <input type="number" id="balance_u" class="form-control" name="balance"
-                                       value="${balance}" placeholder="...">
+                                       value="${userService.errorMap.create_err!=null ? userService.errorMap.balance : ""}"
+                                       placeholder="...">
                             </div>
                         </div>
                         <div class="col-lg-12">
