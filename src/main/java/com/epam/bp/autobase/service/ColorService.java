@@ -51,24 +51,7 @@ public class ColorService extends AbstractService<Color, ColorDto, ColorDao> {
 
     @Override
     public ColorDto getDtoFromEntity(Color color) {
-        ColorDto colorDto = new ColorDto()
-                .setValue_en(color.getValue_en())
-                .setValue_ru(color.getValue_ru());
-        if (color.getId() != null) {
-            colorDto.setId(color.getId());
-        }
-        return colorDto;
-    }
-
-    @Override
-    public Color getEntityFromDto(ColorDto dto) {
-        Color color = new Color()
-                .setValue_en(dto.getValue_en())
-                .setValue_ru(dto.getValue_ru());
-        if (dto.getId() != null) {
-            color.setId(dto.getId());
-        }
-        return color;
+        return new ColorDto(color);
     }
 
     @Override

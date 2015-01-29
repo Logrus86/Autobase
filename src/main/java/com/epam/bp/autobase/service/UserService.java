@@ -57,7 +57,7 @@ public class UserService extends AbstractService<User, UserDto, UserDao> {
 
     @Override
     public void delete(UserDto dto) throws ServiceException {
-        User user = getEntityFromDto(dto);
+        User user = dto.buildEntity();
         unLinkVehicles(user);
         delete(dto, dao, event);
     }
@@ -69,38 +69,7 @@ public class UserService extends AbstractService<User, UserDto, UserDao> {
 
     @Override
     public UserDto getDtoFromEntity(User user) {
-        UserDto userDto = new UserDto()
-                .setUsername(user.getUsername())
-                .setPassword(user.getPassword())
-                .setFirstname(user.getFirstname())
-                .setLastname(user.getLastname())
-                .setDobString(user.getDob())
-                .setEmail(user.getEmail())
-                .setRole(user.getRole())
-                .setBalance(user.getBalance());
-        if (user.getId() != null) userDto.setId(user.getId());
-        // if (user.getVehicles() != null) userDto.setVehicleDtoList(user.getVehicles()); TODO: how it must be done ?
-        // if (user.getOrders() != null) userDto.setOrderDtoList(
-        return userDto;
-    }
-
-    @Override
-    public User getEntityFromDto(UserDto dto) {
-        User user = new User()
-                .setUsername(dto.getUsername())
-                .setPassword(dto.getPassword())
-                .setFirstname(dto.getFirstname())
-                .setLastname(dto.getLastname())
-                .setDob(dto.getDobString())
-                .setEmail(dto.getEmail())
-                .setRole(dto.getRole())
-                .setBalance(null);
-        if (dto.getId() != null) {
-            user.setId(dto.getId());
-        }
-        // if (dto.getVehicleDtoList() != null) user.setVehicles(); TODO: reverse operation
-        // if (dto.getOrderDtoList() != null) user.setOrders();
-        return user;
+        return new UserDto(user);
     }
 
     @Override

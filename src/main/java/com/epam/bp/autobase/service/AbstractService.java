@@ -48,7 +48,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
 
     protected void create(T dto, M dao, Event<I> event, Locale locale) throws ServiceException {
         try {
-            I entity = getEntityFromDto(dto);
+            I entity = (I) dto.buildEntity();
             String errors = validateWhileCreate(entity, locale);
             if ("".equals(errors)) {
                 dao.create(entity);
@@ -75,7 +75,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
 
     protected void update(T dto, M dao, Event<I> event, Locale locale) throws ServiceException {
         try {
-            I entity = getEntityFromDto(dto);
+            I entity = (I) dto.buildEntity();
             String errors = validateWhileUpdate(entity, dto, locale);
             if ("".equals(errors)) {
                 dao.update(entity);
@@ -105,13 +105,15 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
 
     protected void delete(T dto, M dao, Event<I> event) throws ServiceException {
         try {
-            I entity = getEntityFromDto(dto);
+            I entity = (I) dto.buildEntity();
             dao.delete(entity);
             event.fire(entity);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e.getCause());
         }
     }
+
+    public abstract T getDtoFromEntity(I entity);
 
     private Validator validator(Locale locale) {
         ValidatorFactory validatorFactory = Validation.byDefaultProvider()
@@ -150,10 +152,6 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
         }
         return result;
     }
-
-    public abstract T getDtoFromEntity(I identifiable);
-
-    public abstract I getEntityFromDto(T dto);
 
     public abstract String checkAllFieldsNotBusy(I identifiable) throws ServiceException;
 
