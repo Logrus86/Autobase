@@ -49,7 +49,7 @@ public class ChangeEntityServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String servletPath = req.getServletPath();
 
-        if (servletPath.equals("/do/register")) {
+        if ((servletPath.equals("/do/register")) || (servletPath.equals("/do/create_user"))) {
             registerUser(req, resp);
         } else {
             if (servletPath.equals("/do/change_user")) {
@@ -114,8 +114,7 @@ public class ChangeEntityServlet extends HttpServlet {
             String stringId = req.getParameter(PARAM_DELETE);
             if (stringId != null) {
                 try {
-                    UserDto dto = new UserDto().setId(Integer.valueOf(req.getParameter(PARAM_DELETE)));
-                    us.delete(dto);
+                    us.delete(Integer.valueOf(req.getParameter(PARAM_DELETE)));
                 } catch (ServiceException se) {
                     logger.error(se.getMessage());
                 }
@@ -127,7 +126,9 @@ public class ChangeEntityServlet extends HttpServlet {
 
     private void registerUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            us.create(getUserDtoFromRequest(req));
+            UserDto userDto = getUserDtoFromRequest(req);
+            us.create(userDto);
+            if (us.getErrorMap() == null) ss.setSessionUser(userDto.buildEntity());
             logger.info("Newly registered user: " + ss.getSessionUser().toString());
             RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/registered.jsp");
             resultView.forward(req, resp);
@@ -138,16 +139,18 @@ public class ChangeEntityServlet extends HttpServlet {
     }
 
     private void forwardDependsRole(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher resultView;
-        if (User.Role.CLIENT.equals(ss.getSessionUser().getRole())) {
-            resultView = req.getRequestDispatcher("/WEB-INF/jsp/cabinet.jsp");
-        } else {
-            if (User.Role.DRIVER.equals(ss.getSessionUser().getRole())) {
-                resultView = req.getRequestDispatcher("/WEB-INF/jsp/main_driver.jsp");
+        RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
+        if ((ss.getSessionUser() != null) && (ss.getSessionUser().getRole() != null)) {
+            if (User.Role.CLIENT.equals(ss.getSessionUser().getRole())) {
+                resultView = req.getRequestDispatcher("/WEB-INF/jsp/cabinet.jsp");
             } else {
-                if (User.Role.ADMIN.equals(ss.getSessionUser().getRole())) {
-                    resultView = req.getRequestDispatcher("/WEB-INF/jsp/admin_users.jsp");
-                } else resultView = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
+                if (User.Role.DRIVER.equals(ss.getSessionUser().getRole())) {
+                    resultView = req.getRequestDispatcher("/WEB-INF/jsp/main_driver.jsp");
+                } else {
+                    if (User.Role.ADMIN.equals(ss.getSessionUser().getRole())) {
+                        resultView = req.getRequestDispatcher("/WEB-INF/jsp/admin_users.jsp");
+                    }
+                }
             }
         }
         resultView.forward(req, resp);
@@ -165,7 +168,7 @@ public class ChangeEntityServlet extends HttpServlet {
             dto.setRole(req.getParameter(AbstractService.ROLE));
         else dto.setRole(User.Role.CLIENT);
         if (req.getParameterMap().containsKey(AbstractService.BALANCE))
-            dto.setRole(req.getParameter(AbstractService.BALANCE));
+            dto.setBalance(req.getParameter(AbstractService.BALANCE));
         else dto.setBalance(BigDecimal.ZERO);
         //get id from "id" or "save" or "delete"
         if (req.getParameterMap().containsKey(AbstractService.ID))
