@@ -140,6 +140,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
     public String validateWhileCreate(I identifiable, Locale locale) throws ServiceException {
         String result = validate0(identifiable, locale).append(checkAllFieldsNotBusy(identifiable)).toString();
         if (!"".equals(result)) {
+            if (errorMap == null) errorMap = new HashMap<>();
             errorMap.put(CREATE_ERR, result);
         }
         return result;
@@ -148,6 +149,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
     public String validateWhileUpdate(I identifiable, T dto, Locale locale) throws ServiceException {
         String result = validate0(identifiable, locale).append(checkChangedFieldsNotBusy(identifiable, dto)).toString();
         if (!"".equals(result)) {
+            if (errorMap == null) errorMap = new HashMap<>();
             errorMap.put(UPDATE_ERR, result);
         }
         return result;

@@ -40,6 +40,7 @@ public class UserService extends AbstractService<User, UserDto, UserDao> {
 
     @Override
     public void update(UserDto dto) throws ServiceException {
+        if (dto.getRole().equals(User.Role.DRIVER)) unLinkVehicles(dto.buildEntity());
         update(dto, dao, event, ss.getLocale());
     }
 
@@ -80,13 +81,19 @@ public class UserService extends AbstractService<User, UserDto, UserDao> {
             if (dao.checkFieldValueExists(USERNAME, user.getUsername())) {
                 String error = ResourceBundle.getBundle(RB, locale).getString("error.busy-username");
                 sb.append(error);
+                logger.info(getErrorMap());
+                if (getErrorMap() == null) setErrorMap(new HashMap<>());
                 getErrorMap().put(USERNAME + "_" + MSG, error);
+                getErrorMap().put(USERNAME, user.getUsername());
             }
             if (dao.checkFieldValueExists(EMAIL, user.getEmail())) {
                 if (!"".equals(sb.toString())) sb.append("; ");
                 String error = ResourceBundle.getBundle(RB, locale).getString("error.busy-email");
                 sb.append(error);
+                logger.info(getErrorMap());
+                if (getErrorMap() == null) setErrorMap(new HashMap<>());
                 getErrorMap().put(EMAIL + "_" + MSG, error);
+                getErrorMap().put(EMAIL, user.getEmail());
             }
             return sb.toString();
         } catch (DaoException e) {
@@ -105,13 +112,15 @@ public class UserService extends AbstractService<User, UserDto, UserDao> {
                 sb.append(error);
                 if (getErrorMap() == null) setErrorMap(new HashMap<>());
                 getErrorMap().put(USERNAME + "_" + MSG, error);
+                getErrorMap().put(USERNAME, user.getUsername());
             }
-            if ((!user.getPassword().equals(dto.getPassword())) && (dao.checkFieldValueExists(PASSWORD, user.getPassword()))) {
+            if ((!user.getEmail().equals(dto.getEmail())) && (dao.checkFieldValueExists(EMAIL, user.getEmail()))) {
                 if (!"".equals(sb.toString())) sb.append("; ");
-                String error = ResourceBundle.getBundle(RB, locale).getString("error.busy-password");
+                String error = ResourceBundle.getBundle(RB, locale).getString("error.busy-email");
                 sb.append(error);
                 if (getErrorMap() == null) setErrorMap(new HashMap<>());
-                getErrorMap().put(PASSWORD + "_" + MSG, error);
+                getErrorMap().put(EMAIL + "_" + MSG, error);
+                getErrorMap().put(EMAIL, user.getEmail());
             }
             return sb.toString();
         } catch (DaoException e) {

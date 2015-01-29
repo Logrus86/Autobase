@@ -63,15 +63,15 @@ public class ColorService extends AbstractService<Color, ColorDto, ColorDao> {
             if (dao.checkFieldValueExists(VALUE_EN, color.getValue_en())) {
                 String error = ResourceBundle.getBundle(RB, locale).getString("error.busy-color");
                 sb.append(error);
+                if (getErrorMap() == null) setErrorMap(new HashMap<>());
                 getErrorMap().put(VALUE_EN + "_" + MSG, error);
             }
             // check busyness of value_ru
             if (dao.checkFieldValueExists(VALUE_RU, color.getValue_ru())) {
-                if (!"".equals(sb.toString())) {
-                    sb.append("; ");
-                }
+                if (!"".equals(sb.toString())) sb.append("; ");
                 String error = ResourceBundle.getBundle(RB, locale).getString("error.busy-color");
                 sb.append(error);
+                if (getErrorMap() == null) setErrorMap(new HashMap<>());
                 getErrorMap().put(VALUE_RU + "_" + MSG, error);
             }
             return sb.toString();
@@ -90,21 +90,15 @@ public class ColorService extends AbstractService<Color, ColorDto, ColorDao> {
             if ((!color.getValue_en().equals(dto.getValue_en())) && (dao.checkFieldValueExists(VALUE_EN, color.getValue_en()))) {
                 String error = ResourceBundle.getBundle(RB, locale).getString("error.busy-color");
                 sb.append(error);
-                if (getErrorMap() == null) {
-                    setErrorMap(new HashMap<>());
-                }
+                if (getErrorMap() == null) setErrorMap(new HashMap<>());
                 getErrorMap().put(VALUE_EN + "_" + MSG, error);
             }
             // check busyness of value_ru if its changed
             if ((!color.getValue_ru().equals(dto.getValue_ru())) && (dao.checkFieldValueExists(VALUE_RU, color.getValue_ru()))) {
-                if (!"".equals(sb.toString())) {
-                    sb.append("; ");
-                }
+                if (!"".equals(sb.toString())) sb.append("; ");
                 String error = ResourceBundle.getBundle(RB, locale).getString("error.busy-color");
                 sb.append(error);
-                if (getErrorMap() == null) {
-                    setErrorMap(new HashMap<>());
-                }
+                if (getErrorMap() == null) setErrorMap(new HashMap<>());
                 getErrorMap().put(VALUE_RU + "_" + MSG, error);
             }
             return sb.toString();
