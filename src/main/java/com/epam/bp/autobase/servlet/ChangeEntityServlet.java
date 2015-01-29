@@ -1,6 +1,10 @@
 package com.epam.bp.autobase.servlet;
 
+import com.epam.bp.autobase.cdi.SessionState;
 import com.epam.bp.autobase.model.dto.ColorDto;
+import com.epam.bp.autobase.model.dto.UserDto;
+import com.epam.bp.autobase.model.entity.User;
+import com.epam.bp.autobase.service.AbstractService;
 import com.epam.bp.autobase.service.ColorService;
 import com.epam.bp.autobase.service.ServiceException;
 import com.epam.bp.autobase.service.UserService;
@@ -14,8 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.math.BigDecimal;
 
 @WebServlet({
         "do/register",
@@ -27,6 +30,8 @@ import java.util.Map;
 public class ChangeEntityServlet extends HttpServlet {
     public static final String PARAM_SAVE = "save";
     public static final String PARAM_DELETE = "delete";
+    @Inject
+    SessionState ss;
     @Inject
     UserService us;
     @Inject
@@ -69,11 +74,11 @@ public class ChangeEntityServlet extends HttpServlet {
             } else {
                 stringId = req.getParameter(PARAM_SAVE);
                 ColorDto colorDto = new ColorDto()
-                        .setValue_en(req.getParameter("value_en"))
-                        .setValue_ru(req.getParameter("value_ru"));
-                colorDto.setId(Integer.valueOf(stringId));
+                        .setId(Integer.valueOf(stringId))
+                        .setValue_en(req.getParameter(AbstractService.VALUE_EN))
+                        .setValue_ru(req.getParameter(AbstractService.VALUE_RU));
                 cs.update(colorDto);
-                logger.info("Color '" + req.getParameter("value_en") + "' had successfully updated");
+                logger.info("Color '" + req.getParameter(AbstractService.VALUE_EN) + "' had successfully updated");
             }
         } catch (ServiceException se) {
             logger.error(se.getMessage() + ", " + se.getCause());
@@ -85,8 +90,8 @@ public class ChangeEntityServlet extends HttpServlet {
     private void createColor(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             ColorDto colorDto = new ColorDto()
-                    .setValue_en(req.getParameter("value_en"))
-                    .setValue_ru(req.getParameter("value_ru"));
+                    .setValue_en(req.getParameter(AbstractService.VALUE_EN))
+                    .setValue_ru(req.getParameter(AbstractService.VALUE_RU));
             cs.create(colorDto);
             logger.info("Color created successfully");
         } catch (ServiceException se) {
@@ -97,59 +102,79 @@ public class ChangeEntityServlet extends HttpServlet {
     }
 
     private void changeUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        /*//changing user if we are client or driver; if we are admin, do it if PARAM_SAVE parameter not null only
-        if (!User.Role.ADMIN.equals(us.getUser().getRole()) || req.getParameter(PARAM_SAVE) != null) {
+        //changing user if we are client or driver; if we are admin, do it if PARAM_SAVE parameter not null only
+        if (!User.Role.ADMIN.equals(ss.getSessionUser().getRole()) || req.getParameter(PARAM_SAVE) != null) {
             try {
-                us.update(getServiceMapFromRequest(req));
-                logger.info("User '" + req.getParameter("username") + "' was successfully updated");
+                us.update(getUserDtoFromRequest(req));
+                logger.info("User '" + req.getParameter(AbstractService.USERNAME) + "' was successfully updated");
             } catch (ServiceException se) {
                 logger.error(se.getMessage());
             }
         } else {
             String stringId = req.getParameter(PARAM_DELETE);
             if (stringId != null) {
-                us.delete(Integer.valueOf(stringId));
-                logger.info("User '" + req.getParameter("username") + "' was successfully deleted");
+                try {
+                    UserDto dto = new UserDto().setId(Integer.valueOf(req.getParameter(PARAM_DELETE)));
+                    us.delete(dto);
+                } catch (ServiceException se) {
+                    logger.error(se.getMessage());
+                }
+                logger.info("User '" + req.getParameter(AbstractService.USERNAME) + "' was successfully deleted");
             }
-        }*/
+        }
         forwardDependsRole(req, resp);
     }
 
     private void registerUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        /*try {
-            us.create(getServiceMapFromRequest(req));
-            logger.info("Newly registered user: " + us.getUser().toString());
+        try {
+            us.create(getUserDtoFromRequest(req));
+            logger.info("Newly registered user: " + ss.getSessionUser().toString());
             RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/registered.jsp");
             resultView.forward(req, resp);
         } catch (ServiceException se) {
             logger.error(se.getMessage());
             forwardDependsRole(req, resp);
-        }*/
+        }
     }
 
     private void forwardDependsRole(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        /*RequestDispatcher resultView;
-        if (User.Role.CLIENT.equals(us.getUser().getRole())) {
+        RequestDispatcher resultView;
+        if (User.Role.CLIENT.equals(ss.getSessionUser().getRole())) {
             resultView = req.getRequestDispatcher("/WEB-INF/jsp/cabinet.jsp");
         } else {
-            if (User.Role.DRIVER.equals(us.getUser().getRole())) {
+            if (User.Role.DRIVER.equals(ss.getSessionUser().getRole())) {
                 resultView = req.getRequestDispatcher("/WEB-INF/jsp/main_driver.jsp");
             } else {
-                if (User.Role.ADMIN.equals(us.getUser().getRole())) {
+                if (User.Role.ADMIN.equals(ss.getSessionUser().getRole())) {
                     resultView = req.getRequestDispatcher("/WEB-INF/jsp/admin_users.jsp");
                 } else resultView = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
             }
         }
-        resultView.forward(req, resp);*/
+        resultView.forward(req, resp);
     }
 
-    private Map<String, String> getServiceMapFromRequest(HttpServletRequest request) {
-        HashMap<String, String> serviceMap = new HashMap<>();
-        for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
-            if ((entry.getKey().equals("save")) || (entry.getKey().equals("delete"))) {
-                serviceMap.put("id", entry.getValue()[0]);
-            } else serviceMap.put(entry.getKey(), entry.getValue()[0]);
+    private UserDto getUserDtoFromRequest(HttpServletRequest req) {
+        UserDto dto = new UserDto()
+                .setUsername(req.getParameter(AbstractService.USERNAME))
+                .setPassword(req.getParameter(AbstractService.PASSWORD))
+                .setEmail(req.getParameter(AbstractService.EMAIL))
+                .setFirstname(req.getParameter(AbstractService.FIRSTNAME))
+                .setLastname(req.getParameter(AbstractService.LASTNAME))
+                .setDobString(req.getParameter(AbstractService.DOB));
+        if (req.getParameterMap().containsKey(AbstractService.ROLE))
+            dto.setRole(req.getParameter(AbstractService.ROLE));
+        else dto.setRole(User.Role.CLIENT);
+        if (req.getParameterMap().containsKey(AbstractService.BALANCE))
+            dto.setRole(req.getParameter(AbstractService.BALANCE));
+        else dto.setBalance(BigDecimal.ZERO);
+        //get id from "id" or "save" or "delete"
+        if (req.getParameterMap().containsKey(AbstractService.ID))
+            dto.setId(Integer.valueOf(req.getParameter(AbstractService.ID)));
+        else {
+            if (req.getParameterMap().containsKey(PARAM_SAVE)) dto.setId(Integer.valueOf(req.getParameter(PARAM_SAVE)));
+            else if (req.getParameterMap().containsKey(PARAM_DELETE))
+                dto.setId(Integer.valueOf(req.getParameter(PARAM_DELETE)));
         }
-        return serviceMap;
+        return dto;
     }
 }
