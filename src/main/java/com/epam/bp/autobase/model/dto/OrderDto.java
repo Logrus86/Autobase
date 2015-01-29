@@ -4,8 +4,7 @@ import com.epam.bp.autobase.model.entity.Order;
 
 import java.math.BigDecimal;
 
-
-public class OrderDto extends AbstractDto {
+public class OrderDto extends AbstractDto<Order, OrderDto> {
     private UserDto clientDto;
     private VehicleDto vehicleDto;
     private String dateStartString;
@@ -13,6 +12,20 @@ public class OrderDto extends AbstractDto {
     private String dateOrderedString;
     private BigDecimal sum;
     private Order.Status status;
+
+    public OrderDto() {
+    }
+
+    public OrderDto(Order entity) {
+        super(entity);
+        clientDto = new UserDto(entity.getClient());
+        vehicleDto = new VehicleDto(entity.getVehicle());
+        dateStartString = entity.getDateStart();
+        dayCount = entity.getDayCount();
+        dateOrderedString = entity.getDateOrdered();
+        sum = entity.getSum();
+        status = entity.getStatus();
+    }
 
     public UserDto getClientDto() {
         return clientDto;
@@ -75,5 +88,18 @@ public class OrderDto extends AbstractDto {
     public OrderDto setStatus(Order.Status status) {
         this.status = status;
         return this;
+    }
+
+    @Override
+    public Order buildEntity() {
+        return new Order()
+                .setId(getId())
+                .setClient(clientDto.buildEntity())
+                .setVehicle(vehicleDto.buildEntity())
+                .setDateStart(dateStartString)
+                .setDayCount(dayCount)
+                .setDateOrdered(dateOrderedString)
+                .setStatus(status)
+                .setSum(sum);
     }
 }

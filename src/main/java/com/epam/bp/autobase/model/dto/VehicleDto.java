@@ -4,24 +4,38 @@ import com.epam.bp.autobase.model.entity.Vehicle;
 
 import java.math.BigDecimal;
 
-public class VehicleDto extends AbstractDto {
-    private BigDecimal rentPrice;
+public class VehicleDto extends AbstractDto<Vehicle, VehicleDto> {
     private Vehicle.Type type;
-    private ColorDto colorDto;
-    private ModelAndManufacturerDto modelDto;
-    private ModelAndManufacturerDto manufacturerDto;
-    private UserDto driverDto;
+    private BigDecimal rentPrice;
     private Integer productionYear;
     private BigDecimal mileage;
     private boolean operable;
     private Vehicle.Fuel fuelType;
-    private int passengerSeatsNumber;
-    private int standingPlacesNumber;
-    private int doorsNumber;
-    private boolean withConditioner;
-    private BigDecimal maxPayload;
-    private boolean enclosed;
-    private boolean tipper;
+    private ColorDto colorDto;
+    private ManufacturerDto modelDto;
+    private ManufacturerDto manufacturerDto;
+    private UserDto driverDto;
+    private int passengerSeatsNumber;   //bus
+    private int standingPlacesNumber;   //bus & car
+    private int doorsNumber;            //bus & car
+    private boolean withConditioner;    //car
+    private BigDecimal maxPayload;      //truck
+    private boolean enclosed;           //truck
+    private boolean tipper;             //truck
+
+    public VehicleDto() {
+    }
+
+    public VehicleDto(Vehicle vehicle) {
+        super(vehicle);
+        type = vehicle.getType();
+        rentPrice = vehicle.getRentPrice();
+        productionYear = vehicle.getProductionYear();
+        mileage = vehicle.getMileage();
+        operable = vehicle.isOperable();
+        fuelType = vehicle.getFuelType();
+    }
+
 
     public BigDecimal getRentPrice() {
         return rentPrice;
@@ -50,20 +64,20 @@ public class VehicleDto extends AbstractDto {
         return this;
     }
 
-    public ModelAndManufacturerDto getModelDto() {
+    public ManufacturerDto getModelDto() {
         return modelDto;
     }
 
-    public VehicleDto setModelDto(ModelAndManufacturerDto modelDto) {
+    public VehicleDto setModelDto(ManufacturerDto modelDto) {
         this.modelDto = modelDto;
         return this;
     }
 
-    public ModelAndManufacturerDto getManufacturerDto() {
+    public ManufacturerDto getManufacturerDto() {
         return manufacturerDto;
     }
 
-    public VehicleDto setManufacturerDto(ModelAndManufacturerDto manufacturerDto) {
+    public VehicleDto setManufacturerDto(ManufacturerDto manufacturerDto) {
         this.manufacturerDto = manufacturerDto;
         return this;
     }
@@ -174,5 +188,10 @@ public class VehicleDto extends AbstractDto {
     public VehicleDto setTipper(boolean tipper) {
         this.tipper = tipper;
         return this;
+    }
+
+    @Override
+    public Vehicle buildEntity() {
+        return null;
     }
 }
