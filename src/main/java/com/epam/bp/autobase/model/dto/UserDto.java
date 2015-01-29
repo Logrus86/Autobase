@@ -102,13 +102,13 @@ public class UserDto extends AbstractDto<User, UserDto> {
         return role;
     }
 
-    public UserDto setRole(User.Role role) {
-        this.role = role;
+    public UserDto setRole(String role) {
+        this.role = User.Role.valueOf(role);
         return this;
     }
 
-    public UserDto setRole(String role) {
-        this.role = User.Role.valueOf(role);
+    public UserDto setRole(User.Role role) {
+        this.role = role;
         return this;
     }
 
@@ -116,13 +116,17 @@ public class UserDto extends AbstractDto<User, UserDto> {
         return balance;
     }
 
-    public UserDto setBalance(BigDecimal balance) {
-        this.balance = balance;
+    public UserDto setBalance(String balance) {
+        try {
+            this.balance = BigDecimal.valueOf(Long.parseLong(balance));
+        } catch (NumberFormatException e) {
+            this.balance = BigDecimal.ZERO;
+        }
         return this;
     }
 
-    public UserDto setBalance(String balance) {
-        this.balance = BigDecimal.valueOf(Long.parseLong(balance));
+    public UserDto setBalance(BigDecimal balance) {
+        this.balance = balance;
         return this;
     }
 
