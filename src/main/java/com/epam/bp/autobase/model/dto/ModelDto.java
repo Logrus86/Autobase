@@ -18,8 +18,9 @@ public class ModelDto extends AbstractDto<Model, ModelDto> {
         return value;
     }
 
-    public void setValue(String value) {
+    public ModelDto setValue(String value) {
         this.value = value;
+        return this;
     }
 
     @Override
