@@ -12,9 +12,7 @@ import org.jboss.logging.Logger;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 @Model
 public class UserService extends AbstractService<User, UserDto, UserDao> {
@@ -40,7 +38,6 @@ public class UserService extends AbstractService<User, UserDto, UserDao> {
 
     @Override
     public void update(UserDto dto) throws ServiceException {
-        if (dto.getRole().equals(User.Role.DRIVER)) unLinkVehicles(dto.buildEntity());
         update(dto, dao, event, ss.getLocale());
     }
 
@@ -49,11 +46,10 @@ public class UserService extends AbstractService<User, UserDto, UserDao> {
         try {
             User user = dao.getById(id);
             unLinkVehicles(user);
+            delete(id, dao, event);
         } catch (DaoException e) {
             throw new ServiceException("User with id=" + id + " wasn't found. Abort.");
         }
-
-        delete(id, dao, event);
     }
 
     @Override
@@ -77,56 +73,22 @@ public class UserService extends AbstractService<User, UserDto, UserDao> {
     public String checkAllFieldsNotBusy(User user) throws ServiceException {
         StringBuilder sb = new StringBuilder();
         Locale locale = ss.getLocale();
-        try {
-            if (dao.checkFieldValueExists(USERNAME, user.getUsername())) {
-                String error = ResourceBundle.getBundle(RB, locale).getString("error.busy-username");
-                sb.append(error);
-                logger.info(getErrorMap());
-                if (getErrorMap() == null) setErrorMap(new HashMap<>());
-                getErrorMap().put(USERNAME + "_" + MSG, error);
-                getErrorMap().put(USERNAME, user.getUsername());
-            }
-            if (dao.checkFieldValueExists(EMAIL, user.getEmail())) {
-                if (!"".equals(sb.toString())) sb.append("; ");
-                String error = ResourceBundle.getBundle(RB, locale).getString("error.busy-email");
-                sb.append(error);
-                logger.info(getErrorMap());
-                if (getErrorMap() == null) setErrorMap(new HashMap<>());
-                getErrorMap().put(EMAIL + "_" + MSG, error);
-                getErrorMap().put(EMAIL, user.getEmail());
-            }
-            return sb.toString();
-        } catch (DaoException e) {
-            e.printStackTrace();
-            throw new ServiceException(e.getMessage(), e.getCause());
-        }
+        sb.append(checkFieldNotBusy(USERNAME, user.getUsername(), dao, locale));
+        if (!sb.toString().isEmpty()) sb.append("; ");
+        sb.append(checkFieldNotBusy(EMAIL, user.getEmail(), dao, locale));
+        return sb.toString();
     }
 
     @Override
     public String checkChangedFieldsNotBusy(User user, UserDto dto) throws ServiceException {
         StringBuilder sb = new StringBuilder();
         Locale locale = ss.getLocale();
-        try {
-            if ((!user.getUsername().equals(dto.getUsername())) && (dao.checkFieldValueExists(USERNAME, user.getUsername()))) {
-                String error = ResourceBundle.getBundle(RB, locale).getString("error.busy-username");
-                sb.append(error);
-                if (getErrorMap() == null) setErrorMap(new HashMap<>());
-                getErrorMap().put(USERNAME + "_" + MSG, error);
-                getErrorMap().put(USERNAME, user.getUsername());
-            }
-            if ((!user.getEmail().equals(dto.getEmail())) && (dao.checkFieldValueExists(EMAIL, user.getEmail()))) {
-                if (!"".equals(sb.toString())) sb.append("; ");
-                String error = ResourceBundle.getBundle(RB, locale).getString("error.busy-email");
-                sb.append(error);
-                if (getErrorMap() == null) setErrorMap(new HashMap<>());
-                getErrorMap().put(EMAIL + "_" + MSG, error);
-                getErrorMap().put(EMAIL, user.getEmail());
-            }
-            return sb.toString();
-        } catch (DaoException e) {
-            e.printStackTrace();
-            throw new ServiceException(e.getMessage(), e.getCause());
-        }
+        if (!user.getUsername().equals(dto.getUsername()))
+            sb.append(checkFieldNotBusy(USERNAME, dto.getUsername(), dao, locale));
+        if (!sb.toString().isEmpty()) sb.append("; ");
+        if (!user.getEmail().equals(dto.getEmail()))
+            sb.append(checkFieldNotBusy(EMAIL, dto.getEmail(), dao, locale));
+        return sb.toString();
     }
 
     public User findByCredentials(UserDto userDto) {

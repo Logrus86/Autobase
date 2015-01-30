@@ -2,7 +2,6 @@ package com.epam.bp.autobase.service;
 
 import com.epam.bp.autobase.cdi.SessionState;
 import com.epam.bp.autobase.dao.ColorDao;
-import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.hibernate.HibernateColorDao;
 import com.epam.bp.autobase.model.dto.ColorDto;
 import com.epam.bp.autobase.model.entity.Color;
@@ -10,9 +9,7 @@ import com.epam.bp.autobase.model.entity.Color;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 @Model
 public class ColorService extends AbstractService<Color, ColorDto, ColorDao> {
@@ -58,53 +55,21 @@ public class ColorService extends AbstractService<Color, ColorDto, ColorDao> {
     public String checkAllFieldsNotBusy(Color color) throws ServiceException {
         StringBuilder sb = new StringBuilder();
         Locale locale = ss.getLocale();
-        try {
-            // check busyness of value_en
-            if (dao.checkFieldValueExists(VALUE_EN, color.getValue_en())) {
-                String error = ResourceBundle.getBundle(RB, locale).getString("error.busy-color");
-                sb.append(error);
-                if (getErrorMap() == null) setErrorMap(new HashMap<>());
-                getErrorMap().put(VALUE_EN + "_" + MSG, error);
-            }
-            // check busyness of value_ru
-            if (dao.checkFieldValueExists(VALUE_RU, color.getValue_ru())) {
-                if (!"".equals(sb.toString())) sb.append("; ");
-                String error = ResourceBundle.getBundle(RB, locale).getString("error.busy-color");
-                sb.append(error);
-                if (getErrorMap() == null) setErrorMap(new HashMap<>());
-                getErrorMap().put(VALUE_RU + "_" + MSG, error);
-            }
-            return sb.toString();
-        } catch (DaoException e) {
-            e.printStackTrace();
-            throw new ServiceException(e.getMessage(), e.getCause());
-        }
+        sb.append(checkFieldNotBusy(VALUE_EN, color.getValue_en(), dao, locale));
+        if (!sb.toString().isEmpty()) sb.append("; ");
+        sb.append(checkFieldNotBusy(VALUE_RU, color.getValue_ru(), dao, locale));
+        return sb.toString();
     }
 
     @Override
     public String checkChangedFieldsNotBusy(Color color, ColorDto dto) throws ServiceException {
         StringBuilder sb = new StringBuilder();
         Locale locale = ss.getLocale();
-        try {
-            // check busyness of value_en if its changed
-            if ((!color.getValue_en().equals(dto.getValue_en())) && (dao.checkFieldValueExists(VALUE_EN, color.getValue_en()))) {
-                String error = ResourceBundle.getBundle(RB, locale).getString("error.busy-color");
-                sb.append(error);
-                if (getErrorMap() == null) setErrorMap(new HashMap<>());
-                getErrorMap().put(VALUE_EN + "_" + MSG, error);
-            }
-            // check busyness of value_ru if its changed
-            if ((!color.getValue_ru().equals(dto.getValue_ru())) && (dao.checkFieldValueExists(VALUE_RU, color.getValue_ru()))) {
-                if (!"".equals(sb.toString())) sb.append("; ");
-                String error = ResourceBundle.getBundle(RB, locale).getString("error.busy-color");
-                sb.append(error);
-                if (getErrorMap() == null) setErrorMap(new HashMap<>());
-                getErrorMap().put(VALUE_RU + "_" + MSG, error);
-            }
-            return sb.toString();
-        } catch (DaoException e) {
-            e.printStackTrace();
-            throw new ServiceException(e.getMessage(), e.getCause());
-        }
+        if (!color.getValue_en().equals(dto.getValue_en()))
+            sb.append(checkFieldNotBusy(VALUE_EN, dto.getValue_en(), dao, locale));
+        if (!sb.toString().isEmpty()) sb.append("; ");
+        if (!color.getValue_ru().equals(dto.getValue_ru()))
+            sb.append(checkFieldNotBusy(VALUE_RU, dto.getValue_ru(), dao, locale));
+        return sb.toString();
     }
 }

@@ -11,10 +11,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public abstract class AbstractService<I extends Identifiable, T extends AbstractDto, M extends BaseDao<I>> {
     public static final String RB = "i18n.text";
@@ -75,9 +72,10 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
 
     protected void update(T dto, M dao, Event<I> event, Locale locale) throws ServiceException {
         try {
-            I entity = (I) dto.buildEntity();
+            I entity = dao.getById(dto.getId());
             String errors = validateWhileUpdate(entity, dto, locale);
             if ("".equals(errors)) {
+                entity = (I) dto.buildEntity();
                 dao.update(entity);
                 event.fire(entity);
             } else {
@@ -155,7 +153,23 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
         return result;
     }
 
+    protected String checkFieldNotBusy(String name, String value, M dao, Locale locale) throws ServiceException {
+        try {
+            if (dao.checkValueExists(name, value)) {
+                String error = ResourceBundle.getBundle(RB, locale).getString("error.busy-" + name);
+                if (getErrorMap() == null) setErrorMap(new HashMap<>());
+                getErrorMap().put(name + "_" + MSG, error);
+                getErrorMap().put(name, value);
+                return error;
+            }
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e.getCause());
+        }
+        return null;
+    }
+
     public abstract String checkAllFieldsNotBusy(I identifiable) throws ServiceException;
 
     public abstract String checkChangedFieldsNotBusy(I identifiable, T dto) throws ServiceException;
+
 }
