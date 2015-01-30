@@ -82,9 +82,9 @@ public abstract class AbstractHibernateDao<T extends Identifiable> implements Ba
         }
     }
 
-    public abstract T getByValue(String field, String value) throws DaoException;
+    public abstract T getByFieldValue(String field, String value) throws DaoException;
 
-    protected T getByValue(String field, String value, EntityManager em) throws DaoException {
+    protected T getByFieldValue(String field, String value, EntityManager em) throws DaoException {
         try {
             return getListByValue(field, value, em).get(0);
         } catch (Exception e) {

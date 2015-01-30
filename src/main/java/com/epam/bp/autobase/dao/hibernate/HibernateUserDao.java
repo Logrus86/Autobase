@@ -63,8 +63,8 @@ public class HibernateUserDao extends AbstractHibernateDao<User> implements User
     }
 
     @Override
-    public User getByValue(String field, String value) throws DaoException {
-        return super.getByValue(field, value, em);
+    public User getByFieldValue(String field, String value) throws DaoException {
+        return super.getByFieldValue(field, value, em);
     }
 
     @Override
