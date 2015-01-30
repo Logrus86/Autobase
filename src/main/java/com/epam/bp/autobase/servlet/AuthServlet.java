@@ -3,6 +3,7 @@ package com.epam.bp.autobase.servlet;
 import com.epam.bp.autobase.cdi.SessionState;
 import com.epam.bp.autobase.model.dto.UserDto;
 import com.epam.bp.autobase.model.entity.User;
+import com.epam.bp.autobase.service.ServiceException;
 import com.epam.bp.autobase.service.UserService;
 import org.jboss.logging.Logger;
 
@@ -67,7 +68,12 @@ public class AuthServlet extends HttpServlet {
         UserDto userDto = new UserDto()
                 .setUsername(req.getParameter("username"))
                 .setPassword(req.getParameter("password"));
-        User user = us.findByCredentials(userDto);
+        User user = null;
+        try {
+            user = us.findByCredentials(userDto);
+        } catch (ServiceException e) {
+            logger.error(e.getMessage(), e.getCause());
+        }
         if (user != null) {
             logger.info("User '" + userDto.getUsername() + "' with password '" + userDto.getPassword() + "' has logged in with role: " + user.getRole());
             ss.setSessionUser(user);

@@ -12,6 +12,7 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 
+@Hibernate
 @RequestScoped
 public class HibernateUserDao extends AbstractHibernateDao<User> implements UserDao {
 
@@ -72,7 +73,7 @@ public class HibernateUserDao extends AbstractHibernateDao<User> implements User
     }
 
     @Override
-    public User findByCredentials(String username, String password) {
+    public User findByCredentials(String username, String password) throws DaoException {
         TypedQuery<User> query = em.createNamedQuery("User.findByCredentials", User.class)
                 .setParameter("username", username)
                 .setParameter("password", password);

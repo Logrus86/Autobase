@@ -3,7 +3,7 @@ package com.epam.bp.autobase.service;
 import com.epam.bp.autobase.cdi.SessionState;
 import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.UserDao;
-import com.epam.bp.autobase.dao.hibernate.HibernateUserDao;
+import com.epam.bp.autobase.dao.hibernate.Hibernate;
 import com.epam.bp.autobase.model.dto.UserDto;
 import com.epam.bp.autobase.model.entity.User;
 import com.epam.bp.autobase.model.entity.Vehicle;
@@ -20,7 +20,8 @@ public class UserService extends AbstractService<User, UserDto, UserDao> {
     @Inject
     Logger logger;
     @Inject
-    private HibernateUserDao dao;
+    @Hibernate
+    private UserDao dao;
     @Inject
     private SessionState ss;
     @Inject
@@ -91,7 +92,11 @@ public class UserService extends AbstractService<User, UserDto, UserDao> {
         return sb.toString();
     }
 
-    public User findByCredentials(UserDto userDto) {
-        return dao.findByCredentials(userDto.getUsername(), userDto.getPassword());
+    public User findByCredentials(UserDto userDto) throws ServiceException {
+        try {
+            return dao.findByCredentials(userDto.getUsername(), userDto.getPassword());
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e.getCause());
+        }
     }
 }
