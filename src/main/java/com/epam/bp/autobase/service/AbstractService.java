@@ -30,6 +30,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
     public static final String VALUE_RU = "value_ru";
     public static final String CREATE_ERR = "create_err";
     public static final String UPDATE_ERR = "update_err";
+    public static final String VALUE = "value";
     private Map<String, String> errorMap;
 
     public Map<String, String> getErrorMap() {
