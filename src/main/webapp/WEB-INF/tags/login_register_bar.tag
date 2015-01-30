@@ -24,7 +24,7 @@
                     <h4 class="modal-title" align="center"><fmt:message key="default.registration"/></h4>
                 </div>
                 <div class="modal-body">
-                    <form id="registration-form" method="post" action="register">
+                    <form id="registration-form" method="post" action="create_user">
                         <div class="input-group">
                             <div class="msg-error">${userService.errorMap.firstname_msg}</div>
                             <input type="text" class="form-control" id="firstname" name="firstname"
