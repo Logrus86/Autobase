@@ -68,9 +68,9 @@ public abstract class AbstractHibernateDao<T extends Identifiable> implements Ba
         }
     }
 
-    public abstract List<T> getListByFieldValue(String field, String value) throws DaoException;
+    public abstract List<T> getListByValue(String field, String value) throws DaoException;
 
-    protected List<T> getListByFieldValue(String field, String value, EntityManager em) throws DaoException {
+    protected List<T> getListByValue(String field, String value, EntityManager em) throws DaoException {
         try {
             Session session = (Session) em.getDelegate();
             Criteria criteria = session.createCriteria(entityClass);
@@ -82,21 +82,19 @@ public abstract class AbstractHibernateDao<T extends Identifiable> implements Ba
         }
     }
 
-    public abstract T getByFieldValue(String field, String value) throws DaoException;
+    public abstract T getByValue(String field, String value) throws DaoException;
 
-    protected T getByFieldValue(String field, String value, EntityManager em) throws DaoException {
+    protected T getByValue(String field, String value, EntityManager em) throws DaoException {
         try {
-            return getListByFieldValue(field, value, em).get(0);
+            return getListByValue(field, value, em).get(0);
         } catch (Exception e) {
             throw new DaoException(e.getMessage(), e.getCause());
         }
     }
 
-    public abstract boolean checkFieldValueExists(String field, String value) throws DaoException;
-
-    protected boolean checkFieldValueExists(String field, String value, EntityManager em) throws DaoException {
+    protected boolean checkValueExists(String field, String value, EntityManager em) throws DaoException {
         try {
-            return getListByFieldValue(field, value, em) != null;
+            return getListByValue(field, value, em) != null;
         } catch (Exception e) {
             throw new DaoException(e.getMessage(), e.getCause());
         }

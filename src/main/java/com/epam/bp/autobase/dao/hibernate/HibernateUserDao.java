@@ -57,18 +57,18 @@ public class HibernateUserDao extends AbstractHibernateDao<User> implements User
     }
 
     @Override
-    public List<User> getListByFieldValue(String field, String value) throws DaoException {
-        return super.getListByFieldValue(field, value, em);
+    public List<User> getListByValue(String field, String value) throws DaoException {
+        return super.getListByValue(field, value, em);
     }
 
     @Override
-    public User getByFieldValue(String field, String value) throws DaoException {
-        return super.getByFieldValue(field, value, em);
+    public User getByValue(String field, String value) throws DaoException {
+        return super.getByValue(field, value, em);
     }
 
     @Override
-    public boolean checkFieldValueExists(String field, String value) throws DaoException {
-        return super.checkFieldValueExists(field, value, em);
+    public boolean checkValueExists(String field, String value) throws DaoException {
+        return super.checkValueExists(field, value, em);
     }
 
     @Override

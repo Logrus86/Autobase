@@ -55,27 +55,27 @@ public class HibernateColorDao extends AbstractHibernateDao<Color> implements Co
     }
 
     @Override
-    public List<Color> getListByFieldValue(String field, String value) throws DaoException {
-        return super.getListByFieldValue(field, value, em);
+    public List<Color> getListByValue(String field, String value) throws DaoException {
+        return super.getListByValue(field, value, em);
     }
 
     @Override
-    public Color getByFieldValue(String field, String value) throws DaoException {
-        return super.getByFieldValue(field, value, em);
+    public Color getByValue(String field, String value) throws DaoException {
+        return super.getByValue(field, value, em);
     }
 
     @Override
-    public boolean checkFieldValueExists(String field, String value) throws DaoException {
-        return super.checkFieldValueExists(field, value, em);
+    public boolean checkValueExists(String field, String value) throws DaoException {
+        return super.checkValueExists(field, value, em);
     }
 
     @Override
     public Color getByValueEn(String valueEn) throws DaoException {
-        return getByFieldValue("value_en", valueEn);
+        return getByValue("value_en", valueEn);
     }
 
     @Override
     public Color getByValueRu(String valueRu) throws DaoException {
-        return getByFieldValue("value_ru", valueRu);
+        return getByValue("value_ru", valueRu);
     }
 }

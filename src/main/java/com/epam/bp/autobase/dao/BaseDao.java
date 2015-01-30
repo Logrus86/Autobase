@@ -18,4 +18,6 @@ public interface BaseDao<T extends Identifiable> {
 
     public void delete(T entity) throws DaoException;
 
+    public boolean checkValueExists(String fieldName, String value) throws DaoException;
+
 }
