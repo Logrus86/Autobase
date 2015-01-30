@@ -18,14 +18,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 
 @WebServlet({
         "do/register",
         "do/create_user",
         "do/create_color",
+        "do/create_model",
+        "do/create_manufacturer",
         "do/change_user",
-        "do/change_color"
+        "do/change_color",
+        "do/change_model",
+        "do/change_manufacturer"
 })
 public class ChangeEntityServlet extends HttpServlet {
     public static final String PARAM_SAVE = "save";
@@ -47,24 +52,20 @@ public class ChangeEntityServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String servletPath = req.getServletPath();
-
-        if ((servletPath.equals("/do/register")) || (servletPath.equals("/do/create_user"))) {
-            registerUser(req, resp);
-        } else {
-            if (servletPath.equals("/do/change_user")) {
-                changeUser(req, resp);
-            } else {
-                if (servletPath.equals("/do/create_color")) {
-                    createColor(req, resp);
-                } else if (servletPath.equals("/do/change_color")) {
-                    changeColor(req, resp);
-                }
-            }
+        String methodName = req.getServletPath().substring(req.getServletPath().lastIndexOf('/') + 1);
+        logger.info("Launch method by name: " + methodName);
+        try {
+            this.getClass().getDeclaredMethod(methodName, HttpServletRequest.class, HttpServletResponse.class).invoke(this, req, resp);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            logger.error(e.getMessage(), e.getCause());
+            req.setAttribute("statusCode", 500);
+            req.setAttribute("message", "Method invocation failed: " + e.getMessage());
+            RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/error.jsp");
+            resultView.forward(req, resp);
         }
     }
 
-    private void changeColor(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void change_color(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             String stringId;
             if (req.getParameter(PARAM_SAVE) == null) {
@@ -87,7 +88,7 @@ public class ChangeEntityServlet extends HttpServlet {
         resultView.forward(req, resp);
     }
 
-    private void createColor(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void create_color(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             ColorDto colorDto = new ColorDto()
                     .setValue_en(req.getParameter(AbstractService.VALUE_EN))
@@ -101,7 +102,7 @@ public class ChangeEntityServlet extends HttpServlet {
         resultView.forward(req, resp);
     }
 
-    private void changeUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void change_user(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //changing user if we are client or driver; if we are admin, do it if PARAM_SAVE parameter not null only
         if (!User.Role.ADMIN.equals(ss.getSessionUser().getRole()) || req.getParameter(PARAM_SAVE) != null) {
             try {
@@ -124,7 +125,7 @@ public class ChangeEntityServlet extends HttpServlet {
         forwardDependsRole(req, resp);
     }
 
-    private void registerUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void create_user(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             UserDto userDto = getUserDtoFromRequest(req);
             us.create(userDto);
