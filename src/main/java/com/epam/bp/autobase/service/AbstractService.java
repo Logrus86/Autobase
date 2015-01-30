@@ -122,7 +122,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
         return validatorFactory.getValidator();
     }
 
-    private StringBuilder validate0(I identifiable, Locale locale) {
+    private String validate0(I identifiable, Locale locale) {
         StringBuilder sb = new StringBuilder();
         Set<ConstraintViolation<I>> cvs = validator(locale).validate(identifiable);
         if (!cvs.isEmpty()) {
@@ -133,11 +133,14 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
                 errorMap.put(cv.getPropertyPath().toString(), cv.getInvalidValue().toString());
             }
         }
-        return sb;
+        return sb.toString();
     }
 
     public String validateWhileCreate(I identifiable, Locale locale) throws ServiceException {
-        String result = validate0(identifiable, locale).append(checkAllFieldsNotBusy(identifiable)).toString();
+        String one = validate0(identifiable, locale);
+        String two = checkAllFieldsNotBusy(identifiable);
+        String result = (one == null ? "" : one) + (two == null ? "" : two);
+        
         if (!"".equals(result)) {
             if (errorMap == null) errorMap = new HashMap<>();
             errorMap.put(CREATE_ERR, result);
@@ -146,7 +149,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
     }
 
     public String validateWhileUpdate(I identifiable, T dto, Locale locale) throws ServiceException {
-        String result = validate0(identifiable, locale).append(checkChangedFieldsNotBusy(identifiable, dto)).toString();
+        String result = validate0(identifiable, locale) + checkChangedFieldsNotBusy(identifiable, dto);
         if (!"".equals(result)) {
             if (errorMap == null) errorMap = new HashMap<>();
             errorMap.put(UPDATE_ERR, result);

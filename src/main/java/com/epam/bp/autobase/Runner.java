@@ -60,10 +60,9 @@ public class Runner {
     }
 
     public static void main(String[] args) {
-        User user = randomUser();
+        StringBuilder sb = new StringBuilder();
 
-        addEntity(user);
-        System.out.println(getEntity(User.class, user.getId()));
-        //  deleteEntity(User.class, user.getId());
+        System.out.println(sb.toString() + sb.toString());
+      
     }
 }

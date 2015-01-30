@@ -2,12 +2,11 @@ package com.epam.bp.autobase.servlet;
 
 import com.epam.bp.autobase.cdi.SessionState;
 import com.epam.bp.autobase.model.dto.ColorDto;
+import com.epam.bp.autobase.model.dto.ManufacturerDto;
+import com.epam.bp.autobase.model.dto.ModelDto;
 import com.epam.bp.autobase.model.dto.UserDto;
 import com.epam.bp.autobase.model.entity.User;
-import com.epam.bp.autobase.service.AbstractService;
-import com.epam.bp.autobase.service.ColorService;
-import com.epam.bp.autobase.service.ServiceException;
-import com.epam.bp.autobase.service.UserService;
+import com.epam.bp.autobase.service.*;
 import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
@@ -36,13 +35,17 @@ public class ChangeEntityServlet extends HttpServlet {
     public static final String PARAM_SAVE = "save";
     public static final String PARAM_DELETE = "delete";
     @Inject
+    Logger logger;
+    @Inject
     SessionState ss;
     @Inject
     UserService us;
     @Inject
     ColorService cs;
     @Inject
-    Logger logger;
+    ModelService ms;
+    @Inject
+    ManufacturerService mfs;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -99,6 +102,32 @@ public class ChangeEntityServlet extends HttpServlet {
             logger.error(se.getMessage() + (se.getCause() != null ? ", " + se.getCause() : ""));
         }
         RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/admin_colors.jsp");
+        resultView.forward(req, resp);
+    }
+
+    private void create_model(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            ModelDto modelDto = new ModelDto()
+                    .setValue(req.getParameter(AbstractService.VALUE));
+            ms.create(modelDto);
+            logger.info("Model created successfully");
+        } catch (ServiceException se) {
+            logger.error(se.getMessage() + (se.getCause() != null ? ", " + se.getCause() : ""));
+        }
+        RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/admin_models.jsp");
+        resultView.forward(req, resp);
+    }
+
+    private void create_manufacturer(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            ManufacturerDto manufacturerDto = new ManufacturerDto()
+                    .setValue(req.getParameter(AbstractService.VALUE));
+            mfs.create(manufacturerDto);
+            logger.info("Manufacturer created successfully");
+        } catch (ServiceException se) {
+            logger.error(se.getMessage() + (se.getCause() != null ? ", " + se.getCause() : ""));
+        }
+        RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/admin_manufacturers.jsp");
         resultView.forward(req, resp);
     }
 
