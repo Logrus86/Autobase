@@ -47,7 +47,7 @@
                                     <fmt:message key="order.${order.status}"/>
                                 </c:when>
                                 <c:when test="${sessionState.sessionUser.role == 'ADMIN'}">
-                                    <form method="post" action="order_edit">
+                                    <form method="post" action="change_order">
                                         <div class="input-group">
                                             <input hidden name="orderId" value="${order.id}">
                                             <select class="selectpicker show-menu-arrow" data-width="auto" name="status"
