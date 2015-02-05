@@ -4,7 +4,7 @@
 
 <div align="center">
     <div class="btn-group" id="btn-group-admin-edit">
-        <a id="bt_orders" class="btn btn-default" href='<c:url value="/do/admin_orders"/>'><fmt:message
+        <a id="bt_orders" class="btn btn-default" href='<c:url value="/do/mainADMIN"/>'><fmt:message
                 key="default.orders"/></a>
         <a id="bt_users" class="btn btn-default" href='<c:url value="/do/admin_users"/>'><fmt:message
                 key="default.users"/></a>
