@@ -9,7 +9,7 @@
         </div>
         <div class="msg-error">${vh_change_error}</div>
         <div class="panel-group" id="accordion">
-            <c:forEach items="${sessionState.sessioUser.vehicles}" var="vehicle" varStatus="i">
+            <c:forEach items="${sessionState.sessionUser.vehicles}" var="vehicle" varStatus="i">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">

@@ -24,7 +24,7 @@ public class HibernateUserDao extends AbstractHibernateDao<User> implements User
     }
 
     @Override
-    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    @Transactional
     public void create(User entity) throws DaoException {
         super.create(entity, em);
     }
