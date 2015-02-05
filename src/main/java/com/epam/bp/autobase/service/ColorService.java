@@ -57,7 +57,7 @@ public class ColorService extends AbstractService<Color, ColorDto, ColorDao> {
         StringBuilder sb = new StringBuilder();
         Locale locale = ss.getLocale();
         sb.append(checkFieldNotBusy(VALUE_EN, color.getValue_en(), dao, locale));
-        if (!sb.toString().isEmpty()) sb.append("; ");
+        if (sb.length() != 0) sb.append("; ");
         sb.append(checkFieldNotBusy(VALUE_RU, color.getValue_ru(), dao, locale));
         return sb.toString();
     }
@@ -68,7 +68,7 @@ public class ColorService extends AbstractService<Color, ColorDto, ColorDao> {
         Locale locale = ss.getLocale();
         if (!color.getValue_en().equals(dto.getValue_en()))
             sb.append(checkFieldNotBusy(VALUE_EN, dto.getValue_en(), dao, locale));
-        if (!sb.toString().isEmpty()) sb.append("; ");
+        if (sb.length() != 0) sb.append("; ");
         if (!color.getValue_ru().equals(dto.getValue_ru()))
             sb.append(checkFieldNotBusy(VALUE_RU, dto.getValue_ru(), dao, locale));
         return sb.toString();
