@@ -53,7 +53,7 @@ public class ColorService extends AbstractService<Color, ColorDto, ColorDao> {
     }
 
     @Override
-    public String checkAllFieldsNotBusy(Color color) throws ServiceException {
+    public String checkFieldsWhileCreate(Color color) throws ServiceException {
         StringBuilder sb = new StringBuilder();
         Locale locale = ss.getLocale();
         sb.append(checkFieldNotBusy(VALUE_EN, color.getValue_en(), dao, locale));
@@ -63,7 +63,7 @@ public class ColorService extends AbstractService<Color, ColorDto, ColorDao> {
     }
 
     @Override
-    public String checkChangedFieldsNotBusy(Color color, ColorDto dto) throws ServiceException {
+    public String checkFieldsWhileUpdate(Color color, ColorDto dto) throws ServiceException {
         StringBuilder sb = new StringBuilder();
         Locale locale = ss.getLocale();
         if (!color.getValue_en().equals(dto.getValue_en()))

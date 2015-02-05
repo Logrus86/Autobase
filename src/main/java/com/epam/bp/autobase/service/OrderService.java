@@ -53,12 +53,12 @@ public class OrderService extends AbstractService<Order, OrderDto, OrderDao> {
     }
 
     @Override
-    public String checkAllFieldsNotBusy(Order or) throws ServiceException {
+    public String checkFieldsWhileCreate(Order or) throws ServiceException {
         return "";
     }
 
     @Override
-    public String checkChangedFieldsNotBusy(Order or, OrderDto dto) throws ServiceException {
+    public String checkFieldsWhileUpdate(Order or, OrderDto dto) throws ServiceException {
         return "";
     }
 }

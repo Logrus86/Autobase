@@ -55,12 +55,12 @@ public class VehicleService extends AbstractService<Vehicle, VehicleDto, Vehicle
     }
 
     @Override
-    public String checkAllFieldsNotBusy(Vehicle identifiable) throws ServiceException {
+    public String checkFieldsWhileCreate(Vehicle identifiable) throws ServiceException {
         return null;
     }
 
     @Override
-    public String checkChangedFieldsNotBusy(Vehicle identifiable, VehicleDto dto) throws ServiceException {
+    public String checkFieldsWhileUpdate(Vehicle identifiable, VehicleDto dto) throws ServiceException {
         return null;
     }
 }

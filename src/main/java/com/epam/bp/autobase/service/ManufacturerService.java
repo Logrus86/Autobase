@@ -54,12 +54,12 @@ public class ManufacturerService extends AbstractService<Manufacturer, Manufactu
     }
 
     @Override
-    public String checkAllFieldsNotBusy(Manufacturer manufacturer) throws ServiceException {
+    public String checkFieldsWhileCreate(Manufacturer manufacturer) throws ServiceException {
         return checkFieldNotBusy(VALUE, manufacturer.getValue(), dao, ss.getLocale());
     }
 
     @Override
-    public String checkChangedFieldsNotBusy(Manufacturer manufacturer, ManufacturerDto dto) throws ServiceException {
+    public String checkFieldsWhileUpdate(Manufacturer manufacturer, ManufacturerDto dto) throws ServiceException {
         return !manufacturer.getValue().equals(dto.getValue()) ? checkFieldNotBusy(VALUE, dto.getValue(), dao, ss.getLocale()) : null;
     }
 }

@@ -71,7 +71,7 @@ public class UserService extends AbstractService<User, UserDto, UserDao> {
     }
 
     @Override
-    public String checkAllFieldsNotBusy(User user) throws ServiceException {
+    public String checkFieldsWhileCreate(User user) throws ServiceException {
         StringBuilder sb = new StringBuilder();
         Locale locale = ss.getLocale();
         sb.append(checkFieldNotBusy(USERNAME, user.getUsername(), dao, locale));
@@ -81,7 +81,7 @@ public class UserService extends AbstractService<User, UserDto, UserDao> {
     }
 
     @Override
-    public String checkChangedFieldsNotBusy(User user, UserDto dto) throws ServiceException {
+    public String checkFieldsWhileUpdate(User user, UserDto dto) throws ServiceException {
         StringBuilder sb = new StringBuilder();
         Locale locale = ss.getLocale();
         if (!user.getUsername().equals(dto.getUsername()))

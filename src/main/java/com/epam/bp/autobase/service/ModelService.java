@@ -53,12 +53,12 @@ public class ModelService extends AbstractService<Model, ModelDto, ModelDao> {
     }
 
     @Override
-    public String checkAllFieldsNotBusy(Model model) throws ServiceException {
+    public String checkFieldsWhileCreate(Model model) throws ServiceException {
         return checkFieldNotBusy(VALUE, model.getValue(), dao, ss.getLocale());
     }
 
     @Override
-    public String checkChangedFieldsNotBusy(Model model, ModelDto dto) throws ServiceException {
+    public String checkFieldsWhileUpdate(Model model, ModelDto dto) throws ServiceException {
         return !model.getValue().equals(dto.getValue()) ? checkFieldNotBusy(VALUE, dto.getValue(), dao, ss.getLocale()) : null;
     }
 }
