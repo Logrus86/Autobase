@@ -1,0 +1,84 @@
+package com.epam.bp.autobase.dao.hibernate;
+
+import com.epam.bp.autobase.dao.DaoException;
+import com.epam.bp.autobase.dao.VehicleDao;
+import com.epam.bp.autobase.model.entity.User;
+import com.epam.bp.autobase.model.entity.Vehicle;
+
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+import java.util.List;
+
+@Hibernate
+@RequestScoped
+public class HibernateVehicleDao extends AbstractHibernateDao<Vehicle> implements VehicleDao {
+
+    @Inject
+    EntityManager em;
+
+    public HibernateVehicleDao() {
+        super(Vehicle.class);
+    }
+
+    @Override
+    @Transactional
+    public void create(Vehicle entity) throws DaoException {
+        super.create(entity, em);
+    }
+
+    @Override
+    public Vehicle getById(Integer id) throws DaoException {
+        return super.getById(id, em);
+    }
+
+    @Override
+    public List<Vehicle> getAll() throws DaoException {
+        return super.getAll(em);
+    }
+
+    @Override
+    @Transactional
+    public void update(Vehicle entity) throws DaoException {
+        super.update(entity, em);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Integer id) throws DaoException {
+        super.delete(id, em);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Vehicle entity) throws DaoException {
+        super.delete(entity, em);
+    }
+
+    @Override
+    public List<Vehicle> getListByValue(String field, String value) throws DaoException {
+        return super.getListByValue(field, value, em);
+    }
+
+    @Override
+    public Vehicle getByFieldValue(String field, String value) throws DaoException {
+        return super.getByFieldValue(field, value, em);
+    }
+
+    @Override
+    public boolean checkValueExists(String field, String value) throws DaoException {
+        return super.checkValueExists(field, value, em);
+    }
+
+    @Override
+    public List<Vehicle> getVehiclesByDriver(User driver) throws DaoException {
+        return getListByValue("driver", String.valueOf(driver));
+    }
+
+    @Override
+    public List<Vehicle> getVehiclesByDriverId(Integer driverId) throws DaoException {
+        return getListByValue("driver", String.valueOf(driverId));
+    }
+}
+
