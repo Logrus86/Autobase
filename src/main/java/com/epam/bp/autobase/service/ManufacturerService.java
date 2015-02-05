@@ -7,9 +7,10 @@ import com.epam.bp.autobase.model.dto.ManufacturerDto;
 import com.epam.bp.autobase.model.entity.Manufacturer;
 
 import javax.enterprise.event.Event;
+import javax.enterprise.inject.Model;
 import javax.inject.Inject;
 
-@javax.enterprise.inject.Model
+@Model
 public class ManufacturerService extends AbstractService<Manufacturer, ManufacturerDto, ManufacturerDao> {
 
     @Inject
