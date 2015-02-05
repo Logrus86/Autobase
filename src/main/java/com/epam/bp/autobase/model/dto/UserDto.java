@@ -18,6 +18,7 @@ public class UserDto extends AbstractDto<User, UserDto> {
     private Date dob;
     private String username;
     private String password;
+    private String password_repeat;
     private String email;
     private User.Role role;
     private BigDecimal balance;
@@ -107,6 +108,15 @@ public class UserDto extends AbstractDto<User, UserDto> {
 
     public UserDto setPassword(String password) {
         this.password = password;
+        return this;
+    }
+
+    public String getPassword_repeat() {
+        return password_repeat;
+    }
+
+    public UserDto setPassword_repeat(String password_repeat) {
+        this.password_repeat = password_repeat;
         return this;
     }
 
