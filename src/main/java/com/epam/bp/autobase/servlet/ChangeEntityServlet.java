@@ -48,6 +48,8 @@ public class ChangeEntityServlet extends HttpServlet {
     ModelService ms;
     @Inject
     ManufacturerService mfs;
+    @Inject
+    OrderService os;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -232,6 +234,14 @@ public class ChangeEntityServlet extends HttpServlet {
         OrderDto dto = new OrderDto()
                 .setId(Integer.valueOf(req.getParameter(AbstractService.ORDER_ID)))
                 .setStatus(Order.Status.valueOf(req.getParameter(AbstractService.ORDER_STATUS)));
+        try {
+            os.update(dto);
+            logger.info("Order with id'" + dto.getId() + "' had successfully updated");
+        } catch (ServiceException se) {
+            logger.error(se.getMessage() + ", " + se.getCause());
+        }
+        RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/mainADMIN.jsp");
+        resultView.forward(req, resp);
     }
     
     private void forwardDependsRole(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
