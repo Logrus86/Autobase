@@ -1,5 +1,8 @@
 package com.epam.bp.autobase.model.dto;
 
+import com.epam.bp.autobase.model.entity.Bus;
+import com.epam.bp.autobase.model.entity.Car;
+import com.epam.bp.autobase.model.entity.Truck;
 import com.epam.bp.autobase.model.entity.Vehicle;
 
 import java.math.BigDecimal;
@@ -12,11 +15,11 @@ public class VehicleDto extends AbstractDto<Vehicle, VehicleDto> {
     private boolean operable;
     private Vehicle.Fuel fuelType;
     private ColorDto colorDto;
-    private ManufacturerDto modelDto;
+    private ModelDto modelDto;
     private ManufacturerDto manufacturerDto;
     private UserDto driverDto;
-    private int passengerSeatsNumber;   //bus
-    private int standingPlacesNumber;   //bus & car
+    private int standingPlacesNumber;   //bus
+    private int passengerSeatsNumber;   //bus & car
     private int doorsNumber;            //bus & car
     private boolean withConditioner;    //car
     private BigDecimal maxPayload;      //truck
@@ -34,8 +37,35 @@ public class VehicleDto extends AbstractDto<Vehicle, VehicleDto> {
         mileage = vehicle.getMileage();
         operable = vehicle.isOperable();
         fuelType = vehicle.getFuelType();
+        colorDto = new ColorDto(vehicle.getColor());
+        modelDto = new ModelDto(vehicle.getModel());
+        manufacturerDto = new ManufacturerDto((vehicle.getManufacturer()));
+        switch (type) {
+            case BUS:
+                Bus bus = (Bus) vehicle;
+                standingPlacesNumber = bus.getStandingPlacesNumber();
+                passengerSeatsNumber = bus.getPassengerSeatsNumber();
+                doorsNumber = bus.getDoorsNumber();
+                break;
+            case CAR:
+                Car car = (Car) vehicle;
+                passengerSeatsNumber = car.getPassengerSeatsNumber();
+                doorsNumber = car.getDoorsNumber();
+                withConditioner = car.isWithConditioner();
+                break;
+            case TRUCK:
+                Truck truck = (Truck) vehicle;
+                maxPayload = truck.getMaxPayload();
+                enclosed = truck.isEnclosed();
+                tipper = truck.isTipper();
+                break;
+        }
     }
 
+    public VehicleDto fetchDriver(Vehicle vehicle) {
+        driverDto = new UserDto(vehicle.getDriver());
+        return this;
+    }
 
     public BigDecimal getRentPrice() {
         return rentPrice;
@@ -64,11 +94,11 @@ public class VehicleDto extends AbstractDto<Vehicle, VehicleDto> {
         return this;
     }
 
-    public ManufacturerDto getModelDto() {
+    public ModelDto getModelDto() {
         return modelDto;
     }
 
-    public VehicleDto setModelDto(ManufacturerDto modelDto) {
+    public VehicleDto setModelDto(ModelDto modelDto) {
         this.modelDto = modelDto;
         return this;
     }
@@ -191,7 +221,46 @@ public class VehicleDto extends AbstractDto<Vehicle, VehicleDto> {
     }
 
     @Override
-    public Vehicle buildEntity() {
-        return null;
+    public Vehicle buildLazyEntity() {
+        Vehicle vehicle;
+        switch (type) {
+            case BUS:
+                vehicle = new Bus()
+                        .setPassengerSeatsNumber(passengerSeatsNumber)
+                        .setStandingPlacesNumber(standingPlacesNumber)
+                        .setDoorsNumber(doorsNumber);
+                break;
+            case CAR:
+                vehicle = new Car()
+                        .setPassengerSeatsNumber(passengerSeatsNumber)
+                        .setDoorsNumber(doorsNumber)
+                        .setWithConditioner(withConditioner);
+                break;
+            case TRUCK:
+                vehicle = new Truck()
+                        .setEnclosed(enclosed)
+                        .setMaxPayload(maxPayload)
+                        .setTipper(tipper);
+                break;
+            default:
+                vehicle = null;
+        }
+        vehicle.setId(getId())
+                .setType(type)
+                .setRentPrice(rentPrice)
+                .setProductionYear(productionYear)
+                .setMileage(mileage)
+                .setOperable(operable)
+                .setFuelType(fuelType)
+                .setColor(colorDto.buildLazyEntity())
+                .setManufacturer(manufacturerDto.buildLazyEntity())
+                .setModel(modelDto.buildLazyEntity());
+        return vehicle;
+    }
+
+    @Override
+    public Vehicle buildFullEntity() {
+        return buildLazyEntity()
+                .setDriver(driverDto.buildLazyEntity());
     }
 }

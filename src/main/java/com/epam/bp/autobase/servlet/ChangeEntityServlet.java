@@ -1,10 +1,7 @@
 package com.epam.bp.autobase.servlet;
 
 import com.epam.bp.autobase.cdi.SessionState;
-import com.epam.bp.autobase.model.dto.ColorDto;
-import com.epam.bp.autobase.model.dto.ManufacturerDto;
-import com.epam.bp.autobase.model.dto.ModelDto;
-import com.epam.bp.autobase.model.dto.UserDto;
+import com.epam.bp.autobase.model.dto.*;
 import com.epam.bp.autobase.model.entity.User;
 import com.epam.bp.autobase.service.*;
 import org.jboss.logging.Logger;
@@ -19,6 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @WebServlet({
         "do/register",
@@ -135,7 +135,21 @@ public class ChangeEntityServlet extends HttpServlet {
         //changing user if we are client or driver; if we are admin, do it if PARAM_SAVE parameter not null only
         if (!User.Role.ADMIN.equals(ss.getSessionUser().getRole()) || req.getParameter(PARAM_SAVE) != null) {
             try {
-                us.update(getUserDtoFromRequest(req));
+                UserDto userDto = getUserDtoFromRequest(req);
+                if (ss.getSessionUser().getRole().equals(User.Role.DRIVER)) {
+                    userDto.setRole(User.Role.DRIVER);
+                    List<VehicleDto> vehicles = ss.getSessionUser().getVehicles().stream().map(VehicleDto::new).collect(Collectors.toCollection(LinkedList::new));
+                    userDto.setVehicleDtoList(vehicles);
+                    ss.setSessionUser(userDto.buildFullEntity());
+                }
+                if (ss.getSessionUser().getRole().equals(User.Role.CLIENT)) {
+                    userDto.setBalance(ss.getSessionUser().getBalance());
+                    userDto.setRole(User.Role.CLIENT);
+                    List<OrderDto> orders = ss.getSessionUser().getOrders().stream().map(OrderDto::new).collect(Collectors.toCollection(LinkedList::new));
+                    userDto.setOrderDtoList(orders);
+                    ss.setSessionUser(userDto.buildFullEntity());
+                }
+                us.update(userDto);
                 logger.info("User '" + req.getParameter(AbstractService.USERNAME) + "' was successfully updated");
             } catch (ServiceException se) {
                 logger.error(se.getMessage());
@@ -158,7 +172,7 @@ public class ChangeEntityServlet extends HttpServlet {
         try {
             UserDto userDto = getUserDtoFromRequest(req);
             us.create(userDto);
-            if (us.getErrorMap() == null) ss.setSessionUser(userDto.buildEntity());
+            if (us.getErrorMap() == null) ss.setSessionUser(userDto.buildLazyEntity());
             logger.info("Newly registered user: " + ss.getSessionUser().toString());
             RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/registered.jsp");
             resultView.forward(req, resp);
@@ -175,7 +189,7 @@ public class ChangeEntityServlet extends HttpServlet {
                 resultView = req.getRequestDispatcher("/WEB-INF/jsp/cabinet.jsp");
             } else {
                 if (User.Role.DRIVER.equals(ss.getSessionUser().getRole())) {
-                    resultView = req.getRequestDispatcher("/WEB-INF/jsp/main_driver.jsp");
+                    resultView = req.getRequestDispatcher("/WEB-INF/jsp/mainDRIVER.jsp");
                 } else {
                     if (User.Role.ADMIN.equals(ss.getSessionUser().getRole())) {
                         resultView = req.getRequestDispatcher("/WEB-INF/jsp/admin_users.jsp");
@@ -193,7 +207,7 @@ public class ChangeEntityServlet extends HttpServlet {
                 .setEmail(req.getParameter(AbstractService.EMAIL))
                 .setFirstname(req.getParameter(AbstractService.FIRSTNAME))
                 .setLastname(req.getParameter(AbstractService.LASTNAME))
-                .setDobString(req.getParameter(AbstractService.DOB));
+                .setDob(req.getParameter(AbstractService.DOB));
         if (req.getParameterMap().containsKey(AbstractService.ROLE))
             dto.setRole(req.getParameter(AbstractService.ROLE));
         else dto.setRole(User.Role.CLIENT);

@@ -24,9 +24,14 @@ public class ModelDto extends AbstractDto<Model, ModelDto> {
     }
 
     @Override
-    public Model buildEntity() {
+    public Model buildLazyEntity() {
         return new Model()
                 .setId(getId())
                 .setValue(value);
+    }
+
+    @Override
+    public Model buildFullEntity() {
+        return buildLazyEntity();
     }
 }

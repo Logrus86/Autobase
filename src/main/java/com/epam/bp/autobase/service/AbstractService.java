@@ -46,7 +46,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
 
     protected void create(T dto, M dao, Event<I> event, Locale locale) throws ServiceException {
         try {
-            I entity = (I) dto.buildEntity();
+            I entity = (I) dto.buildLazyEntity();
             String errors = validateWhileCreate(entity, locale);
             if ("".equals(errors)) {
                 dao.create(entity);
@@ -76,7 +76,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
             I entity = dao.getById(dto.getId());
             String errors = validateWhileUpdate(entity, dto, locale);
             if ("".equals(errors)) {
-                entity = (I) dto.buildEntity();
+                entity = (I) dto.buildLazyEntity();
                 dao.update(entity);
                 event.fire(entity);
             } else {
@@ -104,7 +104,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
 
     protected void delete(T dto, M dao, Event<I> event) throws ServiceException {
         try {
-            I entity = (I) dto.buildEntity();
+            I entity = (I) dto.buildLazyEntity();
             dao.delete(entity);
             event.fire(entity);
         } catch (DaoException e) {

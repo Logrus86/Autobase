@@ -34,10 +34,15 @@ public class ColorDto extends AbstractDto<Color, ColorDto> {
     }
 
     @Override
-    public Color buildEntity() {
+    public Color buildLazyEntity() {
         return new Color()
                 .setId(getId())
                 .setValue_en(value_en)
                 .setValue_ru(value_ru);
+    }
+
+    @Override
+    public Color buildFullEntity() {
+        return buildLazyEntity();
     }
 }

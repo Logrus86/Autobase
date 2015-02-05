@@ -70,11 +70,11 @@ public abstract class Vehicle<T extends Vehicle> implements Identifiable<Vehicle
         return (T) this;
     }
 
-    public Boolean setDriver(User driver) {
+    public Vehicle setDriver(User driver) {
         if (driver.getRole().equals(User.Role.DRIVER)) {
             this.driver = driver;
-            return true;
-        } else return false;
+            return this;
+        } else return null;
     }
 
     public Type getType() {

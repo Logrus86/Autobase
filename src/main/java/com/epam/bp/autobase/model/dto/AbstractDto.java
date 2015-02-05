@@ -22,5 +22,7 @@ public abstract class AbstractDto<T extends Identifiable, T2 extends AbstractDto
         return (T2) this;
     }
 
-    public abstract T buildEntity();
+    public abstract T buildLazyEntity();
+
+    public abstract T buildFullEntity();
 }

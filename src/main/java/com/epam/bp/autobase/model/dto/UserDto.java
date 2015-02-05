@@ -5,6 +5,9 @@ import com.epam.bp.autobase.model.entity.User;
 import com.epam.bp.autobase.model.entity.Vehicle;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,7 +15,7 @@ import java.util.stream.Collectors;
 public class UserDto extends AbstractDto<User, UserDto> {
     private String firstname;
     private String lastname;
-    private String dobString;
+    private Date dob;
     private String username;
     private String password;
     private String email;
@@ -28,20 +31,28 @@ public class UserDto extends AbstractDto<User, UserDto> {
         super(entity);
         firstname = entity.getFirstname();
         lastname = entity.getLastname();
-        dobString = entity.getDob();
+        dob = entity.getDob();
         username = entity.getUsername();
         password = entity.getPassword();
         email = entity.getEmail();
         role = entity.getRole();
         balance = entity.getBalance();
+    }
+
+    public UserDto fetchOrders(User entity) {
         if ((entity.getOrders() != null) && (!entity.getOrders().isEmpty())) {
             orderDtoList = new LinkedList<>();
             orderDtoList.addAll(entity.getOrders().stream().map(OrderDto::new).collect(Collectors.toList()));
         }
+        return this;
+    }
+
+    public UserDto fetchVehicles(User entity) {
         if ((entity.getVehicles() != null) && (!entity.getVehicles().isEmpty())) {
             vehicleDtoList = new LinkedList<>();
             vehicleDtoList.addAll(entity.getVehicles().stream().map(VehicleDto::new).collect(Collectors.toList()));
         }
+        return this;
     }
 
     public String getFirstname() {
@@ -62,12 +73,22 @@ public class UserDto extends AbstractDto<User, UserDto> {
         return this;
     }
 
-    public String getDobString() {
-        return dobString;
+    public Date getDob() {
+        return dob;
     }
 
-    public UserDto setDobString(String dobString) {
-        this.dobString = dobString;
+    public UserDto setDob(Date dob) {
+        this.dob = dob;
+        return this;
+    }
+
+    public UserDto setDob(String dob) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            this.dob = sdf.parse(dob);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return this;
     }
 
@@ -169,21 +190,26 @@ public class UserDto extends AbstractDto<User, UserDto> {
     }
 
     @Override
-    public User buildEntity() {
-        User user = new User()
+    public User buildLazyEntity() {
+        return new User()
                 .setId(getId())
                 .setUsername(username)
                 .setPassword(password)
                 .setEmail(email)
                 .setFirstname(firstname)
                 .setLastname(lastname)
-                .setDob(dobString)
+                .setDob(dob)
                 .setRole(role)
                 .setBalance(balance);
+    }
+
+    @Override
+    public User buildFullEntity() {
+        User user = buildLazyEntity();
         if ((orderDtoList != null) && (!orderDtoList.isEmpty()))
-            for (OrderDto orderDto : orderDtoList) user.addOrder(orderDto.buildEntity());
+            for (OrderDto orderDto : orderDtoList) user.addOrder(orderDto.buildLazyEntity());
         if ((vehicleDtoList != null) && (!vehicleDtoList.isEmpty()))
-            for (VehicleDto vehicleDto : vehicleDtoList) user.addVehicle(vehicleDto.buildEntity());
+            for (VehicleDto vehicleDto : vehicleDtoList) user.addVehicle(vehicleDto.buildLazyEntity());
         return user;
     }
 }

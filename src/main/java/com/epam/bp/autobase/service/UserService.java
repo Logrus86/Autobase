@@ -55,7 +55,7 @@ public class UserService extends AbstractService<User, UserDto, UserDao> {
 
     @Override
     public void delete(UserDto dto) throws ServiceException {
-        User user = dto.buildEntity();
+        User user = dto.buildLazyEntity();
         unLinkVehicles(user);
         delete(dto, dao, event);
     }

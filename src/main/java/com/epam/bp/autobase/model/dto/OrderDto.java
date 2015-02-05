@@ -18,13 +18,17 @@ public class OrderDto extends AbstractDto<Order, OrderDto> {
 
     public OrderDto(Order entity) {
         super(entity);
-        clientDto = new UserDto(entity.getClient());
-        vehicleDto = new VehicleDto(entity.getVehicle());
         dateStartString = entity.getDateStart();
         dayCount = entity.getDayCount();
         dateOrderedString = entity.getDateOrdered();
         sum = entity.getSum();
         status = entity.getStatus();
+        vehicleDto = new VehicleDto(entity.getVehicle());
+    }
+
+    public OrderDto fetchClient(Order entity) {
+        clientDto = new UserDto(entity.getClient());
+        return this;
     }
 
     public UserDto getClientDto() {
@@ -91,15 +95,20 @@ public class OrderDto extends AbstractDto<Order, OrderDto> {
     }
 
     @Override
-    public Order buildEntity() {
+    public Order buildLazyEntity() {
         return new Order()
                 .setId(getId())
-                .setClient(clientDto.buildEntity())
-                .setVehicle(vehicleDto.buildEntity())
                 .setDateStart(dateStartString)
                 .setDayCount(dayCount)
                 .setDateOrdered(dateOrderedString)
                 .setStatus(status)
-                .setSum(sum);
+                .setSum(sum)
+                .setVehicle(vehicleDto.buildLazyEntity());
+    }
+
+    @Override
+    public Order buildFullEntity() {
+        return buildLazyEntity()
+                .setClient(clientDto.buildLazyEntity());
     }
 }

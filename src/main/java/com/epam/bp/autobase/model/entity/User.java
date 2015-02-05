@@ -130,12 +130,8 @@ public class User implements Identifiable<User> {
         return this;
     }
 
-    public String getDob() {
-        if (dob == null) {
-            return "";
-        }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return sdf.format(dob);
+    public Date getDob() {
+        return dob;
     }
 
     public User setDob(String dob) {
