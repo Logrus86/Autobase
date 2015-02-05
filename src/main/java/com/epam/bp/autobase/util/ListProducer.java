@@ -57,9 +57,7 @@ public class ListProducer {
     @Named
     @RequestScoped
     public List<User> getUserList() {
-        if (userList == null) {
-            retrieveAllUsers();
-        }
+        if (userList == null) retrieveAllUsers();
         return userList;
     }
 
@@ -67,9 +65,7 @@ public class ListProducer {
     @Named
     @RequestScoped
     public List<Color> getColors() {
-        if (colors == null) {
-            retrieveAllColors();
-        }
+        if (colors == null) retrieveAllColors();
         return colors;
     }
 
@@ -77,8 +73,7 @@ public class ListProducer {
     @Named
     @RequestScoped
     public List<Model> getModels() {
-        //add retrieve if null only
-        retrieveAllModels();
+        if (models == null) retrieveAllModels();
         return models;
     }
 
@@ -86,8 +81,7 @@ public class ListProducer {
     @Named
     @RequestScoped
     public List<Manufacturer> getManufacturers() {
-        //add retrieve if null only
-        retrieveAllManufacturers();
+        if (manufacturers == null) retrieveAllManufacturers();
         return manufacturers;
     }
 
