@@ -169,7 +169,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e.getCause());
         }
-        return null;
+        return "";
     }
 
     public abstract String checkAllFieldsNotBusy(I identifiable) throws ServiceException;

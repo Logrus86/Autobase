@@ -75,7 +75,7 @@ public class UserService extends AbstractService<User, UserDto, UserDao> {
         StringBuilder sb = new StringBuilder();
         Locale locale = ss.getLocale();
         sb.append(checkFieldNotBusy(USERNAME, user.getUsername(), dao, locale));
-        if (!sb.toString().isEmpty()) sb.append("; ");
+        if (sb.length() != 0) sb.append("; ");
         sb.append(checkFieldNotBusy(EMAIL, user.getEmail(), dao, locale));
         return sb.toString();
     }
@@ -86,7 +86,7 @@ public class UserService extends AbstractService<User, UserDto, UserDao> {
         Locale locale = ss.getLocale();
         if (!user.getUsername().equals(dto.getUsername()))
             sb.append(checkFieldNotBusy(USERNAME, dto.getUsername(), dao, locale));
-        if (!sb.toString().isEmpty()) sb.append("; ");
+        if (sb.length() != 0) sb.append("; ");
         if (!user.getEmail().equals(dto.getEmail()))
             sb.append(checkFieldNotBusy(EMAIL, dto.getEmail(), dao, locale));
         return sb.toString();
