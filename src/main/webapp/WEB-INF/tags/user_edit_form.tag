@@ -89,7 +89,8 @@
                         </div>
                     </div>
                 </c:if>
-                <button type="submit" class="btn btn-primary"><fmt:message key="default.dosave"/></button>
+                <button type="submit" class="btn btn-primary" name="save" value="${sessionState.sessionUser.id}">
+                    <fmt:message key="default.dosave"/></button>
             </div>
         </div>
     </div>
