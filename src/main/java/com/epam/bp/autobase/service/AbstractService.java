@@ -3,6 +3,7 @@ package com.epam.bp.autobase.service;
 import com.epam.bp.autobase.dao.BaseDao;
 import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.model.dto.AbstractDto;
+import com.epam.bp.autobase.model.dto.UserDto;
 import com.epam.bp.autobase.model.entity.Identifiable;
 import com.epam.bp.autobase.util.MyMessageInterpolator;
 
@@ -15,6 +16,7 @@ import java.util.*;
 
 public abstract class AbstractService<I extends Identifiable, T extends AbstractDto, M extends BaseDao<I>> {
     public static final String RB = "i18n.text";
+    private static final String PASSES_NOT_EQUALS_ERROR = "error.passes-not-equals";
     public static final String MSG = "msg";
     public static final String ID = "id";
     public static final String FIRSTNAME = "firstname";
@@ -31,6 +33,8 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
     public static final String CREATE_ERR = "create_err";
     public static final String UPDATE_ERR = "update_err";
     public static final String VALUE = "value";
+    public static final String ORDER_ID = "orderId";
+    public static final String STATUS = "status";
     private Map<String, String> errorMap;
 
     public Map<String, String> getErrorMap() {
@@ -48,6 +52,12 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
         try {
             I entity = (I) dto.buildLazyEntity();
             String errors = validateWhileCreate(entity, locale);
+            if (dto.getClass().equals(UserDto.class))
+                if (!((UserDto) dto).getPassword().equals(((UserDto) dto).getPassword_repeat())) {
+                    String passes_err = ResourceBundle.getBundle(RB, locale).getString(PASSES_NOT_EQUALS_ERROR);
+                    errors = errors + passes_err;
+                    errorMap.put(PASSWORD + "_" + MSG, passes_err);
+                }
             if ("".equals(errors)) {
                 dao.create(entity);
                 event.fire(entity);
@@ -138,9 +148,8 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
 
     public String validateWhileCreate(I identifiable, Locale locale) throws ServiceException {
         String one = validate0(identifiable, locale);
-        String two = checkAllFieldsNotBusy(identifiable);
+        String two = checkFieldsWhileCreate(identifiable);
         String result = (one == null ? "" : one) + (two == null ? "" : two);
-        
         if (!"".equals(result)) {
             if (errorMap == null) errorMap = new HashMap<>();
             errorMap.put(CREATE_ERR, result);
@@ -149,7 +158,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
     }
 
     public String validateWhileUpdate(I identifiable, T dto, Locale locale) throws ServiceException {
-        String result = validate0(identifiable, locale) + checkChangedFieldsNotBusy(identifiable, dto);
+        String result = validate0(identifiable, locale) + checkFieldsWhileUpdate(identifiable, dto);
         if (!"".equals(result)) {
             if (errorMap == null) errorMap = new HashMap<>();
             errorMap.put(UPDATE_ERR, result);
@@ -172,8 +181,8 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
         return "";
     }
 
-    public abstract String checkAllFieldsNotBusy(I identifiable) throws ServiceException;
+    public abstract String checkFieldsWhileCreate(I identifiable) throws ServiceException;
 
-    public abstract String checkChangedFieldsNotBusy(I identifiable, T dto) throws ServiceException;
+    public abstract String checkFieldsWhileUpdate(I identifiable, T dto) throws ServiceException;
 
 }
