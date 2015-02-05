@@ -34,7 +34,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
     public static final String UPDATE_ERR = "update_err";
     public static final String VALUE = "value";
     public static final String ORDER_ID = "orderId";
-    public static final String STATUS = "status";
+    public static final String ORDER_STATUS = "status";
     private Map<String, String> errorMap;
 
     public Map<String, String> getErrorMap() {
@@ -84,7 +84,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
     protected void update(T dto, M dao, Event<I> event, Locale locale) throws ServiceException {
         try {
             I entity = dao.getById(dto.getId());
-            String errors = validateWhileUpdate(entity, dto, locale);
+            String errors = validateWhileUpdate((I) dto.buildLazyEntity(), dto, locale);
             if ("".equals(errors)) {
                 entity = (I) dto.buildLazyEntity();
                 dao.update(entity);
@@ -158,7 +158,8 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
     }
 
     public String validateWhileUpdate(I identifiable, T dto, Locale locale) throws ServiceException {
-        String result = validate0(identifiable, locale) + checkFieldsWhileUpdate(identifiable, dto);
+        Identifiable entity = dto.buildLazyEntity();
+        String result = validate0((I) entity, locale) + checkFieldsWhileUpdate(identifiable, dto);
         if (!"".equals(result)) {
             if (errorMap == null) errorMap = new HashMap<>();
             errorMap.put(UPDATE_ERR, result);

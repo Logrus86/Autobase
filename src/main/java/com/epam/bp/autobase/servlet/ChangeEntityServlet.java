@@ -2,6 +2,7 @@ package com.epam.bp.autobase.servlet;
 
 import com.epam.bp.autobase.cdi.SessionState;
 import com.epam.bp.autobase.model.dto.*;
+import com.epam.bp.autobase.model.entity.Order;
 import com.epam.bp.autobase.model.entity.User;
 import com.epam.bp.autobase.service.*;
 import org.jboss.logging.Logger;
@@ -29,7 +30,8 @@ import java.util.stream.Collectors;
         "do/change_user",
         "do/change_color",
         "do/change_model",
-        "do/change_manufacturer"
+        "do/change_manufacturer",
+        "do/change_order"
 })
 public class ChangeEntityServlet extends HttpServlet {
     public static final String PARAM_SAVE = "save";
@@ -68,27 +70,18 @@ public class ChangeEntityServlet extends HttpServlet {
         }
     }
 
-    private void change_color(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void create_user(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            String stringId;
-            if (req.getParameter(PARAM_SAVE) == null) {
-                stringId = req.getParameter(PARAM_DELETE);
-                cs.delete(Integer.valueOf(stringId));
-                logger.info("Color with id = " + stringId + " was successfully deleted");
-            } else {
-                stringId = req.getParameter(PARAM_SAVE);
-                ColorDto colorDto = new ColorDto()
-                        .setId(Integer.valueOf(stringId))
-                        .setValue_en(req.getParameter(AbstractService.VALUE_EN))
-                        .setValue_ru(req.getParameter(AbstractService.VALUE_RU));
-                cs.update(colorDto);
-                logger.info("Color '" + req.getParameter(AbstractService.VALUE_EN) + "' had successfully updated");
-            }
+            UserDto userDto = getUserDtoFromRequest(req);
+            us.create(userDto);
+            if (us.getErrorMap() == null) ss.setSessionUser(userDto.buildLazyEntity());
+            logger.info("Newly registered user: " + ss.getSessionUser().toString());
+            RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/registered.jsp");
+            resultView.forward(req, resp);
         } catch (ServiceException se) {
-            logger.error(se.getMessage() + ", " + se.getCause());
+            logger.error(se.getMessage());
+            forwardDependsRole(req, resp);
         }
-        RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/admin_colors.jsp");
-        resultView.forward(req, resp);
     }
 
     private void create_color(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -168,20 +161,79 @@ public class ChangeEntityServlet extends HttpServlet {
         forwardDependsRole(req, resp);
     }
 
-    private void create_user(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void change_color(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            UserDto userDto = getUserDtoFromRequest(req);
-            us.create(userDto);
-            if (us.getErrorMap() == null) ss.setSessionUser(userDto.buildLazyEntity());
-            logger.info("Newly registered user: " + ss.getSessionUser().toString());
-            RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/registered.jsp");
-            resultView.forward(req, resp);
+            String stringId;
+            if (req.getParameter(PARAM_SAVE) == null) {
+                stringId = req.getParameter(PARAM_DELETE);
+                cs.delete(Integer.valueOf(stringId));
+                logger.info("Color with id = " + stringId + " was successfully deleted");
+            } else {
+                stringId = req.getParameter(PARAM_SAVE);
+                ColorDto colorDto = new ColorDto()
+                        .setId(Integer.valueOf(stringId))
+                        .setValue_en(req.getParameter(AbstractService.VALUE_EN))
+                        .setValue_ru(req.getParameter(AbstractService.VALUE_RU));
+                cs.update(colorDto);
+                logger.info("Color '" + req.getParameter(AbstractService.VALUE_EN) + "' had successfully updated");
+            }
         } catch (ServiceException se) {
-            logger.error(se.getMessage());
-            forwardDependsRole(req, resp);
+            logger.error(se.getMessage() + ", " + se.getCause());
         }
+        RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/admin_colors.jsp");
+        resultView.forward(req, resp);
     }
 
+    private void change_model(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            String stringId;
+            if (req.getParameter(PARAM_SAVE) == null) {
+                stringId = req.getParameter(PARAM_DELETE);
+                ms.delete(Integer.valueOf(stringId));
+                logger.info("Model with id = " + stringId + " was successfully deleted");
+            } else {
+                stringId = req.getParameter(PARAM_SAVE);
+                ModelDto modelDto = new ModelDto()
+                        .setId(Integer.valueOf(stringId))
+                        .setValue(req.getParameter(AbstractService.VALUE));
+                ms.update(modelDto);
+                logger.info("Model '" + req.getParameter(AbstractService.VALUE) + "' had successfully updated");
+            }
+        } catch (ServiceException se) {
+            logger.error(se.getMessage() + ", " + se.getCause());
+        }
+        RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/admin_models.jsp");
+        resultView.forward(req, resp);
+    }
+
+    private void change_manufacturer(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            String stringId;
+            if (req.getParameter(PARAM_SAVE) == null) {
+                stringId = req.getParameter(PARAM_DELETE);
+                mfs.delete(Integer.valueOf(stringId));
+                logger.info("Manufacturer with id = " + stringId + " was successfully deleted");
+            } else {
+                stringId = req.getParameter(PARAM_SAVE);
+                ManufacturerDto manufacturerDto = new ManufacturerDto()
+                        .setId(Integer.valueOf(stringId))
+                        .setValue(req.getParameter(AbstractService.VALUE));
+                mfs.update(manufacturerDto);
+                logger.info("Manufacturer '" + req.getParameter(AbstractService.VALUE) + "' had successfully updated");
+            }
+        } catch (ServiceException se) {
+            logger.error(se.getMessage() + ", " + se.getCause());
+        }
+        RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/admin_manufacturers.jsp");
+        resultView.forward(req, resp);
+    }
+
+    private void change_order(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        OrderDto dto = new OrderDto()
+                .setId(Integer.valueOf(req.getParameter(AbstractService.ORDER_ID)))
+                .setStatus(Order.Status.valueOf(req.getParameter(AbstractService.ORDER_STATUS)));
+    }
+    
     private void forwardDependsRole(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher resultView = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
         if ((ss.getSessionUser() != null) && (ss.getSessionUser().getRole() != null)) {
@@ -204,6 +256,7 @@ public class ChangeEntityServlet extends HttpServlet {
         UserDto dto = new UserDto()
                 .setUsername(req.getParameter(AbstractService.USERNAME))
                 .setPassword(req.getParameter(AbstractService.PASSWORD))
+                .setPassword_repeat(req.getParameter(AbstractService.PASSWORD_REPEAT))
                 .setEmail(req.getParameter(AbstractService.EMAIL))
                 .setFirstname(req.getParameter(AbstractService.FIRSTNAME))
                 .setLastname(req.getParameter(AbstractService.LASTNAME))
