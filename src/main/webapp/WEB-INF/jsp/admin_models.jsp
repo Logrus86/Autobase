@@ -17,7 +17,7 @@
     </t:generic>
 </fmt:bundle>
 
-<c:if test="${create_error!=null}">
+<c:if test="${modelService.errorMap.create_err!=null}">
     <script language="javascript">
         showModalByDefault('#modalCreateModel');
     </script>

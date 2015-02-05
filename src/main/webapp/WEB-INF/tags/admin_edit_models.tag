@@ -4,7 +4,7 @@
 
 <div id="models" align="center">
     <table>
-        <div class="msg-error">${model_change_error}</div>
+        <div class="msg-error">${modelService.errorMap.update_err}</div>
         <tr align="center">
             <td>№</td>
             <td><fmt:message key="default.value"/></td>
@@ -42,7 +42,7 @@
                 <h4 class="modal-title" align="center"><fmt:message key="default.add"/> <fmt:message
                         key="default.model"/></h4>
             </div>
-            <div class="msg-error" id="msg_md">${create_error}</div>
+            <div class="msg-error" id="msg_md">${modelService.errorMap.create_err}</div>
             <div class="modal-body">
                 <form id="create-color-form" class="createForm" method="post" action="create_model">
                     <div class="input-group">

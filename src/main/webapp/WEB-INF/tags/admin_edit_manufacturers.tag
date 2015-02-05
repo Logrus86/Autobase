@@ -4,7 +4,7 @@
 
 <div id="manufacturers" align="center">
     <table>
-        <div class="msg-error">${manufacturer_change_error}</div>
+        <div class="msg-error">${manufacturerService.errorMap.update_err}</div>
         <tr align="center">
             <td>№</td>
             <td><fmt:message key="default.value"/></td>
@@ -44,7 +44,7 @@
                 <h4 class="modal-title" align="center"><fmt:message key="default.add"/> <fmt:message
                         key="default.manufacturer'"/></h4>
             </div>
-            <div class="msg-error" id="msg_mn">${create_error}</div>
+            <div class="msg-error" id="msg_mn">${manufacturerService.errorMap.create_err}</div>
             <div class="modal-body">
                 <form id="create-color-form" class="createForm" method="post" action="create_manufacturer">
                     <div class="input-group">
