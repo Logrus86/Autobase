@@ -34,4 +34,10 @@ public class ModelDto extends AbstractDto<Model, ModelDto> {
     public Model buildFullEntity() {
         return buildLazyEntity();
     }
+
+    @Override
+    public Model overwriteEntityFromDto(Model entity) {
+        if (value != null) entity.setValue(value);
+        return entity;
+    }
 }

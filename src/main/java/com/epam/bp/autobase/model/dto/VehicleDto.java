@@ -12,19 +12,19 @@ public class VehicleDto extends AbstractDto<Vehicle, VehicleDto> {
     private BigDecimal rentPrice;
     private Integer productionYear;
     private BigDecimal mileage;
-    private boolean operable;
+    private Boolean operable;
     private Vehicle.Fuel fuelType;
     private ColorDto colorDto;
     private ModelDto modelDto;
     private ManufacturerDto manufacturerDto;
     private UserDto driverDto;
-    private int standingPlacesNumber;   //bus
-    private int passengerSeatsNumber;   //bus & car
-    private int doorsNumber;            //bus & car
-    private boolean withConditioner;    //car
+    private Integer standingPlacesNumber;   //bus
+    private Integer passengerSeatsNumber;   //bus & car
+    private Integer doorsNumber;            //bus & car
+    private Boolean withConditioner;    //car
     private BigDecimal maxPayload;      //truck
-    private boolean enclosed;           //truck
-    private boolean tipper;             //truck
+    private Boolean enclosed;           //truck
+    private Boolean tipper;             //truck
 
     public VehicleDto() {
     }
@@ -262,5 +262,39 @@ public class VehicleDto extends AbstractDto<Vehicle, VehicleDto> {
     public Vehicle buildFullEntity() {
         return buildLazyEntity()
                 .setDriver(driverDto.buildLazyEntity());
+    }
+
+    @Override
+    public Vehicle overwriteEntityFromDto(Vehicle entity) {
+        if (type != null) {
+            entity.setType(type);
+            switch (type) {
+                case BUS:
+                    if (passengerSeatsNumber != null) ((Bus) entity).setPassengerSeatsNumber(passengerSeatsNumber);
+                    if (standingPlacesNumber != null) ((Bus) entity).setStandingPlacesNumber(standingPlacesNumber);
+                    if (doorsNumber != null) ((Bus) entity).setDoorsNumber(doorsNumber);
+                    break;
+                case CAR:
+                    if (passengerSeatsNumber != null) ((Car) entity).setPassengerSeatsNumber(passengerSeatsNumber);
+                    if (withConditioner != null) ((Car) entity).setWithConditioner(withConditioner);
+                    if (doorsNumber != null) ((Car) entity).setDoorsNumber(doorsNumber);
+                    break;
+                case TRUCK:
+                    if (enclosed != null) ((Truck) entity).setEnclosed(enclosed);
+                    if (maxPayload != null) ((Truck) entity).setMaxPayload(maxPayload);
+                    if (tipper != null) ((Truck) entity).setTipper(tipper);
+                    break;
+            }
+        }
+        if (rentPrice != null) entity.setRentPrice(rentPrice);
+        if (productionYear != null) entity.setProductionYear(productionYear);
+        if (mileage != null) entity.setMileage(mileage);
+        if (operable != null) entity.setOperable(operable);
+        if (fuelType != null) entity.setFuelType(fuelType);
+        if (colorDto != null) entity.setColor(colorDto.buildLazyEntity());
+        if (modelDto != null) entity.setModel(modelDto.buildLazyEntity());
+        if (manufacturerDto != null) entity.setManufacturer(manufacturerDto.buildLazyEntity());
+        if (driverDto != null) entity.setDriver(driverDto.buildLazyEntity());
+        return entity;
     }
 }

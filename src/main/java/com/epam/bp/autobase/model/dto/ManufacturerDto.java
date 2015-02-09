@@ -34,4 +34,10 @@ public class ManufacturerDto extends AbstractDto<Manufacturer, ManufacturerDto> 
     public Manufacturer buildFullEntity() {
         return buildLazyEntity();
     }
+
+    @Override
+    public Manufacturer overwriteEntityFromDto(Manufacturer entity) {
+        if (value != null) entity.setValue(value);
+        return entity;
+    }
 }

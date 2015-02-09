@@ -45,4 +45,11 @@ public class ColorDto extends AbstractDto<Color, ColorDto> {
     public Color buildFullEntity() {
         return buildLazyEntity();
     }
+
+    @Override
+    public Color overwriteEntityFromDto(Color entity) {
+        if (value_en != null) entity.setValue_en(value_en);
+        if (value_ru != null) entity.setValue_ru(value_ru);
+        return entity;
+    }
 }

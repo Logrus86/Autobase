@@ -111,4 +111,16 @@ public class OrderDto extends AbstractDto<Order, OrderDto> {
         return buildLazyEntity()
                 .setClient(clientDto.buildLazyEntity());
     }
+
+    @Override
+    public Order overwriteEntityFromDto(Order entity) {
+        if (sum != null) entity.setSum(sum);
+        if (status != null) entity.setStatus(status);
+        if (dateOrderedString != null) entity.setDateOrdered(dateOrderedString);
+        if (dateStartString != null) entity.setDateStart(dateStartString);
+        if (dayCount != null) entity.setDayCount(dayCount);
+        if (clientDto != null) entity.setClient(clientDto.buildLazyEntity());
+        if (vehicleDto != null) entity.setVehicle(vehicleDto.buildLazyEntity());
+        return entity;
+    }
 }

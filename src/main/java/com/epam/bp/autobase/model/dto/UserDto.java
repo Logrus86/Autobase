@@ -222,4 +222,20 @@ public class UserDto extends AbstractDto<User, UserDto> {
             for (VehicleDto vehicleDto : vehicleDtoList) user.addVehicle(vehicleDto.buildLazyEntity());
         return user;
     }
+
+    @Override
+    public User overwriteEntityFromDto(User entity) {
+        if (firstname != null) entity.setFirstname(firstname);
+        if (lastname != null) entity.setLastname(lastname);
+        if (dob != null) entity.setDob(dob);
+        if (username != null) entity.setUsername(username);
+        if (email != null) entity.setEmail(email);
+        if (role != null) entity.setRole(role);
+        if (balance != null) entity.setBalance(balance);
+        if ((orderDtoList != null) && (!orderDtoList.isEmpty()))
+            for (OrderDto orderDto : orderDtoList) entity.addOrder(orderDto.buildLazyEntity());
+        if ((vehicleDtoList != null) && (!vehicleDtoList.isEmpty()))
+            for (VehicleDto vehicleDto : vehicleDtoList) entity.addVehicle(vehicleDto.buildLazyEntity());
+        return entity;
+    }
 }
