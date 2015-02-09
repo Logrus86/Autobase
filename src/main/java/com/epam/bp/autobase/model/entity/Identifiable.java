@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public interface Identifiable<T extends Identifiable> extends Serializable {
 
-    public Integer getId();
+    Integer getId();
 
-    public T setId(Integer id);
+    T setId(Integer id);
 
 }

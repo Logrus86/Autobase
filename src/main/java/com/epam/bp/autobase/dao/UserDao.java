@@ -4,6 +4,6 @@ import com.epam.bp.autobase.model.entity.User;
 
 public interface UserDao extends BaseDao<User> {
 
-    public User findByCredentials(String username, String password) throws DaoException;
+    User findByCredentials(String username, String password) throws DaoException;
 
 }
