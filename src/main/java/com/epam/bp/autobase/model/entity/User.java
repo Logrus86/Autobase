@@ -27,11 +27,11 @@ public class User implements Identifiable<User> {
     private Integer id;
 
     @NotEmpty
-    @Pattern(regexp = "([A-Z]{1}[a-z]{0,19})|([А-Я]{1}[а-я]{0,19})", message = "{com.epam.bp.autobase.model.entity.user.firstname.message}")
+    @Pattern(regexp = "([A-Z][a-z]{0,19})|([А-Я][а-я]{0,19})", message = "{com.epam.bp.autobase.model.entity.user.firstname.message}")
     private String firstname;
 
     @NotEmpty
-    @Pattern(regexp = "([A-Z]{1}[a-z]{0,19})|([А-Я]{1}[а-я]{0,19})", message = "{com.epam.bp.autobase.model.entity.user.lastname.message}")
+    @Pattern(regexp = "([A-Z]('[A-Z])?[a-z]{0,19})|([А-Я][а-я]{0,19})", message = "{com.epam.bp.autobase.model.entity.user.lastname.message}")
     private String lastname;
 
     @NotNull
