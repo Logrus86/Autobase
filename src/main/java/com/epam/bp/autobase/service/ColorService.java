@@ -53,24 +53,24 @@ public class ColorService extends AbstractService<Color, ColorDto, ColorDao> {
     }
 
     @Override
-    public String checkFieldsWhileCreate(Color color) throws ServiceException {
+    public String checkFieldsWhileCreate(Color newEntity) throws ServiceException {
         StringBuilder sb = new StringBuilder();
         Locale locale = ss.getLocale();
-        sb.append(checkFieldNotBusy(VALUE_EN, color.getValue_en(), dao, locale));
+        sb.append(checkFieldNotBusy(VALUE_EN, newEntity.getValue_en(), dao, locale));
         if (sb.length() != 0) sb.append("; ");
-        sb.append(checkFieldNotBusy(VALUE_RU, color.getValue_ru(), dao, locale));
+        sb.append(checkFieldNotBusy(VALUE_RU, newEntity.getValue_ru(), dao, locale));
         return sb.toString();
     }
 
     @Override
-    public String checkFieldsWhileUpdate(Color color, ColorDto dto) throws ServiceException {
+    public String checkFieldsWhileUpdate(Color oldEntity, ColorDto dtoChangedEntity) throws ServiceException {
         StringBuilder sb = new StringBuilder();
         Locale locale = ss.getLocale();
-        if (!color.getValue_en().equals(dto.getValue_en()))
-            sb.append(checkFieldNotBusy(VALUE_EN, dto.getValue_en(), dao, locale));
+        if (!oldEntity.getValue_en().equals(dtoChangedEntity.getValue_en()))
+            sb.append(checkFieldNotBusy(VALUE_EN, dtoChangedEntity.getValue_en(), dao, locale));
         if (sb.length() != 0) sb.append("; ");
-        if (!color.getValue_ru().equals(dto.getValue_ru()))
-            sb.append(checkFieldNotBusy(VALUE_RU, dto.getValue_ru(), dao, locale));
+        if (!oldEntity.getValue_ru().equals(dtoChangedEntity.getValue_ru()))
+            sb.append(checkFieldNotBusy(VALUE_RU, dtoChangedEntity.getValue_ru(), dao, locale));
         return sb.toString();
     }
 }

@@ -53,12 +53,12 @@ public class OrderService extends AbstractService<Order, OrderDto, OrderDao> {
     }
 
     @Override
-    public String checkFieldsWhileCreate(Order or) throws ServiceException {
+    public String checkFieldsWhileCreate(Order newEntity) throws ServiceException {
         return "";
     }
 
     @Override
-    public String checkFieldsWhileUpdate(Order or, OrderDto dto) throws ServiceException {
+    public String checkFieldsWhileUpdate(Order oldEntity, OrderDto dto) throws ServiceException {
         return "";
     }
 }

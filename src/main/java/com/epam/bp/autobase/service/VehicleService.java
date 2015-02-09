@@ -55,12 +55,12 @@ public class VehicleService extends AbstractService<Vehicle, VehicleDto, Vehicle
     }
 
     @Override
-    public String checkFieldsWhileCreate(Vehicle identifiable) throws ServiceException {
+    public String checkFieldsWhileCreate(Vehicle newEntity) throws ServiceException {
         return null;
     }
 
     @Override
-    public String checkFieldsWhileUpdate(Vehicle identifiable, VehicleDto dto) throws ServiceException {
+    public String checkFieldsWhileUpdate(Vehicle oldEntity, VehicleDto dtoChangedEntity) throws ServiceException {
         return null;
     }
 }

@@ -71,24 +71,24 @@ public class UserService extends AbstractService<User, UserDto, UserDao> {
     }
 
     @Override
-    public String checkFieldsWhileCreate(User user) throws ServiceException {
+    public String checkFieldsWhileCreate(User newEntity) throws ServiceException {
         StringBuilder sb = new StringBuilder();
         Locale locale = ss.getLocale();
-        sb.append(checkFieldNotBusy(USERNAME, user.getUsername(), dao, locale));
+        sb.append(checkFieldNotBusy(USERNAME, newEntity.getUsername(), dao, locale));
         if (sb.length() != 0) sb.append("; ");
-        sb.append(checkFieldNotBusy(EMAIL, user.getEmail(), dao, locale));
+        sb.append(checkFieldNotBusy(EMAIL, newEntity.getEmail(), dao, locale));
         return sb.toString();
     }
 
     @Override
-    public String checkFieldsWhileUpdate(User user, UserDto dto) throws ServiceException {
+    public String checkFieldsWhileUpdate(User oldEntity, UserDto dtoChangedEntity) throws ServiceException {
         StringBuilder sb = new StringBuilder();
         Locale locale = ss.getLocale();
-        if (!user.getUsername().equals(dto.getUsername()))
-            sb.append(checkFieldNotBusy(USERNAME, dto.getUsername(), dao, locale));
+        if (!oldEntity.getUsername().equals(dtoChangedEntity.getUsername()))
+            sb.append(checkFieldNotBusy(USERNAME, dtoChangedEntity.getUsername(), dao, locale));
         if (sb.length() != 0) sb.append("; ");
-        if (!user.getEmail().equals(dto.getEmail()))
-            sb.append(checkFieldNotBusy(EMAIL, dto.getEmail(), dao, locale));
+        if (!oldEntity.getEmail().equals(dtoChangedEntity.getEmail()))
+            sb.append(checkFieldNotBusy(EMAIL, dtoChangedEntity.getEmail(), dao, locale));
         return sb.toString();
     }
 
