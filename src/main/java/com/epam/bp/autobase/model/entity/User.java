@@ -58,7 +58,7 @@ public class User implements Identifiable<User> {
     @Enumerated
     private Role role;
 
-    @NotNull
+    @Nullable
     private BigDecimal balance;
 
     @Nullable
