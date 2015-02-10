@@ -22,6 +22,7 @@ import java.util.List;
 })
 public class User implements Identifiable<User> {
 
+    private static final String DATE_PATTERN = "yyyy-MM-dd";
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -135,7 +136,7 @@ public class User implements Identifiable<User> {
     }
 
     public User setDob(String dob) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_PATTERN);
         try {
             this.dob = sdf.parse(dob);
         } catch (ParseException e) {

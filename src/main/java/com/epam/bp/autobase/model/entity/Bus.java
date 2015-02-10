@@ -16,43 +16,43 @@ public class Bus extends Vehicle<Bus> {
     @Min(7)
     @Max(99)
     @Column(name = "PASSENGER_SEATS_NUMBER")
-    private int passengerSeatsNumber;
+    private Integer passengerSeatsNumber;
 
     @NotNull
     @Min(7)
     @Max(199)
     @Column(name = "STANDING_PLACES_NUMBER")
-    private int standingPlacesNumber;
+    private Integer standingPlacesNumber;
 
     @NotNull
     @Min(1)
     @Max(9)
     @Column(name = "DOORS_NUMBER")
-    private int doorsNumber;
+    private Integer doorsNumber;
 
-    public int getPassengerSeatsNumber() {
+    public Integer getPassengerSeatsNumber() {
         return passengerSeatsNumber;
     }
 
-    public Bus setPassengerSeatsNumber(int passengerSeatsNumber) {
+    public Bus setPassengerSeatsNumber(Integer passengerSeatsNumber) {
         this.passengerSeatsNumber = passengerSeatsNumber;
         return this;
     }
 
-    public int getStandingPlacesNumber() {
+    public Integer getStandingPlacesNumber() {
         return standingPlacesNumber;
     }
 
-    public Bus setStandingPlacesNumber(int standingPlacesNumber) {
+    public Bus setStandingPlacesNumber(Integer standingPlacesNumber) {
         this.standingPlacesNumber = standingPlacesNumber;
         return this;
     }
 
-    public int getDoorsNumber() {
+    public Integer getDoorsNumber() {
         return doorsNumber;
     }
 
-    public Bus setDoorsNumber(int doorsNumber) {
+    public Bus setDoorsNumber(Integer doorsNumber) {
         this.doorsNumber = doorsNumber;
         return this;
     }

@@ -54,7 +54,7 @@ public abstract class Vehicle<T extends Vehicle> implements Identifiable<Vehicle
     private BigDecimal mileage;
 
     @NotNull
-    private boolean operable;
+    private Boolean operable;
 
     @NotNull
     @Enumerated
@@ -68,13 +68,6 @@ public abstract class Vehicle<T extends Vehicle> implements Identifiable<Vehicle
     @Override
     public T setId(Integer id) {
         return (T) this;
-    }
-
-    public Vehicle setDriver(User driver) {
-        if (driver.getRole().equals(User.Role.DRIVER)) {
-            this.driver = driver;
-            return this;
-        } else return null;
     }
 
     public Type getType() {
@@ -160,6 +153,13 @@ public abstract class Vehicle<T extends Vehicle> implements Identifiable<Vehicle
 
     public User getDriver() {
         return driver;
+    }
+
+    public Vehicle setDriver(User driver) {
+        if (driver.getRole().equals(User.Role.DRIVER)) {
+            this.driver = driver;
+        }
+        return this;
     }
 
     public enum Fuel {

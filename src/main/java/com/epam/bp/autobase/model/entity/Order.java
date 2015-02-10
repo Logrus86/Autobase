@@ -15,6 +15,9 @@ import java.util.Date;
 @Table(name = "VH_ORDER")
 @NamedQuery(name = "Order.getAll", query = "SELECT o FROM Order o ORDER BY o.id")
 public class Order implements Identifiable<Order> {
+    private static final String TIMESTAMP_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    private static final String DATE_PATTERN = "yyyy-MM-dd";
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -100,7 +103,7 @@ public class Order implements Identifiable<Order> {
     }
 
     public String getDateStart() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_PATTERN);
         return sdf.format(dateStart);
     }
 
@@ -110,7 +113,8 @@ public class Order implements Identifiable<Order> {
     }
 
     public Order setDateStart(String dateStart) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        if (dateStart == null) return this;
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_PATTERN);
         try {
             this.dateStart = sdf.parse(dateStart);
         } catch (ParseException e) {
@@ -120,7 +124,7 @@ public class Order implements Identifiable<Order> {
     }
 
     public String getDateEndString() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_PATTERN);
         Calendar result = Calendar.getInstance();
         result.setTime(dateStart);
         result.add(Calendar.DATE, dayCount);
@@ -135,7 +139,7 @@ public class Order implements Identifiable<Order> {
     }
 
     public String getDateOrdered() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat(TIMESTAMP_PATTERN);
         return sdf.format(dateOrdered);
     }
 
@@ -145,7 +149,8 @@ public class Order implements Identifiable<Order> {
     }
 
     public Order setDateOrdered(String dateOrdered) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if (dateOrdered == null) return this;
+        SimpleDateFormat sdf = new SimpleDateFormat(TIMESTAMP_PATTERN);
         try {
             this.dateOrdered = sdf.parse(dateOrdered);
         } catch (ParseException e) {

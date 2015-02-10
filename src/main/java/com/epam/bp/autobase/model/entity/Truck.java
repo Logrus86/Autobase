@@ -20,10 +20,10 @@ public class Truck extends Vehicle<Truck> {
     private BigDecimal maxPayload;
 
     @NotNull
-    private boolean enclosed;
+    private Boolean enclosed;
 
     @NotNull
-    private boolean tipper;
+    private Boolean tipper;
 
     public BigDecimal getMaxPayload() {
         return maxPayload;

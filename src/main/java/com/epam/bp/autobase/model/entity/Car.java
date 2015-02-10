@@ -16,31 +16,31 @@ public class Car extends Vehicle<Car> {
     @Min(1)
     @Max(6)
     @Column(name = "PASSENGER_SEATS_NUMBER")
-    private int passengerSeatsNumber;
+    private Integer passengerSeatsNumber;
 
     @NotNull
     @Min(1)
     @Max(5)
     @Column(name = "DOORS_NUMBER")
-    private int doorsNumber;
+    private Integer doorsNumber;
 
     @Column(name = "CONDITIONER")
-    private boolean withConditioner;
+    private Boolean withConditioner;
 
-    public int getPassengerSeatsNumber() {
+    public Integer getPassengerSeatsNumber() {
         return passengerSeatsNumber;
     }
 
-    public Car setPassengerSeatsNumber(int passengerSeatsNumber) {
+    public Car setPassengerSeatsNumber(Integer passengerSeatsNumber) {
         this.passengerSeatsNumber = passengerSeatsNumber;
         return this;
     }
 
-    public int getDoorsNumber() {
+    public Integer getDoorsNumber() {
         return doorsNumber;
     }
 
-    public Car setDoorsNumber(int doorsNumber) {
+    public Car setDoorsNumber(Integer doorsNumber) {
         this.doorsNumber = doorsNumber;
         return this;
     }
