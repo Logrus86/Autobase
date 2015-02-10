@@ -37,6 +37,24 @@
                                         <div class="col-lg-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><fmt:message
+                                                        key="default.vehicleType"/></span>
+                                                <select class="selectpicker show-menu-arrow" data-width="auto"
+                                                        name="vehicleType${vehicle.id}">
+                                                    <c:forEach items="${vehicleTypes}" var="type">
+                                                        <option value="${type}"
+                                                                <c:if test="${vehicle.type==type}">selected</c:if>>
+                                                            <fmt:message
+                                                                    key="default.${type.toString().toLowerCase()}"/>
+                                                        </option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><fmt:message
                                                         key="default.model"/></span>
                                                 <select class="selectpicker show-menu-arrow" data-width="auto"
                                                         data-live-search="true"
