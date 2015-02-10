@@ -17,23 +17,10 @@ import java.util.*;
 public abstract class AbstractService<I extends Identifiable, T extends AbstractDto, M extends BaseDao<I>> {
     public static final String RB = "i18n.text";
     public static final String MSG = "msg";
-    public static final String ID = "id";
-    public static final String FIRSTNAME = "firstname";
-    public static final String LASTNAME = "lastname";
-    public static final String EMAIL = "email";
-    public static final String DOB = "dob";
-    public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
-    public static final String PASSWORD_REPEAT = "password-repeat";
-    public static final String BALANCE = "balance";
-    public static final String ROLE = "role";
-    public static final String VALUE_EN = "value_en";
-    public static final String VALUE_RU = "value_ru";
     public static final String CREATE_ERR = "create_err";
     public static final String UPDATE_ERR = "update_err";
     public static final String VALUE = "value";
-    public static final String ORDER_ID = "orderId";
-    public static final String ORDER_STATUS = "status";
     private static final String PASSES_NOT_EQUALS_ERROR = "error.passes-not-equals";
     private Map<String, String> errorMap;
 
