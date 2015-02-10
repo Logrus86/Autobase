@@ -50,7 +50,7 @@ public class User implements Identifiable<User> {
     private String password;
 
     @NotNull
-    @Email(regexp = "[\\w\\u002E\\u005F]{0,20}@([a-zA-Z]+\\u002E){1,2}[a-zA-Z]{2,3}")
+    @Email(regexp = "[\\w\\u002E\\u005F]{0,40}@([a-zA-Z]+\\u002E){1,2}[a-zA-Z]{2,3}")
     @Column(unique = true, nullable = false)
     private String email;
 
