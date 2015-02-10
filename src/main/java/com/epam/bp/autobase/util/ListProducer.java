@@ -108,32 +108,28 @@ public class ListProducer {
     @Named
     @RequestScoped
     public List<Order> getOrderList() {
-        //add retrieve if null only
-        retrieveAllOrders();
+        if (orderList == null) retrieveAllOrders();
         return orderList;
     }
 
     @Produces
     @Named
     public List<Bus> getBusList() {
-        //add retrieve if null only
-        retrieveAllBuses();
+        if (busList == null) retrieveAllBuses();
         return busList;
     }
 
     @Produces
     @Named
     public List<Car> getCarList() {
-        //add retrieve if null only
-        retrieveAllCars();
+        if (carList == null) retrieveAllCars();
         return carList;
     }
 
     @Produces
     @Named
     public List<Truck> getTruckList() {
-        //add retrieve if null only
-        retrieveAllTrucks();
+        if (truckList == null) retrieveAllTrucks();
         return truckList;
     }
 
