@@ -222,7 +222,7 @@ public class VehicleDto extends AbstractDto<Vehicle, VehicleDto> {
 
     @Override
     public Vehicle buildLazyEntity() {
-        Vehicle vehicle;
+        Vehicle vehicle = null;
         switch (type) {
             case BUS:
                 vehicle = new Bus()
@@ -242,8 +242,7 @@ public class VehicleDto extends AbstractDto<Vehicle, VehicleDto> {
                         .setMaxPayload(maxPayload)
                         .setTipper(tipper);
                 break;
-            default:
-                vehicle = null;
+
         }
         vehicle.setId(getId())
                 .setType(type)
@@ -251,10 +250,10 @@ public class VehicleDto extends AbstractDto<Vehicle, VehicleDto> {
                 .setProductionYear(productionYear)
                 .setMileage(mileage)
                 .setOperable(operable)
-                .setFuelType(fuelType)
-                .setColor(colorDto.buildLazyEntity())
-                .setManufacturer(manufacturerDto.buildLazyEntity())
-                .setModel(modelDto.buildLazyEntity());
+                .setFuelType(fuelType);
+        if (colorDto != null) vehicle.setColor(colorDto.buildLazyEntity());
+        if (manufacturerDto != null) vehicle.setManufacturer(manufacturerDto.buildLazyEntity());
+        if (modelDto != null) vehicle.setModel(modelDto.buildLazyEntity());
         return vehicle;
     }
 
