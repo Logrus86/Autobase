@@ -37,7 +37,9 @@ public abstract class AbstractHibernateDao<T extends Identifiable> implements Ba
 
     protected List<T> getAll(EntityManager em) throws DaoException {
         try {
-            TypedQuery<T> query = em.createQuery(entityClass.getSimpleName() + ".getAll", entityClass);
+            String s = entityClass.getSimpleName() + ".getAll";
+            System.out.println(s);
+            TypedQuery<T> query = em.createNamedQuery(entityClass.getSimpleName() + ".getAll", entityClass);
             return query.getResultList();
         } catch (Exception e) {
             throw new DaoException(e.getMessage(), e.getCause());
