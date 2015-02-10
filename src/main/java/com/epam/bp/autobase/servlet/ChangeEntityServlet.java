@@ -129,12 +129,19 @@ public class ChangeEntityServlet extends HttpServlet {
         try {
             UserDto userDto = getUserDtoFromRequest(req);
             us.create(userDto);
-            if (us.getErrorMap() == null) ss.setSessionUser(userDto.buildLazyEntity());
-            logger.info("Newly registered user: " + ss.getSessionUser().toString());
-            RequestDispatcher resultView = req.getRequestDispatcher(PAGE_REGISTERED);
+            RequestDispatcher resultView;
+            if (ss.getSessionUser().getRole().equals(User.Role.ADMIN)) {
+                logger.info("Newly created user: " + userDto.getUsername());
+                resultView = req.getRequestDispatcher(PAGE_USERS);
+            } else {
+                ss.setSessionUser(userDto.buildLazyEntity());
+                logger.info("Newly registered user: " + ss.getSessionUser().toString());
+                resultView = req.getRequestDispatcher(PAGE_REGISTERED);
+            }
             resultView.forward(req, resp);
         } catch (ServiceException se) {
-            logger.error(se.getMessage());
+            logger.error(se.getMessage() + ", " + se.getCause());
+            se.printStackTrace();
             forwardDependsRole(req, resp);
         }
     }
@@ -378,7 +385,8 @@ public class ChangeEntityServlet extends HttpServlet {
             else if (req.getParameterMap().containsKey(PARAM_DELETE))
                 dto.setId(Integer.valueOf(req.getParameter(PARAM_DELETE)));
         }
-        String sId = String.valueOf(dto.getId());
+        String sId = "";
+        if (ss.getSessionUser().getRole().equals(User.Role.DRIVER)) sId = String.valueOf(dto.getId());
         dto.setWithConditioner(ON.equals(req.getParameter(WITH_CONDITIONER + sId)));
         dto.setTipper(ON.equals(req.getParameter(TIPPER + sId)));
         dto.setOperable(ON.equals(req.getParameter(OPERABLE + sId)));
