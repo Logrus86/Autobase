@@ -14,6 +14,8 @@ import java.util.Locale;
 @Model
 public class ColorService extends AbstractService<Color, ColorDto, ColorDao> {
 
+    private static final String VALUE_EN = "value_en";
+    private static final String VALUE_RU = "value_ru";
     @Inject
     SessionState ss;
     @Inject

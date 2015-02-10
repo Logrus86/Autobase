@@ -17,6 +17,8 @@ import java.util.Locale;
 @Model
 public class UserService extends AbstractService<User, UserDto, UserDao> {
 
+    private static final String EMAIL = "email";
+    private static final String USERNAME = "username";
     @Inject
     Logger logger;
     @Inject
