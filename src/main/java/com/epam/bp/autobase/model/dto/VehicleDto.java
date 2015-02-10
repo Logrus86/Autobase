@@ -242,7 +242,6 @@ public class VehicleDto extends AbstractDto<Vehicle, VehicleDto> {
                         .setMaxPayload(maxPayload)
                         .setTipper(tipper);
                 break;
-
         }
         vehicle.setId(getId())
                 .setType(type)
