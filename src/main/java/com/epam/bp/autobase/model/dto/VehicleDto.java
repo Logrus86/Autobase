@@ -264,25 +264,24 @@ public class VehicleDto extends AbstractDto<Vehicle, VehicleDto> {
 
     @Override
     public Vehicle overwriteEntityFromDto(Vehicle entity) {
-        if (type != null) {
-            entity.setType(type);
-            switch (type) {
-                case BUS:
-                    if (passengerSeatsNumber != null) ((Bus) entity).setPassengerSeatsNumber(passengerSeatsNumber);
-                    if (standingPlacesNumber != null) ((Bus) entity).setStandingPlacesNumber(standingPlacesNumber);
-                    if (doorsNumber != null) ((Bus) entity).setDoorsNumber(doorsNumber);
-                    break;
-                case CAR:
-                    if (passengerSeatsNumber != null) ((Car) entity).setPassengerSeatsNumber(passengerSeatsNumber);
-                    if (withConditioner != null) ((Car) entity).setWithConditioner(withConditioner);
-                    if (doorsNumber != null) ((Car) entity).setDoorsNumber(doorsNumber);
-                    break;
-                case TRUCK:
-                    if (enclosed != null) ((Truck) entity).setEnclosed(enclosed);
-                    if (maxPayload != null) ((Truck) entity).setMaxPayload(maxPayload);
-                    if (tipper != null) ((Truck) entity).setTipper(tipper);
-                    break;
-            }
+        if (type != null) entity.setType(type);
+        else type = entity.getType();
+        switch (type) {
+            case BUS:
+                if (passengerSeatsNumber != null) ((Bus) entity).setPassengerSeatsNumber(passengerSeatsNumber);
+                if (standingPlacesNumber != null) ((Bus) entity).setStandingPlacesNumber(standingPlacesNumber);
+                if (doorsNumber != null) ((Bus) entity).setDoorsNumber(doorsNumber);
+                break;
+            case CAR:
+                if (passengerSeatsNumber != null) ((Car) entity).setPassengerSeatsNumber(passengerSeatsNumber);
+                if (withConditioner != null) ((Car) entity).setWithConditioner(withConditioner);
+                if (doorsNumber != null) ((Car) entity).setDoorsNumber(doorsNumber);
+                break;
+            case TRUCK:
+                if (enclosed != null) ((Truck) entity).setEnclosed(enclosed);
+                if (maxPayload != null) ((Truck) entity).setMaxPayload(maxPayload);
+                if (tipper != null) ((Truck) entity).setTipper(tipper);
+                break;
         }
         if (rentPrice != null) entity.setRentPrice(rentPrice);
         if (productionYear != null) entity.setProductionYear(productionYear);
