@@ -38,8 +38,8 @@
 <div id="footer" align="center"
         <jsp:invoke fragment="hide_footer"/>
         >
-    EPAM Systems © 2014<br>
-    Bobylev P.R. © 2014
+    EPAM Systems © 2014-2015<br>
+    Bobylev P.R. © 2014-2015
 </div>
 </body>
 </html>
