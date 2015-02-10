@@ -190,7 +190,7 @@ function colorAdminButtons() {
         || location.pathname == '/Autobase-1.0/do/change_manufacturer') {
         document.getElementById('bt_manufacturers').setAttribute('class', 'btn btn-info')
     }
-    if (location.pathname == '/Autobase-1.0/do/admin_orders'
+    if (location.pathname == '/Autobase-1.0/do/mainADMIN'
         || location.pathname == '/Autobase-1.0/do/main'
         || location.pathname == '/Autobase-1.0/do/login') {
         document.getElementById('bt_orders').setAttribute('class', 'btn btn-info')
