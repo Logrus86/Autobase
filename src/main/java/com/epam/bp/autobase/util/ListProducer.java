@@ -1,6 +1,8 @@
 package com.epam.bp.autobase.util;
 
 import com.epam.bp.autobase.cdi.SessionState;
+import com.epam.bp.autobase.dao.*;
+import com.epam.bp.autobase.dao.hibernate.Hibernate;
 import com.epam.bp.autobase.model.entity.*;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -11,7 +13,6 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 
 @ApplicationScoped
@@ -20,6 +21,24 @@ public class ListProducer {
     SessionState ss;
     @Inject
     private EntityManager em;
+    @Inject
+    @Hibernate
+    private UserDao userDao;
+    @Inject
+    @Hibernate
+    private OrderDao orderDao;
+    @Inject
+    @Hibernate
+    private ColorDao colorDao;
+    @Inject
+    @Hibernate
+    private ModelDao modelDao;
+    @Inject
+    @Hibernate
+    private ManufacturerDao manufacturerDao;
+    @Inject
+    @Hibernate
+    private VehicleDao vehicleDao;
     private List<Color> colors;
     private List<Model> models;
     private List<Manufacturer> manufacturers;
@@ -56,7 +75,7 @@ public class ListProducer {
     @Produces
     @Named
     @RequestScoped
-    public List<User> getUserList() {
+    public List<User> getUserList() throws DaoException {
         if (userList == null) retrieveAllUsers();
         return userList;
     }
@@ -119,48 +138,69 @@ public class ListProducer {
     }
 
     private void retrieveAllUsers() {
-        TypedQuery<User> query = em.createNamedQuery("User.getAll", User.class);
-        userList = query.getResultList();
+        try {
+            userList = userDao.getAll();
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
     }
 
     private void retrieveAllColors() {
-        TypedQuery<Color> query;
-        if ("ru".equals(ss.getLocale().getLanguage())) {
-            query = em.createNamedQuery("Color.getAllSortedByRu", Color.class);
-        } else {
-            query = em.createNamedQuery("Color.getAllSortedByEn", Color.class);
+        try {
+            if ("ru".equals(ss.getLocale().getLanguage()))
+                colors = colorDao.getAllSortedByRu();
+            else colors = colorDao.getAllSortedByEn();
+        } catch (DaoException e) {
+            e.printStackTrace();
         }
-        colors = query.getResultList();
     }
 
     private void retrieveAllModels() {
-        TypedQuery<Model> query = em.createNamedQuery("Model.getAll", Model.class);
-        models = query.getResultList();
+        try {
+            models = modelDao.getAll();
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
     }
 
     private void retrieveAllManufacturers() {
-        TypedQuery<Manufacturer> query = em.createNamedQuery("Manufacturer.getAll", Manufacturer.class);
-        manufacturers = query.getResultList();
+        try {
+            manufacturers = manufacturerDao.getAll();
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
     }
 
     private void retrieveAllOrders() {
-        TypedQuery<Order> query = em.createNamedQuery("Order.getAll", Order.class);
-        orderList = query.getResultList();
+        try {
+            orderList = orderDao.getAll();
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
     }
 
     private void retrieveAllBuses() {
-        TypedQuery<Bus> query = em.createNamedQuery("Bus.getAll", Bus.class);
-        busList = query.getResultList();
+        try {
+            busList = vehicleDao.getAllBuses();
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
     }
 
     private void retrieveAllCars() {
-        TypedQuery<Car> query = em.createNamedQuery("Car.getAll", Car.class);
-        carList = query.getResultList();
+        try {
+            carList = vehicleDao.getAllCars();
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
     }
 
     private void retrieveAllTrucks() {
-        TypedQuery<Truck> query = em.createNamedQuery("Truck.getAll", Truck.class);
-        truckList = query.getResultList();
+        try {
+            truckList = vehicleDao.getAllTrucks();
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
     }
 
     public void onUserListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final User user) {
@@ -184,14 +224,30 @@ public class ListProducer {
     }
 
     public void onBusListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Bus bus) {
-        retrieveAllBuses();
+        retrieveAllVehicle();
     }
 
     public void onCarListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Car car) {
-        retrieveAllCars();
+        retrieveAllVehicle();
     }
 
     public void onTruckListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Truck truck) {
+        retrieveAllVehicle();
+    }
+
+    public void onVehicleListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Vehicle vehicle) {
+        retrieveAllVehicle();
+    }
+
+    private void retrieveAllVehicle() {
+        retrieveAllBuses();
+        retrieveAllCars();
         retrieveAllTrucks();
+        if (ss.getSessionUser().getRole().equals(User.Role.DRIVER))
+            try {
+                ss.setSessionUser(userDao.getById(ss.getSessionUser().getId()));
+            } catch (DaoException e) {
+                e.printStackTrace();
+            }
     }
 }
