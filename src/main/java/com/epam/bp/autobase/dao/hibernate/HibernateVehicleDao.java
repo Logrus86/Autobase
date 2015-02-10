@@ -2,12 +2,12 @@ package com.epam.bp.autobase.dao.hibernate;
 
 import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.VehicleDao;
-import com.epam.bp.autobase.model.entity.User;
-import com.epam.bp.autobase.model.entity.Vehicle;
+import com.epam.bp.autobase.model.entity.*;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -79,6 +79,24 @@ public class HibernateVehicleDao extends AbstractHibernateDao<Vehicle> implement
     @Override
     public List<Vehicle> getVehiclesByDriverId(Integer driverId) throws DaoException {
         return getListByValue("driver", String.valueOf(driverId));
+    }
+
+    @Override
+    public List<Bus> getAllBuses() throws DaoException {
+        TypedQuery<Bus> query = em.createNamedQuery("Bus.getAll", Bus.class);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Car> getAllCars() throws DaoException {
+        TypedQuery<Car> query = em.createNamedQuery("Car.getAll", Car.class);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Truck> getAllTrucks() throws DaoException {
+        TypedQuery<Truck> query = em.createNamedQuery("Truck.getAll", Truck.class);
+        return query.getResultList();
     }
 }
 

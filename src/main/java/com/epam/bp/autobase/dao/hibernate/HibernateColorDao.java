@@ -7,6 +7,7 @@ import com.epam.bp.autobase.model.entity.Color;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -78,5 +79,17 @@ public class HibernateColorDao extends AbstractHibernateDao<Color> implements Co
     @Override
     public Color getByValueRu(String valueRu) throws DaoException {
         return getByFieldValue("value_ru", valueRu);
+    }
+
+    @Override
+    public List<Color> getAllSortedByEn() throws DaoException {
+        TypedQuery<Color> query = em.createNamedQuery("Color.getAllSortedByRu", Color.class);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Color> getAllSortedByRu() throws DaoException {
+        TypedQuery<Color> query = em.createNamedQuery("Color.getAllSortedByEn", Color.class);
+        return query.getResultList();
     }
 }
