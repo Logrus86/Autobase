@@ -1,7 +1,6 @@
 package com.epam.bp.autobase.service;
 
 import com.epam.bp.autobase.dao.BaseDao;
-import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.model.dto.AbstractDto;
 import com.epam.bp.autobase.model.dto.UserDto;
 import com.epam.bp.autobase.model.entity.Identifiable;
@@ -51,7 +50,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
             } else {
                 throw new ServiceException(entity.getClass().getSimpleName() + " isn't created due validation error: " + errors);
             }
-        } catch (DaoException e) {
+        } catch (Exception e) {
             throw new ServiceException(e.getMessage(), e.getCause());
         }
     }
@@ -61,7 +60,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
     protected T getById(Integer id, M dao) throws ServiceException {
         try {
             return getDtoFromEntity(dao.getById(id));
-        } catch (DaoException e) {
+        } catch (Exception e) {
             throw new ServiceException(e.getMessage(), e.getCause());
         }
     }
@@ -78,7 +77,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
             } else {
                 throw new ServiceException(entity.getClass().getSimpleName() + " isn't updated due validation error: " + errors);
             }
-        } catch (DaoException e) {
+        } catch (Exception e) {
             throw new ServiceException(e.getMessage(), e.getCause());
         }
     }
@@ -90,7 +89,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
             I entity = dao.getById(id);
             dao.delete(id);
             event.fire(entity);
-        } catch (DaoException e) {
+        } catch (Exception e) {
             throw new ServiceException(e.getMessage(), e.getCause());
         }
     }
@@ -102,7 +101,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
             I entity = (I) dto.buildLazyEntity();
             dao.delete(entity);
             event.fire(entity);
-        } catch (DaoException e) {
+        } catch (Exception e) {
             throw new ServiceException(e.getMessage(), e.getCause());
         }
     }
@@ -125,7 +124,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
             for (ConstraintViolation<I> cv : cvs) {
                 if (errorMap.size() > 0) sb.append("; ");
                 sb.append(cv.getMessage()).append(": ").append(cv.getInvalidValue());
-                errorMap.put(cv.getPropertyPath() + "_" + MSG, cv.getMessage());
+                errorMap.put(cv.getPropertyPath().toString() + "_" + MSG, cv.getMessage());
                 errorMap.put(cv.getPropertyPath().toString(), cv.getInvalidValue().toString());
             }
         }
@@ -161,7 +160,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
                 getErrorMap().put(name, value);
                 return error;
             }
-        } catch (DaoException e) {
+        } catch (Exception e) {
             throw new ServiceException(e.getMessage(), e.getCause());
         }
         return "";
