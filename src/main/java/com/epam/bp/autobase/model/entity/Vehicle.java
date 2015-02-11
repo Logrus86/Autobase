@@ -1,7 +1,5 @@
 package com.epam.bp.autobase.model.entity;
 
-import com.sun.istack.internal.Nullable;
-
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
@@ -40,7 +38,6 @@ public abstract class Vehicle<T extends Vehicle> implements Identifiable<Vehicle
     @ManyToOne
     private Manufacturer manufacturer;
 
-    @Nullable
     @ManyToOne
     private User driver;
 

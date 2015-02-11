@@ -1,6 +1,5 @@
 package com.epam.bp.autobase.model.entity;
 
-import com.sun.istack.internal.Nullable;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -58,15 +57,12 @@ public class User implements Identifiable<User> {
     @Enumerated
     private Role role;
 
-    @Nullable
     private BigDecimal balance;
 
-    @Nullable
     @OrderBy
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private List<Order> orders;
 
-    @Nullable
     @OrderBy
     @OneToMany(mappedBy = "driver", fetch = FetchType.EAGER)
     private List<Vehicle> vehicles;
