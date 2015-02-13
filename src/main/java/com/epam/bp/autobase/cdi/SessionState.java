@@ -26,12 +26,12 @@ public class SessionState implements Serializable {
     private Locale locale;
     @Inject
     Logger logger;
-    private static Map<String, Locale> locales;
+    private static Map<String, String> langs;
 
     static {
-        locales = new LinkedHashMap<String, Locale>();
-        locales.put("en", Locale.ENGLISH);
-        locales.put("ru", new Locale("ru"));
+        langs = new LinkedHashMap<>();
+        langs.put("English", "en");
+        langs.put("Русский", "ru");
     }
     public User getSessionUser() {
         return sessionUser;
@@ -41,12 +41,12 @@ public class SessionState implements Serializable {
         this.sessionUser = sessionUser;
     }
 
-    public Map<String, Locale> getLangs() {
-        return locales;
+    public Map<String, String> getLangs() {
+        return langs;
     }
 
-    public void setLangs(Map<String, Locale> langs) {
-        SessionState.locales = langs;
+    public void setLangs(Map<String, String> langs) {
+        SessionState.langs = langs;
     }
 
     public Locale getLocale() {
