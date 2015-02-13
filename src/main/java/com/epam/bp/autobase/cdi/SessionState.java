@@ -67,9 +67,12 @@ public class SessionState implements Serializable {
 
     public void changeLocale(String lang_code) {
         this.locale = new Locale(lang_code);
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
+        try {
+            FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
+        } catch (NullPointerException e) {
+            logger.error("FacesContext is null. It's ok when we are using jsp :)");
+        }
         logger.info("Locale was changed to: " + lang_code);
-
         //fires entities which list depends of locale:
         event.fire(new Color());
     }
