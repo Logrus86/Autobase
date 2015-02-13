@@ -4,39 +4,26 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
         >
 <h:head>
     <title>autobase.com</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <h:outputStylesheet name="webjars/bootstrap/3.2.0/css/bootstrap.css"/>
-    <h:outputStylesheet name="css/style.css"/>
-    <h:outputStylesheet name="css/bootstrap-select.css"/>
     <link href="#{resource['gfx/favicon.ico']}" rel="shortcut icon" type="image/x-icon"/>
-    <h:outputScript name="webjars/jquery/1.11.1/jquery.js"/>
-    <h:outputScript name="webjars/bootstrap/3.2.0/js/bootstrap.js"/>
-    <h:outputScript name="js/bootstrap-select.js"/>
+    <h:outputStylesheet name="css/style.css"/>
     <h:outputScript name="js/bp.js"/>
     <f:view locale="#{sessionState.locale}"/>
 </h:head>
 <h:body>
     <div id="header">
-        <h:button styleClass="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                  image="resources/gfx/EN.png" rendered="#{sessionState.locale.language=='en'}">
-            <span class="caret"/>
-        </h:button>
-        <h:button styleClass="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                  image="resources/gfx/RU.png" rendered="#{sessionState.locale.language=='ru'}">
-
-        </h:button>
-
-        <h:selectOneMenu value="#{sessionState.locale.language=='ru'}">
-            <f:selectItem itemValue="ru" itemLabel="russian">
-                <img src="resources/gfx/RU.png" alt="ru"/> Русский
-            </f:selectItem>
-            <f:selectItem itemValue="en">
-                <img src="resources/gfx/EN.png" alt="en"/> English
-            </f:selectItem>
-        </h:selectOneMenu>
+        <h3><h:outputText value="#{msg['default.welcome']}"/></h3>
+        <h:form>
+            <p:selectOneMenu value="#{sessionState.language}" onchange="submit()"
+                             onchangeitemlistener="#{sessionState.changeLocale}">
+                <f:selectItem itemLabel="Русский" itemValue="ru"/>
+                <f:selectItem itemLabel="English" itemValue="en"/>
+            </p:selectOneMenu>
+        </h:form>
     </div>
 
     <div id="content">
