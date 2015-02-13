@@ -18,11 +18,17 @@
     <div id="header">
         <h3><h:outputText value="#{msg['default.welcome']}"/></h3>
         <h:form>
-            <p:selectOneMenu value="#{sessionState.language}" onchange="submit()"
-                             onchangeitemlistener="#{sessionState.changeLocale}">
-                <f:selectItem itemLabel="Русский" itemValue="ru"/>
-                <f:selectItem itemLabel="English" itemValue="en"/>
-            </p:selectOneMenu>
+            <p:selectOneListbox value="#{sessionState.language}" onchange="submit()"
+                                onchangeitemlistener="#{sessionState.changeLocale}" var="t" filter="true"
+                                filterMatchMode="contains">
+                <f:selectItems value="#{sessionState.langs}" var="l" itemValue="#{l}"/>
+                <p:column>
+                    <h:outputText styleClass="locale_#{t}"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{t}"/>
+                </p:column>
+            </p:selectOneListbox>
         </h:form>
     </div>
 

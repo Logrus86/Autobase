@@ -37,6 +37,22 @@ p {
     line-height: 1.5em;
 }
 
+.locale_ru {
+    background: url("#{request.contextPath}/resources/gfx/RU.png") no-repeat top left;
+    background-position: 0 0;
+    width: 30px;
+    height: 25px;
+    display: block;
+}
+
+.locale_en {
+    background: url("#{request.contextPath}/resources/gfx/EN.png") no-repeat top left;
+    background-position: 0 0;
+    width: 30px;
+    height: 25px;
+    display: block;
+}
+
 #sub {
     padding: 80px 200px 55px;
     margin: 0 0 30px;
