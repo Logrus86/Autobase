@@ -50,6 +50,13 @@ public class SessionState implements Serializable {
     }
 
     public Locale getLocale() {
+        if (locale == null) {
+            try {
+                locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+            } catch (NullPointerException e) {
+                logger.error("FacesContext is null. It's ok when we are using jsp :)");
+            }
+        }
         return locale;
     }
 
@@ -58,7 +65,7 @@ public class SessionState implements Serializable {
     }
 
     public String getLanguage() {
-        return locale.getLanguage();
+        return getLocale().getLanguage();
     }
 
     public void setLanguage(String lang) {
