@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:b="http://bootsfaces.net/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
                 template="/WEB-INF/templates/default.xhtml">
     <ui:define name="user_panel">
-        <div class="btn-group" id="logins">
-            <h:form>
-                <input type="text" name="username" placeholder="#{msg['default.username']}" required="true"/>
-                <input type="password" name="password" placeholder="#{msg['default.password']}" required="true"/>
-                <button class="btn btn-default" type="submit">#{msg['default.dologin']}</button>
-                <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modalRegForm">
-                    #{msg['default.doregister']}</button>
-            </h:form>
-        </div>
+        <h:panelGrid columns="4" id="logins">
+            <b:inputText placeholder="#{msg['default.username']}" required="true"/>
+            <b:inputSecret placeholder="#{msg['default.password']}" required="true">
+                <f:facet name="append">
+                    <b:button value="#{msg['default.dologin']}"/>
+                    <b:button value="#{msg['default.doregister']}" look="primary" data-toggle="modal"
+                              data-target="#modalRegForm"/>
+                </f:facet>
+            </b:inputSecret>
+        </h:panelGrid>
     </ui:define>
     <ui:define name="content">
         <h1>JSF 2.0 testing</h1>
