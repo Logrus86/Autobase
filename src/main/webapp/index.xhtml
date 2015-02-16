@@ -1,8 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
                 template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="user_panel">
+        <div class="btn-group" id="logins">
+            <h:form>
+                <input type="text" name="username" placeholder="#{msg['default.username']}" required="true"/>
+                <input type="password" name="password" placeholder="#{msg['default.password']}" required="true"/>
+                <button class="btn btn-default" type="submit">#{msg['default.dologin']}</button>
+                <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modalRegForm">
+                    #{msg['default.doregister']}</button>
+            </h:form>
+        </div>
+    </ui:define>
     <ui:define name="content">
         <h1>JSF 2.0 testing</h1>
+
+        <h1>testing</h1>
+
+        <h1>ing</h1>
+
+        <h1>g</h1>
     </ui:define>
 </ui:composition>
