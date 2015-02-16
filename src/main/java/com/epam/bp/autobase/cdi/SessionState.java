@@ -54,7 +54,7 @@ public class SessionState implements Serializable {
             try {
                 locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
             } catch (NullPointerException e) {
-                logger.error("FacesContext is null. It's ok when we are using jsp :)");
+                logger.info("FacesContext is null. It's ok when we are using jsp :)");
             }
         }
         return locale;
@@ -77,7 +77,7 @@ public class SessionState implements Serializable {
         try {
             FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
         } catch (NullPointerException e) {
-            logger.error("FacesContext is null. It's ok when we are using jsp :)");
+            logger.info("FacesContext is null. It's ok when we are using jsp :)");
         }
         logger.info("Locale was changed to: " + lang_code);
         //fires entities which list depends of locale:
