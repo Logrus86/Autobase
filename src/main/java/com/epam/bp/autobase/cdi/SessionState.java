@@ -28,11 +28,6 @@ public class SessionState implements Serializable {
     Logger logger;
     private static Map<String, String> langs;
 
-    static {
-        langs = new LinkedHashMap<>();
-        langs.put("English", "en");
-        langs.put("Русский", "ru");
-    }
     public User getSessionUser() {
         return sessionUser;
     }
@@ -42,6 +37,11 @@ public class SessionState implements Serializable {
     }
 
     public Map<String, String> getLangs() {
+        if (langs == null) {
+            langs = new LinkedHashMap<>();
+            langs.put("English", "en");
+            langs.put("Русский", "ru");
+        }
         return langs;
     }
 
