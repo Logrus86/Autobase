@@ -119,9 +119,9 @@
             <version>3.2.0</version>
         </dependency>
         <dependency>
-            <groupId>org.primefaces</groupId>
-            <artifactId>primefaces</artifactId>
-            <version>5.1</version>
+            <groupId>net.bootsfaces</groupId>
+            <artifactId>bootsfaces</artifactId>
+            <version>0.6.0</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
