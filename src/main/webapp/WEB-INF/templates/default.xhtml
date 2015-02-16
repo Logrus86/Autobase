@@ -4,7 +4,6 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
         >
 <h:head>
     <title>autobase.com</title>
@@ -16,22 +15,37 @@
 </h:head>
 <h:body>
     <div id="header">
-        <h3><h:outputText value="#{msg['default.welcome']}"/></h3>
-        <h:form>
-            <p:selectOneListbox value="#{sessionState.language}" onchange="submit()"
-                                onchangeitemlistener="#{sessionState.changeLocale}" var="t" filter="true"
-                                filterMatchMode="contains">
-                <f:selectItems value="#{sessionState.langs}" var="l" itemValue="#{l}"/>
-                <p:column>
-                    <h:outputText styleClass="locale_#{t}"/>
-                </p:column>
-                <p:column>
-                    <h:outputText value="#{t}"/>
-                </p:column>
-            </p:selectOneListbox>
+        <h:form id="locale_changer">
+            <h:selectOneMenu value="#{sessionState.language}" onchange="submit()" effect="fade"
+                             onchangeitemlistener="#{sessionState.changeLocale}" var="t">
+                <f:selectItems value="#{sessionState.langs}" var="l"/>
+            </h:selectOneMenu>
         </h:form>
-    </div>
 
+        <div id="logo_header">
+            <div class="container">
+                <a id="main_logo1" title="#{msg['default.ordering']}"
+                   href="#{request.contextPath}/"><img alt="logo" src="#{request.contextPath}/resources/gfx/logo.jpg"/>
+                </a>
+                <ui:insert name="user_panel">
+                    [User panel will be inserted here]
+                </ui:insert>
+            </div>
+            <div class="msg-error">${errormsg}</div>
+        </div>
+        <div id="sub" class="lifestyle_img">
+            <div class="content">
+                <p id="count">#{msg['default.vhcount']}</p>
+
+                <div id="title">
+                    <h1 style="font-size: 45px;">#{msg['default.bestprices']}</h1>
+                </div>
+                <div id="sub-title">
+                    <p id="h1sub" style="font-size: 16px;">#{msg['default.service-desc']}</p>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="content">
         <ui:insert name="content">
             [Template content will be inserted here]
