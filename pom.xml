@@ -93,11 +93,6 @@
             <version>4.3.8.Final</version>
         </dependency>
         <dependency>
-            <groupId>org.jboss.spec.javax.faces</groupId>
-            <artifactId>jboss-jsf-api_2.2_spec</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.jboss.spec.javax.servlet</groupId>
             <artifactId>jboss-servlet-api_3.1_spec</artifactId>
             <scope>provided</scope>
@@ -119,9 +114,9 @@
             <version>3.2.0</version>
         </dependency>
         <dependency>
-            <groupId>net.bootsfaces</groupId>
-            <artifactId>bootsfaces</artifactId>
-            <version>0.6.0</version>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+            <version>2.7.0</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -153,6 +148,36 @@
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>${version.wildfly.maven.plugin}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <version>2.7.0</version>
+                <configuration>
+                    <inplace>true</inplace>
+                    <logLevel>INFO</logLevel>
+                    <extraJvmArgs>-Xmx512m</extraJvmArgs>
+                    <!-- Configure GWT's development mode (formerly known as hosted
+                      mode) to not start the default server (embedded jetty), but to download the
+                      HTML host page from the configured runTarget. -->
+                    <noServer>true</noServer>
+                    <runTarget>http://localhost:8080/autobase/gwt.html</runTarget>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>gwt-compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>gwt-clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

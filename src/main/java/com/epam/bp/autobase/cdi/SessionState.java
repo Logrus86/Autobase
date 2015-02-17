@@ -7,8 +7,6 @@ import org.jboss.logging.Logger;
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -20,13 +18,13 @@ import java.util.Map;
 @Stateful
 @SessionScoped
 public class SessionState implements Serializable {
+    private static Map<String, String> langs;
     @Inject
     Event<Color> event;
-    private User sessionUser;
-    private Locale locale;
     @Inject
     Logger logger;
-    private static Map<String, String> langs;
+    private User sessionUser;
+    private Locale locale;
 
     public User getSessionUser() {
         return sessionUser;
@@ -50,13 +48,6 @@ public class SessionState implements Serializable {
     }
 
     public Locale getLocale() {
-        if (locale == null) {
-            try {
-                locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
-            } catch (NullPointerException e) {
-                logger.info("FacesContext is null. It's ok when we are using jsp :)");
-            }
-        }
         return locale;
     }
 
@@ -74,18 +65,8 @@ public class SessionState implements Serializable {
 
     public void changeLocale(String lang_code) {
         this.locale = new Locale(lang_code);
-        try {
-            FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
-        } catch (NullPointerException e) {
-            logger.info("FacesContext is null. It's ok when we are using jsp :)");
-        }
         logger.info("Locale was changed to: " + lang_code);
         //fires entities which list depends of locale:
         event.fire(new Color());
-    }
-
-    //value change event listener
-    public void localeChanged(ValueChangeEvent e) {
-        changeLocale(e.getNewValue().toString());
     }
 }
