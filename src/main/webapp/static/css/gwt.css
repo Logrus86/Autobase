@@ -7,3 +7,7 @@ h1 {
 body, td, a, div, .p {
     font-family: arial, sans-serif
 }
+
+input.gwt-TextBox {
+     margin-bottom: 0 !important;
+}
