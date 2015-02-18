@@ -200,4 +200,17 @@ public class User implements Identifiable<User> {
         ADMIN, CLIENT, DRIVER
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (!object.getClass().equals(User.class)) return false;
+        if (!firstname.equals(((User) object).getFirstname())) return false;
+        if (!lastname.equals(((User) object).getLastname())) return false;
+        if (!username.equals(((User) object).getUsername())) return false;
+        if (!password.equals(((User) object).getPassword())) return false;
+        if (!dob.equals(((User) object).getDob())) return false;
+        if (!email.equals(((User) object).getEmail())) return false;
+        if (!role.equals(((User) object).getRole())) return false;
+        if (!balance.equals(((User) object).getBalance())) return false;
+        return true;
+    }
 }
