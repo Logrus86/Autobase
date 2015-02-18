@@ -7,6 +7,6 @@ public class AutobaseGwtServiceImpl extends RemoteServiceServlet implements Auto
 
     @Override
     public String getMessage(String msg) {
-        return "Client said: " + msg;
+        return "Hello, " + msg + "!";
     }
 }
