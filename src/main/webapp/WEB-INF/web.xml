@@ -5,6 +5,15 @@
 		  http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
 
+    <servlet>
+        <servlet-name>com.AutobaseGwtApp.AutobaseGwtApp AutobaseGwtService</servlet-name>
+        <servlet-class>com.epam.bp.autobase.gwt.server.AutobaseGwtServiceImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>com.AutobaseGwtApp.AutobaseGwtApp AutobaseGwtService</servlet-name>
+        <url-pattern>/AutobaseGwtApp/AutobaseGwtService</url-pattern>
+    </servlet-mapping>
+
     <session-config>
         <session-timeout>60</session-timeout>
     </session-config>
