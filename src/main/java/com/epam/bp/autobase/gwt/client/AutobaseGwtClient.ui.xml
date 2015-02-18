@@ -1,0 +1,16 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+    <g:HTMLPanel ui:field="root">
+        <h1>GWT Hello</h1>
+        <form name="theForm" onsubmit="button.click(); return false;">
+            <fieldset>
+                <label id="name_label">Name</label>
+                <input name="name" ui:field="name" type="text" required="required" placeholder="Your Name"/>
+                <g:Button ui:field="button" text="Say Hello"/>
+                <g:Label ui:field="label"/>
+            </fieldset>
+        </form>
+    </g:HTMLPanel>
+
+</ui:UiBinder>
