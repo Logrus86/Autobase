@@ -7,6 +7,9 @@
 
 <fmt:setLocale value="${sessionState.locale}"/>
 <html>
+<head>
+    <title>Autobase project [JSP]</title>
+</head>
 <body>
 <div id="header">
     <script type='text/javascript' src='<c:url value="/webjars/jquery/1.11.1/jquery.js"/>'></script>

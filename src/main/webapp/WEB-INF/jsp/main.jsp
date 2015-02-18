@@ -8,7 +8,7 @@
 <fmt:bundle basename="i18n.text">
     <html>
     <head>
-        <title>autobase.com</title>
+        <title>Autobase project [JSP]</title>
     </head>
     <t:generic>
         <jsp:attribute name="header"/>
