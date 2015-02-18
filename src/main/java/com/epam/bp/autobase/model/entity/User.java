@@ -202,6 +202,7 @@ public class User implements Identifiable<User> {
 
     @Override
     public boolean equals(Object object) {
+        if (object == null) return false;
         if (!object.getClass().equals(User.class)) return false;
         if (!firstname.equals(((User) object).getFirstname())) return false;
         if (!lastname.equals(((User) object).getLastname())) return false;
