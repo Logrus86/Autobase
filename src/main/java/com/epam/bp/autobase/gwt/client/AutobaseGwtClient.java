@@ -1,14 +1,12 @@
 package com.epam.bp.autobase.gwt.client;
 
+import com.github.gwtbootstrap.client.ui.*;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 
 public class AutobaseGwtClient {
@@ -16,20 +14,26 @@ public class AutobaseGwtClient {
     @UiField
     Panel root;
     @UiField
-    InputElement name;
+    Label label_login_error;
     @UiField
-    Button button;
+    TextBox username;
     @UiField
-    Label label;
+    PasswordTextBox password;
+    @UiField
+    Button button_logout;
 
     public AutobaseGwtClient() {
         uiBinder.createAndBindUi(this);
-        button.getElement().setAttribute("name", "button");
     }
 
-    @UiHandler("button")
-    public void onButtonClick(ClickEvent e) {
-        AutobaseGwtService.App.getInstance().getMessage(name.getValue(), new MyAsyncCallback(label));
+    @UiHandler("form_login")
+    public void onFormLoginSubmit(Form.SubmitEvent e) {
+        AutobaseGwtService.App.getInstance().login(username.getValue(), password.getValue(), new MyAsyncCallback(label_login_error));
+    }
+
+    @UiHandler("button_logout")
+    public void onLogoutClick(ClickEvent e) {
+        AutobaseGwtService.App.getInstance().logout(new MyAsyncCallback(label_login_error));
     }
 
     public Panel getElement() {

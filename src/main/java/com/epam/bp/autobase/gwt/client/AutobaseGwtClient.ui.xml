@@ -1,16 +1,19 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:b="urn:import:com.github.gwtbootstrap.client.ui"
+        >
 
     <g:HTMLPanel ui:field="root">
-        <h1>GWT Hello</h1>
-        <form name="theForm" onsubmit="button.click(); return false;">
-            <fieldset>
-                <label id="name_label">Name</label>
-                <input name="name" ui:field="name" type="text" required="required" placeholder="Your Name"/>
-                <g:Button ui:field="button" text="Say Hello"/>
-                <g:Label ui:field="label"/>
-            </fieldset>
-        </form>
+        <b:Fieldset>
+            <b:Label ui:field="label_login_error"/>
+            <b:Form type="INLINE" ui:field="form_login">
+                <b:TextBox ui:field="username" placeholder="Username"/>
+                <b:PasswordTextBox ui:field="password" placeholder="Password"/>
+                <b:SubmitButton ui:field="button_login" text="Log-In"/>
+                <b:Button ui:field="button_register" text="Register" type="PRIMARY"/>
+                <b:Button ui:field="button_logout" text="Log-Out"/>
+            </b:Form>
+        </b:Fieldset>
     </g:HTMLPanel>
 
 </ui:UiBinder>
