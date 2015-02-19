@@ -13,6 +13,7 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import java.util.Comparator;
 import java.util.List;
 
 @ApplicationScoped
@@ -85,6 +86,8 @@ public class ListProducer {
     @RequestScoped
     public List<Color> getColors() {
         if (colors == null) retrieveAllColors();
+        if ("ru".equals(ss.getLocale().getLanguage())) colors.sort(Comparator.comparing(Color::getValue_ru));
+        else colors.sort(Comparator.comparing(Color::getValue_en));
         return colors;
     }
 
@@ -143,9 +146,7 @@ public class ListProducer {
 
     private void retrieveAllColors() {
         try {
-            if ("ru".equals(ss.getLocale().getLanguage()))
-                colors = colorDao.getAllSortedByRu();
-            else colors = colorDao.getAllSortedByEn();
+            colors = colorDao.getAll();
         } catch (DaoException e) {
             e.printStackTrace();
         }
