@@ -5,9 +5,17 @@ h1 {
 }
 
 body, td, a, div, .p {
-    font-family: arial, sans-serif
+    font-family: arial, sans-serif;
+}
+
+body {
+    padding-top: 0 !important;
 }
 
 input.gwt-TextBox {
      margin-bottom: 0 !important;
+}
+
+.loginControlLabel {
+    margin-right: 5px;
 }
