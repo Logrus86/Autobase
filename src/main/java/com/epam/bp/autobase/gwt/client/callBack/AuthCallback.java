@@ -1,42 +1,45 @@
 package com.epam.bp.autobase.gwt.client.callBack;
 
 import com.github.gwtbootstrap.client.ui.ControlLabel;
+import com.github.gwtbootstrap.client.ui.Fieldset;
 import com.github.gwtbootstrap.client.ui.Label;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 
 public class AuthCallback implements AsyncCallback<String> {
-    Label labelLogin;
+    Label label_result;
     ControlLabel label_welcome;
-    Widget[] visibleAfterLoginWidgets;
-    Widget[] invisibleAfterLoginWidgets;
+    Fieldset fieldSetVisibleAfterLogin;
+    Fieldset fieldSetInvisibleAfterLogin;
     String username;
 
-    public AuthCallback(Label labelLogin, ControlLabel label_welcome, Widget[] visibleAfterLoginWidgets, Widget[] invisibleAfterLoginWidgets) {
-        this.labelLogin = labelLogin;
-        this.label_welcome = label_welcome;
-        this.visibleAfterLoginWidgets = visibleAfterLoginWidgets;
-        this.invisibleAfterLoginWidgets = invisibleAfterLoginWidgets;
+    public AuthCallback(Label label_result, Fieldset fieldSetVisibleAfterLogin, Fieldset fieldSetInvisibleAfterLogin) {
+        this.label_result = label_result;
+        this.fieldSetVisibleAfterLogin = fieldSetVisibleAfterLogin;
+        this.fieldSetInvisibleAfterLogin = fieldSetInvisibleAfterLogin;
+        for (Widget widget : fieldSetVisibleAfterLogin) {
+            if (widget.getTitle().equals("label_welcome")) this.label_welcome = (ControlLabel) widget;
+        }
     }
 
     public void onSuccess(String result) {
-        labelLogin.setText(result);
+        label_result.setText(result);
         username = result.substring(result.indexOf("'") + 1, result.lastIndexOf("'"));
         toggleWidgets();
     }
 
     public void onFailure(Throwable throwable) {
-        labelLogin.setText("Failed to receive answer from server!");
+        label_result.setText("Failed to receive answer from server!");
     }
 
     private void toggleWidgets() {
-        if ((labelLogin != null) && (labelLogin.getText().contains("logged-in"))) {
+        if ((label_result != null) && (label_result.getText().contains("logged-in"))) {
             label_welcome.getElement().setInnerHTML("Welcome, " + username + "!");
-            for (Widget widget : visibleAfterLoginWidgets) widget.setVisible(true);
-            for (Widget widget : invisibleAfterLoginWidgets) widget.setVisible(false);
+            for (Widget widget : fieldSetVisibleAfterLogin) widget.setVisible(true);
+            for (Widget widget : fieldSetInvisibleAfterLogin) widget.setVisible(false);
         } else {
-            for (Widget widget : visibleAfterLoginWidgets) widget.setVisible(false);
-            for (Widget widget : invisibleAfterLoginWidgets) widget.setVisible(true);
+            for (Widget widget : fieldSetVisibleAfterLogin) widget.setVisible(false);
+            for (Widget widget : fieldSetInvisibleAfterLogin) widget.setVisible(true);
         }
     }
 }

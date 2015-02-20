@@ -13,7 +13,7 @@
                 <b:Button ui:field="button_register" type="PRIMARY" text="Register"/>
             </b:Fieldset>
             <b:Fieldset ui:field="fieldSetVisibleAfterLogin">
-                <b:ControlLabel visible="false" ui:field="label_welcome"/>
+                <b:ControlLabel visible="false" ui:field="label_welcome" title="label_welcome"/>
                 <b:Button icon="USER" iconPosition="RIGHT" type="INFO" ui:field="button_cabinet" visible="false"
                           text="Cabinet"/>
                 <b:Button name="logout" ui:field="button_logout" visible="false" text="Log-Out"/>
