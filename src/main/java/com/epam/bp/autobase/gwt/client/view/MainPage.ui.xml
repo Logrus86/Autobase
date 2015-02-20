@@ -4,14 +4,14 @@
         >
 
     <g:HTMLPanel ui:field="root">
-        <b:Fieldset>
-            <b:Label ui:field="label_login_error"/>
+        <b:Fieldset ui:field="fieldSet">
+            <b:Label ui:field="labelLogin"/>
             <b:Form type="INLINE" ui:field="form_login">
-                <b:TextBox ui:field="username" placeholder="Username"/>
-                <b:PasswordTextBox ui:field="password" placeholder="Password"/>
+                <b:TextBox ui:field="textBox_username" placeholder="Username"/>
+                <b:PasswordTextBox ui:field="textBox_password" placeholder="Password"/>
                 <b:SubmitButton ui:field="button_login" text="Log-In"/>
                 <b:Button ui:field="button_register" text="Register" type="PRIMARY"/>
-                <b:Button ui:field="button_logout" text="Log-Out"/>
+                <b:Button name="logout" ui:field="button_logout" text="Log-Out" visible="false"/>
             </b:Form>
         </b:Fieldset>
     </g:HTMLPanel>

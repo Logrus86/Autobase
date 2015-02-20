@@ -1,7 +1,7 @@
 package com.epam.bp.autobase.gwt.server;
 
 import com.epam.bp.autobase.cdi.SessionState;
-import com.epam.bp.autobase.gwt.client.AutobaseGwtService;
+import com.epam.bp.autobase.gwt.client.GenericRpcService;
 import com.epam.bp.autobase.model.dto.UserDto;
 import com.epam.bp.autobase.model.entity.User;
 import com.epam.bp.autobase.service.ServiceException;
@@ -11,7 +11,7 @@ import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
 
-public class AutobaseGwtServiceImpl extends RemoteServiceServlet implements AutobaseGwtService {
+public class AuthService extends RemoteServiceServlet implements GenericRpcService {
     @Inject
     SessionState ss;
     @Inject
@@ -38,9 +38,9 @@ public class AutobaseGwtServiceImpl extends RemoteServiceServlet implements Auto
         }
         if (user != null) {
             if (user.equals(ss.getSessionUser()))
-                result = "User '" + user.getUsername() + "' with role: " + user.getRole() + " has logged in already.";
+                result = "User '" + user.getUsername() + "' with role: " + user.getRole() + " has logged-in already.";
             else
-                result = "User '" + user.getUsername() + "' with password '" + userDto.getPassword() + "' has logged in with role: " + user.getRole();
+                result = "User '" + user.getUsername() + "' with password '" + userDto.getPassword() + "' has logged-in with role: " + user.getRole();
         } else
             result = "User '" + userDto.getUsername() + "' with password '" + userDto.getPassword() + "' wasn't found.";
         ss.setSessionUser(user);
@@ -52,10 +52,10 @@ public class AutobaseGwtServiceImpl extends RemoteServiceServlet implements Auto
     public String logout() {
         String result;
         User user = ss.getSessionUser();
+        this.getThreadLocalRequest().getSession().invalidate();
         if ((user != null) && (user.getUsername() != null))
             result = "User '" + user.getUsername() + "' have logged-out";
         else result = "No user was logged in.";
-        ss.setSessionUser(null);
         logger.info(result);
         return result;
     }

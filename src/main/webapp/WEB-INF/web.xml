@@ -7,7 +7,7 @@
 
     <servlet>
         <servlet-name>com.AutobaseGwtApp.AutobaseGwtApp AutobaseGwtService</servlet-name>
-        <servlet-class>com.epam.bp.autobase.gwt.server.AutobaseGwtServiceImpl</servlet-class>
+        <servlet-class>com.epam.bp.autobase.gwt.server.AuthService</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>com.AutobaseGwtApp.AutobaseGwtApp AutobaseGwtService</servlet-name>

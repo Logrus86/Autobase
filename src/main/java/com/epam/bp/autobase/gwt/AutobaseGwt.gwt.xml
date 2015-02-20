@@ -7,9 +7,9 @@
     <inherits name="com.github.gwtbootstrap.Bootstrap"/>
 
     <!-- Specify the app entry point class.                   -->
-    <entry-point class='com.epam.bp.autobase.gwt.client.AutobaseGwtApp'/>
+    <entry-point class='com.epam.bp.autobase.gwt.client.AutobaseApp'/>
 
     <!-- Specify the app servlets.                   -->
-    <servlet path='/AutobaseGwtService' class='com.epam.bp.autobase.gwt.server.AutobaseGwtServiceImpl'/>
+    <servlet path='/AutobaseGwtService' class='com.epam.bp.autobase.gwt.server.AuthService'/>
 
 </module>
