@@ -11,6 +11,7 @@
                 <b:PasswordTextBox ui:field="textBox_password" placeholder="Password"/>
                 <b:SubmitButton ui:field="button_login" text="Log-In"/>
                 <b:Button ui:field="button_register" text="Register" type="PRIMARY"/>
+                <b:ControlLabel ui:field="labelWelcome" visible="false"/>
                 <b:Button name="logout" ui:field="button_logout" text="Log-Out" visible="false"/>
             </b:Form>
         </b:Fieldset>

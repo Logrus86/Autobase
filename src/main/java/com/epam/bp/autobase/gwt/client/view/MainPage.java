@@ -24,9 +24,11 @@ public class MainPage {
     @UiField
     SubmitButton button_login;
     @UiField
-    Button button_logout;
-    @UiField
     Button button_register;
+    @UiField
+    ControlLabel labelWelcome;
+    @UiField
+    Button button_logout;
 
     public MainPage() {
         uiBinder.createAndBindUi(this);
@@ -38,12 +40,12 @@ public class MainPage {
 
     @UiHandler("form_login")
     public void onFormLoginSubmit(Form.SubmitEvent e) {
-        GenericRpcService.App.getInstance().login(textBox_username.getValue(), textBox_password.getValue(), new AuthCallback(labelLogin, button_logout, textBox_username, textBox_password, button_login, button_register));
+        GenericRpcService.App.getInstance().login(textBox_username.getValue(), textBox_password.getValue(), new AuthCallback(labelLogin, labelWelcome, button_logout, textBox_username, textBox_password, button_login, button_register));
     }
 
     @UiHandler("button_logout")
     public void onLogoutClick(ClickEvent e) {
-        GenericRpcService.App.getInstance().logout(new AuthCallback(labelLogin, button_logout, textBox_username, textBox_password, button_login, button_register));
+        GenericRpcService.App.getInstance().logout(new AuthCallback(labelLogin, labelWelcome, button_logout, textBox_username, textBox_password, button_login, button_register));
     }
 
     interface MyUiBinder extends UiBinder<Panel, MainPage> {
