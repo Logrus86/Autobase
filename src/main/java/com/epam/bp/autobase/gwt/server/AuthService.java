@@ -40,7 +40,7 @@ public class AuthService extends RemoteServiceServlet implements GenericRpcServi
             if (user.equals(ss.getSessionUser()))
                 result = "User '" + user.getUsername() + "' with role: " + user.getRole() + " has logged-in already.";
             else
-                result = "User '" + user.getUsername() + "' with password '" + userDto.getPassword() + "' has logged-in with role: " + user.getRole();
+                result = "User '" + user.getUsername() + "' has logged-in with role: " + user.getRole();
         } else
             result = "User '" + userDto.getUsername() + "' with password '" + userDto.getPassword() + "' wasn't found.";
         ss.setSessionUser(user);
