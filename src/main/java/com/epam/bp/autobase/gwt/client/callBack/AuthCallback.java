@@ -1,6 +1,5 @@
 package com.epam.bp.autobase.gwt.client.callBack;
 
-import com.github.gwtbootstrap.client.ui.Button;
 import com.github.gwtbootstrap.client.ui.ControlLabel;
 import com.github.gwtbootstrap.client.ui.Label;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -8,16 +7,16 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class AuthCallback implements AsyncCallback<String> {
     Label labelLogin;
-    ControlLabel labelWelcome;
-    Button buttonLogout;
-    Widget[] widgets;
+    ControlLabel label_welcome;
+    Widget[] visibleAfterLoginWidgets;
+    Widget[] invisibleAfterLoginWidgets;
     String username;
 
-    public AuthCallback(Label labelForResultString, ControlLabel labelWelcome, Button buttonLogout, Widget... widgetsToToggleVisibleTogether) {
-        this.widgets = widgetsToToggleVisibleTogether;
-        this.labelLogin = labelForResultString;
-        this.labelWelcome = labelWelcome;
-        this.buttonLogout = buttonLogout;
+    public AuthCallback(Label labelLogin, ControlLabel label_welcome, Widget[] visibleAfterLoginWidgets, Widget[] invisibleAfterLoginWidgets) {
+        this.labelLogin = labelLogin;
+        this.label_welcome = label_welcome;
+        this.visibleAfterLoginWidgets = visibleAfterLoginWidgets;
+        this.invisibleAfterLoginWidgets = invisibleAfterLoginWidgets;
     }
 
     public void onSuccess(String result) {
@@ -32,14 +31,12 @@ public class AuthCallback implements AsyncCallback<String> {
 
     private void toggleWidgets() {
         if ((labelLogin != null) && (labelLogin.getText().contains("logged-in"))) {
-            buttonLogout.setVisible(true);
-            labelWelcome.setVisible(true);
-            labelWelcome.getElement().setInnerHTML("Welcome, " + username + "!");
-            for (Widget widget : widgets) widget.setVisible(false);
+            label_welcome.getElement().setInnerHTML("Welcome, " + username + "!");
+            for (Widget widget : visibleAfterLoginWidgets) widget.setVisible(true);
+            for (Widget widget : invisibleAfterLoginWidgets) widget.setVisible(false);
         } else {
-            buttonLogout.setVisible(false);
-            labelWelcome.setVisible(false);
-            for (Widget widget : widgets) widget.setVisible(true);
+            for (Widget widget : visibleAfterLoginWidgets) widget.setVisible(false);
+            for (Widget widget : invisibleAfterLoginWidgets) widget.setVisible(true);
         }
     }
 }

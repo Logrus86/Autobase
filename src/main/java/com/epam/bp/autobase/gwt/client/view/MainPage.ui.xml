@@ -4,17 +4,21 @@
         >
 
     <g:HTMLPanel ui:field="root">
-        <b:Fieldset ui:field="fieldSet">
-            <b:Label ui:field="labelLogin"/>
-            <b:Form type="INLINE" ui:field="form_login">
+        <b:Label ui:field="label_loginResult"/>
+        <b:Form type="INLINE" ui:field="form_login">
+            <b:Fieldset ui:field="fieldSetInvisibleAfterLogin">
                 <b:TextBox ui:field="textBox_username" placeholder="Username"/>
                 <b:PasswordTextBox ui:field="textBox_password" placeholder="Password"/>
                 <b:SubmitButton ui:field="button_login" text="Log-In"/>
-                <b:Button ui:field="button_register" text="Register" type="PRIMARY"/>
-                <b:ControlLabel ui:field="labelWelcome" visible="false"/>
-                <b:Button name="logout" ui:field="button_logout" text="Log-Out" visible="false"/>
-            </b:Form>
-        </b:Fieldset>
+                <b:Button ui:field="button_register" type="PRIMARY" text="Register"/>
+            </b:Fieldset>
+            <b:Fieldset ui:field="fieldSetVisibleAfterLogin">
+                <b:ControlLabel visible="false" ui:field="label_welcome"/>
+                <b:Button icon="USER" iconPosition="RIGHT" type="INFO" ui:field="button_cabinet" visible="false"
+                          text="Cabinet"/>
+                <b:Button name="logout" ui:field="button_logout" visible="false" text="Log-Out"/>
+            </b:Fieldset>
+        </b:Form>
     </g:HTMLPanel>
 
 </ui:UiBinder>
