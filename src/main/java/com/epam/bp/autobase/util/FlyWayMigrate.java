@@ -26,9 +26,7 @@ public class FlyWayMigrate {
     @PostConstruct
     public void onStartup() {
 
-        if (dataSource == null) {
-            log.info("No datasource found to execute the db migrations!");
-        } else {
+        try {
             Flyway flyway = new Flyway();
             flyway.setInitOnMigrate(true);
             flyway.setDataSource(dataSource);
@@ -36,11 +34,9 @@ public class FlyWayMigrate {
                 log.info("Flyway migrate task: " + i.getVersion() + " : "
                         + i.getDescription() + " from file: " + i.getScript());
             }
-            try {
-                flyway.migrate();
-            } catch (Exception e) {
-                log.error(e.getMessage());
-            }
+            flyway.migrate();
+        } catch (Exception e) {
+            log.info("Cannot connect to the database to execute the migrations. " + e.getMessage());
         }
     }
 
