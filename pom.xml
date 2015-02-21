@@ -124,6 +124,11 @@
             <version>2.7.0</version>
         </dependency>
         <dependency>
+            <groupId>com.googlecode.flyway</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
@@ -162,9 +167,8 @@
                     <inplace>true</inplace>
                     <logLevel>INFO</logLevel>
                     <extraJvmArgs>-Xmx512m</extraJvmArgs>
-                    <!-- Configure GWT's development mode (formerly known as hosted
-                      mode) to not start the default server (embedded jetty), but to download the
-                      HTML host page from the configured runTarget. -->
+                    <!-- Configure GWT's development (hosted) mode to not start the default server (embedded jetty),
+                    but to download the HTML host page from the configured runTarget. -->
                     <noServer>true</noServer>
                     <runTarget>http://localhost:8080/autobase/index_gwt.html</runTarget>
                 </configuration>
