@@ -4,6 +4,7 @@ import com.epam.bp.autobase.cdi.SessionState;
 import com.epam.bp.autobase.dao.*;
 import com.epam.bp.autobase.dao.hibernate.Hibernate;
 import com.epam.bp.autobase.model.entity.*;
+import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
@@ -13,6 +14,7 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -22,6 +24,8 @@ public class ListProducer {
     SessionState ss;
     @Inject
     private EntityManager em;
+    @Inject
+    Logger log;
     @Inject
     @Hibernate
     private UserDao userDao;
@@ -78,7 +82,7 @@ public class ListProducer {
     @RequestScoped
     public List<User> getUserList() throws DaoException {
         if (userList == null) retrieveAllUsers();
-        return userList;
+        return userList == null ? new ArrayList<>() : userList;
     }
 
     @Produces
@@ -86,9 +90,11 @@ public class ListProducer {
     @RequestScoped
     public List<Color> getColors() {
         if (colors == null) retrieveAllColors();
-        if ("ru".equals(ss.getLocale().getLanguage())) colors.sort(Comparator.comparing(Color::getValue_ru));
-        else colors.sort(Comparator.comparing(Color::getValue_en));
-        return colors;
+        if (colors != null) {
+            if ("ru".equals(ss.getLocale().getLanguage())) colors.sort(Comparator.comparing(Color::getValue_ru));
+            else colors.sort(Comparator.comparing(Color::getValue_en));
+        }
+        return colors == null ? new ArrayList<>() : colors;
     }
 
     @Produces
@@ -96,7 +102,7 @@ public class ListProducer {
     @RequestScoped
     public List<Model> getModels() {
         if (models == null) retrieveAllModels();
-        return models;
+        return models == null ? new ArrayList<>() : models;
     }
 
     @Produces
@@ -104,7 +110,7 @@ public class ListProducer {
     @RequestScoped
     public List<Manufacturer> getManufacturers() {
         if (manufacturers == null) retrieveAllManufacturers();
-        return manufacturers;
+        return manufacturers == null ? new ArrayList<>() : manufacturers;
     }
 
     @Produces
@@ -112,35 +118,35 @@ public class ListProducer {
     @RequestScoped
     public List<Order> getOrderList() {
         if (orderList == null) retrieveAllOrders();
-        return orderList;
+        return orderList == null ? new ArrayList<>() : orderList;
     }
 
     @Produces
     @Named
     public List<Bus> getBusList() {
         if (busList == null) retrieveAllBuses();
-        return busList;
+        return busList == null ? new ArrayList<>() : busList;
     }
 
     @Produces
     @Named
     public List<Car> getCarList() {
         if (carList == null) retrieveAllCars();
-        return carList;
+        return carList == null ? new ArrayList<>() : carList;
     }
 
     @Produces
     @Named
     public List<Truck> getTruckList() {
         if (truckList == null) retrieveAllTrucks();
-        return truckList;
+        return truckList == null ? new ArrayList<>() : truckList;
     }
 
     private void retrieveAllUsers() {
         try {
             userList = userDao.getAll();
         } catch (DaoException e) {
-            e.printStackTrace();
+            log.error("Cannot retrieve user list: " + e.getMessage());
         }
     }
 
@@ -148,7 +154,7 @@ public class ListProducer {
         try {
             colors = colorDao.getAll();
         } catch (DaoException e) {
-            e.printStackTrace();
+            log.error("Cannot retrieve color list: " + e.getMessage());
         }
     }
 
@@ -156,7 +162,7 @@ public class ListProducer {
         try {
             models = modelDao.getAll();
         } catch (DaoException e) {
-            e.printStackTrace();
+            log.error("Cannot retrieve model list: " + e.getMessage());
         }
     }
 
@@ -164,7 +170,7 @@ public class ListProducer {
         try {
             manufacturers = manufacturerDao.getAll();
         } catch (DaoException e) {
-            e.printStackTrace();
+            log.error("Cannot retrieve manufacturer list: " + e.getMessage());
         }
     }
 
@@ -172,7 +178,7 @@ public class ListProducer {
         try {
             orderList = orderDao.getAll();
         } catch (DaoException e) {
-            e.printStackTrace();
+            log.error("Cannot retrieve order list: " + e.getMessage());
         }
     }
 
@@ -180,7 +186,7 @@ public class ListProducer {
         try {
             busList = vehicleDao.getAllBuses();
         } catch (DaoException e) {
-            e.printStackTrace();
+            log.error("Cannot retrieve bus list: " + e.getMessage());
         }
     }
 
@@ -188,7 +194,7 @@ public class ListProducer {
         try {
             carList = vehicleDao.getAllCars();
         } catch (DaoException e) {
-            e.printStackTrace();
+            log.error("Cannot retrieve car list: " + e.getMessage());
         }
     }
 
@@ -196,7 +202,7 @@ public class ListProducer {
         try {
             truckList = vehicleDao.getAllTrucks();
         } catch (DaoException e) {
-            e.printStackTrace();
+            log.error("Cannot retrieve truck list: " + e.getMessage());
         }
     }
 
@@ -244,7 +250,7 @@ public class ListProducer {
             try {
                 ss.setSessionUser(userDao.getById(ss.getSessionUser().getId()));
             } catch (DaoException e) {
-                e.printStackTrace();
+                log.error("Cannot retrieve driver: " + e.getMessage());
             }
     }
 }
