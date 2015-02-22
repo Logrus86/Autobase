@@ -13,6 +13,7 @@ import javax.enterprise.event.Event;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
 import java.util.Locale;
+import java.util.UUID;
 
 @Model
 public class UserService extends AbstractService<User, UserDto, UserDao> {
@@ -37,6 +38,22 @@ public class UserService extends AbstractService<User, UserDto, UserDao> {
     @Override
     public UserDto getById(Integer id) throws ServiceException {
         return getById(id, dao);
+    }
+
+    public User getByUuid(UUID uuid) throws ServiceException {
+        try {
+            return dao.getByUuid(uuid);
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e.getCause());
+        }
+    }
+
+    public User getByUuid(String uuid) throws ServiceException {
+        try {
+            return dao.getByUuid(UUID.fromString(uuid));
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e.getCause());
+        }
     }
 
     @Override
@@ -101,7 +118,7 @@ public class UserService extends AbstractService<User, UserDto, UserDao> {
 
     public User findByCredentials(UserDto userDto) throws ServiceException {
         try {
-            return dao.findByCredentials(userDto.getUsername(), userDto.getPassword());
+            return dao.getByCredentials(userDto.getUsername(), userDto.getPassword());
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e.getCause());
         }
