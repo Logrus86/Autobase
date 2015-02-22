@@ -11,6 +11,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 
 @Hibernate
 @RequestScoped
@@ -74,9 +75,20 @@ public class HibernateUserDao extends AbstractHibernateDao<User> implements User
 
     @Override
     public User getByCredentials(String username, String password) throws DaoException {
-        TypedQuery<User> query = em.createNamedQuery("User.findByCredentials", User.class)
+        TypedQuery<User> query = em.createNamedQuery("User.getByCredentials", User.class)
                 .setParameter("username", username)
                 .setParameter("password", password);
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public User getByUuid(UUID uuid) throws DaoException {
+        TypedQuery<User> query = em.createNamedQuery("User.getByUuid", User.class)
+                .setParameter("uuid", String.valueOf(uuid));
         try {
             return query.getSingleResult();
         } catch (NoResultException e) {
