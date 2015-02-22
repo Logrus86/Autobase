@@ -2,9 +2,9 @@ INSERT INTO USER VALUES
   (0, 'user', '111', 'Vanya@gmail.com', 1, 'Иван', 'Петров', '1985-10-21', '750000', NULL),
   (1, 'admin', '111', 'Logr@gmail.com', 0, 'Павел', 'Бобылев', '1986-09-15', NULL, NULL),
   (2, 'driver', '111', 'Vlad@gmail.com', 2, 'Влад', 'Цай', '1987-08-08', NULL, NULL),
-  (3, 'driver1', '111', 'Vasiliy@gmail.com', 2, 'Василий', 'Кузякин', '1987-09-19', '0', NULL),
-  (4, 'driver2', '111', 'Evgeniy@gmail.com', 2, 'Евгений', 'Солошенко', '1987-03-10', '0', NULL),
-  (5, 'driver3', '111', 'Sergey@gmail.com', 2, 'Сергей', 'Бурым', '1988-12-06', '0', NULL);
+  (3, 'driver1', '111', 'Vasiliy@gmail.com', 2, 'Василий', 'Кузякин', '1987-09-19', NULL, NULL),
+  (4, 'driver2', '111', 'Evgeniy@gmail.com', 2, 'Евгений', 'Солошенко', '1987-03-10', NULL, NULL),
+  (5, 'driver3', '111', 'Sergey@gmail.com', 2, 'Сергей', 'Бурым', '1988-12-06', NULL, NULL);
 
 INSERT INTO COLOR VALUES
   (0, 'Black', 'Черный'),
