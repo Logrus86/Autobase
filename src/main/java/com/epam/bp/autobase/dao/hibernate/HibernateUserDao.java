@@ -88,7 +88,7 @@ public class HibernateUserDao extends AbstractHibernateDao<User> implements User
     @Override
     public User getByUuid(UUID uuid) throws DaoException {
         TypedQuery<User> query = em.createNamedQuery("User.getByUuid", User.class)
-                .setParameter("uuid", String.valueOf(uuid));
+                .setParameter("uuid", uuid);
         try {
             return query.getSingleResult();
         } catch (NoResultException e) {
