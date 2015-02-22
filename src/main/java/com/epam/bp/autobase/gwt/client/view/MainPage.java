@@ -1,7 +1,7 @@
 package com.epam.bp.autobase.gwt.client.view;
 
-import com.epam.bp.autobase.gwt.client.GenericRpcService;
-import com.epam.bp.autobase.gwt.client.callBack.AuthCallback;
+import com.epam.bp.autobase.gwt.client.rpc.AuthCallback;
+import com.epam.bp.autobase.gwt.client.rpc.GenericRpcService;
 import com.github.gwtbootstrap.client.ui.*;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
