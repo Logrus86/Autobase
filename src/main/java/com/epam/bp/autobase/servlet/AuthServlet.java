@@ -5,17 +5,20 @@ import com.epam.bp.autobase.model.dto.UserDto;
 import com.epam.bp.autobase.model.entity.User;
 import com.epam.bp.autobase.service.ServiceException;
 import com.epam.bp.autobase.service.UserService;
+import com.epam.bp.autobase.util.AutobaseCookies;
 import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 @WebServlet({
         "do/login", // log-in
@@ -43,20 +46,33 @@ public class AuthServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = ss.getSessionUser();
         RequestDispatcher rd;
+        //log-in check
         if ((req.getServletPath().equals("/do/quit")) & (user != null)) {
             //log-out
             logger.info("User '" + user.getUsername() + "' have logged-out");
-            ss.setSessionUser(null);
-            rd = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
-        } else {
-            //log-in check
-            if (user == null) {
-                logger.info("User isn't logged in, going to main page");
-                rd = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
-            } else {
-                rd = req.getRequestDispatcher("/WEB-INF/jsp/main" + user.getRole() + ".jsp");
-            }
+            Cookie uuidCookie = new Cookie(AutobaseCookies.NAME_UUID, "");
+            uuidCookie.setMaxAge(0);
+            resp.addCookie(uuidCookie);
+            req.getSession().invalidate();
+            user = null;
+        } else if (user == null) {
+            for (Cookie cookie : req.getCookies())
+                if (AutobaseCookies.NAME_UUID.equals(cookie.getName())) {
+                    try {
+                        user = us.getByUuid(cookie.getValue());
+                        logger.info("Logging-in user by UUID:" + cookie.getValue() + " from cookie");
+                        ss.setSessionUser(user);
+                    } catch (ServiceException e) {
+                        logger.error("Cannot retrieve user by UUID: " + cookie.getValue());
+                    }
+                } else if (user != null)
+                    if (AutobaseCookies.NAME_LANG.equals(cookie.getName())) ss.setLanguage(cookie.getValue());
         }
+        if (user == null) {
+            logger.info("User isn't logged in, going to main page");
+            rd = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
+        }
+        else rd = req.getRequestDispatcher("/WEB-INF/jsp/main" + user.getRole() + ".jsp");
         rd.forward(req, resp);
     }
 
@@ -76,7 +92,22 @@ public class AuthServlet extends HttpServlet {
         }
         if (user != null) {
             logger.info("User '" + userDto.getUsername() + "' with password '" + userDto.getPassword() + "' has logged in with role: " + user.getRole());
+            if (user.getUuid() == null) {
+                user.setUuid(UUID.randomUUID());
+                try {
+                    us.update(user);
+                } catch (ServiceException e) {
+                    logger.error(e.getMessage(), e.getCause());
+                }
+            }
             ss.setSessionUser(user);
+
+            Cookie uuidCookie = new Cookie(AutobaseCookies.NAME_UUID, String.valueOf(user.getUuid()));
+            uuidCookie.setMaxAge(AutobaseCookies.MAX_AGE_UUID);
+            resp.addCookie(uuidCookie);
+            for (Cookie cookie : req.getCookies())
+                if (AutobaseCookies.NAME_LANG.equals(cookie.getName())) ss.setLanguage(cookie.getValue());
+
             if (user.getRole().equals(User.Role.CLIENT) & (!req.getHeader(REFERRER).contains("/do/quit"))) {
                 resp.sendRedirect(req.getHeader(REFERRER));
             } else {
