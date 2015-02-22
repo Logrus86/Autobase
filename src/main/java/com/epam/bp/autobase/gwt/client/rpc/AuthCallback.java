@@ -1,4 +1,4 @@
-package com.epam.bp.autobase.gwt.client.callBack;
+package com.epam.bp.autobase.gwt.client.rpc;
 
 import com.github.gwtbootstrap.client.ui.ControlLabel;
 import com.github.gwtbootstrap.client.ui.Fieldset;

@@ -1,4 +1,4 @@
-package com.epam.bp.autobase.gwt.client;
+package com.epam.bp.autobase.gwt.client.rpc;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
