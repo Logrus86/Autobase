@@ -17,8 +17,9 @@ import java.util.UUID;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "User.findByCredentials", query = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password"),
+        @NamedQuery(name = "User.getByCredentials", query = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password"),
         @NamedQuery(name = "User.getAll", query = "SELECT u FROM User u ORDER BY u.role, u.username"),
+        @NamedQuery(name = "User.getByUuid", query = "SELECT u FROM User u WHERE u.uuid = :uuid")
 })
 public class User implements Identifiable<User> {
 
