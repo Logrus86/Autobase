@@ -45,6 +45,11 @@ public class UserService extends AbstractService<User, UserDto, UserDao> {
     }
 
     @Override
+    public void update(User entity) throws ServiceException {
+        update(entity, dao, event);
+    }
+
+    @Override
     public void delete(Integer id) throws ServiceException {
         try {
             User user = dao.getById(id);
@@ -73,7 +78,7 @@ public class UserService extends AbstractService<User, UserDto, UserDao> {
     }
 
     @Override
-    public String checkFieldsWhileCreate(User newEntity) throws ServiceException {
+    public String checkFieldsNotBusyWhileCreate(User newEntity) throws ServiceException {
         StringBuilder sb = new StringBuilder();
         Locale locale = ss.getLocale();
         sb.append(checkFieldNotBusy(USERNAME, newEntity.getUsername(), dao, locale));
@@ -83,14 +88,14 @@ public class UserService extends AbstractService<User, UserDto, UserDao> {
     }
 
     @Override
-    public String checkFieldsWhileUpdate(User oldEntity, UserDto dtoChangedEntity) throws ServiceException {
+    public String checkFieldsNotBusyWhileUpdate(User oldEntity, UserDto dtoWithChangedFields) throws ServiceException {
         StringBuilder sb = new StringBuilder();
         Locale locale = ss.getLocale();
-        if (!oldEntity.getUsername().equals(dtoChangedEntity.getUsername()))
-            sb.append(checkFieldNotBusy(USERNAME, dtoChangedEntity.getUsername(), dao, locale));
+        if (!oldEntity.getUsername().equals(dtoWithChangedFields.getUsername()))
+            sb.append(checkFieldNotBusy(USERNAME, dtoWithChangedFields.getUsername(), dao, locale));
         if (sb.length() != 0) sb.append("; ");
-        if (!oldEntity.getEmail().equals(dtoChangedEntity.getEmail()))
-            sb.append(checkFieldNotBusy(EMAIL, dtoChangedEntity.getEmail(), dao, locale));
+        if (!oldEntity.getEmail().equals(dtoWithChangedFields.getEmail()))
+            sb.append(checkFieldNotBusy(EMAIL, dtoWithChangedFields.getEmail(), dao, locale));
         return sb.toString();
     }
 

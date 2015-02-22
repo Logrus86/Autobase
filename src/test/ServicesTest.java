@@ -44,17 +44,17 @@ public class ServicesTest {
 
     @Test
     public void validateFineUser() {
-        assertEquals("", userService.validate0(fineUser, locale));
+        assertEquals("", userService.validateWithConstraints(fineUser, locale));
     }
 
     @Test
     public void validateUserOneMistake() {
-        assertEquals("Must consist of 1 uppercase and up to 19 lowercase letters: AAA", userService.validate0(userWithOneMistake, locale));
+        assertEquals("Must consist of 1 uppercase and up to 19 lowercase letters: AAA", userService.validateWithConstraints(userWithOneMistake, locale));
     }
 
     @Test
     public void validateUserTwoMistake() {
         assertEquals("Must consist of 1 uppercase and up to 19 lowercase letters: AAA; Must consist of 1 uppercase and up to 19 lowercase letters: BBB",
-                userService.validate0(userWithTwoMistake, locale));
+                userService.validateWithConstraints(userWithTwoMistake, locale));
     }
 }

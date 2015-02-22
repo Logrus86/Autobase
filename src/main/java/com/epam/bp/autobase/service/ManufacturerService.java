@@ -39,6 +39,11 @@ public class ManufacturerService extends AbstractService<Manufacturer, Manufactu
     }
 
     @Override
+    public void update(Manufacturer entity) throws ServiceException {
+        update(entity, dao, event);
+    }
+
+    @Override
     public void delete(Integer id) throws ServiceException {
         delete(id, dao, event);
     }
@@ -54,12 +59,12 @@ public class ManufacturerService extends AbstractService<Manufacturer, Manufactu
     }
 
     @Override
-    public String checkFieldsWhileCreate(Manufacturer newEntity) throws ServiceException {
+    public String checkFieldsNotBusyWhileCreate(Manufacturer newEntity) throws ServiceException {
         return checkFieldNotBusy(VALUE, newEntity.getValue(), dao, ss.getLocale());
     }
 
     @Override
-    public String checkFieldsWhileUpdate(Manufacturer oldEntity, ManufacturerDto dtoChangedEntity) throws ServiceException {
-        return !oldEntity.getValue().equals(dtoChangedEntity.getValue()) ? checkFieldNotBusy(VALUE, dtoChangedEntity.getValue(), dao, ss.getLocale()) : "";
+    public String checkFieldsNotBusyWhileUpdate(Manufacturer oldEntity, ManufacturerDto dtoWithChangedFields) throws ServiceException {
+        return !oldEntity.getValue().equals(dtoWithChangedFields.getValue()) ? checkFieldNotBusy(VALUE, dtoWithChangedFields.getValue(), dao, ss.getLocale()) : "";
     }
 }

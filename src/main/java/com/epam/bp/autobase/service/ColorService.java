@@ -40,6 +40,11 @@ public class ColorService extends AbstractService<Color, ColorDto, ColorDao> {
     }
 
     @Override
+    public void update(Color entity) throws ServiceException {
+        update(entity, dao, event);
+    }
+
+    @Override
     public void delete(Integer id) throws ServiceException {
         delete(id, dao, event);
     }
@@ -55,7 +60,7 @@ public class ColorService extends AbstractService<Color, ColorDto, ColorDao> {
     }
 
     @Override
-    public String checkFieldsWhileCreate(Color newEntity) throws ServiceException {
+    public String checkFieldsNotBusyWhileCreate(Color newEntity) throws ServiceException {
         StringBuilder sb = new StringBuilder();
         Locale locale = ss.getLocale();
         sb.append(checkFieldNotBusy(VALUE_EN, newEntity.getValue_en(), dao, locale));
@@ -65,14 +70,14 @@ public class ColorService extends AbstractService<Color, ColorDto, ColorDao> {
     }
 
     @Override
-    public String checkFieldsWhileUpdate(Color oldEntity, ColorDto dtoChangedEntity) throws ServiceException {
+    public String checkFieldsNotBusyWhileUpdate(Color oldEntity, ColorDto dtoWithChangedFields) throws ServiceException {
         StringBuilder sb = new StringBuilder();
         Locale locale = ss.getLocale();
-        if (!oldEntity.getValue_en().equals(dtoChangedEntity.getValue_en()))
-            sb.append(checkFieldNotBusy(VALUE_EN, dtoChangedEntity.getValue_en(), dao, locale));
+        if (!oldEntity.getValue_en().equals(dtoWithChangedFields.getValue_en()))
+            sb.append(checkFieldNotBusy(VALUE_EN, dtoWithChangedFields.getValue_en(), dao, locale));
         if (sb.length() != 0) sb.append("; ");
-        if (!oldEntity.getValue_ru().equals(dtoChangedEntity.getValue_ru()))
-            sb.append(checkFieldNotBusy(VALUE_RU, dtoChangedEntity.getValue_ru(), dao, locale));
+        if (!oldEntity.getValue_ru().equals(dtoWithChangedFields.getValue_ru()))
+            sb.append(checkFieldNotBusy(VALUE_RU, dtoWithChangedFields.getValue_ru(), dao, locale));
         return sb.toString();
     }
 }

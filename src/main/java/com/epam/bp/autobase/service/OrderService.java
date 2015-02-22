@@ -38,6 +38,11 @@ public class OrderService extends AbstractService<Order, OrderDto, OrderDao> {
     }
 
     @Override
+    public void update(Order entity) throws ServiceException {
+        update(entity, dao, event);
+    }
+
+    @Override
     public void delete(Integer id) throws ServiceException {
         delete(id, dao, event);
     }
@@ -53,12 +58,12 @@ public class OrderService extends AbstractService<Order, OrderDto, OrderDao> {
     }
 
     @Override
-    public String checkFieldsWhileCreate(Order newEntity) throws ServiceException {
+    public String checkFieldsNotBusyWhileCreate(Order newEntity) throws ServiceException {
         return "";
     }
 
     @Override
-    public String checkFieldsWhileUpdate(Order oldEntity, OrderDto dto) throws ServiceException {
+    public String checkFieldsNotBusyWhileUpdate(Order oldEntity, OrderDto dtoWithChangedFields) throws ServiceException {
         return "";
     }
 }

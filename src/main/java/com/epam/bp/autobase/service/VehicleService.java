@@ -40,6 +40,11 @@ public class VehicleService extends AbstractService<Vehicle, VehicleDto, Vehicle
     }
 
     @Override
+    public void update(Vehicle entity) throws ServiceException {
+        update(entity, dao, event);
+    }
+
+    @Override
     public void delete(Integer id) throws ServiceException {
         delete(id, dao, event);
     }
@@ -55,12 +60,12 @@ public class VehicleService extends AbstractService<Vehicle, VehicleDto, Vehicle
     }
 
     @Override
-    public String checkFieldsWhileCreate(Vehicle newEntity) throws ServiceException {
+    public String checkFieldsNotBusyWhileCreate(Vehicle newEntity) throws ServiceException {
         return "";
     }
 
     @Override
-    public String checkFieldsWhileUpdate(Vehicle oldEntity, VehicleDto dtoChangedEntity) throws ServiceException {
+    public String checkFieldsNotBusyWhileUpdate(Vehicle oldEntity, VehicleDto dtoWithChangedFields) throws ServiceException {
         return "";
     }
 }

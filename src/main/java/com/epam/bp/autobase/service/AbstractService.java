@@ -67,6 +67,8 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
 
     public abstract void update(T dto) throws ServiceException;
 
+    public abstract void update(I entity) throws ServiceException;
+
     protected void update(T dto, M dao, Event<I> event, Locale locale) throws ServiceException {
         try {
             I entity = dao.getById(dto.getId());
@@ -79,6 +81,15 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
             }
         } catch (Exception e) {
             throw new ServiceException(e.getMessage(), e.getCause());
+        }
+    }
+
+    protected void update(I entity, M dao, Event<I> event) throws ServiceException {
+        try {
+            dao.update(entity);
+            event.fire(entity);
+        } catch (Exception e) {
+            throw new ServiceException(entity.getClass().getSimpleName() + " isn't updated: "+e.getMessage());
         }
     }
 
@@ -116,7 +127,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
         return validatorFactory.getValidator();
     }
 
-    public String validate0(I identifiable, Locale locale) {
+    private String validateWithConstraints(I identifiable, Locale locale) {
         StringBuilder sb = new StringBuilder();
         Set<ConstraintViolation<I>> cvs = validator(locale).validate(identifiable);
         if (!cvs.isEmpty()) {
@@ -133,8 +144,8 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
     }
 
     public String validateWhileCreate(I newEntity, Locale locale) throws ServiceException {
-        String one = validate0(newEntity, locale);
-        String two = checkFieldsWhileCreate(newEntity);
+        String one = validateWithConstraints(newEntity, locale);
+        String two = checkFieldsNotBusyWhileCreate(newEntity);
         String result = (one == null ? "" : one) + (two == null ? "" : two);
         if (!"".equals(result)) {
             if (errorMap == null) errorMap = new HashMap<>();
@@ -144,7 +155,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
     }
 
     public String validateWhileUpdate(I oldEntity, T dto, Locale locale) throws ServiceException {
-        String result = validate0((I) dto.overwriteEntityFromDto(oldEntity), locale) + checkFieldsWhileUpdate(oldEntity, dto);
+        String result = validateWithConstraints((I) dto.overwriteEntityFromDto(oldEntity), locale) + checkFieldsNotBusyWhileUpdate(oldEntity, dto);
         if (!"".equals(result)) {
             if (errorMap == null) errorMap = new HashMap<>();
             errorMap.put(UPDATE_ERR, result);
@@ -167,8 +178,8 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
         return "";
     }
 
-    public abstract String checkFieldsWhileCreate(I newEntity) throws ServiceException;
+    public abstract String checkFieldsNotBusyWhileCreate(I newEntity) throws ServiceException;
 
-    public abstract String checkFieldsWhileUpdate(I oldEntity, T dto) throws ServiceException;
+    public abstract String checkFieldsNotBusyWhileUpdate(I oldEntity, T dtoWithChangedFields) throws ServiceException;
 
 }

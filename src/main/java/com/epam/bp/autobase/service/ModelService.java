@@ -38,6 +38,11 @@ public class ModelService extends AbstractService<Model, ModelDto, ModelDao> {
     }
 
     @Override
+    public void update(Model entity) throws ServiceException {
+        update(entity, dao, event);
+    }
+
+    @Override
     public void delete(Integer id) throws ServiceException {
         delete(id, dao, event);
     }
@@ -53,12 +58,12 @@ public class ModelService extends AbstractService<Model, ModelDto, ModelDao> {
     }
 
     @Override
-    public String checkFieldsWhileCreate(Model newEntity) throws ServiceException {
+    public String checkFieldsNotBusyWhileCreate(Model newEntity) throws ServiceException {
         return checkFieldNotBusy(VALUE, newEntity.getValue(), dao, ss.getLocale());
     }
 
     @Override
-    public String checkFieldsWhileUpdate(Model oldEntity, ModelDto dtoChangedEntity) throws ServiceException {
-        return !oldEntity.getValue().equals(dtoChangedEntity.getValue()) ? checkFieldNotBusy(VALUE, dtoChangedEntity.getValue(), dao, ss.getLocale()) : "";
+    public String checkFieldsNotBusyWhileUpdate(Model oldEntity, ModelDto dtoWithChangedFields) throws ServiceException {
+        return !oldEntity.getValue().equals(dtoWithChangedFields.getValue()) ? checkFieldNotBusy(VALUE, dtoWithChangedFields.getValue(), dao, ss.getLocale()) : "";
     }
 }
