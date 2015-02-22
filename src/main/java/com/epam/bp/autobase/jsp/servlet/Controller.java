@@ -1,4 +1,4 @@
-package com.epam.bp.autobase.servlet;
+package com.epam.bp.autobase.jsp.servlet;
 
 
 import org.jboss.logging.Logger;

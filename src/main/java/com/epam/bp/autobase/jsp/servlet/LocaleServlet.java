@@ -1,4 +1,4 @@
-package com.epam.bp.autobase.servlet;
+package com.epam.bp.autobase.jsp.servlet;
 
 import com.epam.bp.autobase.cdi.SessionState;
 import org.jboss.logging.Logger;
