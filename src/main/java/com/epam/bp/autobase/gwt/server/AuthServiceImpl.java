@@ -1,7 +1,7 @@
 package com.epam.bp.autobase.gwt.server;
 
 import com.epam.bp.autobase.cdi.SessionState;
-import com.epam.bp.autobase.gwt.client.rpc.RpcService;
+import com.epam.bp.autobase.gwt.client.rpc.AuthService;
 import com.epam.bp.autobase.model.dto.UserDto;
 import com.epam.bp.autobase.model.entity.User;
 import com.epam.bp.autobase.service.ServiceException;
@@ -12,7 +12,7 @@ import org.jboss.logging.Logger;
 import javax.inject.Inject;
 import java.util.UUID;
 
-public class RpcServiceImpl extends RemoteServiceServlet implements RpcService {
+public class AuthServiceImpl extends RemoteServiceServlet implements AuthService {
     @Inject
     SessionState ss;
     @Inject
@@ -42,7 +42,7 @@ public class RpcServiceImpl extends RemoteServiceServlet implements RpcService {
                 }
             }
             resultLog = "User '" + user.getUsername() + "' has logged-in with role: " + user.getRole();
-//            Cookies.setCookie(AutobaseCookies.NAME_UUID, String.valueOf(user.getUuid()));
+            //      Cookies.setCookie(AutobaseCookies.NAME_UUID, String.valueOf(user.getUuid()),AutobaseCookies.dateFromMaxAgeInteger(AutobaseCookies.MAX_AGE_UUID));
         } else
             resultLog = "User '" + userDto.getUsername() + "' with password '" + userDto.getPassword() + "' wasn't found.";
         ss.setSessionUser(user);
@@ -59,7 +59,7 @@ public class RpcServiceImpl extends RemoteServiceServlet implements RpcService {
         else resultLog = "No user was logged in.";
         this.getThreadLocalRequest().getSession().invalidate();
         ss.setSessionUser(null);
-        //     Cookies.removeCookie(AutobaseCookies.NAME_UUID);
+        //    Cookies.removeCookie(AutobaseCookies.NAME_UUID);
         logger.info(resultLog);
         return null;
     }

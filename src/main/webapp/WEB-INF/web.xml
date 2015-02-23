@@ -4,14 +4,13 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 		  http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
-
     <servlet>
-        <servlet-name>com.AutobaseGwtApp.AutobaseGwtApp AutobaseGwtService</servlet-name>
-        <servlet-class>com.epam.bp.autobase.gwt.server.RpcServiceImpl</servlet-class>
+        <servlet-name>com.epam.bp.autobase.gwt.AutobaseGwt AuthService</servlet-name>
+        <servlet-class>com.epam.bp.autobase.gwt.server.AuthServiceImpl</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>com.AutobaseGwtApp.AutobaseGwtApp AutobaseGwtService</servlet-name>
-        <url-pattern>/AutobaseGwtApp/AutobaseGwtService</url-pattern>
+        <servlet-name>com.epam.bp.autobase.gwt.AutobaseGwt AuthService</servlet-name>
+        <url-pattern>/AutobaseGwtApp/AuthService</url-pattern>
     </servlet-mapping>
 
     <session-config>

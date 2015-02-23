@@ -1,7 +1,7 @@
 package com.epam.bp.autobase.gwt.client.view;
 
 import com.epam.bp.autobase.gwt.client.rpc.AuthCallback;
-import com.epam.bp.autobase.gwt.client.rpc.RpcService;
+import com.epam.bp.autobase.gwt.client.rpc.AuthService;
 import com.github.gwtbootstrap.client.ui.*;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -50,12 +50,12 @@ public class MainPage {
 
     @UiHandler("form_login")
     public void onFormLoginSubmit(Form.SubmitEvent e) {
-        RpcService.App.getInstance().login(textBox_username.getValue(), textBox_password.getValue(), new AuthCallback(label_loginResult, fieldSetVisibleAfterLogin, fieldSetInvisibleAfterLogin));
+        AuthService.App.getInstance().login(textBox_username.getValue(), textBox_password.getValue(), new AuthCallback(label_loginResult, fieldSetVisibleAfterLogin, fieldSetInvisibleAfterLogin));
     }
 
     @UiHandler("button_logout")
     public void onLogoutClick(ClickEvent e) {
-        RpcService.App.getInstance().logout(new AuthCallback(null, fieldSetVisibleAfterLogin, fieldSetInvisibleAfterLogin));
+        AuthService.App.getInstance().logout(new AuthCallback(null, fieldSetVisibleAfterLogin, fieldSetInvisibleAfterLogin));
     }
 
     interface MyUiBinder extends UiBinder<Panel, MainPage> {

@@ -2,7 +2,7 @@ package com.epam.bp.autobase.gwt.client.rpc;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public interface RpcServiceAsync {
+public interface AuthServiceAsync {
 
     void login(String username, String password, AsyncCallback<String> async);
 

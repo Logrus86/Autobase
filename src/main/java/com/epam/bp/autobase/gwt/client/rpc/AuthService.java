@@ -4,8 +4,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-@RemoteServiceRelativePath("AutobaseGwtService")
-public interface RpcService extends RemoteService {
+@RemoteServiceRelativePath("AuthService")
+public interface AuthService extends RemoteService {
 
     String login(String username, String password);
 
@@ -14,9 +14,9 @@ public interface RpcService extends RemoteService {
     String loginCheck();
 
     public static class App {
-        private static RpcServiceAsync ourInstance = GWT.create(RpcService.class);
+        private static AuthServiceAsync ourInstance = GWT.create(AuthService.class);
 
-        public static synchronized RpcServiceAsync getInstance() {
+        public static synchronized AuthServiceAsync getInstance() {
             return ourInstance;
         }
     }

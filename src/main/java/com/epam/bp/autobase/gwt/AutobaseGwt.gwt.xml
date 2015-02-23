@@ -10,6 +10,6 @@
     <entry-point class='com.epam.bp.autobase.gwt.client.AutobaseApp'/>
 
     <!-- Specify the app servlets.                   -->
-    <servlet path='/AutobaseGwtService' class='com.epam.bp.autobase.gwt.server.RpcServiceImpl'/>
+    <servlet path='/AuthService' class='com.epam.bp.autobase.gwt.server.AuthServiceImpl'/>
 
 </module>
