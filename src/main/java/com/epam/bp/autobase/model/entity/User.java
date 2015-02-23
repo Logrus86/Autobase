@@ -144,6 +144,11 @@ public class User implements Identifiable<User> {
         return dob;
     }
 
+    public String getDobString() {
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_PATTERN);
+        return sdf.format(dob);
+    }
+
     public User setDob(String dob) {
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_PATTERN);
         try {
