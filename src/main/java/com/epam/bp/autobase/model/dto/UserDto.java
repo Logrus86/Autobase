@@ -5,9 +5,6 @@ import com.epam.bp.autobase.model.entity.User;
 import com.epam.bp.autobase.model.entity.Vehicle;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +12,7 @@ import java.util.stream.Collectors;
 public class UserDto extends AbstractDto<User, UserDto> {
     private String firstname;
     private String lastname;
-    private Date dob;
+    private String dob;
     private String username;
     private String password;
     private String password_repeat;
@@ -32,7 +29,7 @@ public class UserDto extends AbstractDto<User, UserDto> {
         super(entity);
         firstname = entity.getFirstname();
         lastname = entity.getLastname();
-        dob = entity.getDob();
+        dob = entity.getDobString();
         username = entity.getUsername();
         password = entity.getPassword();
         email = entity.getEmail();
@@ -74,22 +71,12 @@ public class UserDto extends AbstractDto<User, UserDto> {
         return this;
     }
 
-    public Date getDob() {
+    public String getDob() {
         return dob;
     }
 
-    public UserDto setDob(Date dob) {
-        this.dob = dob;
-        return this;
-    }
-
     public UserDto setDob(String dob) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            this.dob = sdf.parse(dob);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        this.dob = dob;
         return this;
     }
 
