@@ -127,7 +127,7 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
         return validatorFactory.getValidator();
     }
 
-    private String validateWithConstraints(I identifiable, Locale locale) {
+    public String validateWithConstraints(I identifiable, Locale locale) {
         StringBuilder sb = new StringBuilder();
         Set<ConstraintViolation<I>> cvs = validator(locale).validate(identifiable);
         if (!cvs.isEmpty()) {
