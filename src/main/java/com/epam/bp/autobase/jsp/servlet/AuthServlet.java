@@ -66,7 +66,7 @@ public class AuthServlet extends HttpServlet {
                         logger.error("Cannot retrieve user by UUID: " + cookie.getValue());
                     }
                 } else if (user != null)
-                    if (AutobaseCookies.NAME_LANG.equals(cookie.getName())) ss.setLanguage(cookie.getValue());
+                    if (AutobaseCookies.NAME_LANG.equals(cookie.getName())) ss.setLocale(cookie.getValue());
         }
         if (user == null) {
             logger.info("User isn't logged in, going to main page");
@@ -106,7 +106,7 @@ public class AuthServlet extends HttpServlet {
             uuidCookie.setMaxAge(AutobaseCookies.MAX_AGE_UUID);
             resp.addCookie(uuidCookie);
             for (Cookie cookie : req.getCookies())
-                if (AutobaseCookies.NAME_LANG.equals(cookie.getName())) ss.setLanguage(cookie.getValue());
+                if (AutobaseCookies.NAME_LANG.equals(cookie.getName())) ss.setLocale(cookie.getValue());
 
             if (user.getRole().equals(User.Role.CLIENT) & (!req.getHeader(REFERRER).contains("/do/quit"))) {
                 resp.sendRedirect(req.getHeader(REFERRER));

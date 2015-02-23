@@ -9,13 +9,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Locale;
-import java.util.Map;
 
 @Named
 @Stateful
 @SessionScoped
 public class SessionState implements Serializable {
-    private static Map<String, String> langs;
     @Inject
     Logger logger;
     private User sessionUser;
@@ -35,18 +33,12 @@ public class SessionState implements Serializable {
 
     public void setLocale(Locale locale) {
         this.locale = locale;
+        logger.info("Locale was changed to: " + locale.getLanguage());
     }
 
-    public String getLanguage() {
-        return getLocale().getLanguage();
-    }
-
-    public void setLanguage(String lang) {
-        changeLocale(lang);
-    }
-
-    public void changeLocale(String lang_code) {
+    public void setLocale(String lang_code) {
         this.locale = new Locale(lang_code);
         logger.info("Locale was changed to: " + lang_code);
     }
+
 }
