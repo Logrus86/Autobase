@@ -49,6 +49,12 @@ public class AuthServlet extends HttpServlet {
         //log-in check
         if ((req.getServletPath().equals("/do/quit")) & (user != null)) {
             //log-out
+            user.setUuid(null);
+            try {
+                us.update(user);
+            } catch (ServiceException e) {
+                logger.error("Cannot update user to remove UUID");
+            }
             logger.info("User '" + user.getUsername() + "' have logged-out");
             Cookie uuidCookie = new Cookie(AutobaseCookies.NAME_UUID, "");
             uuidCookie.setMaxAge(0);
