@@ -18,6 +18,8 @@ public class MainPage {
     @UiField
     Label label_loginResult;
     @UiField
+    ControlLabel label_welcome;
+    @UiField
     TextBox textBox_username;
     @UiField
     PasswordTextBox textBox_password;
@@ -53,7 +55,7 @@ public class MainPage {
 
     @UiHandler("button_logout")
     public void onLogoutClick(ClickEvent e) {
-        RpcService.App.getInstance().logout(new AuthCallback(label_loginResult, fieldSetVisibleAfterLogin, fieldSetInvisibleAfterLogin));
+        RpcService.App.getInstance().logout(new AuthCallback(null, fieldSetVisibleAfterLogin, fieldSetInvisibleAfterLogin));
     }
 
     interface MyUiBinder extends UiBinder<Panel, MainPage> {

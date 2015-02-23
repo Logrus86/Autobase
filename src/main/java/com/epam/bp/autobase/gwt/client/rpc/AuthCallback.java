@@ -7,14 +7,14 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 
 public class AuthCallback implements AsyncCallback<String> {
-    Label label_result;
+    Label label_error;
     ControlLabel label_welcome;
     Fieldset fieldSetVisibleAfterLogin;
     Fieldset fieldSetInvisibleAfterLogin;
     String username;
 
-    public AuthCallback(Label label_result, Fieldset fieldSetVisibleAfterLogin, Fieldset fieldSetInvisibleAfterLogin) {
-        this.label_result = label_result;
+    public AuthCallback(Label label_error, Fieldset fieldSetVisibleAfterLogin, Fieldset fieldSetInvisibleAfterLogin) {
+        this.label_error = label_error;
         this.fieldSetVisibleAfterLogin = fieldSetVisibleAfterLogin;
         this.fieldSetInvisibleAfterLogin = fieldSetInvisibleAfterLogin;
         for (Widget widget : fieldSetVisibleAfterLogin) {
@@ -23,17 +23,17 @@ public class AuthCallback implements AsyncCallback<String> {
     }
 
     public void onSuccess(String result) {
-        label_result.setText(result);
-        username = result.substring(result.indexOf("'") + 1, result.lastIndexOf("'"));
+        username = result;
+        if ((result == null) && (label_error != null)) label_error.setText("User with such credentials wasn't found.");
         toggleWidgets();
     }
 
     public void onFailure(Throwable throwable) {
-        label_result.setText("Failed to receive answer from server!");
+        label_error.setText("Failed to receive answer from server!");
     }
 
     private void toggleWidgets() {
-        if ((label_result != null) && (label_result.getText().contains("logged-in"))) {
+        if (username != null) {
             label_welcome.getElement().setInnerHTML("Welcome, " + username + "!");
             for (Widget widget : fieldSetVisibleAfterLogin) widget.setVisible(true);
             for (Widget widget : fieldSetInvisibleAfterLogin) widget.setVisible(false);

@@ -11,7 +11,7 @@ public class AutobaseApp implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
-        RpcService.App.getInstance().loginCheck(new AuthCallback(mainPage.getLabel_loginResult(), mainPage.getFieldSetVisibleAfterLogin(), mainPage.getFieldSetInvisibleAfterLogin()));
+        RpcService.App.getInstance().loginCheck(new AuthCallback(null, mainPage.getFieldSetVisibleAfterLogin(), mainPage.getFieldSetInvisibleAfterLogin()));
         showApp();
     }
 

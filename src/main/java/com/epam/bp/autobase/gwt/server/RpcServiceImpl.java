@@ -22,7 +22,7 @@ public class RpcServiceImpl extends RemoteServiceServlet implements RpcService {
 
     @Override
     public String login(String username, String password) {
-        String result;
+        String resultLog;
         User user = null;
         UserDto userDto = new UserDto()
                 .setUsername(username)
@@ -41,35 +41,36 @@ public class RpcServiceImpl extends RemoteServiceServlet implements RpcService {
                     logger.error(e.getMessage(), e.getCause());
                 }
             }
-            result = "User '" + user.getUsername() + "' has logged-in with role: " + user.getRole();
+            resultLog = "User '" + user.getUsername() + "' has logged-in with role: " + user.getRole();
 //            Cookies.setCookie(AutobaseCookies.NAME_UUID, String.valueOf(user.getUuid()));
         } else
-            result = "User '" + userDto.getUsername() + "' with password '" + userDto.getPassword() + "' wasn't found.";
+            resultLog = "User '" + userDto.getUsername() + "' with password '" + userDto.getPassword() + "' wasn't found.";
         ss.setSessionUser(user);
-        logger.info(result);
-        return result;
+        logger.info(resultLog);
+        return user != null ? user.getUsername() : null;
     }
 
     @Override
     public String logout() {
-        String result;
+        String resultLog;
         User user = ss.getSessionUser();
-        this.getThreadLocalRequest().getSession().invalidate();
         if ((user != null) && (user.getUsername() != null))
-            result = "User '" + user.getUsername() + "' have logged-out";
-        else result = "No user was logged in.";
-   //     Cookies.removeCookie(AutobaseCookies.NAME_UUID);
-        logger.info(result);
-        return result;
+            resultLog = "User '" + user.getUsername() + "' have logged-out";
+        else resultLog = "No user was logged in.";
+        this.getThreadLocalRequest().getSession().invalidate();
+        ss.setSessionUser(null);
+        //     Cookies.removeCookie(AutobaseCookies.NAME_UUID);
+        logger.info(resultLog);
+        return null;
     }
 
     @Override
     public String loginCheck() {
-        String result;
-        if (ss.getSessionUser() != null) {
-            result = "User '" + ss.getSessionUser().getUsername() + "' has already logged-in. Proceed.";
-        } else result = "No user was logged in.";
-        logger.info(result);
-        return result;
+        String resultLog;
+        User user = ss.getSessionUser();
+        if (user != null) resultLog = "User '" + ss.getSessionUser().getUsername() + "' has already logged-in.";
+        else resultLog = "No user was logged in.";
+        logger.info(resultLog);
+        return user != null ? user.getUsername() : null;
     }
 }
