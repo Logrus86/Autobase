@@ -86,7 +86,7 @@ public class AuthServiceImpl extends RemoteServiceServlet implements AuthService
                 if (AutobaseCookies.NAME_UUID.equals(cookie.getName())) {
                     try {
                         user = us.getByUuid(cookie.getValue());
-                        resultLog = "Logging-in user by UUID:" + user.getUuid() + " from cookie";
+                        resultLog = "Logging-in user by UUID:" + cookie.getValue() + " from cookie";
                         ss.setSessionUser(user);
                     } catch (ServiceException e) {
                         logger.error("Cannot retrieve user by UUID: " + cookie.getValue());
