@@ -71,8 +71,7 @@ public class AuthServlet extends HttpServlet {
         if (user == null) {
             logger.info("User isn't logged in, going to main page");
             rd = req.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
-        }
-        else rd = req.getRequestDispatcher("/WEB-INF/jsp/main" + user.getRole() + ".jsp");
+        } else rd = req.getRequestDispatcher("/WEB-INF/jsp/main" + user.getRole() + ".jsp");
         rd.forward(req, resp);
     }
 
@@ -92,13 +91,11 @@ public class AuthServlet extends HttpServlet {
         }
         if (user != null) {
             logger.info("User '" + userDto.getUsername() + "' with password '" + userDto.getPassword() + "' has logged in with role: " + user.getRole());
-            if (user.getUuid() == null) {
-                user.setUuid(UUID.randomUUID());
-                try {
-                    us.update(user);
-                } catch (ServiceException e) {
-                    logger.error(e.getMessage(), e.getCause());
-                }
+            user.setUuid(UUID.randomUUID());
+            try {
+                us.update(user);
+            } catch (ServiceException e) {
+                logger.error(e.getMessage(), e.getCause());
             }
             ss.setSessionUser(user);
 
