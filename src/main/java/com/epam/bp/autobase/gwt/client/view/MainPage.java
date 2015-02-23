@@ -1,7 +1,7 @@
 package com.epam.bp.autobase.gwt.client.view;
 
 import com.epam.bp.autobase.gwt.client.rpc.AuthCallback;
-import com.epam.bp.autobase.gwt.client.rpc.GenericRpcService;
+import com.epam.bp.autobase.gwt.client.rpc.RpcService;
 import com.github.gwtbootstrap.client.ui.*;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -26,6 +26,18 @@ public class MainPage {
     @UiField
     Fieldset fieldSetVisibleAfterLogin;
 
+    public Label getLabel_loginResult() {
+        return label_loginResult;
+    }
+
+    public Fieldset getFieldSetInvisibleAfterLogin() {
+        return fieldSetInvisibleAfterLogin;
+    }
+
+    public Fieldset getFieldSetVisibleAfterLogin() {
+        return fieldSetVisibleAfterLogin;
+    }
+
     public MainPage() {
         uiBinder.createAndBindUi(this);
     }
@@ -36,12 +48,12 @@ public class MainPage {
 
     @UiHandler("form_login")
     public void onFormLoginSubmit(Form.SubmitEvent e) {
-        GenericRpcService.App.getInstance().login(textBox_username.getValue(), textBox_password.getValue(), new AuthCallback(label_loginResult, fieldSetVisibleAfterLogin, fieldSetInvisibleAfterLogin));
+        RpcService.App.getInstance().login(textBox_username.getValue(), textBox_password.getValue(), new AuthCallback(label_loginResult, fieldSetVisibleAfterLogin, fieldSetInvisibleAfterLogin));
     }
 
     @UiHandler("button_logout")
     public void onLogoutClick(ClickEvent e) {
-        GenericRpcService.App.getInstance().logout(new AuthCallback(label_loginResult, fieldSetVisibleAfterLogin, fieldSetInvisibleAfterLogin));
+        RpcService.App.getInstance().logout(new AuthCallback(label_loginResult, fieldSetVisibleAfterLogin, fieldSetInvisibleAfterLogin));
     }
 
     interface MyUiBinder extends UiBinder<Panel, MainPage> {

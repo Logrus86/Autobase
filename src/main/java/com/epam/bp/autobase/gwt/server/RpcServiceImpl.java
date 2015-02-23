@@ -1,7 +1,7 @@
 package com.epam.bp.autobase.gwt.server;
 
 import com.epam.bp.autobase.cdi.SessionState;
-import com.epam.bp.autobase.gwt.client.rpc.GenericRpcService;
+import com.epam.bp.autobase.gwt.client.rpc.RpcService;
 import com.epam.bp.autobase.model.dto.UserDto;
 import com.epam.bp.autobase.model.entity.User;
 import com.epam.bp.autobase.service.ServiceException;
@@ -12,18 +12,13 @@ import org.jboss.logging.Logger;
 import javax.inject.Inject;
 import java.util.UUID;
 
-public class AuthService extends RemoteServiceServlet implements GenericRpcService {
+public class RpcServiceImpl extends RemoteServiceServlet implements RpcService {
     @Inject
     SessionState ss;
     @Inject
     UserService us;
     @Inject
     private Logger logger;
-
-    @Override
-    public String getMessage(String msg) {
-        return "Hello, " + msg + "!";
-    }
 
     @Override
     public String login(String username, String password) {
@@ -64,6 +59,16 @@ public class AuthService extends RemoteServiceServlet implements GenericRpcServi
             result = "User '" + user.getUsername() + "' have logged-out";
         else result = "No user was logged in.";
    //     Cookies.removeCookie(AutobaseCookies.NAME_UUID);
+        logger.info(result);
+        return result;
+    }
+
+    @Override
+    public String loginCheck() {
+        String result;
+        if (ss.getSessionUser() != null) {
+            result = "User '" + ss.getSessionUser().getUsername() + "' has already logged-in. Proceed.";
+        } else result = "No user was logged in.";
         logger.info(result);
         return result;
     }
