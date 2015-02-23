@@ -29,6 +29,37 @@ public class User implements Identifiable<User> {
     private Integer id;
 
     private UUID uuid;
+    @NotEmpty
+    @Pattern(regexp = "([A-Z][a-z]{0,19})|([А-Я][а-я]{0,19})", message = "{com.epam.bp.autobase.model.entity.user.firstname.message}")
+    private String firstname;
+    @NotEmpty
+    @Pattern(regexp = "([A-Z]('[A-Z])?[a-z]{0,19})|([А-Я][а-я]{0,19})", message = "{com.epam.bp.autobase.model.entity.user.lastname.message}")
+    private String lastname;
+    @NotNull
+    @Temporal(TemporalType.DATE)
+    @Past
+    private Date dob;
+    @NotNull
+    @Column(unique = true, nullable = false)
+    @Pattern(regexp = "[a-zA-Z]{1}[\\w_]{3,19}", message = "{com.epam.bp.autobase.model.entity.user.username.message}")
+    private String username;
+    @NotEmpty
+    @Pattern(regexp = "[\\w]{3,20}", message = "{com.epam.bp.autobase.model.entity.user.password.message}")
+    private String password;
+    @NotNull
+    @Email(regexp = "[\\w\\u002E\\u005F]{0,40}@([a-zA-Z]+\\u002E){1,2}[a-zA-Z]{2,3}")
+    @Column(unique = true, nullable = false)
+    private String email;
+    @NotNull
+    @Enumerated
+    private Role role;
+    private BigDecimal balance;
+    @OrderBy
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+    private List<Order> orders;
+    @OrderBy
+    @OneToMany(mappedBy = "driver", fetch = FetchType.EAGER)
+    private List<Vehicle> vehicles;
 
     public UUID getUuid() {
         return uuid;
@@ -38,47 +69,6 @@ public class User implements Identifiable<User> {
         this.uuid = uuid;
         return this;
     }
-
-    @NotEmpty
-    @Pattern(regexp = "([A-Z][a-z]{0,19})|([А-Я][а-я]{0,19})", message = "{com.epam.bp.autobase.model.entity.user.firstname.message}")
-    private String firstname;
-
-    @NotEmpty
-    @Pattern(regexp = "([A-Z]('[A-Z])?[a-z]{0,19})|([А-Я][а-я]{0,19})", message = "{com.epam.bp.autobase.model.entity.user.lastname.message}")
-    private String lastname;
-
-    @NotNull
-    @Temporal(TemporalType.DATE)
-    @Past
-    private Date dob;
-
-    @NotNull
-    @Column(unique = true, nullable = false)
-    @Pattern(regexp = "[a-zA-Z]{1}[\\w_]{3,19}", message = "{com.epam.bp.autobase.model.entity.user.username.message}")
-    private String username;
-
-    @NotEmpty
-    @Pattern(regexp = "[\\w]{3,20}", message = "{com.epam.bp.autobase.model.entity.user.password.message}")
-    private String password;
-
-    @NotNull
-    @Email(regexp = "[\\w\\u002E\\u005F]{0,40}@([a-zA-Z]+\\u002E){1,2}[a-zA-Z]{2,3}")
-    @Column(unique = true, nullable = false)
-    private String email;
-
-    @NotNull
-    @Enumerated
-    private Role role;
-
-    private BigDecimal balance;
-
-    @OrderBy
-    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
-    private List<Order> orders;
-
-    @OrderBy
-    @OneToMany(mappedBy = "driver", fetch = FetchType.EAGER)
-    private List<Vehicle> vehicles;
 
     public void addOrder(Order order) {
         order.setClient(this);
@@ -144,11 +134,6 @@ public class User implements Identifiable<User> {
         return dob;
     }
 
-    public String getDobString() {
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_PATTERN);
-        return sdf.format(dob);
-    }
-
     public User setDob(String dob) {
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_PATTERN);
         try {
@@ -157,6 +142,11 @@ public class User implements Identifiable<User> {
             e.printStackTrace();
         }
         return this;
+    }
+
+    public String getDobString() {
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_PATTERN);
+        return sdf.format(dob);
     }
 
     public BigDecimal getBalance() {
@@ -199,23 +189,31 @@ public class User implements Identifiable<User> {
         return role;
     }
 
-    public User setRole(String role) {
-        this.role = Role.valueOf(role);
+    public User setRole(Role role) {
+        this.role = role;
         return this;
     }
 
-    public User setRole(Role role) {
-        this.role = role;
+    public Integer getRoleInteger() {
+        switch (role) {
+            case ADMIN:
+                return 0;
+            case CLIENT:
+                return 1;
+            case DRIVER:
+                return 2;
+        }
+        return null;
+    }
+
+    public User setRole(String role) {
+        this.role = Role.valueOf(role);
         return this;
     }
 
     @Override
     public String toString() {
         return "User {ID: " + this.getId() + ", firstname: " + firstname + ", lastname: " + lastname + ", dob: " + getDob() + ", username: " + username + ", password: " + password + ", email: " + email + ", role: " + role + ", balance: " + balance + "}";
-    }
-
-    public enum Role {
-        ADMIN, CLIENT, DRIVER
     }
 
     @Override
@@ -231,5 +229,9 @@ public class User implements Identifiable<User> {
         if (!role.equals(((User) object).getRole())) return false;
         if (!balance.equals(((User) object).getBalance())) return false;
         return true;
+    }
+
+    public enum Role {
+        ADMIN, CLIENT, DRIVER
     }
 }
