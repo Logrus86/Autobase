@@ -1,12 +1,13 @@
 package com.epam.bp.autobase.gwt.client.rpc;
 
+import com.epam.bp.autobase.gwt.dto.UserDtoGwt;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface AuthServiceAsync {
 
-    void login(String username, String password, AsyncCallback<String> async);
+    void login(String username, String password, AsyncCallback<UserDtoGwt> async);
 
-    void logout(AsyncCallback<String> async);
+    void logout(AsyncCallback<UserDtoGwt> async);
 
-    void loginCheck(AsyncCallback<String> async);
+    void loginCheck(AsyncCallback<UserDtoGwt> async);
 }

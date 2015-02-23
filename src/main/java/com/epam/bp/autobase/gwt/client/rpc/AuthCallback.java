@@ -1,17 +1,18 @@
 package com.epam.bp.autobase.gwt.client.rpc;
 
+import com.epam.bp.autobase.gwt.dto.UserDtoGwt;
 import com.github.gwtbootstrap.client.ui.ControlLabel;
 import com.github.gwtbootstrap.client.ui.Fieldset;
 import com.github.gwtbootstrap.client.ui.Label;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 
-public class AuthCallback implements AsyncCallback<String> {
+public class AuthCallback implements AsyncCallback<UserDtoGwt> {
     Label label_error;
     ControlLabel label_welcome;
     Fieldset fieldSetVisibleAfterLogin;
     Fieldset fieldSetInvisibleAfterLogin;
-    String username;
+    UserDtoGwt user;
 
     public AuthCallback(Label label_error, Fieldset fieldSetVisibleAfterLogin, Fieldset fieldSetInvisibleAfterLogin) {
         this.label_error = label_error;
@@ -22,9 +23,8 @@ public class AuthCallback implements AsyncCallback<String> {
         }
     }
 
-    public void onSuccess(String result) {
-        username = result;
-        if ((result == null) && (label_error != null)) label_error.setText("User with such credentials wasn't found.");
+    public void onSuccess(UserDtoGwt result) {
+        user = result;
         toggleWidgets();
     }
 
@@ -33,11 +33,14 @@ public class AuthCallback implements AsyncCallback<String> {
     }
 
     private void toggleWidgets() {
-        if (username != null) {
-            label_welcome.getElement().setInnerHTML("Welcome, " + username + "!");
+        if (user != null) {
+            label_welcome.getElement().setInnerHTML("Welcome, " + user.getUsername() + "!");
+            if (label_error != null) label_error.setText(null);
             for (Widget widget : fieldSetVisibleAfterLogin) widget.setVisible(true);
             for (Widget widget : fieldSetInvisibleAfterLogin) widget.setVisible(false);
         } else {
+            label_welcome.getElement().setInnerHTML(null);
+            if (label_error != null) label_error.setText("User with such credentials wasn't found.");
             for (Widget widget : fieldSetVisibleAfterLogin) widget.setVisible(false);
             for (Widget widget : fieldSetInvisibleAfterLogin) widget.setVisible(true);
         }

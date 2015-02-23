@@ -2,6 +2,7 @@ package com.epam.bp.autobase.gwt.server;
 
 import com.epam.bp.autobase.cdi.SessionState;
 import com.epam.bp.autobase.gwt.client.rpc.AuthService;
+import com.epam.bp.autobase.gwt.dto.UserDtoGwt;
 import com.epam.bp.autobase.model.dto.UserDto;
 import com.epam.bp.autobase.model.entity.User;
 import com.epam.bp.autobase.service.ServiceException;
@@ -23,7 +24,7 @@ public class AuthServiceImpl extends RemoteServiceServlet implements AuthService
     private Logger logger;
 
     @Override
-    public String login(String username, String password) {
+    public UserDtoGwt login(String username, String password) {
         String resultLog;
         User user = null;
         UserDto userDto = new UserDto()
@@ -49,14 +50,14 @@ public class AuthServiceImpl extends RemoteServiceServlet implements AuthService
             resultLog = "User '" + userDto.getUsername() + "' with password '" + userDto.getPassword() + "' wasn't found.";
         ss.setSessionUser(user);
         logger.info(resultLog);
-        return user != null ? user.getUsername() : null;
+        return ServerUtils.buildUserDtoGwt(user);
     }
 
     @Override
-    public String logout() {
+    public UserDtoGwt logout() {
         String resultLog;
         User user = ss.getSessionUser();
-        if ((user != null) && (user.getUsername() != null)) {
+        if (user != null) {
             user.setUuid(null);
             try {
                 us.update(user);
@@ -64,8 +65,7 @@ public class AuthServiceImpl extends RemoteServiceServlet implements AuthService
                 logger.error("Cannot update user to remove UUID");
             }
             resultLog = "User '" + user.getUsername() + "' have logged-out";
-        }
-        else resultLog = "No user was logged in.";
+        } else resultLog = "No user was logged in.";
         this.getThreadLocalRequest().getSession().invalidate();
         ss.setSessionUser(null);
         Cookie uuidCookie = new Cookie(AutobaseCookies.NAME_UUID, "");
@@ -76,25 +76,27 @@ public class AuthServiceImpl extends RemoteServiceServlet implements AuthService
     }
 
     @Override
-    public String loginCheck() {
+    public UserDtoGwt loginCheck() {
         String resultLog = null;
         User user = ss.getSessionUser();
-        if (user != null) resultLog = "User '" + ss.getSessionUser().getUsername() + "' has already logged-in.";
-        else {
-            for (Cookie cookie : this.getThreadLocalRequest().getCookies())
+        if (user != null) {
+            resultLog = "User '" + ss.getSessionUser().getUsername() + "' has already logged-in.";
+        } else {
+            for (Cookie cookie : this.getThreadLocalRequest().getCookies()) {
                 if (AutobaseCookies.NAME_UUID.equals(cookie.getName())) {
                     try {
                         user = us.getByUuid(cookie.getValue());
-                        resultLog = "Logging-in user by UUID:" + cookie.getValue() + " from cookie";
+                        resultLog = "Logging-in user by UUID:" + user.getUuid() + " from cookie";
                         ss.setSessionUser(user);
                     } catch (ServiceException e) {
                         logger.error("Cannot retrieve user by UUID: " + cookie.getValue());
                     }
-                } else if (user != null)
-                    if (AutobaseCookies.NAME_LANG.equals(cookie.getName())) ss.setLocale(cookie.getValue());
+                    break;
+                }
+            }
             if (user == null) resultLog = "User isn't logged in, going to main page";
         }
         logger.info(resultLog);
-        return user != null ? user.getUsername() : null;
+        return ServerUtils.buildUserDtoGwt(user);
     }
 }

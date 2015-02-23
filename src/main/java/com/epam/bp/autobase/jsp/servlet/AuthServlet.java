@@ -71,8 +71,8 @@ public class AuthServlet extends HttpServlet {
                     } catch (ServiceException e) {
                         logger.error("Cannot retrieve user by UUID: " + cookie.getValue());
                     }
-                } else if (user != null)
-                    if (AutobaseCookies.NAME_LANG.equals(cookie.getName())) ss.setLocale(cookie.getValue());
+                } else if ((user != null) && (AutobaseCookies.NAME_LANG.equals(cookie.getName())))
+                    ss.setLocale(cookie.getValue());
         }
         if (user == null) {
             logger.info("User isn't logged in, going to main page");
