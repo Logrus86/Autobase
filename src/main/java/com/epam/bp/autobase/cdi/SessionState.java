@@ -32,11 +32,13 @@ public class SessionState implements Serializable {
     }
 
     public void setLocale(Locale locale) {
+        if (locale.equals(this.locale)) return;
         this.locale = locale;
         logger.info("Locale was changed to: " + locale.getLanguage());
     }
 
     public void setLocale(String lang_code) {
+        if (this.locale.getLanguage().equals(lang_code)) return;
         this.locale = new Locale(lang_code);
         logger.info("Locale was changed to: " + lang_code);
     }
