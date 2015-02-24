@@ -1,0 +1,15 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:b="urn:import:com.github.gwtbootstrap.client.ui"
+        >
+
+    <g:HTMLPanel ui:field="root">
+        <b:Form type="INLINE" ui:field="form_login">
+            <b:ControlLabel ui:field="label_welcome" title="label_welcome" styleName="loginControlLabel"/>
+            <b:Button name="button_cabinet" icon="USER" iconPosition="RIGHT" type="INFO" ui:field="button_cabinet"
+                      text="Cabinet"/>
+            <b:Button name="logout" ui:field="button_logout" type="DANGER" text="Log-Out"/>
+        </b:Form>
+    </g:HTMLPanel>
+
+</ui:UiBinder>

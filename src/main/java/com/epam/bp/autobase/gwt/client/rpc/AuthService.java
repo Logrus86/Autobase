@@ -10,7 +10,7 @@ public interface AuthService extends RemoteService {
 
     UserDtoGwt login(String username, String password);
 
-    UserDtoGwt logout();
+    void logout();
 
     UserDtoGwt loginCheck();
 

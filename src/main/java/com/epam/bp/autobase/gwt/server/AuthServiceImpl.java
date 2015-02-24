@@ -54,7 +54,7 @@ public class AuthServiceImpl extends RemoteServiceServlet implements AuthService
     }
 
     @Override
-    public UserDtoGwt logout() {
+    public void logout() {
         String resultLog;
         User user = ss.getSessionUser();
         if (user != null) {
@@ -72,7 +72,6 @@ public class AuthServiceImpl extends RemoteServiceServlet implements AuthService
         uuidCookie.setMaxAge(0);
         this.getThreadLocalResponse().addCookie(uuidCookie);
         logger.info(resultLog);
-        return null;
     }
 
     @Override

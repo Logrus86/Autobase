@@ -7,7 +7,7 @@ public interface AuthServiceAsync {
 
     void login(String username, String password, AsyncCallback<UserDtoGwt> async);
 
-    void logout(AsyncCallback<UserDtoGwt> async);
+    void logout(AsyncCallback<Void> async);
 
     void loginCheck(AsyncCallback<UserDtoGwt> async);
 }

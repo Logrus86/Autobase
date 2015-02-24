@@ -5,9 +5,12 @@
     <!-- Inherit the core Web Toolkit stuff.                  -->
     <inherits name='com.google.gwt.user.User'/>
     <inherits name="com.github.gwtbootstrap.Bootstrap"/>
+    <inherits name="com.google.gwt.activity.Activity"/>
+    <inherits name="com.google.gwt.place.Place"/>
 
     <source path="client"/>
     <source path="dto"/>
+    <source path="shared"/>
 
     <!-- Specify the app entry point class.                   -->
     <entry-point class='com.epam.bp.autobase.gwt.client.AutobaseApp'/>
