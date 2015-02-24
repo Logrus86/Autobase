@@ -194,18 +194,6 @@ public class User implements Identifiable<User> {
         return this;
     }
 
-    public Integer getRoleInteger() {
-        switch (role) {
-            case ADMIN:
-                return 0;
-            case CLIENT:
-                return 1;
-            case DRIVER:
-                return 2;
-        }
-        return null;
-    }
-
     public User setRole(String role) {
         this.role = Role.valueOf(role);
         return this;
