@@ -215,7 +215,6 @@ public class User implements Identifiable<User> {
         if (!dob.equals(((User) object).getDob())) return false;
         if (!email.equals(((User) object).getEmail())) return false;
         if (!role.equals(((User) object).getRole())) return false;
-        if (!balance.equals(((User) object).getBalance())) return false;
         return true;
     }
 
