@@ -1,8 +1,8 @@
 package com.epam.bp.autobase.gwt.server;
 
+import com.epam.bp.autobase.entity.User;
 import com.epam.bp.autobase.gwt.dto.UserDtoGwt;
-import com.epam.bp.autobase.model.dto.UserDto;
-import com.epam.bp.autobase.model.entity.User;
+import com.epam.bp.autobase.jsp.dto.UserDto;
 
 public class ServerUtils {
     public static UserDtoGwt buildUserDtoGwt(User user) {
