@@ -1,4 +1,4 @@
-import com.epam.bp.autobase.model.entity.User;
+import com.epam.bp.autobase.entity.User;
 import com.epam.bp.autobase.service.UserService;
 import org.junit.Test;
 

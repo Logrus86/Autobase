@@ -1,6 +1,6 @@
 package com.epam.bp.autobase.dao;
 
-import com.epam.bp.autobase.model.entity.Identifiable;
+import com.epam.bp.autobase.entity.Identifiable;
 
 import java.util.List;
 

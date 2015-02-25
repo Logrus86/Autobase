@@ -2,7 +2,7 @@ package com.epam.bp.autobase.dao.hibernate;
 
 import com.epam.bp.autobase.dao.ColorDao;
 import com.epam.bp.autobase.dao.DaoException;
-import com.epam.bp.autobase.model.entity.Color;
+import com.epam.bp.autobase.entity.Color;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;

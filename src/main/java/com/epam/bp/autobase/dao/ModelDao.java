@@ -1,6 +1,6 @@
 package com.epam.bp.autobase.dao;
 
-import com.epam.bp.autobase.model.entity.Model;
+import com.epam.bp.autobase.entity.Model;
 
 public interface ModelDao extends BaseDao<Model> {
 

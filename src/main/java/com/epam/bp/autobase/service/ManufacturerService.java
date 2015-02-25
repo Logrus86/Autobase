@@ -3,8 +3,8 @@ package com.epam.bp.autobase.service;
 import com.epam.bp.autobase.cdi.SessionState;
 import com.epam.bp.autobase.dao.ManufacturerDao;
 import com.epam.bp.autobase.dao.hibernate.Hibernate;
-import com.epam.bp.autobase.model.dto.ManufacturerDto;
-import com.epam.bp.autobase.model.entity.Manufacturer;
+import com.epam.bp.autobase.entity.Manufacturer;
+import com.epam.bp.autobase.jsp.dto.ManufacturerDto;
 
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Model;

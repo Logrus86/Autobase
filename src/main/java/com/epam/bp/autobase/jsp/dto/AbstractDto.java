@@ -1,6 +1,6 @@
-package com.epam.bp.autobase.model.dto;
+package com.epam.bp.autobase.jsp.dto;
 
-import com.epam.bp.autobase.model.entity.Identifiable;
+import com.epam.bp.autobase.entity.Identifiable;
 
 public abstract class AbstractDto<T extends Identifiable, T2 extends AbstractDto> {
 

@@ -1,4 +1,4 @@
-package com.epam.bp.autobase.model.entity;
+package com.epam.bp.autobase.entity;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -30,10 +30,10 @@ public class User implements Identifiable<User> {
 
     private UUID uuid;
     @NotEmpty
-    @Pattern(regexp = "([A-Z][a-z]{0,19})|([А-Я][а-я]{0,19})", message = "{com.epam.bp.autobase.model.entity.user.firstname.message}")
+    @Pattern(regexp = "([A-Z][a-z]{0,19})|([А-Я][а-я]{0,19})", message = "{com.epam.bp.autobase.entity.user.firstname.message}")
     private String firstname;
     @NotEmpty
-    @Pattern(regexp = "([A-Z]('[A-Z])?[a-z]{0,19})|([А-Я][а-я]{0,19})", message = "{com.epam.bp.autobase.model.entity.user.lastname.message}")
+    @Pattern(regexp = "([A-Z]('[A-Z])?[a-z]{0,19})|([А-Я][а-я]{0,19})", message = "{com.epam.bp.autobase.entity.user.lastname.message}")
     private String lastname;
     @NotNull
     @Temporal(TemporalType.DATE)
@@ -41,10 +41,10 @@ public class User implements Identifiable<User> {
     private Date dob;
     @NotNull
     @Column(unique = true, nullable = false)
-    @Pattern(regexp = "[a-zA-Z]{1}[\\w_]{3,19}", message = "{com.epam.bp.autobase.model.entity.user.username.message}")
+    @Pattern(regexp = "[a-zA-Z]{1}[\\w_]{3,19}", message = "{com.epam.bp.autobase.entity.user.username.message}")
     private String username;
     @NotEmpty
-    @Pattern(regexp = "[\\w]{3,20}", message = "{com.epam.bp.autobase.model.entity.user.password.message}")
+    @Pattern(regexp = "[\\w]{3,20}", message = "{com.epam.bp.autobase.entity.user.password.message}")
     private String password;
     @NotNull
     @Email(regexp = "[\\w\\u002E\\u005F]{0,40}@([a-zA-Z]+\\u002E){1,2}[a-zA-Z]{2,3}")

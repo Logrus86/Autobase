@@ -1,6 +1,6 @@
 package com.epam.bp.autobase.dao;
 
-import com.epam.bp.autobase.model.entity.Color;
+import com.epam.bp.autobase.entity.Color;
 
 import java.util.List;
 

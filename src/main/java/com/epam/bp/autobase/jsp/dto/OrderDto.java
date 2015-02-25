@@ -1,6 +1,6 @@
-package com.epam.bp.autobase.model.dto;
+package com.epam.bp.autobase.jsp.dto;
 
-import com.epam.bp.autobase.model.entity.Order;
+import com.epam.bp.autobase.entity.Order;
 
 import java.math.BigDecimal;
 

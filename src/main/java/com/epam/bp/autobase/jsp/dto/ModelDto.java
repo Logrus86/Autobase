@@ -1,6 +1,6 @@
-package com.epam.bp.autobase.model.dto;
+package com.epam.bp.autobase.jsp.dto;
 
-import com.epam.bp.autobase.model.entity.Model;
+import com.epam.bp.autobase.entity.Model;
 
 public class ModelDto extends AbstractDto<Model, ModelDto> {
 

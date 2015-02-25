@@ -1,8 +1,8 @@
-package com.epam.bp.autobase.model.dto;
+package com.epam.bp.autobase.jsp.dto;
 
-import com.epam.bp.autobase.model.entity.Order;
-import com.epam.bp.autobase.model.entity.User;
-import com.epam.bp.autobase.model.entity.Vehicle;
+import com.epam.bp.autobase.entity.Order;
+import com.epam.bp.autobase.entity.User;
+import com.epam.bp.autobase.entity.Vehicle;
 
 import java.math.BigDecimal;
 import java.util.LinkedList;

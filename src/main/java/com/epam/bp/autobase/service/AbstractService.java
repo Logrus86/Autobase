@@ -1,9 +1,9 @@
 package com.epam.bp.autobase.service;
 
 import com.epam.bp.autobase.dao.BaseDao;
-import com.epam.bp.autobase.model.dto.AbstractDto;
-import com.epam.bp.autobase.model.dto.UserDto;
-import com.epam.bp.autobase.model.entity.Identifiable;
+import com.epam.bp.autobase.entity.Identifiable;
+import com.epam.bp.autobase.jsp.dto.AbstractDto;
+import com.epam.bp.autobase.jsp.dto.UserDto;
 import com.epam.bp.autobase.util.MyMessageInterpolator;
 
 import javax.enterprise.event.Event;

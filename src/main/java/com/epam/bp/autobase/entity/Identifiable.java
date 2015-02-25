@@ -1,4 +1,4 @@
-package com.epam.bp.autobase.model.entity;
+package com.epam.bp.autobase.entity;
 
 import java.io.Serializable;
 
