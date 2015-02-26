@@ -6,6 +6,7 @@ div#header, div#logo_header {
 a#main_logo {
     float: left;
     margin-left: 100px;
+    margin-bottom: 5px;
 }
 
 div#footer {
@@ -24,7 +25,6 @@ div#locale_changer {
     font-size: 12px;
     text-align: center;
     color: rgb(255, 255, 255);
-    margin-bottom: 10px;
 }
 
 #header .container {
@@ -66,17 +66,17 @@ p {
 }
 
 #title h1 {
-    background: url('/static/img/title_bg_block.png') repeat;
+    background: url('../img/title_bg_block.png') repeat;
     padding-left: 12px;
 }
 
 #h1sub {
-    background: url('/static/img/title_bg_block.png') repeat;
+    background: url('../img/title_bg_block.png') repeat;
     padding: 0 10px 0;
 }
 
 .lifestyle_img {
-    background-image: url('/static/img/bg.jpg');
+    background-image: url('../img/bg.jpg');
     background-position: center bottom !important;
     background-repeat: no-repeat;
 }
@@ -131,6 +131,7 @@ form#vehicles-form {
     width: 450px;
     text-align: center;
 }
+
 div#error-box {
     padding-top: 50px;
 }

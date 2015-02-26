@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type='text/javascript' src='<c:url value="/static/js/bp.js"/>'></script>
 
-<fmt:setLocale value="${locale}"/>
+<fmt:setLocale value="${sessionState.locale}" scope="application"/>
 <fmt:bundle basename="i18n.text">
     <div class="btn-group" id="logins">
         <form method="post" action="login">
@@ -23,26 +23,38 @@
                     </button>
                     <h4 class="modal-title" align="center"><fmt:message key="default.registration"/></h4>
                 </div>
-                <div class="msg-error" id="msg">${reg_error}</div>
                 <div class="modal-body">
-                    <form id="registration-form" method="post" action="register">
+                    <form id="registration-form" method="post" action="create_user">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="firstname" name="firstname" value="${firstname}"
+                            <div class="msg-error">${userService.errorMap.firstname_msg}</div>
+                            <input type="text" class="form-control" id="firstname" name="firstname"
+                                   value="${userService.errorMap.firstname}"
                                    placeholder="<fmt:message key="default.firstname"/>" required>
-                            <input type="text" class="form-control" id="lastname" name="lastname" value="${lastname}"
+
+                            <div class="msg-error">${userService.errorMap.lastname_msg}</div>
+                            <input type="text" class="form-control" id="lastname" name="lastname"
+                                   value="${userService.errorMap.lastname}"
                                    placeholder="<fmt:message key="default.lastname"/>" required>
-                            <input type="date" class="form-control" id="dob" name="dob" value="${dob}"
-                                   min="1900-01-01" max="1996-01-01" placeholder="<fmt:message key="default.dob"/>"
-                                   required>
-                            <input type="text" class="form-control" id="username" name="username" value="${username}"
-                                   value="" placeholder="<fmt:message key="default.username"/>" required>
+
+                            <div class="msg-error">${userService.errorMap.dob_msg}</div>
+                            <input type="date" class="form-control" id="dob" name="dob"
+                                   value="${userService.errorMap.dob}"
+                                   placeholder="<fmt:message key="default.dob"/>" required>
+
+                            <div class="msg-error">${userService.errorMap.username_msg}</div>
+                            <input type="text" class="form-control" id="username" name="username"
+                                   value="${userService.errorMap.username}"
+                                   placeholder="<fmt:message key="default.username"/>" required>
+
+                            <div class="msg-error">${userService.errorMap.password_msg}</div>
                             <input type="password" class="form-control" name="password"
-                                   placeholder="<fmt:message key="default.password"/>" required
-                                   title="<fmt:message key="ttip.password8"/>" value="" id="pass">
+                                   placeholder="<fmt:message key="default.password"/>" id="pass" required>
                             <input type="password" class="form-control" name="password-repeat" id="pass-repeat"
-                                   placeholder="<fmt:message key="default.password-repeat"/>" required
-                                   title="<fmt:message key="ttip.password8"/>">
-                            <input type="email" class="form-control" id="email_r" name="email" value="${email}"
+                                   placeholder="<fmt:message key="default.password-repeat"/>" required>
+
+                            <div class="msg-error">${userService.errorMap.email_msg}</div>
+                            <input type="text" class="form-control" id="email_r" name="email"
+                                   value="${userService.errorMap.email}"
                                    placeholder="<fmt:message key="default.email"/>" required>
                         </div>
                         <button type="submit" class="btn btn-primary"><fmt:message key="default.doregister"/></button>

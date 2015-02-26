@@ -1,26 +1,31 @@
 package com.epam.bp.autobase.filter;
 
+import com.epam.bp.autobase.cdi.SessionState;
 import com.epam.bp.autobase.entity.User;
-import org.slf4j.LoggerFactory;
+import org.jboss.logging.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+@WebFilter(filterName = "SecurityFilter", urlPatterns = "/*", dispatcherTypes = DispatcherType.REQUEST)
 public class SecurityFilter implements javax.servlet.Filter {
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SecurityFilter.class);
-    private static final String USER = "user";
     private static Map<String, User.Role> roleMap = new HashMap<>();
+    @Inject
+    Logger logger;
+    @Inject
+    SessionState ss;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         roleMap.put("/admin", User.Role.ADMIN);
-        roleMap.put("/main-admin", User.Role.ADMIN);
-        roleMap.put("/main-driver", User.Role.DRIVER);
+        roleMap.put("/mainADMIN", User.Role.ADMIN);
+        roleMap.put("/mainDRIVER", User.Role.DRIVER);
     }
 
     @Override
@@ -29,9 +34,9 @@ public class SecurityFilter implements javax.servlet.Filter {
     }
 
     private void doFilter0(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException, ServletException {
-        HttpSession session = req.getSession();
+
         String pathInfo = req.getPathInfo();
-        User user = (User) session.getAttribute(USER);
+        User user = ss.getSessionUser();
         User.Role currentRole = null;
         if (user != null) currentRole = user.getRole();
         if ((pathInfo != null) && (currentRole != User.Role.ADMIN)) {
@@ -43,12 +48,12 @@ public class SecurityFilter implements javax.servlet.Filter {
                 }
             }
             if ((requiredRole != null) && (!requiredRole.equals(currentRole))) {
-                LOGGER.error("Access forbidden. Page: "+pathInfo+". Rights: "+currentRole+", required rights: "+requiredRole);
+                logger.error("Access forbidden. Page: " + pathInfo + ". Rights: " + currentRole + ", required rights: " + requiredRole);
                 resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Have not required rights. Access forbidden.");
                 return;
             }
         }
-        chain.doFilter(req,resp);
+        chain.doFilter(req, resp);
     }
 
     @Override

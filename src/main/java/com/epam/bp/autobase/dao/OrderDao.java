@@ -1,12 +1,21 @@
 package com.epam.bp.autobase.dao;
 
 import com.epam.bp.autobase.entity.Order;
+import com.epam.bp.autobase.entity.User;
+import com.epam.bp.autobase.entity.Vehicle;
 
-import java.util.Date;
 import java.util.List;
 
-public interface OrderDao extends BaseDao<Integer, Order> {
-    public List<Order> getListByClientId(Integer id) throws DaoException;
-    public List<Order> getListByVehicleId(Integer id) throws DaoException;
-    public Order getByDateOrdered(Date date) throws DaoException;
+public interface OrderDao extends BaseDao<Order> {
+
+    List<Order> getClientOrders(User client) throws DaoException;
+
+    List<Order> getClientOrders(Integer clientId) throws DaoException;
+
+    List<Order> getVehicleOrders(Vehicle vehicle) throws DaoException;
+
+    List<Order> getVehicleOrders(Integer vehicleId) throws DaoException;
+
+    Order getByDateOrdered(String dateString) throws DaoException;
+
 }

@@ -57,7 +57,9 @@ $(document).ready(function () {
     });
 
     if (document.getElementById("vehicles-form")) document.getElementById("user-form").style.float = "right";
-    if (document.getElementById('admin_bar')) {colorAdminButtons();}
+    if (document.getElementById('admin_bar')) {
+        colorAdminButtons();
+    }
 });
 
 function showModalByDefault(form_name) {
@@ -65,33 +67,45 @@ function showModalByDefault(form_name) {
 }
 
 function prepareGetRequest() {
-    if (!document.getElementById('isModel').checked) {document.getElementById('modelId').name = "";}
-    else {document.getElementById('isModel').name = "";}
-    if (!document.getElementById('isManuf').checked) {document.getElementById('manufId').name = "";}
-    else {document.getElementById('isManuf').name = "";}
-    if (!document.getElementById('isColor').checked) {document.getElementById('colorId').name = "";}
-    else {document.getElementById('isColor').name = "";}
-    if (!document.getElementById('isFuel').checked) {document.getElementById('fuel').name = "";}
-    else {document.getElementById('isFuel').name = "";}
-    if (!document.getElementById('isMileage').checked) {document.getElementById('mileage').name = "";}
-    else {document.getElementById('isMileage').name = "";}
-    if (!document.getElementById('isNotOlder').checked) {document.getElementById('notOlder').name = "";}
-    else {document.getElementById('isNotOlder').name = "";}
-    if (!document.getElementById('isRent').checked) {document.getElementById('rent').name = "";}
-    else {document.getElementById('isRent').name = "";}
-    if (!document.getElementById('isPassNbus').checked) {document.getElementById('passNbus').name = "";}
-    else {document.getElementById('isPassNbus').name = "";}
-    if (!document.getElementById('isStandN').checked) {document.getElementById('standN').name = "";}
-    else {document.getElementById('isStandN').name = "";}
-    if (!document.getElementById('isDoorsBus').checked) {document.getElementById('doorsBus').name = "";}
-    else {document.getElementById('isDoorsBus').name = "";}
-    if (!document.getElementById('isPassNcar').checked) {document.getElementById('passNcar').name = "";}
-    else {document.getElementById('isPassNcar').name = "";}
-    if (!document.getElementById('isDoorsCar').checked) {document.getElementById('doorsCar').name = "";}
-    else {document.getElementById('isDoorsCar').name = "";}
-    if (!document.getElementById('isPayload').checked) {document.getElementById('payload').name = "";}
-    else {document.getElementById('isPayload').name = "";}
+    if (!document.getElementById('isModel').checked) document.getElementById('modelId').name = "";
+    else document.getElementById('isModel').name = "";
 
+    if (!document.getElementById('isManuf').checked) document.getElementById('manufId').name = "";
+    else document.getElementById('isManuf').name = "";
+
+    if (!document.getElementById('isColor').checked) document.getElementById('colorId').name = "";
+    else document.getElementById('isColor').name = "";
+
+    if (!document.getElementById('isFuel').checked) document.getElementById('fuel').name = "";
+    else document.getElementById('isFuel').name = "";
+
+    if (!document.getElementById('isMileage').checked) document.getElementById('mileage').name = "";
+    else document.getElementById('isMileage').name = "";
+
+    if (!document.getElementById('isNotOlder').checked) document.getElementById('notOlder').name = "";
+    else document.getElementById('isNotOlder').name = "";
+
+    if (!document.getElementById('isRent').checked) document.getElementById('rent').name = "";
+    else document.getElementById('isRent').name = "";
+
+    if (!document.getElementById('isPassNbus').checked) document.getElementById('passNbus').name = "";
+    else document.getElementById('isPassNbus').name = "";
+
+    if (!document.getElementById('isStandN').checked) document.getElementById('standN').name = "";
+    else document.getElementById('isStandN').name = "";
+
+    if (!document.getElementById('isDoorsBus').checked) document.getElementById('doorsBus').name = "";
+    else document.getElementById('isDoorsBus').name = "";
+
+    if (!document.getElementById('isPassNcar').checked) document.getElementById('passNcar').name = "";
+    else document.getElementById('isPassNcar').name = "";
+
+    if (!document.getElementById('isDoorsCar').checked) document.getElementById('doorsCar').name = "";
+    else document.getElementById('isDoorsCar').name = "";
+
+    if (!document.getElementById('isPayload').checked) document.getElementById('payload').name = "";
+    else document.getElementById('isPayload').name = "";
+    
     if (document.getElementById('car-tab').getAttribute('class') == 'tab-pane fade active in')
         document.getElementById('vhType').value = 'CAR';
     if (document.getElementById('bus-tab').getAttribute('class') == 'tab-pane fade active in')
@@ -101,28 +115,44 @@ function prepareGetRequest() {
 }
 
 function colorAdminButtons() {
-    if (location.pathname == '/do/admin_users' || location.pathname == '/do/create_user') {
+    if (location.pathname == '/autobase/do/admin_users'
+        || location.pathname == '/autobase/do/create_user'
+        || location.pathname == '/autobase/do/change_user') {
         document.getElementById('bt_users').setAttribute('class', 'btn btn-info')
     }
-    if (location.pathname == '/do/admin_cars' || location.pathname == '/do/create_car') {
+    if (location.pathname == '/autobase/do/admin_cars'
+        || location.pathname == '/autobase/do/create_car'
+        || location.pathname == '/autobase/do/change_car') {
         document.getElementById('bt_cars').setAttribute('class', 'btn btn-info')
     }
-    if (location.pathname == '/do/admin_buses' || location.pathname == '/do/create_bus') {
+    if (location.pathname == '/autobase/do/admin_buses'
+        || location.pathname == '/autobase/do/create_bus'
+        || location.pathname == '/autobase/do/change_bus') {
         document.getElementById('bt_buses').setAttribute('class', 'btn btn-info')
     }
-    if (location.pathname == '/do/admin_trucks' || location.pathname == '/do/create_truck') {
+    if (location.pathname == '/autobase/do/admin_trucks'
+        || location.pathname == '/autobase/do/create_truck'
+        || location.pathname == '/autobase/do/change_truck') {
         document.getElementById('bt_trucks').setAttribute('class', 'btn btn-info')
     }
-    if (location.pathname == '/do/admin_colors' || location.pathname == '/do/create_color') {
+    if (location.pathname == '/autobase/do/admin_colors'
+        || location.pathname == '/autobase/do/create_color'
+        || location.pathname == '/autobase/do/change_color') {
         document.getElementById('bt_colors').setAttribute('class', 'btn btn-info')
     }
-    if (location.pathname == '/do/admin_models' || location.pathname == '/do/create_model') {
+    if (location.pathname == '/autobase/do/admin_models'
+        || location.pathname == '/autobase/do/create_model'
+        || location.pathname == '/autobase/do/change_model') {
         document.getElementById('bt_models').setAttribute('class', 'btn btn-info')
     }
-    if (location.pathname == '/do/admin_manufacturers' || location.pathname == '/do/create_manufacturer') {
+    if (location.pathname == '/autobase/do/admin_manufacturers'
+        || location.pathname == '/autobase/do/create_manufacturer'
+        || location.pathname == '/autobase/do/change_manufacturer') {
         document.getElementById('bt_manufacturers').setAttribute('class', 'btn btn-info')
     }
-    if (location.pathname == '/do/admin_orders' || location.pathname == '/do/main' || location.pathname == '/do/login') {
+    if (location.pathname == '/autobase/do/mainADMIN'
+        || location.pathname == '/autobase/do/main'
+        || location.pathname == '/autobase/do/login') {
         document.getElementById('bt_orders').setAttribute('class', 'btn btn-info')
     }
 }
@@ -131,5 +161,5 @@ function orderDataToModalForm(id, rent, balance) {
     document.getElementById('vhId').value = id;
     document.getElementById('vhRent').value = rent;
     document.getElementById('dayCount').max = (balance - balance % rent) / rent;
-    document.getElementById('dayCount').placeholder = 'Max - '+ (balance - balance % rent) / rent;
+    document.getElementById('dayCount').placeholder = 'Max - ' + (balance - balance % rent) / rent;
 }

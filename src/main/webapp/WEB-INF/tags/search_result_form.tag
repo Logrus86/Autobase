@@ -49,8 +49,8 @@
                 <td>${vehicle.model.value}</td>
                 <td>${vehicle.manufacturer.value}</td>
                 <td>${vehicle.productionYear}</td>
-                <td><c:if test="${locale.language=='ru'}">${vehicle.color.valueRu}</c:if>
-                    <c:if test="${locale.language=='en'}">${vehicle.color.valueEn}</c:if>
+                <td><c:if test="${sessionState.locale.language=='ru'}">${vehicle.color.value_ru}</c:if>
+                    <c:if test="${sessionState.locale.language=='en'}">${vehicle.color.value_en}</c:if>
                 </td>
                 <td><fmt:message key="default.${vehicle.fuelType}"/></td>
                 <td>${vehicle.mileage}</td>
@@ -132,6 +132,7 @@
             <div class="modal-body">
                 <form id="order-form" method="post" action="order">
                     <input id="vhId" name="vhId" type="hidden" value="">
+
                     <div class="input-group">
                         <div class="col-lg-12">
                             <div class="input-group">
@@ -152,7 +153,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="order.dateStart"/></span>
                                 <input type="date" id="dateStart" name="dateStart" class="form-control"
-                                       min='<fmt:formatDate pattern="yyyy-MM-dd" value='${nowdate}'/>' max="2014-12-31"
+                                       min='<fmt:formatDate pattern="yyyy-MM-dd" value='${nowdate}'/>'
                                        value='<fmt:formatDate pattern="yyyy-MM-dd" value='${nowdate}'/>'>
                             </div>
                         </div>

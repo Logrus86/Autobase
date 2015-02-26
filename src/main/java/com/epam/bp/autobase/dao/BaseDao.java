@@ -1,28 +1,23 @@
 package com.epam.bp.autobase.dao;
 
-import com.epam.bp.autobase.entity.Entity;
+import com.epam.bp.autobase.entity.Identifiable;
 
 import java.util.List;
-import java.util.Map;
 
-public interface BaseDao<PK, T extends Entity> {
+public interface BaseDao<T extends Identifiable> {
 
-    public void create(T object) throws DaoException;
+    void create(T entity) throws DaoException;
 
-    public T getById(PK id) throws DaoException;
+    T getById(Integer id) throws DaoException;
 
-    public void update(T object) throws DaoException;
+    List<T> getAll() throws DaoException;
 
-    public void delete(PK id) throws DaoException;
+    void update(T entity) throws DaoException;
 
-    public void delete(T object) throws DaoException;
+    void delete(Integer id) throws DaoException;
 
-    public List<T> getAll() throws DaoException;
+    void delete(T entity) throws DaoException;
 
-    public List<T> getAllSortedBy(String columnName) throws DaoException;
-
-    public List<T> getListByParameter(String param_name, String param_value) throws DaoException;
-
-    public List<T> getListByParametersMap(Map<String, String> params) throws DaoException;
+    boolean checkValueExists(String fieldName, String value) throws DaoException;
 
 }

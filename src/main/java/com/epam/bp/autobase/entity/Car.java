@@ -1,24 +1,46 @@
 package com.epam.bp.autobase.entity;
 
-public class Car extends Vehicle {
-    private int passengerSeatsNumber;
-    private int doorsNumber;
-    private boolean withConditioner;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
-    public int getPassengerSeatsNumber() {
+@Entity
+@DiscriminatorValue(value = "1")
+@NamedQuery(name = "Car.getAll", query = "SELECT c FROM Car c ORDER BY c.id")
+public class Car extends Vehicle<Car> {
+    @NotNull
+    @Min(1)
+    @Max(6)
+    @Column(name = "PASSENGER_SEATS_NUMBER")
+    private Integer passengerSeatsNumber;
+
+    @NotNull
+    @Min(1)
+    @Max(5)
+    @Column(name = "DOORS_NUMBER")
+    private Integer doorsNumber;
+
+    @Column(name = "CONDITIONER")
+    private Boolean withConditioner;
+
+    public Integer getPassengerSeatsNumber() {
         return passengerSeatsNumber;
     }
 
-    public Car setPassengerSeatsNumber(int passengerSeatsNumber) {
+    public Car setPassengerSeatsNumber(Integer passengerSeatsNumber) {
         this.passengerSeatsNumber = passengerSeatsNumber;
         return this;
     }
 
-    public int getDoorsNumber() {
+    public Integer getDoorsNumber() {
         return doorsNumber;
     }
 
-    public Car setDoorsNumber(int doorsNumber) {
+    public Car setDoorsNumber(Integer doorsNumber) {
         this.doorsNumber = doorsNumber;
         return this;
     }
@@ -34,10 +56,10 @@ public class Car extends Vehicle {
 
     @Override
     public String toString() {
-        return "Car {PassSeatsNumber: " + getPassengerSeatsNumber() + ", doorsNumber: " + getDoorsNumber()
+        return "Car {Id: " + getId() + ", PassSeatsNumber: " + getPassengerSeatsNumber() + ", doorsNumber: " + getDoorsNumber()
                 + ", conditioner: " + isWithConditioner() + ", rentPrice: " + getRentPrice() + ", operable: "
                 + isOperable() + ", model: " + getModel().getValue() + ", manufacturer: " + getManufacturer().getValue()
-                + ", driver: " + getDriverId() + ", prodYear: " + getProductionYear() + ", color: " + getColor().getValueEn()
+                + ", driver: " + getDriver().getId() + ", prodYear: " + getProductionYear() + ", color: " + getColor().getValue_en()
                 + ", mileage: " + getMileage() + ", fuelType: " + getFuelType() + "}";
     }
 }

@@ -1,0 +1,20 @@
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.0//EN"
+        "http://google-web-toolkit.googlecode.com/svn/releases/2.0/distro-source/core/src/gwt-module.dtd">
+<module rename-to="AutobaseGwtApp">
+
+    <!-- Inherit the core Web Toolkit stuff.                  -->
+    <inherits name='com.google.gwt.user.User'/>
+    <inherits name="com.github.gwtbootstrap.Bootstrap"/>
+    <inherits name="com.google.gwt.activity.Activity"/>
+    <inherits name="com.google.gwt.place.Place"/>
+
+    <source path="client"/>
+    <source path="dto"/>
+    <source path="shared"/>
+
+    <!-- Specify the app entry point class.                   -->
+    <entry-point class='com.epam.bp.autobase.gwt.client.AutobaseApp'/>
+
+    <!-- Specify the app servlets.                   -->
+    <servlet path='/AuthService' class='com.epam.bp.autobase.gwt.server.AuthServiceImpl'/>
+</module>

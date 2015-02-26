@@ -1,4 +1,4 @@
-<%@tag description="user edit form" pageEncoding="UTF-8"%>
+<%@tag description="user edit form" pageEncoding="UTF-8" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -14,7 +14,8 @@
                     <div class="col-lg-12">
                         <div class="input-group">
                             <span class="input-group-addon"><fmt:message key="default.firstname"/></span>
-                            <input type="text" class="form-control" name="firstname" value="${user.firstname}" required>
+                            <input type="text" class="form-control" name="firstname"
+                                   value="${sessionState.sessionUser.firstname}" required>
                         </div>
                     </div>
                 </div>
@@ -22,7 +23,8 @@
                     <div class="col-lg-12">
                         <div class="input-group">
                             <span class="input-group-addon"><fmt:message key="default.lastname"/></span>
-                            <input type="text" class="form-control" name="lastname" value="${user.lastname}" required>
+                            <input type="text" class="form-control" name="lastname"
+                                   value="${sessionState.sessionUser.lastname}" required>
                         </div>
                     </div>
                 </div>
@@ -31,7 +33,7 @@
                         <div class="input-group">
                             <span class="input-group-addon"><fmt:message key="default.dob"/></span>
                             <input type="date" min="1900-01-01" max="1996-01-01" class="form-control" name="dob"
-                                   value="${user.dob}" required>
+                                   value="${sessionState.sessionUser.dob}" required>
                         </div>
                     </div>
                 </div>
@@ -39,7 +41,8 @@
                     <div class="col-lg-12">
                         <div class="input-group">
                             <span class="input-group-addon"><fmt:message key="default.username"/></span>
-                            <input type="text" class="form-control" name="username" value="${user.username}" required>
+                            <input type="text" class="form-control" name="username"
+                                   value="${sessionState.sessionUser.username}" required>
                         </div>
                     </div>
                 </div>
@@ -47,7 +50,9 @@
                     <div class="col-lg-12">
                         <div class="input-group">
                             <span class="input-group-addon"><fmt:message key="default.password"/></span>
-                            <input type="password" class="form-control" name="password" value="${user.password}" required
+                            <input type="password" class="form-control" name="password"
+                                   value="${sessionState.sessionUser.password}"
+                                   required
                                    title="<fmt:message key="ttip.password8"/>">
                         </div>
                     </div>
@@ -56,7 +61,9 @@
                     <div class="col-lg-12">
                         <div class="input-group">
                             <span class="input-group-addon"><fmt:message key="default.password"/></span>
-                            <input type="password" class="form-control" name="password-repeat" value="${user.password}" required
+                            <input type="password" class="form-control" name="password-repeat"
+                                   value="${sessionState.sessionUser.password}"
+                                   required
                                    title="<fmt:message key="ttip.password8"/>">
                         </div>
                     </div>
@@ -65,22 +72,25 @@
                     <div class="col-lg-12">
                         <div class="input-group">
                             <span class="input-group-addon"><fmt:message key="default.email"/></span>
-                            <input type="email" class="form-control" name="email" value="${user.email}" required>
+                            <input type="email" class="form-control" name="email"
+                                   value="${sessionState.sessionUser.email}" required>
                         </div>
                     </div>
                 </div>
                 <c:if test="${user.role=='CLIENT'}">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="input-group">
-                            <span class="input-group-addon"><fmt:message key="default.balance"/></span>
-                            <input readonly type="number" class="form-control" name="balance" value="${user.balance}">
-                            <span class="input-group-addon"><fmt:message key="default.currency"/></span>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><fmt:message key="default.balance"/></span>
+                                <input readonly type="number" class="form-control" name="balance"
+                                       value="${sessionState.sessionUser.balance}">
+                                <span class="input-group-addon"><fmt:message key="default.currency"/></span>
+                            </div>
                         </div>
                     </div>
-                </div>
                 </c:if>
-                <button type="submit" class="btn btn-primary"><fmt:message key="default.dosave"/></button>
+                <button type="submit" class="btn btn-primary" name="save" value="${sessionState.sessionUser.id}">
+                    <fmt:message key="default.dosave"/></button>
             </div>
         </div>
     </div>

@@ -1,26 +1,71 @@
 package com.epam.bp.autobase.entity;
 
-import com.epam.bp.autobase.dao.*;
-import com.epam.bp.autobase.dao.H2.DaoManager;
-
+import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-public abstract class Vehicle extends Entity {
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "VEHICLE_TYPE", discriminatorType = DiscriminatorType.INTEGER)
+public abstract class Vehicle<T extends Vehicle> implements Identifiable<Vehicle> {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @NotNull
+    @Min(1000)
+    @Digits(integer = 6, fraction = 2)
+    @Column(name = "RENT_PRICE")
     private BigDecimal rentPrice;
-    private Integer colorId;
-    private Integer modelId;
-    private Integer manufacturerId;
-    private Integer driverId;
-    private int productionYear;
-    private BigDecimal mileage;
-    private Fuel fuelType;
-    private boolean operable;
+
+    @NotNull
+    @Enumerated
+    @Column(name = "VEHICLE_TYPE", insertable = false, updatable = false)
+    private Type type;
+
+    @NotNull
+    @ManyToOne
     private Color color;
+
+    @NotNull
+    @ManyToOne
     private Model model;
+
+    @NotNull
+    @ManyToOne
     private Manufacturer manufacturer;
+
+    @ManyToOne
     private User driver;
 
-    private Type type;
+    @NotNull
+    @Min(1980)
+    @Column(name = "PRODUCTION_YEAR")
+    private Integer productionYear;
+
+    @NotNull
+    @Min(1)
+    private BigDecimal mileage;
+
+    @NotNull
+    private Boolean operable;
+
+    @NotNull
+    @Enumerated
+    @Column(name = "FUEL_TYPE")
+    private Fuel fuelType;
+
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public T setId(Integer id) {
+        return (T) this;
+    }
 
     public Type getType() {
         return type;
@@ -35,132 +80,83 @@ public abstract class Vehicle extends Entity {
         return productionYear;
     }
 
-    public void setProductionYear(int productionYear) {
+    public Vehicle setProductionYear(Integer productionYear) {
         this.productionYear = productionYear;
-    }
-
-    public Integer getColorId() {
-        return colorId;
-    }
-
-    public void setColorId(Integer colorId) {
-        this.colorId = colorId;
+        return this;
     }
 
     public BigDecimal getMileage() {
         return mileage;
     }
 
-    public void setMileage(BigDecimal mileage) {
+    public Vehicle setMileage(BigDecimal mileage) {
         this.mileage = mileage;
+        return this;
     }
 
-    public String getFuelType() {
-        return fuelType.toString();
+    public Fuel getFuelType() {
+        return fuelType;
     }
 
-    public void setFuelType(Fuel fuelType) {
+    public Vehicle setFuelType(Fuel fuelType) {
         this.fuelType = fuelType;
+        return this;
     }
 
     public BigDecimal getRentPrice() {
         return rentPrice;
     }
 
-    public void setRentPrice(BigDecimal rentPrice) {
+    public Vehicle setRentPrice(BigDecimal rentPrice) {
         this.rentPrice = rentPrice;
+        return this;
     }
 
     public boolean isOperable() {
         return operable;
     }
 
-    public void setOperable(boolean operable) {
+    public Vehicle setOperable(boolean operable) {
         this.operable = operable;
-    }
-
-    public Integer getModelId() {
-        return modelId;
-    }
-
-    public void setModelId(Integer modelId) {
-        this.modelId = modelId;
-    }
-
-    public Integer getManufacturerId() {
-        return manufacturerId;
-    }
-
-    public void setManufacturerId(Integer manufacturerId) {
-        this.manufacturerId = manufacturerId;
-    }
-
-    public Integer getDriverId() {
-        return driverId;
-    }
-
-    public void setDriverId (Integer driverId) {
-        this.driverId = driverId;
+        return this;
     }
 
     public Model getModel() {
-        try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
-            DaoManager daoManager = daoFactory.getDaoManager();
-            daoManager.transactionAndClose(daoManager1 -> {
-                ModelDao modelDao = daoManager1.getModelDao();
-                model = modelDao.getById(modelId);
-            });
-            daoFactory.releaseContext();
-        } catch (Exception e) {
-            throw new RuntimeException("Error getting vehicle model from database", e);
-        }
         return model;
     }
 
+    public Vehicle setModel(Model model) {
+        this.model = model;
+        return this;
+    }
+
     public Manufacturer getManufacturer() {
-            try {
-                DaoFactory daoFactory = DaoFactory.getInstance();
-                DaoManager daoManager = daoFactory.getDaoManager();
-                daoManager.transactionAndClose(daoManager1 -> {
-                    ManufacturerDao manufacturerDao = daoManager1.getManufacturerDao();
-                    manufacturer = manufacturerDao.getById(manufacturerId);
-                });
-                daoFactory.releaseContext();
-            } catch (Exception e) {
-                throw new RuntimeException("Error getting vehicle manufacturer from database", e);
-            }
         return manufacturer;
     }
 
+    public Vehicle setManufacturer(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
+        return this;
+    }
+
     public Color getColor() {
-            try {
-                DaoFactory daoFactory = DaoFactory.getInstance();
-                DaoManager daoManager = daoFactory.getDaoManager();
-                daoManager.transactionAndClose(daoManager1 -> {
-                    ColorDao colorDao = daoManager1.getColorDao();
-                    color = colorDao.getById(colorId);
-                });
-                daoFactory.releaseContext();
-            } catch (Exception e) {
-                throw new RuntimeException("Error getting vehicle color from database", e);
-            }
         return color;
     }
 
+    public Vehicle setColor(Color color) {
+        this.color = color;
+        return this;
+    }
+
     public User getDriver() {
-        try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
-            DaoManager daoManager = daoFactory.getDaoManager();
-            daoManager.transactionAndClose(daoManager1 -> {
-                UserDao userDao = daoManager1.getUserDao();
-                driver = userDao.getById(driverId);
-            });
-            daoFactory.releaseContext();
-        } catch (Exception e) {
-            throw new RuntimeException("Error getting vehicle driver from database", e);
-        }
         return driver;
+    }
+
+    public Vehicle setDriver(User driver) {
+        if (driver.getRole().equals(User.Role.DRIVER)) {
+            this.driver = driver;
+        }
+        return this;
     }
 
     public enum Fuel {
