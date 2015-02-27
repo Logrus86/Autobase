@@ -3,6 +3,8 @@ package com.epam.bp.autobase.gwt.client;
 import com.epam.bp.autobase.gwt.client.mvp.AppActivityMapper;
 import com.epam.bp.autobase.gwt.client.mvp.AppPlaceHistoryMapper;
 import com.epam.bp.autobase.gwt.client.place.Index;
+import com.epam.bp.autobase.gwt.client.rpc.LoginCheckCallback;
+import com.epam.bp.autobase.gwt.server.AuthServiceImpl;
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.core.client.EntryPoint;
@@ -38,6 +40,8 @@ public class AutobaseApp implements EntryPoint {
 
         RootPanel.get().add(appWidget);
         // Goes to place represented on URL or default place
-        historyHandler.handleCurrentHistory();
+        //historyHandler.handleCurrentHistory();
+
+        AuthServiceImpl.App.getInstance().loginCheck(new LoginCheckCallback(viewFactory, new Index()));
     }
 }
