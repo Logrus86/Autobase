@@ -18,6 +18,6 @@ public class LogoutCallback implements AsyncCallback<Void> {
 
     @Override
     public void onSuccess(Void result) {
-        listener.goTo(new Index(), null);
+        listener.goTo(new Index());
     }
 }

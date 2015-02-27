@@ -16,7 +16,26 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class ClientMainView extends Composite implements IsWidget {
     private static ThisViewUiBinder uiBinder = GWT.create(ThisViewUiBinder.class);
+    interface ThisViewUiBinder extends UiBinder<Widget, ClientMainView>
+    {
+    }
+
     private String name;
+    private Presenter listener;
+    private UserDtoGwt user;
+
+    @UiField
+    ControlLabel label_welcome;
+
+    public ClientMainView() {
+        initWidget(uiBinder.createAndBindUi(this));
+    }
+
+    public ClientMainView setUser(UserDtoGwt user) {
+        label_welcome.getElement().setInnerHTML("Welcome, "+user.getFirstname()+" !");
+        this.user = user;
+        return this;
+    }
 
     public String getName() {
         return name;
@@ -26,26 +45,9 @@ public class ClientMainView extends Composite implements IsWidget {
         this.name = name;
     }
 
-    interface ThisViewUiBinder extends UiBinder<Widget, ClientMainView>
-    {
-    }
-    private Presenter listener;
-    private UserDtoGwt user;
-
-    @UiField
-    ControlLabel label_welcome;
-
-    public ClientMainView(UserDtoGwt user) {
-        initWidget(uiBinder.createAndBindUi(this));
-        this.user = user;
-        label_welcome.getElement().setInnerHTML("Welcome, "+user.getFirstname()+" !");
-    }
-
     public void setPresenter(Presenter presenter) {
         this.listener = presenter;
     }
-
-
 
     @UiHandler("button_logout")
     public void onLogoutClick(ClickEvent e) {

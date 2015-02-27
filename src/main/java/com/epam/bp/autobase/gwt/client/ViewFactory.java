@@ -13,15 +13,15 @@ public class ViewFactory {
     private static final EventBus eventBus = new SimpleEventBus();
     private static final PlaceController placeController = new PlaceController(eventBus);
     private static final IndexView indexView = new IndexView();
-    private static ClientMainView clientMainView;
-    private UserDtoGwt user;
+    private static final ClientMainView clientMainView = new ClientMainView();
+    private static UserDtoGwt user = null;
 
     public UserDtoGwt getUser() {
         return user;
     }
 
     public void setUser(UserDtoGwt user) {
-        this.user = user;
+        ViewFactory.user = user;
     }
 
     public EventBus getEventBus() {
@@ -37,6 +37,6 @@ public class ViewFactory {
     }
 
     public ClientMainView getClientMainView() {
-        return new ClientMainView(user);
+        return clientMainView.setUser(user);
     }
 }

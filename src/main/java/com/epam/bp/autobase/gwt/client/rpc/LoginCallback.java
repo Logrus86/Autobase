@@ -9,15 +9,13 @@ import com.google.gwt.user.client.ui.Widget;
 public class LoginCallback implements AsyncCallback<UserDtoGwt> {
     Presenter listener;
     Widget label_loginResult;
-    UserDtoGwt user;
 
     public LoginCallback(Presenter listener, Widget label_loginResult) {
         this.listener = listener;
         this.label_loginResult = label_loginResult;
     }
 
-    public void onSuccess(UserDtoGwt result) {
-        user = result;
+    public void onSuccess(UserDtoGwt user) {
         if (user != null) listener.goTo(new Client("main"), user);
         else label_loginResult.getElement().setInnerHTML("User with such credentials wasn't found.");
     }
