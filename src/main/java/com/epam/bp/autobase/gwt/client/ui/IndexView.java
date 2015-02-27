@@ -33,10 +33,6 @@ public class IndexView extends Composite implements IsWidget {
         initWidget(uiBinder.createAndBindUi(this));
     }
 
-    public Presenter getPresenter() {
-        return listener;
-    }
-
     public void setPresenter(Presenter presenter) {
         this.listener = presenter;
     }
