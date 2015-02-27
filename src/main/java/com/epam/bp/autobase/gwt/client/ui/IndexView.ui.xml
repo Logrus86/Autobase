@@ -4,13 +4,16 @@
         >
 
     <g:HTMLPanel ui:field="root">
-        <b:Label ui:field="label_loginResult"/>
-        <b:Form type="INLINE" ui:field="form_login">
-            <b:TextBox ui:field="textBox_username" placeholder="Username"/>
-            <b:PasswordTextBox ui:field="textBox_password" placeholder="Password"/>
-            <b:SubmitButton ui:field="button_login" type="DEFAULT" text="Log-In"/>
-            <b:Button ui:field="button_register" type="PRIMARY" text="Register"/>
-        </b:Form>
+        <b:Container>
+            <b:Image title="Vehicle ordering - autobase.com" altText="logo" url="static/img/logo.jpg"/>
+            <b:Form type="INLINE" ui:field="form_login">
+                <b:TextBox ui:field="textBox_username" placeholder="Username"/>
+                <b:PasswordTextBox ui:field="textBox_password" placeholder="Password"/>
+                <b:SubmitButton ui:field="button_login" type="DEFAULT" text="Log-In"/>
+                <b:Button ui:field="button_register" type="PRIMARY" text="Register"/>
+            </b:Form>
+        </b:Container>
+        <b:Column size="12" styleName="msg-error" ui:field="label_loginResult"/>
     </g:HTMLPanel>
 
 </ui:UiBinder>
