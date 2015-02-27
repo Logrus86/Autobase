@@ -1,8 +1,12 @@
 package com.epam.bp.autobase.gwt.client.activity;
 
 import com.epam.bp.autobase.gwt.client.ViewFactory;
+import com.epam.bp.autobase.gwt.client.place.Client;
+import com.epam.bp.autobase.gwt.client.place.Index;
+import com.epam.bp.autobase.gwt.client.rpc.LoginCheckCallback;
 import com.epam.bp.autobase.gwt.client.ui.IndexView;
 import com.epam.bp.autobase.gwt.dto.UserDtoGwt;
+import com.epam.bp.autobase.gwt.server.AuthServiceImpl;
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
@@ -23,9 +27,14 @@ public class IndexActivity extends AbstractActivity implements Presenter {
     }
 
     @Override
-    public void goTo(Place place, UserDtoGwt user) {
-        viewFactory.setUser(user);
-        viewFactory.getPlaceController().goTo(place);
+    public void goTo(Place place) {
+        AuthServiceImpl.App.getInstance().loginCheck(new LoginCheckCallback(viewFactory, place));
     }
 
+    @Override
+    public void goTo(Place place, UserDtoGwt user) {
+        viewFactory.setUser(user);
+        if (user != null) viewFactory.getPlaceController().goTo(new Client("main"));
+        else viewFactory.getPlaceController().goTo(new Index());
+    }
 }
