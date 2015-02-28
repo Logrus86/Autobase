@@ -12,7 +12,6 @@ public class ViewFactory {
 
     private static final EventBus eventBus = new SimpleEventBus();
     private static final PlaceController placeController = new PlaceController(eventBus);
-    private static final IndexView indexView = new IndexView();
     private static final ClientMainView clientMainView = new ClientMainView();
     private static UserDtoGwt user = null;
 
@@ -33,7 +32,7 @@ public class ViewFactory {
     }
 
     public IndexView getIndexView() {
-        return indexView;
+        return new IndexView();
     }
 
     public ClientMainView getClientMainView() {
