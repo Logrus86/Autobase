@@ -1,13 +1,12 @@
 package com.epam.bp.autobase.gwt.client.ui;
 
 import com.epam.bp.autobase.gwt.client.activity.Presenter;
+import com.epam.bp.autobase.gwt.client.place.Index;
 import com.epam.bp.autobase.gwt.client.rpc.AuthService;
 import com.epam.bp.autobase.gwt.client.rpc.LoginCallback;
-import com.github.gwtbootstrap.client.ui.Column;
-import com.github.gwtbootstrap.client.ui.Form;
-import com.github.gwtbootstrap.client.ui.PasswordTextBox;
-import com.github.gwtbootstrap.client.ui.TextBox;
+import com.github.gwtbootstrap.client.ui.*;
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -22,6 +21,8 @@ public class IndexView extends Composite implements IsWidget {
     Form form_login;
     @UiField
     Column label_loginResult;
+    @UiField
+    ControlGroup loginInputs;
     @UiField
     TextBox textBox_username;
     @UiField
@@ -38,7 +39,12 @@ public class IndexView extends Composite implements IsWidget {
 
     @UiHandler("form_login")
     public void onFormLoginSubmit(Form.SubmitEvent e) {
-        AuthService.App.getInstance().login(textBox_username.getValue(), textBox_password.getValue(), new LoginCallback(listener, label_loginResult));
+        AuthService.App.getInstance().login(textBox_username.getValue(), textBox_password.getValue(),new LoginCallback(listener, loginInputs, label_loginResult));
+    }
+
+    @UiHandler("logo")
+    public void onImageClick(ClickEvent e) {
+        listener.goTo(new Index());
     }
 
     interface ThisViewUiBinder extends UiBinder<Widget, IndexView> {
