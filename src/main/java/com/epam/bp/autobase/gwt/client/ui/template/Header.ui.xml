@@ -1,0 +1,35 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:b="urn:import:com.github.gwtbootstrap.client.ui"
+        >
+    <g:HTMLPanel>
+        <b:Column size="12" styleName="logo_header">
+            <b:Container>
+                <b:Image ui:field="logo" styleName="logo" title="Go to main page" altText="logo"
+                         url="static/img/logo.jpg"/>
+                <b:Form type="INLINE" ui:field="form_login" styleName="loginForms">
+                    <b:ControlGroup ui:field="loginInputs">
+                        <b:TextBox ui:field="textBox_username" placeholder="Username"/>
+                        <b:PasswordTextBox ui:field="textBox_password" placeholder="Password"/>
+                        <b:SubmitButton ui:field="button_login" type="DEFAULT" text="Log-In"/>
+                        <b:Button ui:field="button_register" type="PRIMARY" text="Register"/>
+                    </b:ControlGroup>
+                </b:Form>
+                <b:Form type="INLINE" ui:field="form_logout" styleName="loginForms">
+                    <b:ControlGroup>
+                    <g:Label ui:field="label_welcome" styleName="label_welcome"/>
+                    <b:Button name="button_cabinet" icon="USER" iconPosition="RIGHT" type="INFO"
+                              ui:field="button_cabinet" text="Cabinet"/>
+                    <b:Button name="logout" ui:field="button_logout" type="DANGER" text="Log-Out"/>
+                    </b:ControlGroup>
+                </b:Form>
+            </b:Container>
+            <b:Column size="12" styleName="msg-error" ui:field="label_loginResult"/>
+        </b:Column>
+        <b:Column size="12" styleName="second_logo">
+            <g:Label styleName="count" text="More than 200 namings of vehicles units"/>
+            <g:Label styleName="title" text="Transport services at the best prices!"/>
+            <g:Label styleName="sub_title" text="Hourly and daily hiring of cars and trucks, and buses"/>
+        </b:Column>
+    </g:HTMLPanel>
+</ui:UiBinder>
