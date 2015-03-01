@@ -2,7 +2,6 @@
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
              xmlns:b="urn:import:com.github.gwtbootstrap.client.ui"
         >
-
     <g:HTMLPanel ui:field="root">
         <b:Column size="12" styleName="logo_header">
             <b:Container>
@@ -24,6 +23,9 @@
             <g:Label styleName="title" text="Transport services at the best prices!"/>
             <g:Label styleName="sub_title" text="Hourly and daily hiring of cars and trucks, and buses"/>
         </b:Column>
+        <b:Column size="12" styleName="footer">
+            <g:Label text="Bobylev P.R. ©2014-2015"/>
+            <g:Label text="EPAM Kazakhstan &amp; EPAM Systems ©2014-2015"/>
+        </b:Column>
     </g:HTMLPanel>
-
 </ui:UiBinder>

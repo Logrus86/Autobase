@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 
 public class IndexView extends Composite implements IsWidget {
+    interface ThisViewUiBinder extends UiBinder<Widget, IndexView> {}
     private static ThisViewUiBinder uiBinder = GWT.create(ThisViewUiBinder.class);
     @UiField
     Form form_login;
@@ -45,8 +46,5 @@ public class IndexView extends Composite implements IsWidget {
     @UiHandler("logo")
     public void onImageClick(ClickEvent e) {
         listener.goTo(new Index());
-    }
-
-    interface ThisViewUiBinder extends UiBinder<Widget, IndexView> {
     }
 }
