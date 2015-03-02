@@ -10,25 +10,25 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class LoginCallback implements AsyncCallback<UserDtoGwt> {
     Presenter listener;
-    Widget label_loginResult;
+    Widget widget_loginResult;
     ControlGroup loginInputs;
 
-    public LoginCallback(Presenter listener, ControlGroup loginInputs, Widget label_loginResult) {
+    public LoginCallback(Presenter listener, ControlGroup loginInputs, Widget widget_loginResult) {
         this.listener = listener;
-        this.label_loginResult = label_loginResult;
+        this.widget_loginResult = widget_loginResult;
         this.loginInputs = loginInputs;
     }
 
     public void onSuccess(UserDtoGwt user) {
         if (user != null) listener.goTo(new Client("main"), user);
         else {
-            loginInputs.setType(ControlGroupType.WARNING);
-            label_loginResult.getElement().setInnerHTML("User with such credentials wasn't found.");
+            loginInputs.setType(ControlGroupType.ERROR);
+            widget_loginResult.getElement().setInnerHTML("User with such credentials wasn't found.");
         }
     }
 
     public void onFailure(Throwable throwable) {
-        label_loginResult.getElement().setInnerHTML("Failed to receive answer from server: " + throwable.getMessage());
+        widget_loginResult.getElement().setInnerHTML("Failed to receive answer from server: " + throwable.getMessage());
     }
 
 }

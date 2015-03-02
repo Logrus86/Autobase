@@ -31,7 +31,7 @@ public class Header extends Composite implements IsWidget {
     @UiField
     com.google.gwt.user.client.ui.Label label_welcome;
     @UiField
-    Column label_loginResult;
+    HelpBlock widget_loginResult;
     @UiField
     ControlGroup loginInputs;
     @UiField
@@ -68,7 +68,7 @@ public class Header extends Composite implements IsWidget {
 
     @UiHandler("form_login")
     public void onFormLoginSubmit(Form.SubmitEvent e) {
-        AuthService.App.getInstance().login(textBox_username.getValue(), textBox_password.getValue(),new LoginCallback(listener, loginInputs, label_loginResult));
+        AuthService.App.getInstance().login(textBox_username.getValue(), textBox_password.getValue(), new LoginCallback(listener, loginInputs, widget_loginResult));
     }
 
     @UiHandler("logo")
