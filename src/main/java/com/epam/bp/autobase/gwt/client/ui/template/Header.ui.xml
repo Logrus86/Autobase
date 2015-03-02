@@ -12,9 +12,10 @@
                     <b:ControlGroup ui:field="loginInputs">
                         <b:TextBox ui:field="textBox_username" placeholder="Username"/>
                         <b:PasswordTextBox ui:field="textBox_password" placeholder="Password"/>
-                        <b:SubmitButton ui:field="button_login" type="DEFAULT" text="Log-In"/>
+                        <b:SubmitButton ui:field="button_login" type="INFO" text="Log-In"/>
                         <b:Button ui:field="button_register" type="PRIMARY" text="Register"/>
                     </b:ControlGroup>
+                    <b:HelpBlock ui:field="widget_loginResult"/>
                 </b:Form>
                 <b:Form type="INLINE" ui:field="form_logout" styleName="loginForms">
                     <b:ControlGroup>
@@ -25,7 +26,7 @@
                     </b:ControlGroup>
                 </b:Form>
             </b:Container>
-            <b:Column size="12" styleName="msg-error" ui:field="label_loginResult"/>
+            <b:Column size="12" styleName="msg-error" ui:field="label_loginResult1"/>
         </b:Column>
         <b:Column size="12" styleName="second_logo">
             <g:Label styleName="count" text="More than 200 namings of vehicles units"/>
@@ -34,33 +35,47 @@
         </b:Column>
         <b:Modal ui:field="modalRegistration" title="Registration" backdrop="NORMAL" keyboard="true" animation="true">
             <b:ControlGroup ui:field="cg_firstname">
-                <b:TextBox ui:field="input_firstname" placeholder="Firstname"/>
-                <b:HelpInline ui:field="help_firstname"/>
+                <b:Tooltip text='another tooltip' trigger="FOCUS" placement="RIGHT">
+                    <b:TextBox ui:field="input_firstname" placeholder="Firstname"/>
+                </b:Tooltip>
+                <b:HelpBlock ui:field="help_firstname"/>
             </b:ControlGroup>
             <b:ControlGroup ui:field="cg_lastname">
-                <b:TextBox ui:field="input_lastname" placeholder="Lastname"/>
-                <b:HelpInline ui:field="help_lastname"/>
+                <b:Tooltip text='another tooltip' trigger="FOCUS" placement="RIGHT">
+                    <b:TextBox ui:field="input_lastname" placeholder="Lastname"/>
+                </b:Tooltip>
+                <b:HelpBlock ui:field="help_lastname"/>
             </b:ControlGroup>
             <b:ControlGroup ui:field="cg_dob">
-                <b2:DateBox ui:field="input_dob" autoClose="true" format="dd.mm.yyyy" placeholder="Date of birth"
-                            startDate="01.01.1901" endDate="31.12.1997"/>
-                <b:HelpInline ui:field="help_dob"/>
+                <b:Tooltip text='another tooltip' trigger="FOCUS" placement="RIGHT">
+                    <b2:DateBox ui:field="input_dob" autoClose="true" format="dd.mm.yyyy" placeholder="Date of birth"
+                                startDate="01.01.1901" endDate="31.12.1997"/>
+                </b:Tooltip>
+                <b:HelpBlock ui:field="help_dob"/>
             </b:ControlGroup>
             <b:ControlGroup ui:field="cg_username">
-                <b:TextBox ui:field="input_username" placeholder="Username"/>
-                <b:HelpInline ui:field="help_username"/>
+                <b:Tooltip text='another tooltip' trigger="FOCUS" placement="RIGHT">
+                    <b:TextBox ui:field="input_username" placeholder="Username"/>
+                </b:Tooltip>
+                <b:HelpBlock ui:field="help_username"/>
             </b:ControlGroup>
             <b:ControlGroup ui:field="cg_password">
-                <b:PasswordTextBox ui:field="input_password" placeholder="Password"/>
-                <b:HelpInline ui:field="help_password"/>
+                <b:Tooltip text='another tooltip' trigger="FOCUS" placement="RIGHT">
+                    <b:PasswordTextBox ui:field="input_password" placeholder="Password"/>
+                </b:Tooltip>
+                <b:HelpBlock ui:field="help_password"/>
             </b:ControlGroup>
             <b:ControlGroup ui:field="cg_passwordRepeat">
-                <b:PasswordTextBox ui:field="input_passwordRepeat" placeholder="Repeat password"/>
-                <b:HelpInline ui:field="help_passwordRepeat"/>
+                <b:Tooltip text='another tooltip' trigger="FOCUS" placement="RIGHT">
+                    <b:PasswordTextBox ui:field="input_passwordRepeat" placeholder="Repeat password"/>
+                </b:Tooltip>
+                <b:HelpBlock ui:field="help_passwordRepeat"/>
             </b:ControlGroup>
-            <b:ControlGroup ui:field="cg_email">
-                <b:TextBox ui:field="input_email" placeholder="E-mail"/>
-                <b:HelpInline ui:field="help_email"/>
+            <b:ControlGroup ui:field="cg_email" type="ERROR">
+                <b:Tooltip text='another tooltip' trigger="FOCUS" placement="RIGHT">
+                    <b:TextBox ui:field="input_email" placeholder="E-mail"/>
+                </b:Tooltip>
+                <b:HelpBlock ui:field="help_email"/>
             </b:ControlGroup>
             <b:ModalFooter>
                 <b:ControlGroup>
