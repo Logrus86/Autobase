@@ -74,7 +74,7 @@
                 <b:HelpBlock ui:field="help_passwordRepeat"/>
             </b:ControlGroup>
             <b:ControlGroup ui:field="cg_email">
-                <b:Tooltip text='' trigger="FOCUS" placement="RIGHT">
+                <b:Tooltip text='Must be a well-formed email address' trigger="FOCUS" placement="RIGHT">
                     <b:TextBox ui:field="input_email" placeholder="E-mail"/>
                 </b:Tooltip>
                 <b:HelpBlock ui:field="help_email"/>
