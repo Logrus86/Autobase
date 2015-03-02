@@ -2,6 +2,7 @@ package com.epam.bp.autobase.gwt.client.ui;
 
 import com.epam.bp.autobase.gwt.client.activity.Presenter;
 import com.epam.bp.autobase.gwt.client.ui.template.Header;
+import com.epam.bp.autobase.gwt.client.ui.template.SearchForm;
 import com.epam.bp.autobase.gwt.dto.UserDtoGwt;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -16,6 +17,8 @@ public class ClientMainView extends Composite implements IsWidget {
 
     @UiField
     Header header;
+    @UiField
+    SearchForm searchForm;
 
     private Presenter presenter;
     private String name;
@@ -51,6 +54,7 @@ public class ClientMainView extends Composite implements IsWidget {
     public void setPresenter(Presenter presenter) {
         this.presenter = presenter;
         header.setPresenter(presenter);
+        searchForm.setPresenter(presenter);
     }
 
 
