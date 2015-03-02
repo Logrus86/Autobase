@@ -6,7 +6,9 @@ import com.epam.bp.autobase.gwt.client.rpc.AuthService;
 import com.epam.bp.autobase.gwt.client.rpc.LoginCallback;
 import com.epam.bp.autobase.gwt.client.rpc.LogoutCallback;
 import com.github.gwtbootstrap.client.ui.*;
+import com.github.gwtbootstrap.datepicker.client.ui.DateBox;
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -36,6 +38,18 @@ public class Header extends Composite implements IsWidget {
     TextBox textBox_username;
     @UiField
     PasswordTextBox textBox_password;
+    @UiField
+    Button button_register;
+    @UiField
+    Modal modalRegistration;
+    @UiField
+    Button button_modalRegister;
+    @UiField
+    Button button_modalCancel;
+    @UiField
+    TextBox input_firstname;
+    @UiField
+    DateBox input_dob;
 
     public Header() {
         initWidget(uiBinder.createAndBindUi(this));
@@ -65,5 +79,21 @@ public class Header extends Composite implements IsWidget {
     @UiHandler("button_logout")
     public void onLogoutClick(ClickEvent e) {
         AuthService.App.getInstance().logout(new LogoutCallback(listener));
+    }
+
+    @UiHandler("button_register")
+    public void onButtonRegisterClick(ClickEvent e) {
+        modalRegistration.show();
+        input_dob.setValue(null);
+    }
+
+    @UiHandler("button_modalCancel")
+    public void onButtonModalCancelClick(ClickEvent e) {
+        modalRegistration.hide();
+    }
+
+    @UiHandler("input_firstname")
+    public void onInputFirstnameChanged(ChangeEvent e) {
+
     }
 }

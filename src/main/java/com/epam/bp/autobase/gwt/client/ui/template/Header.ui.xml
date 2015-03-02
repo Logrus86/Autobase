@@ -1,6 +1,7 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
              xmlns:b="urn:import:com.github.gwtbootstrap.client.ui"
+             xmlns:b2="urn:import:com.github.gwtbootstrap.datepicker.client.ui"
         >
     <g:HTMLPanel>
         <b:Column size="12" styleName="logo_header">
@@ -17,10 +18,10 @@
                 </b:Form>
                 <b:Form type="INLINE" ui:field="form_logout" styleName="loginForms">
                     <b:ControlGroup>
-                    <g:Label ui:field="label_welcome" styleName="label_welcome"/>
-                    <b:Button name="button_cabinet" icon="USER" iconPosition="RIGHT" type="INFO"
-                              ui:field="button_cabinet" text="Cabinet"/>
-                    <b:Button name="logout" ui:field="button_logout" type="DANGER" text="Log-Out"/>
+                        <g:Label ui:field="label_welcome" styleName="label_welcome"/>
+                        <b:Button name="button_cabinet" icon="USER" iconPosition="RIGHT" type="INFO"
+                                  ui:field="button_cabinet" text="Cabinet"/>
+                        <b:Button name="logout" ui:field="button_logout" type="DANGER" text="Log-Out"/>
                     </b:ControlGroup>
                 </b:Form>
             </b:Container>
@@ -31,5 +32,42 @@
             <g:Label styleName="title" text="Transport services at the best prices!"/>
             <g:Label styleName="sub_title" text="Hourly and daily hiring of cars and trucks, and buses"/>
         </b:Column>
+        <b:Modal ui:field="modalRegistration" title="Registration" backdrop="NORMAL" keyboard="true" animation="true">
+            <b:ControlGroup ui:field="cg_firstname">
+                <b:TextBox ui:field="input_firstname" placeholder="Firstname"/>
+                <b:HelpInline ui:field="help_firstname"/>
+            </b:ControlGroup>
+            <b:ControlGroup ui:field="cg_lastname">
+                <b:TextBox ui:field="input_lastname" placeholder="Lastname"/>
+                <b:HelpInline ui:field="help_lastname"/>
+            </b:ControlGroup>
+            <b:ControlGroup ui:field="cg_dob">
+                <b2:DateBox ui:field="input_dob" autoClose="true" format="dd.mm.yyyy" placeholder="Date of birth"
+                            startDate="01.01.1901" endDate="31.12.1997"/>
+                <b:HelpInline ui:field="help_dob"/>
+            </b:ControlGroup>
+            <b:ControlGroup ui:field="cg_username">
+                <b:TextBox ui:field="input_username" placeholder="Username"/>
+                <b:HelpInline ui:field="help_username"/>
+            </b:ControlGroup>
+            <b:ControlGroup ui:field="cg_password">
+                <b:PasswordTextBox ui:field="input_password" placeholder="Password"/>
+                <b:HelpInline ui:field="help_password"/>
+            </b:ControlGroup>
+            <b:ControlGroup ui:field="cg_passwordRepeat">
+                <b:PasswordTextBox ui:field="input_passwordRepeat" placeholder="Repeat password"/>
+                <b:HelpInline ui:field="help_passwordRepeat"/>
+            </b:ControlGroup>
+            <b:ControlGroup ui:field="cg_email">
+                <b:TextBox ui:field="input_email" placeholder="E-mail"/>
+                <b:HelpInline ui:field="help_email"/>
+            </b:ControlGroup>
+            <b:ModalFooter>
+                <b:ControlGroup>
+                    <b:Button type="PRIMARY" ui:field="button_modalRegister" text="Register"/>
+                    <b:Button text="Cancel" ui:field="button_modalCancel"/>
+                </b:ControlGroup>
+            </b:ModalFooter>
+        </b:Modal>
     </g:HTMLPanel>
 </ui:UiBinder>

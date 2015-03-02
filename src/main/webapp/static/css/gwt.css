@@ -86,3 +86,12 @@ input.gwt-TextBox {
 .label_welcome {
     display: inline;
 }
+
+.modal.fade.in {
+    top: 10%;
+    text-align: center;
+}
+
+input[type="password"] {
+    margin-bottom: 0 !important;
+}
