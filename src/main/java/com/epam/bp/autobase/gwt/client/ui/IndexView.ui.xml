@@ -4,7 +4,7 @@
         >
     <g:HTMLPanel ui:field="root">
         <my:Header ui:field="header"/>
-
+        <my:SearchForm ui:field="searchForm"/>
         <my:Footer/>
     </g:HTMLPanel>
 </ui:UiBinder>

@@ -17,6 +17,7 @@ public class ClientMainView extends Composite implements IsWidget {
     @UiField
     Header header;
 
+    private Presenter presenter;
     private String name;
     private UserDtoGwt user;
 
@@ -39,7 +40,16 @@ public class ClientMainView extends Composite implements IsWidget {
         this.name = name;
     }
 
+    public Presenter getPresenter() {
+        return presenter;
+    }
+
+    public UserDtoGwt getUser() {
+        return user;
+    }
+
     public void setPresenter(Presenter presenter) {
+        this.presenter = presenter;
         header.setPresenter(presenter);
     }
 
