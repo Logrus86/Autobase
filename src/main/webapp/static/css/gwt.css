@@ -26,12 +26,11 @@ input.gwt-TextBox {
     background-color: #e9e9e9;
     border-bottom: 2px solid #0aa0dd;
     border-top: 2px solid #0aa0dd;
-    height: 75px;
+    padding: 0 200px 0 200px;
 }
 
 .second_logo {
     padding: 80px 200px 55px;
-    height: 210px;
     margin: 0 0 30px;
     position: relative;
     background-color: #489AE3;
@@ -54,9 +53,7 @@ input.gwt-TextBox {
 .title {
     font-size: 45px;
     background: url('../img/title_bg_block.png') repeat;
-    height: 30px;
     padding-left: 12px;
-    padding-top: 20px;
 }
 
 .sub_title {
