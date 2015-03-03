@@ -3,9 +3,9 @@
              xmlns:b="urn:import:com.github.gwtbootstrap.client.ui"
         >
     <b:WellForm ui:field="searchForm" styleName="searchForm">
-        <g:Label styleName="searchLabel" text="Find vehicle"/>
-        <b:Container styleName="margin20">
-            <b:TabPanel tabPosition="above" ui:field="tabPanel">
+        <g:Label styleName="searchFormLabel" text="Find vehicle"/>
+        <b:Container styleName="searchFormBody">
+            <b:TabPanel tabPosition="above">
                 <b:TabPane heading="Bus">
                     <g:Label>Bus</g:Label>
                     <g:Label>Bus</g:Label>
