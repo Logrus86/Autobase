@@ -1,10 +1,9 @@
 package com.epam.bp.autobase.gwt.server;
 
 import com.epam.bp.autobase.cdi.SessionState;
-import com.epam.bp.autobase.entity.User;
 import com.epam.bp.autobase.gwt.client.rpc.AuthService;
-import com.epam.bp.autobase.gwt.dto.UserDtoGwt;
-import com.epam.bp.autobase.jsp.dto.UserDto;
+import com.epam.bp.autobase.model.dto.UserDto;
+import com.epam.bp.autobase.model.entity.User;
 import com.epam.bp.autobase.service.ServiceException;
 import com.epam.bp.autobase.service.UserService;
 import com.epam.bp.autobase.util.AutobaseCookies;
@@ -24,7 +23,7 @@ public class AuthServiceImpl extends RemoteServiceServlet implements AuthService
     private Logger logger;
 
     @Override
-    public UserDtoGwt login(String username, String password) {
+    public UserDto login(String username, String password) {
         String resultLog;
         User user = null;
         UserDto userDto = new UserDto()
@@ -75,7 +74,7 @@ public class AuthServiceImpl extends RemoteServiceServlet implements AuthService
     }
 
     @Override
-    public UserDtoGwt loginCheck() {
+    public UserDto loginCheck() {
         String resultLog = null;
         User user = ss.getSessionUser();
         if (user != null) {

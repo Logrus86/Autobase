@@ -1,7 +1,7 @@
 package com.epam.bp.autobase.filter;
 
 import com.epam.bp.autobase.cdi.SessionState;
-import com.epam.bp.autobase.entity.User;
+import com.epam.bp.autobase.model.entity.User;
 import org.jboss.logging.Logger;
 
 import javax.inject.Inject;

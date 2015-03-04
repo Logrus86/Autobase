@@ -2,7 +2,7 @@ package com.epam.bp.autobase.dao.hibernate;
 
 import com.epam.bp.autobase.dao.BaseDao;
 import com.epam.bp.autobase.dao.DaoException;
-import com.epam.bp.autobase.entity.Identifiable;
+import com.epam.bp.autobase.model.entity.Identifiable;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;

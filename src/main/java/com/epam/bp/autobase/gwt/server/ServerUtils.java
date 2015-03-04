@@ -1,35 +1,27 @@
 package com.epam.bp.autobase.gwt.server;
 
-import com.epam.bp.autobase.entity.User;
-import com.epam.bp.autobase.gwt.dto.UserDtoGwt;
-import com.epam.bp.autobase.jsp.dto.UserDto;
+import com.epam.bp.autobase.model.dto.UserDto;
+import com.epam.bp.autobase.model.entity.User;
+import com.epam.bp.autobase.util.DateParser;
 
 public class ServerUtils {
-    public static UserDtoGwt buildUserDtoGwt(User user) {
+    public static UserDto buildUserDtoGwt(User user) {
         if (user == null) return null;
-        UserDtoGwt result = new UserDtoGwt()
+        return new UserDto()
                 .setId(user.getId())
                 .setUsername(user.getUsername())
                 .setPassword(user.getPassword())
                 .setFirstname(user.getFirstname())
                 .setLastname(user.getLastname())
-                .setDob(user.getDobString())
+                .setDob(DateParser.stringFromDate(user.getDob()))
                 .setEmail(user.getEmail())
-                .setBalance(user.getBalance());
-        switch (user.getRole()) {
-            case ADMIN: result.setRole(0);
-                break;
-            case CLIENT: result.setRole(1);
-                break;
-            case DRIVER: result.setRole(2);
-                break;
-        }
-        return result;
+                .setBalance(user.getBalance())
+                .setRole(user.getRole());
     }
 
-    public static UserDtoGwt buildUserDtoGwt(UserDto userDto) {
+    public static UserDto buildUserDtoGwt(UserDto userDto) {
         if (userDto == null) return null;
-        UserDtoGwt result = new UserDtoGwt()
+        return new UserDto()
                 .setId(userDto.getId())
                 .setUsername(userDto.getUsername())
                 .setPassword(userDto.getPassword())
@@ -37,15 +29,7 @@ public class ServerUtils {
                 .setLastname(userDto.getLastname())
                 .setDob(userDto.getDob())
                 .setEmail(userDto.getEmail())
-                .setBalance(userDto.getBalance());
-        switch (userDto.getRole()) {
-            case ADMIN: result.setRole(0);
-                break;
-            case CLIENT: result.setRole(1);
-                break;
-            case DRIVER: result.setRole(2);
-                break;
-        }
-        return result;
+                .setBalance(userDto.getBalance())
+                .setRole(userDto.getRole());
     }
 }

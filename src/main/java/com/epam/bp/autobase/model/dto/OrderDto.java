@@ -1,6 +1,7 @@
-package com.epam.bp.autobase.jsp.dto;
+package com.epam.bp.autobase.model.dto;
 
-import com.epam.bp.autobase.entity.Order;
+import com.epam.bp.autobase.model.entity.Order;
+import com.epam.bp.autobase.util.DateParser;
 
 import java.math.BigDecimal;
 
@@ -9,7 +10,7 @@ public class OrderDto extends AbstractDto<Order, OrderDto> {
     private VehicleDto vehicleDto;
     private String dateStartString;
     private Integer dayCount;
-    private String dateOrderedString;
+    private String dateTimeOrderedString;
     private BigDecimal sum;
     private Order.Status status;
 
@@ -18,9 +19,9 @@ public class OrderDto extends AbstractDto<Order, OrderDto> {
 
     public OrderDto(Order entity) {
         super(entity);
-        dateStartString = entity.getDateStart();
+        dateStartString = DateParser.stringFromDate(entity.getDateStart());
         dayCount = entity.getDayCount();
-        dateOrderedString = entity.getDateOrdered();
+        dateTimeOrderedString = DateParser.stringFromDateTime(entity.getDateTimeOrdered());
         sum = entity.getSum();
         status = entity.getStatus();
         vehicleDto = new VehicleDto(entity.getVehicle());
@@ -67,12 +68,12 @@ public class OrderDto extends AbstractDto<Order, OrderDto> {
         return this;
     }
 
-    public String getDateOrderedString() {
-        return dateOrderedString;
+    public String getDateTimeOrderedString() {
+        return dateTimeOrderedString;
     }
 
-    public OrderDto setDateOrderedString(String dateOrderedString) {
-        this.dateOrderedString = dateOrderedString;
+    public OrderDto setDateTimeOrderedString(String dateTimeOrderedString) {
+        this.dateTimeOrderedString = dateTimeOrderedString;
         return this;
     }
 
@@ -98,9 +99,9 @@ public class OrderDto extends AbstractDto<Order, OrderDto> {
     public Order buildLazyEntity() {
         Order order = new Order()
                 .setId(getId())
-                .setDateStart(dateStartString)
+                .setDateStart(DateParser.dateFromString(dateStartString))
                 .setDayCount(dayCount)
-                .setDateOrdered(dateOrderedString)
+                .setDateTimeOrdered(DateParser.dateTimeFromString(dateTimeOrderedString))
                 .setStatus(status)
                 .setSum(sum);
         if (clientDto != null) order.setClient(clientDto.buildLazyEntity());
@@ -117,8 +118,9 @@ public class OrderDto extends AbstractDto<Order, OrderDto> {
     public Order overwriteEntityFromDto(Order entity) {
         if (sum != null) entity.setSum(sum);
         if (status != null) entity.setStatus(status);
-        if (dateOrderedString != null) entity.setDateOrdered(dateOrderedString);
-        if (dateStartString != null) entity.setDateStart(dateStartString);
+        if (dateTimeOrderedString != null)
+            entity.setDateTimeOrdered(DateParser.dateTimeFromString(dateTimeOrderedString));
+        if (dateStartString != null) entity.setDateStart(DateParser.dateFromString(dateStartString));
         if (dayCount != null) entity.setDayCount(dayCount);
         if (clientDto != null) entity.setClient(clientDto.buildLazyEntity());
         if (vehicleDto != null) entity.setVehicle(vehicleDto.buildLazyEntity());
