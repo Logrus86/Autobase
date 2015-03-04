@@ -66,6 +66,7 @@ input.gwt-TextBox {
 
 .logo {
     cursor: pointer;
+    vertical-align: initial !important;
 }
 
 .footer {

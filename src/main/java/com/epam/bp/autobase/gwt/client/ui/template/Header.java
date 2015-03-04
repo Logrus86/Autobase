@@ -8,6 +8,8 @@ import com.epam.bp.autobase.gwt.client.rpc.LogoutCallback;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -15,7 +17,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import org.gwtbootstrap3.client.ui.*;
-import org.gwtbootstrap3.client.ui.base.form.AbstractForm;
 import org.gwtbootstrap3.extras.datetimepicker.client.ui.DateTimePicker;
 
 public class Header extends Composite implements IsWidget {
@@ -25,14 +26,17 @@ public class Header extends Composite implements IsWidget {
     public void setPresenter(Presenter presenter) {
         this.listener = presenter;
     }
+
     @UiField
     Form form_login;
     @UiField
     Form form_logout;
     @UiField
+    Button button_login;
+    @UiField
     Label label_welcome;
     @UiField
-    Label widget_loginResult;
+    HelpBlock widget_loginResult;
     @UiField
     FormGroup loginInputs;
     @UiField
@@ -67,8 +71,17 @@ public class Header extends Composite implements IsWidget {
         form_logout.setVisible(false);
     }
 
-    @UiHandler("form_login")
-    public void onFormLoginSubmit(AbstractForm.SubmitEvent e) {
+    @UiHandler("button_login")
+    public void onButtonLoginClick(ClickEvent e) {
+        submitLoginForm();
+    }
+
+    @UiHandler("textBox_password")
+    public void onPasswordInputEnterPressed(KeyUpEvent event) {
+        if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) submitLoginForm();
+    }
+
+    private void submitLoginForm() {
         AuthService.App.getInstance().login(textBox_username.getText(), textBox_password.getText(), new LoginCallback(listener, loginInputs, widget_loginResult));
     }
 

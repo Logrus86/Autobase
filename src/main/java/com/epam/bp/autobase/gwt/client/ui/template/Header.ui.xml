@@ -11,25 +11,21 @@
                 <b:FieldSet>
                     <b:FormGroup ui:field="loginInputs">
                         <b:TextBox ui:field="textBox_username" placeholder="Username"/>
-                        <b:Label  ui:field="widget_loginResult"/>
                         <b:Input type="PASSWORD" ui:field="textBox_password" placeholder="Password"/>
-                    </b:FormGroup>
-                    <b:FormGroup>
-                    <b:SubmitButton ui:field="button_login" type="INFO" text="Log-In"/>
-                    </b:FormGroup>
-                    <b:FormGroup>
-                    <b:Button ui:field="button_register" type="PRIMARY" text="Register"/>
+                        <b:Button ui:field="button_login" type="INFO" text="Log-In"/>
+                        <b:Button ui:field="button_register" type="PRIMARY" text="Register"/>
+                        <b:HelpBlock iconType="EXCLAMATION_TRIANGLE" ui:field="widget_loginResult"/>
                     </b:FormGroup>
                 </b:FieldSet>
             </b:Form>
-                <b:Form type="INLINE" ui:field="form_logout" styleName="loginForms">
-                    <b:FormGroup>
-                        <b:Label ui:field="label_welcome" styleName="label_welcome"/>
-                        <b:Button icon="USER" iconPosition="RIGHT" type="INFO"
-                                  ui:field="button_cabinet" text="Cabinet"/>
-                        <b:Button ui:field="button_logout" type="DANGER" text="Log-Out"/>
-                    </b:FormGroup>
-                </b:Form>
+            <b:Form type="INLINE" ui:field="form_logout" styleName="loginForms">
+                <b:FormGroup>
+                    <b:Label ui:field="label_welcome" styleName="label_welcome"/>
+                    <b:Button icon="USER" iconPosition="RIGHT" type="INFO"
+                              ui:field="button_cabinet" text="Cabinet"/>
+                    <b:Button ui:field="button_logout" type="DANGER" text="Log-Out"/>
+                </b:FormGroup>
+            </b:Form>
         </b:Container>
         <b:Column size="12" styleName="second_logo">
             <g:Label styleName="count" text="More than 200 namings of vehicles units"/>
@@ -53,8 +49,9 @@
             </b:FormGroup>
             <b:FormGroup ui:field="cg_dob">
                 <b:Tooltip title='Must be between 01.01.1901 and 31.12.1997' trigger="FOCUS" placement="RIGHT">
-                    <b2:DateTimePicker ui:field="input_dob" autoClose="true" format="dd.mm.yyyy" placeholder="Date of birth"
-                                startDate="01.01.1901" endDate="31.12.1997"/>
+                    <b2:DateTimePicker ui:field="input_dob" autoClose="true" format="dd.mm.yyyy"
+                                       placeholder="Date of birth"
+                                       startDate="01.01.1901" endDate="31.12.1997"/>
                 </b:Tooltip>
                 <b:HelpBlock ui:field="help_dob"/>
             </b:FormGroup>
@@ -78,7 +75,7 @@
             </b:FormGroup>
             <b:FormGroup ui:field="cg_email">
                 <b:Tooltip title='Must be a well-formed email address' trigger="FOCUS" placement="RIGHT">
-                    <b:TextBox ui:field="input_email" placeholder="E-mail"/>
+                    <b:Input type="EMAIL" ui:field="input_email" placeholder="E-mail"/>
                 </b:Tooltip>
                 <b:HelpBlock ui:field="help_email"/>
             </b:FormGroup>
