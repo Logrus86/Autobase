@@ -5,15 +5,15 @@ import com.epam.bp.autobase.gwt.client.place.Client;
 import com.epam.bp.autobase.gwt.dto.UserDtoGwt;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.gwtbootstrap3.client.ui.FormGroup;
-import org.gwtbootstrap3.client.ui.Label;
+import org.gwtbootstrap3.client.ui.base.AbstractTextWidget;
 import org.gwtbootstrap3.client.ui.constants.ValidationState;
 
 public class LoginCallback implements AsyncCallback<UserDtoGwt> {
     Presenter listener;
-    Label widget_loginResult;
+    AbstractTextWidget widget_loginResult;
     FormGroup loginInputs;
 
-    public LoginCallback(Presenter listener, FormGroup loginInputs, Label widget_loginResult) {
+    public LoginCallback(Presenter listener, FormGroup loginInputs, AbstractTextWidget widget_loginResult) {
         this.listener = listener;
         this.widget_loginResult = widget_loginResult;
         this.loginInputs = loginInputs;
