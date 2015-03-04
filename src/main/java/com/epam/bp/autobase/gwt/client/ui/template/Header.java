@@ -20,13 +20,7 @@ import org.gwtbootstrap3.client.ui.*;
 import org.gwtbootstrap3.extras.datetimepicker.client.ui.DateTimePicker;
 
 public class Header extends Composite implements IsWidget {
-    interface ThisViewUiBinder extends UiBinder<Widget, Header> {}
     private static ThisViewUiBinder uiBinder = GWT.create(ThisViewUiBinder.class);
-    private Presenter listener;
-    public void setPresenter(Presenter presenter) {
-        this.listener = presenter;
-    }
-
     @UiField
     Form form_login;
     @UiField
@@ -55,15 +49,19 @@ public class Header extends Composite implements IsWidget {
     TextBox input_firstname;
     @UiField
     DateTimePicker input_dob;
-
+    private Presenter listener;
     public Header() {
         initWidget(uiBinder.createAndBindUi(this));
+    }
+
+    public void setPresenter(Presenter presenter) {
+        this.listener = presenter;
     }
 
     public void setLoggedIn(String username) {
         form_login.setVisible(false);
         form_logout.setVisible(true);
-        label_welcome.setText("Welcome, "+username+" !");
+        label_welcome.setText("Welcome, " + username + " !");
     }
 
     public void setLoggedOut() {
@@ -76,7 +74,7 @@ public class Header extends Composite implements IsWidget {
         submitLoginForm();
     }
 
-    @UiHandler("textBox_password")
+    @UiHandler({"textBox_username", "textBox_password"})
     public void onPasswordInputEnterPressed(KeyUpEvent event) {
         if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) submitLoginForm();
     }
@@ -109,5 +107,8 @@ public class Header extends Composite implements IsWidget {
     @UiHandler("input_firstname")
     public void onInputFirstnameChanged(ChangeEvent e) {
 
+    }
+
+    interface ThisViewUiBinder extends UiBinder<Widget, Header> {
     }
 }

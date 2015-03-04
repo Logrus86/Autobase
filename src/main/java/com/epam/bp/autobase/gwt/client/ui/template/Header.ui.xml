@@ -19,12 +19,14 @@
                 </b:FieldSet>
             </b:Form>
             <b:Form type="INLINE" ui:field="form_logout" styleName="loginForms">
+                <b:FieldSet>
                 <b:FormGroup>
                     <b:Label ui:field="label_welcome" styleName="label_welcome"/>
-                    <b:Button icon="USER" iconPosition="RIGHT" type="INFO"
+                    <b:Button type="INFO" icon="USER" iconPosition="RIGHT"
                               ui:field="button_cabinet" text="Cabinet"/>
                     <b:Button ui:field="button_logout" type="DANGER" text="Log-Out"/>
                 </b:FormGroup>
+                </b:FieldSet>
             </b:Form>
         </b:Container>
         <b:Column size="12" styleName="second_logo">
