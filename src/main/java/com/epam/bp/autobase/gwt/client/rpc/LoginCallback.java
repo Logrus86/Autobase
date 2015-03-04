@@ -23,7 +23,7 @@ public class LoginCallback implements AsyncCallback<UserDtoGwt> {
         if (user != null) listener.goTo(new Client("main"), user);
         else {
             loginInputs.setValidationState(ValidationState.ERROR);
-            widget_loginResult.setText("User with such credentials wasn't found.");
+            widget_loginResult.setText("User with such credentials wasn't found");
         }
     }
 
