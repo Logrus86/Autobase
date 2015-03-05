@@ -2,7 +2,6 @@
         "http://google-web-toolkit.googlecode.com/svn/releases/2.0/distro-source/core/src/gwt-module.dtd">
 <module rename-to="AutobaseGwtApp">
 
-    <!-- Inherit the core Web Toolkit stuff.                  -->
     <inherits name='com.google.gwt.user.User'/>
     <inherits name="org.gwtbootstrap3.GwtBootstrap3"/>
     <inherits name="org.gwtbootstrap3.extras.datetimepicker.DateTimePicker"/>
@@ -18,14 +17,9 @@
         <when-type-is class="com.epam.bp.autobase.util.DateParser"/>
     </replace-with>
 
-    <replace-with class="com.epam.bp.autobase.gwt.util.UUID">
-        <when-type-is class="java.util.UUID"/>
-    </replace-with>
-
     <source path="gwt/client"/>
     <source path="model"/>
     <source path="util" includes="DateParser.java"/>
-    <source path="java.util" includes="UUID.java"/>
 
     <!-- Specify the app entry point class.                   -->
     <entry-point class='com.epam.bp.autobase.gwt.client.AutobaseApp'/>
