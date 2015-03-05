@@ -1,9 +1,9 @@
-package com.epam.bp.autobase.jsp.dto;
+package com.epam.bp.autobase.model.dto;
 
-import com.epam.bp.autobase.entity.Bus;
-import com.epam.bp.autobase.entity.Car;
-import com.epam.bp.autobase.entity.Truck;
-import com.epam.bp.autobase.entity.Vehicle;
+import com.epam.bp.autobase.model.entity.Bus;
+import com.epam.bp.autobase.model.entity.Car;
+import com.epam.bp.autobase.model.entity.Truck;
+import com.epam.bp.autobase.model.entity.Vehicle;
 
 import java.math.BigDecimal;
 

@@ -1,5 +1,6 @@
-import com.epam.bp.autobase.entity.User;
+import com.epam.bp.autobase.model.entity.User;
 import com.epam.bp.autobase.service.UserService;
+import com.epam.bp.autobase.util.DateParser;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -17,7 +18,7 @@ public class ServicesTest {
             .setEmail("mymail@gmail.com")
             .setRole(User.Role.CLIENT)
             .setBalance(BigDecimal.valueOf(10000))
-            .setDob("1985-08-12");
+            .setDob(DateParser.dateFromString("1985-08-12"));
 
     User userWithOneMistake = new User()
             .setFirstname("AAA")
@@ -27,7 +28,7 @@ public class ServicesTest {
             .setEmail("mymail@gmail.com")
             .setRole(User.Role.CLIENT)
             .setBalance(BigDecimal.valueOf(10000))
-            .setDob("1985-08-12");
+            .setDob(DateParser.dateFromString("1985-08-12"));
 
     User userWithTwoMistake = new User()
             .setFirstname("AAA")
@@ -37,7 +38,7 @@ public class ServicesTest {
             .setEmail("mymail@gmail.com")
             .setRole(User.Role.CLIENT)
             .setBalance(BigDecimal.valueOf(10000))
-            .setDob("1985-08-12");
+            .setDob(DateParser.dateFromString("1985-08-12"));
 
     UserService userService = new UserService();
     Locale locale = Locale.ENGLISH;

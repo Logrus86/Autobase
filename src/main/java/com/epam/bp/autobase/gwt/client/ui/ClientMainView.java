@@ -3,7 +3,7 @@ package com.epam.bp.autobase.gwt.client.ui;
 import com.epam.bp.autobase.gwt.client.activity.Presenter;
 import com.epam.bp.autobase.gwt.client.ui.template.Header;
 import com.epam.bp.autobase.gwt.client.ui.template.SearchForm;
-import com.epam.bp.autobase.gwt.dto.UserDtoGwt;
+import com.epam.bp.autobase.model.dto.UserDto;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -19,7 +19,7 @@ public class ClientMainView extends Composite implements IsWidget {
     SearchForm searchForm;
     private Presenter presenter;
     private String name;
-    private UserDtoGwt user;
+    private UserDto user;
 
     public ClientMainView() {
         initWidget(uiBinder.createAndBindUi(this));
@@ -43,11 +43,11 @@ public class ClientMainView extends Composite implements IsWidget {
         searchForm.setPresenter(presenter);
     }
 
-    public UserDtoGwt getUser() {
+    public UserDto getUser() {
         return user;
     }
 
-    public ClientMainView setUser(UserDtoGwt user) {
+    public ClientMainView setUser(UserDto user) {
         if (user.getFirstname() == null) header.setLoggedIn(user.getUsername());
         else header.setLoggedIn(user.getFirstname());
         this.user = user;

@@ -1,4 +1,4 @@
-package com.epam.bp.autobase.entity;
+package com.epam.bp.autobase.model.entity;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -8,12 +8,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @NamedQueries({
@@ -23,17 +20,16 @@ import java.util.UUID;
 })
 public class User implements Identifiable<User> {
 
-    private static final String DATE_PATTERN = "yyyy-MM-dd";
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-
-    private UUID uuid;
+    private String uuid;
     @NotEmpty
-    @Pattern(regexp = "([A-Z][a-z]{0,19})|([А-Я][а-я]{0,19})", message = "{com.epam.bp.autobase.entity.user.firstname.message}")
+    @Pattern(regexp = "([A-Z][a-z]{0,19})|([А-Я][а-я]{0,19})", message = "{com.epam.bp.autobase.model.entity.user.firstname.message}")
     private String firstname;
     @NotEmpty
-    @Pattern(regexp = "([A-Z]('[A-Z])?[a-z]{0,19})|([А-Я][а-я]{0,19})", message = "{com.epam.bp.autobase.entity.user.lastname.message}")
+    @Pattern(regexp = "([A-Z]('[A-Z])?[a-z]{0,19})|([А-Я][а-я]{0,19})", message = "{com.epam.bp.autobase.model.entity.user.lastname.message}")
     private String lastname;
     @NotNull
     @Temporal(TemporalType.DATE)
@@ -41,10 +37,10 @@ public class User implements Identifiable<User> {
     private Date dob;
     @NotNull
     @Column(unique = true, nullable = false)
-    @Pattern(regexp = "[a-zA-Z]{1}[\\w_]{3,19}", message = "{com.epam.bp.autobase.entity.user.username.message}")
+    @Pattern(regexp = "[a-zA-Z]{1}[\\w_]{3,19}", message = "{com.epam.bp.autobase.model.entity.user.username.message}")
     private String username;
     @NotEmpty
-    @Pattern(regexp = "[\\w]{3,20}", message = "{com.epam.bp.autobase.entity.user.password.message}")
+    @Pattern(regexp = "[\\w]{3,20}", message = "{com.epam.bp.autobase.model.entity.user.password.message}")
     private String password;
     @NotNull
     @Email(regexp = "[\\w\\u002E\\u005F]{0,40}@([a-zA-Z]+\\u002E){1,2}[a-zA-Z]{2,3}")
@@ -61,11 +57,11 @@ public class User implements Identifiable<User> {
     @OneToMany(mappedBy = "driver", fetch = FetchType.EAGER)
     private List<Vehicle> vehicles;
 
-    public UUID getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public User setUuid(UUID uuid) {
+    public User setUuid(String uuid) {
         this.uuid = uuid;
         return this;
     }
@@ -107,6 +103,10 @@ public class User implements Identifiable<User> {
         return this;
     }
 
+    public Date getDob() {
+        return dob;
+    }
+
     public User setDob(Date dob) {
         this.dob = dob;
         return this;
@@ -128,25 +128,6 @@ public class User implements Identifiable<User> {
     public User setLastname(String lastname) {
         this.lastname = lastname;
         return this;
-    }
-
-    public Date getDob() {
-        return dob;
-    }
-
-    public User setDob(String dob) {
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_PATTERN);
-        try {
-            this.dob = sdf.parse(dob);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return this;
-    }
-
-    public String getDobString() {
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_PATTERN);
-        return sdf.format(dob);
     }
 
     public BigDecimal getBalance() {

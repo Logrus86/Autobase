@@ -5,8 +5,8 @@ import com.epam.bp.autobase.gwt.client.place.Client;
 import com.epam.bp.autobase.gwt.client.place.Index;
 import com.epam.bp.autobase.gwt.client.rpc.LoginCheckCallback;
 import com.epam.bp.autobase.gwt.client.ui.ClientMainView;
-import com.epam.bp.autobase.gwt.dto.UserDtoGwt;
 import com.epam.bp.autobase.gwt.server.AuthServiceImpl;
+import com.epam.bp.autobase.model.dto.UserDto;
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
@@ -34,7 +34,7 @@ public class ClientMainActivity extends AbstractActivity implements Presenter {
         AuthServiceImpl.App.getInstance().loginCheck(new LoginCheckCallback(viewFactory, place));
     }
 
-    public void goTo(Place place, UserDtoGwt user) {
+    public void goTo(Place place, UserDto user) {
         viewFactory.setUser(user);
         if (user != null) viewFactory.getPlaceController().goTo(place);
         else viewFactory.getPlaceController().goTo(new Index());

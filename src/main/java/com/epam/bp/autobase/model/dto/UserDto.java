@@ -1,13 +1,13 @@
-package com.epam.bp.autobase.jsp.dto;
+package com.epam.bp.autobase.model.dto;
 
-import com.epam.bp.autobase.entity.Order;
-import com.epam.bp.autobase.entity.User;
-import com.epam.bp.autobase.entity.Vehicle;
+import com.epam.bp.autobase.model.entity.Order;
+import com.epam.bp.autobase.model.entity.User;
+import com.epam.bp.autobase.model.entity.Vehicle;
+import com.epam.bp.autobase.util.DateParser;
 
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class UserDto extends AbstractDto<User, UserDto> {
     private String firstname;
@@ -29,7 +29,7 @@ public class UserDto extends AbstractDto<User, UserDto> {
         super(entity);
         firstname = entity.getFirstname();
         lastname = entity.getLastname();
-        dob = entity.getDobString();
+        dob = DateParser.stringFromDate(entity.getDob());
         username = entity.getUsername();
         password = entity.getPassword();
         email = entity.getEmail();
@@ -40,7 +40,10 @@ public class UserDto extends AbstractDto<User, UserDto> {
     public UserDto fetchOrders(User entity) {
         if ((entity.getOrders() != null) && (!entity.getOrders().isEmpty())) {
             orderDtoList = new LinkedList<>();
-            orderDtoList.addAll(entity.getOrders().stream().map(OrderDto::new).collect(Collectors.toList()));
+            for (Order order : entity.getOrders()) {
+                orderDtoList.add(new OrderDto(order));
+            }
+            //orderDtoList.addAll(entity.getOrders().stream().map(OrderDto::new).collect(Collectors.toList()));
         }
         return this;
     }
@@ -48,7 +51,10 @@ public class UserDto extends AbstractDto<User, UserDto> {
     public UserDto fetchVehicles(User entity) {
         if ((entity.getVehicles() != null) && (!entity.getVehicles().isEmpty())) {
             vehicleDtoList = new LinkedList<>();
-            vehicleDtoList.addAll(entity.getVehicles().stream().map(VehicleDto::new).collect(Collectors.toList()));
+            for (Vehicle vehicle : entity.getVehicles()) {
+                vehicleDtoList.add(new VehicleDto(vehicle));
+            }
+            // vehicleDtoList.addAll(entity.getVehicles().stream().map(VehicleDto::new).collect(Collectors.toList()));
         }
         return this;
     }
@@ -195,7 +201,7 @@ public class UserDto extends AbstractDto<User, UserDto> {
                 .setEmail(email)
                 .setFirstname(firstname)
                 .setLastname(lastname)
-                .setDob(dob)
+                .setDob(DateParser.dateFromString(dob))
                 .setRole(role)
                 .setBalance(balance);
     }
@@ -214,7 +220,7 @@ public class UserDto extends AbstractDto<User, UserDto> {
     public User overwriteEntityFromDto(User entity) {
         if (firstname != null) entity.setFirstname(firstname);
         if (lastname != null) entity.setLastname(lastname);
-        if (dob != null) entity.setDob(dob);
+        if (dob != null) entity.setDob(DateParser.dateFromString(dob));
         if (username != null) entity.setUsername(username);
         if (email != null) entity.setEmail(email);
         if (role != null) entity.setRole(role);

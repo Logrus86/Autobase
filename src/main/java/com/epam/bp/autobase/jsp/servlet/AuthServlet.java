@@ -1,8 +1,8 @@
 package com.epam.bp.autobase.jsp.servlet;
 
 import com.epam.bp.autobase.cdi.SessionState;
-import com.epam.bp.autobase.entity.User;
-import com.epam.bp.autobase.jsp.dto.UserDto;
+import com.epam.bp.autobase.model.dto.UserDto;
+import com.epam.bp.autobase.model.entity.User;
 import com.epam.bp.autobase.service.ServiceException;
 import com.epam.bp.autobase.service.UserService;
 import com.epam.bp.autobase.util.AutobaseCookies;
@@ -97,7 +97,7 @@ public class AuthServlet extends HttpServlet {
         }
         if (user != null) {
             logger.info("User '" + userDto.getUsername() + "' with password '" + userDto.getPassword() + "' has logged in with role: " + user.getRole());
-            user.setUuid(UUID.randomUUID());
+            user.setUuid(UUID.randomUUID().toString());
             try {
                 us.update(user);
             } catch (ServiceException e) {

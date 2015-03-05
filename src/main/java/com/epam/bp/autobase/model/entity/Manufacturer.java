@@ -1,4 +1,4 @@
-package com.epam.bp.autobase.entity;
+package com.epam.bp.autobase.model.entity;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -13,7 +13,7 @@ public class Manufacturer implements Identifiable<Manufacturer> {
     private Integer id;
 
     @NotEmpty
-    @Pattern(regexp = "[\\w]{2,20}", message = "{com.epam.bp.autobase.entity.value.message}")
+    @Pattern(regexp = "[\\w]{2,20}", message = "{com.epam.bp.autobase.model.entity.value.message}")
     private String value;
 
     public Integer getId() {

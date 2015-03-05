@@ -1,6 +1,6 @@
-package com.epam.bp.autobase.jsp.dto;
+package com.epam.bp.autobase.model.dto;
 
-import com.epam.bp.autobase.entity.Color;
+import com.epam.bp.autobase.model.entity.Color;
 
 public class ColorDto extends AbstractDto<Color, ColorDto> {
     private String value_en;

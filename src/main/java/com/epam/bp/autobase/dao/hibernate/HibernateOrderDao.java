@@ -2,9 +2,9 @@ package com.epam.bp.autobase.dao.hibernate;
 
 import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.OrderDao;
-import com.epam.bp.autobase.entity.Order;
-import com.epam.bp.autobase.entity.User;
-import com.epam.bp.autobase.entity.Vehicle;
+import com.epam.bp.autobase.model.entity.Order;
+import com.epam.bp.autobase.model.entity.User;
+import com.epam.bp.autobase.model.entity.Vehicle;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;

@@ -2,7 +2,7 @@ package com.epam.bp.autobase.dao.hibernate;
 
 import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.VehicleDao;
-import com.epam.bp.autobase.entity.*;
+import com.epam.bp.autobase.model.entity.*;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;

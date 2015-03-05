@@ -1,4 +1,4 @@
-package com.epam.bp.autobase.entity;
+package com.epam.bp.autobase.model.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;

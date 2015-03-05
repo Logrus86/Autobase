@@ -1,6 +1,6 @@
-package com.epam.bp.autobase.jsp.dto;
+package com.epam.bp.autobase.model.dto;
 
-import com.epam.bp.autobase.entity.Manufacturer;
+import com.epam.bp.autobase.model.entity.Manufacturer;
 
 public class ManufacturerDto extends AbstractDto<Manufacturer, ManufacturerDto> {
 

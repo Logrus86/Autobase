@@ -4,9 +4,9 @@ import com.epam.bp.autobase.cdi.SessionState;
 import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.UserDao;
 import com.epam.bp.autobase.dao.hibernate.Hibernate;
-import com.epam.bp.autobase.entity.User;
-import com.epam.bp.autobase.entity.Vehicle;
-import com.epam.bp.autobase.jsp.dto.UserDto;
+import com.epam.bp.autobase.model.dto.UserDto;
+import com.epam.bp.autobase.model.entity.User;
+import com.epam.bp.autobase.model.entity.Vehicle;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.event.Event;

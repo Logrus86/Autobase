@@ -2,13 +2,13 @@ package com.epam.bp.autobase.gwt.client.rpc;
 
 import com.epam.bp.autobase.gwt.client.activity.Presenter;
 import com.epam.bp.autobase.gwt.client.place.Client;
-import com.epam.bp.autobase.gwt.dto.UserDtoGwt;
+import com.epam.bp.autobase.model.dto.UserDto;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.gwtbootstrap3.client.ui.FormGroup;
 import org.gwtbootstrap3.client.ui.base.AbstractTextWidget;
 import org.gwtbootstrap3.client.ui.constants.ValidationState;
 
-public class LoginCallback implements AsyncCallback<UserDtoGwt> {
+public class LoginCallback implements AsyncCallback<UserDto> {
     Presenter listener;
     AbstractTextWidget widget_loginResult;
     FormGroup loginInputs;
@@ -19,7 +19,7 @@ public class LoginCallback implements AsyncCallback<UserDtoGwt> {
         this.loginInputs = loginInputs;
     }
 
-    public void onSuccess(UserDtoGwt user) {
+    public void onSuccess(UserDto user) {
         if (user != null) listener.goTo(new Client("main"), user);
         else {
             loginInputs.setValidationState(ValidationState.ERROR);
