@@ -1,9 +1,9 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
-             xmlns:b="urn:import:com.github.gwtbootstrap.client.ui"
+             xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
         >
-    <b:Footer styleName="footer">
+    <b:Container styleName="footer">
         <g:Label text="Bobylev P.R. © 2014-2015"/>
         <g:Label text="EPAM Systems © 2014-2015"/>
-    </b:Footer>
+    </b:Container>
 </ui:UiBinder>

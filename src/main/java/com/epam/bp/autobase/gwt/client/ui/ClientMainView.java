@@ -12,27 +12,17 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ClientMainView extends Composite implements IsWidget {
-    interface ThisViewUiBinder extends UiBinder<Widget, ClientMainView> {}
     private static ThisViewUiBinder uiBinder = GWT.create(ThisViewUiBinder.class);
-
     @UiField
     Header header;
     @UiField
     SearchForm searchForm;
-
     private Presenter presenter;
     private String name;
     private UserDtoGwt user;
 
-
     public ClientMainView() {
         initWidget(uiBinder.createAndBindUi(this));
-    }
-
-    public ClientMainView setUser(UserDtoGwt user) {
-        header.setLoggedIn(user.getFirstname());
-        this.user = user;
-        return this;
     }
 
     public String getName() {
@@ -47,15 +37,24 @@ public class ClientMainView extends Composite implements IsWidget {
         return presenter;
     }
 
-    public UserDtoGwt getUser() {
-        return user;
-    }
-
     public void setPresenter(Presenter presenter) {
         this.presenter = presenter;
         header.setPresenter(presenter);
         searchForm.setPresenter(presenter);
     }
 
+    public UserDtoGwt getUser() {
+        return user;
+    }
+
+    public ClientMainView setUser(UserDtoGwt user) {
+        if (user.getFirstname() == null) header.setLoggedIn(user.getUsername());
+        else header.setLoggedIn(user.getFirstname());
+        this.user = user;
+        return this;
+    }
+
+    interface ThisViewUiBinder extends UiBinder<Widget, ClientMainView> {
+    }
 
 }
