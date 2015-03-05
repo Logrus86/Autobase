@@ -2,7 +2,9 @@ package com.epam.bp.autobase.model.dto;
 
 import com.epam.bp.autobase.model.entity.Identifiable;
 
-public abstract class AbstractDto<T extends Identifiable, T2 extends AbstractDto> {
+import java.io.Serializable;
+
+public abstract class AbstractDto<T extends Identifiable, T2 extends AbstractDto> implements Serializable {
 
     private Integer id;
 
