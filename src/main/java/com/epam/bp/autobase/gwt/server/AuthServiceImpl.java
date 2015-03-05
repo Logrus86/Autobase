@@ -83,7 +83,7 @@ public class AuthServiceImpl extends RemoteServiceServlet implements AuthService
             for (Cookie cookie : this.getThreadLocalRequest().getCookies()) {
                 if (AutobaseCookies.NAME_UUID.equals(cookie.getName())) {
                     try {
-                        user = us.getByUuid(cookie.getValue());
+                        user = us.getByUuidString(cookie.getValue());
                         resultLog = "Logging-in user by UUID:" + cookie.getValue() + " from cookie";
                         ss.setSessionUser(user);
                     } catch (ServiceException e) {
