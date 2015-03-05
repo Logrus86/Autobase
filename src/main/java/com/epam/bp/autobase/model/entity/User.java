@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @NamedQueries({
@@ -25,7 +24,7 @@ public class User implements Identifiable<User> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private UUID uuid;
+    private String uuid;
     @NotEmpty
     @Pattern(regexp = "([A-Z][a-z]{0,19})|([А-Я][а-я]{0,19})", message = "{com.epam.bp.autobase.model.entity.user.firstname.message}")
     private String firstname;
@@ -58,11 +57,11 @@ public class User implements Identifiable<User> {
     @OneToMany(mappedBy = "driver", fetch = FetchType.EAGER)
     private List<Vehicle> vehicles;
 
-    public UUID getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public User setUuid(UUID uuid) {
+    public User setUuid(String uuid) {
         this.uuid = uuid;
         return this;
     }

@@ -35,7 +35,7 @@ public class AuthServiceImpl extends RemoteServiceServlet implements AuthService
             logger.error(e.getMessage(), e.getCause());
         }
         if (user != null) {
-            user.setUuid(UUID.randomUUID());
+            user.setUuid(String.valueOf(UUID.randomUUID()));
             try {
                 us.update(user);
             } catch (ServiceException e) {
