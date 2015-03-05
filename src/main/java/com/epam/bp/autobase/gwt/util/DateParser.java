@@ -4,6 +4,7 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 
 import java.util.Date;
 
+// GWT-analogue of com.epam.bp.autobase.util.DateParser, uses [GWT] DateTimeFormat instead of [JRE] SimpleDateFormat
 public class DateParser {
 
     private static final String TIMESTAMP_PATTERN = "yyyy-MM-dd HH:mm:ss";
