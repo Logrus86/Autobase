@@ -8,9 +8,17 @@
         <servlet-name>com.epam.bp.autobase.gwt.AutobaseGwt AuthService</servlet-name>
         <servlet-class>com.epam.bp.autobase.gwt.server.AuthServiceImpl</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>com.epam.bp.autobase.autobase FetchService</servlet-name>
+        <servlet-class>com.epam.bp.autobase.gwt.server.FetchServiceImpl</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>com.epam.bp.autobase.gwt.AutobaseGwt AuthService</servlet-name>
         <url-pattern>/AutobaseGwtApp/AuthService</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>com.epam.bp.autobase.autobase FetchService</servlet-name>
+        <url-pattern>/AutobaseGwtApp/FetchService</url-pattern>
     </servlet-mapping>
 
     <session-config>
