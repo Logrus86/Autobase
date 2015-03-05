@@ -97,7 +97,7 @@ public class AuthServlet extends HttpServlet {
         }
         if (user != null) {
             logger.info("User '" + userDto.getUsername() + "' with password '" + userDto.getPassword() + "' has logged in with role: " + user.getRole());
-            user.setUuid(UUID.randomUUID());
+            user.setUuid(UUID.randomUUID().toString());
             try {
                 us.update(user);
             } catch (ServiceException e) {
