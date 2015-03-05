@@ -65,7 +65,7 @@ public class AuthServlet extends HttpServlet {
             for (Cookie cookie : req.getCookies())
                 if (AutobaseCookies.NAME_UUID.equals(cookie.getName())) {
                     try {
-                        user = us.getByUuid(cookie.getValue());
+                        user = us.getByUuidString(cookie.getValue());
                         logger.info("Logging-in user by UUID:" + cookie.getValue() + " from cookie");
                         ss.setSessionUser(user);
                     } catch (ServiceException e) {

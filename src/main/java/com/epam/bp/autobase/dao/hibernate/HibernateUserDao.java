@@ -11,7 +11,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.UUID;
 
 @Hibernate
 @RequestScoped
@@ -86,7 +85,7 @@ public class HibernateUserDao extends AbstractHibernateDao<User> implements User
     }
 
     @Override
-    public User getByUuid(UUID uuid) throws DaoException {
+    public User getByUuidString(String uuid) throws DaoException {
         TypedQuery<User> query = em.createNamedQuery("User.getByUuid", User.class)
                 .setParameter("uuid", uuid);
         try {
