@@ -1,20 +1,40 @@
 package com.epam.bp.autobase.gwt.util;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
-import java.util.UUID;
+import com.google.gwt.i18n.client.DateTimeFormat;
 
-@Converter(autoApply = true)
-public class DateParser implements AttributeConverter<UUID, UUID> {
+import java.util.Date;
 
-    @Override
-    public UUID convertToDatabaseColumn(UUID attribute) {
-        return attribute;
+public class DateParser {
+
+    private static final String TIMESTAMP_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    private static final String DATE_PATTERN = "yyyy-MM-dd";
+
+    public static Date dateFromString(String formattedString) {
+        if (formattedString == null) return null;
+        DateTimeFormat dtf = new DateTimeFormat(DATE_PATTERN) {
+        };
+        return dtf.parse(formattedString);
     }
 
-    @Override
-    public UUID convertToEntityAttribute(UUID dbData) {
-        return dbData;
+    public static String stringFromDate(Date date) {
+        if (date == null) return null;
+        DateTimeFormat dtf = new DateTimeFormat(DATE_PATTERN) {
+        };
+        return dtf.format(date);
+    }
+
+    public static String stringFromDateTime(Date dateWithTime) {
+        if (dateWithTime == null) return null;
+        DateTimeFormat dtf = new DateTimeFormat(TIMESTAMP_PATTERN) {
+        };
+        return dtf.format(dateWithTime);
+    }
+
+    public static Date dateTimeFromString(String dateWithTime) {
+        if (dateWithTime == null) return null;
+        DateTimeFormat dtf = new DateTimeFormat(TIMESTAMP_PATTERN) {
+        };
+        return dtf.parse(dateWithTime);
     }
 
 }
