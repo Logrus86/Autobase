@@ -5,14 +5,14 @@
     <inherits name='com.google.gwt.user.User'/>
     <inherits name="org.gwtbootstrap3.GwtBootstrap3"/>
     <inherits name="org.gwtbootstrap3.extras.datetimepicker.DateTimePicker"/>
+    <inherits name="org.gwtbootstrap3.extras.select.Select"/>
     <inherits name="com.google.gwt.activity.Activity"/>
     <inherits name="com.google.gwt.place.Place"/>
-
     <inherits name="org.hibernate.validator.HibernateValidator"/>
+
     <replace-with class="org.gwtbootstrap3.demo.client.application.css.validation.FormsValidationFactory">
         <when-type-is class="javax.validation.ValidatorFactory"/>
     </replace-with>
-
     <replace-with class="com.epam.bp.autobase.gwt.util.DateParser">
         <when-type-is class="com.epam.bp.autobase.util.DateParser"/>
     </replace-with>
