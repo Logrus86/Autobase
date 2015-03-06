@@ -37,10 +37,6 @@ public class AuthServlet extends HttpServlet {
     @Inject
     private Logger logger;
 
-    @Override
-    protected void doHead(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    }
-
     //get method = log-out or login-check
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
