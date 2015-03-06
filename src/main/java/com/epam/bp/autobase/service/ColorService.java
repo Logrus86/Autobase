@@ -9,6 +9,7 @@ import com.epam.bp.autobase.model.entity.Color;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
+import java.util.List;
 import java.util.Locale;
 
 @Model
@@ -32,6 +33,11 @@ public class ColorService extends AbstractService<Color, ColorDto, ColorDao> {
     @Override
     public ColorDto getById(Integer id) throws ServiceException {
         return getById(id, dao);
+    }
+
+    @Override
+    public List<ColorDto> getAll() throws ServiceException {
+        return getAll(dao);
     }
 
     @Override

@@ -12,6 +12,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class AbstractService<I extends Identifiable, T extends AbstractDto, M extends BaseDao<I>> {
     public static final String RB = "i18n.text";
@@ -63,6 +64,19 @@ public abstract class AbstractService<I extends Identifiable, T extends Abstract
         } catch (Exception e) {
             throw new ServiceException(e.getMessage(), e.getCause());
         }
+    }
+
+    public abstract List<T> getAll() throws ServiceException;
+
+    protected List<T> getAll(M dao) throws ServiceException {
+        List<T> result = new LinkedList<>();
+        try {
+            List<I> entityList = dao.getAll();
+            result.addAll(entityList.stream().map(this::getDtoFromEntity).collect(Collectors.toList()));
+        } catch (Exception e) {
+            throw new ServiceException(e.getMessage(), e.getCause());
+        }
+        return result;
     }
 
     public abstract void update(T dto) throws ServiceException;

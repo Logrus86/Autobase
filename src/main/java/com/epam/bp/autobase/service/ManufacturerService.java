@@ -9,6 +9,7 @@ import com.epam.bp.autobase.model.entity.Manufacturer;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
+import java.util.List;
 
 @Model
 public class ManufacturerService extends AbstractService<Manufacturer, ManufacturerDto, ManufacturerDao> {
@@ -31,6 +32,11 @@ public class ManufacturerService extends AbstractService<Manufacturer, Manufactu
     @Override
     public ManufacturerDto getById(Integer id) throws ServiceException {
         return getById(id, dao);
+    }
+
+    @Override
+    public List<ManufacturerDto> getAll() throws ServiceException {
+        return getAll(dao);
     }
 
     @Override

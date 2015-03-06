@@ -8,6 +8,7 @@ import com.epam.bp.autobase.model.entity.Model;
 
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
+import java.util.List;
 
 @javax.enterprise.inject.Model
 public class ModelService extends AbstractService<Model, ModelDto, ModelDao> {
@@ -30,6 +31,11 @@ public class ModelService extends AbstractService<Model, ModelDto, ModelDao> {
     @Override
     public ModelDto getById(Integer id) throws ServiceException {
         return getById(id, dao);
+    }
+
+    @Override
+    public List<ModelDto> getAll() throws ServiceException {
+        return getAll(dao);
     }
 
     @Override

@@ -12,6 +12,7 @@ import org.jboss.logging.Logger;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
+import java.util.List;
 import java.util.Locale;
 
 @Model
@@ -45,6 +46,11 @@ public class UserService extends AbstractService<User, UserDto, UserDao> {
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e.getCause());
         }
+    }
+
+    @Override
+    public List<UserDto> getAll() throws ServiceException {
+        return getAll(dao);
     }
 
     @Override
