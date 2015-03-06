@@ -50,6 +50,25 @@
                 <b:TabPane fade="true" b:id="tab-bus">
                     <b:InputGroup>
                         <b:InputGroupAddon>Passenger seats min.</b:InputGroupAddon>
+                        <b:Input type="NUMBER" min="5" max="200" placeholder="..."/>
+                    </b:InputGroup>
+                    <b:InputGroup>
+                        <b:InputGroupAddon>Passenger seats min.</b:InputGroupAddon>
+                        <b:Input type="NUMBER" min="5" max="200" placeholder="..."/>
+                    </b:InputGroup>
+                    <b:InputGroup>
+                        <b:InputGroupAddon>Doors number</b:InputGroupAddon>
+                        <select:Select liveSearch="true">
+                            <select:Option text="2"/>
+                            <select:Option text="3"/>
+                            <select:Option text="4"/>
+                            <select:Option text="5"/>
+                        </select:Select>
+                    </b:InputGroup>
+                </b:TabPane>
+                <b:TabPane fade="true" b:id="tab-car" in="true" active="true">
+                    <b:InputGroup>
+                        <b:InputGroupAddon>Passenger seats min.</b:InputGroupAddon>
                         <select:Select liveSearch="true">
                             <select:Option text="1"/>
                             <select:Option text="2"/>
@@ -71,16 +90,26 @@
                     </b:InputGroup>
                     <b:InputGroup>
                         <b:InputGroupButton>
-                            <b:CheckBox/>
+                            <b:CheckBoxButton text="Conditioner" addStyleNames="searchCheckbox"/>
                         </b:InputGroupButton>
-                        <b:InputGroupAddon>Conditioner</b:InputGroupAddon>
                     </b:InputGroup>
                 </b:TabPane>
-                <b:TabPane fade="true" b:id="tab-car" in="true" active="true">
-
-                </b:TabPane>
                 <b:TabPane fade="true" b:id="tab-truck">
-
+                    <b:InputGroup>
+                        <b:InputGroupAddon>Max payload</b:InputGroupAddon>
+                        <b:Input type="NUMBER" min="0" max="1000" placeholder="..."/>
+                        <b:InputGroupAddon>ton</b:InputGroupAddon>
+                    </b:InputGroup>
+                    <b:InputGroup>
+                        <b:InputGroupButton>
+                            <b:CheckBoxButton text="Enclosed" addStyleNames="searchCheckbox"/>
+                        </b:InputGroupButton>
+                    </b:InputGroup>
+                    <b:InputGroup>
+                        <b:InputGroupButton>
+                            <b:CheckBoxButton text="Tipper" addStyleNames="searchCheckbox"/>
+                        </b:InputGroupButton>
+                    </b:InputGroup>
                 </b:TabPane>
             </b:TabContent>
         </b:PanelBody>
