@@ -36,9 +36,9 @@ public class Header extends Composite implements IsWidget {
     @UiField
     FormGroup fg_loginInputs;
     @UiField
-    TextBox input_username;
+    TextBox input_LoginUsername;
     @UiField
-    Input input_password;
+    Input input_loginPassword;
     @UiField
     Button button_register;
     @UiField
@@ -77,13 +77,13 @@ public class Header extends Composite implements IsWidget {
         submitLoginForm();
     }
 
-    @UiHandler({"input_username", "input_password"})
+    @UiHandler({"input_LoginUsername", "input_loginPassword"})
     public void onPasswordInputEnterPressed(KeyUpEvent event) {
         if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) submitLoginForm();
     }
 
     private void submitLoginForm() {
-        AuthService.App.getInstance().login(input_username.getText(), input_password.getText(),
+        AuthService.App.getInstance().login(input_LoginUsername.getText(), input_loginPassword.getText(),
                 new AsyncCallback<UserDto>() {
                     @Override
                     public void onFailure(Throwable caught) {

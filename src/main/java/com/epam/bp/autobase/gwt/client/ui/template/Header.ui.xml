@@ -10,8 +10,8 @@
             <b:Form type="INLINE" ui:field="form_login" styleName="loginForms">
                 <b:FieldSet>
                     <b:FormGroup ui:field="fg_loginInputs">
-                        <b:TextBox ui:field="input_username" placeholder="Username"/>
-                        <b:Input type="PASSWORD" ui:field="input_password" placeholder="Password"/>
+                        <b:TextBox ui:field="input_LoginUsername" placeholder="Username"/>
+                        <b:Input type="PASSWORD" ui:field="input_loginPassword" placeholder="Password"/>
                         <b:Button ui:field="button_login" type="INFO" text="Log-In"/>
                         <b:Button ui:field="button_register" type="PRIMARY" text="Register"/>
                         <b:HelpBlock iconType="EXCLAMATION_TRIANGLE" ui:field="hb_loginResult"/>
