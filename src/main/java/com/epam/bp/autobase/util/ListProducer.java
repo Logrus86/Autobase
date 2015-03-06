@@ -1,9 +1,10 @@
 package com.epam.bp.autobase.util;
 
 import com.epam.bp.autobase.cdi.SessionState;
-import com.epam.bp.autobase.dao.*;
-import com.epam.bp.autobase.dao.hibernate.Hibernate;
+import com.epam.bp.autobase.dao.DaoException;
+import com.epam.bp.autobase.model.dto.*;
 import com.epam.bp.autobase.model.entity.*;
+import com.epam.bp.autobase.service.*;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -27,31 +28,25 @@ public class ListProducer {
     @Inject
     Logger log;
     @Inject
-    @Hibernate
-    private UserDao userDao;
+    UserService us;
     @Inject
-    @Hibernate
-    private OrderDao orderDao;
+    ColorService cs;
     @Inject
-    @Hibernate
-    private ColorDao colorDao;
+    ModelService ms;
     @Inject
-    @Hibernate
-    private ModelDao modelDao;
+    ManufacturerService mfs;
     @Inject
-    @Hibernate
-    private ManufacturerDao manufacturerDao;
+    VehicleService vs;
     @Inject
-    @Hibernate
-    private VehicleDao vehicleDao;
-    private List<Color> colors;
-    private List<Model> models;
-    private List<Manufacturer> manufacturers;
-    private List<User> userList;
-    private List<Order> orderList;
-    private List<Bus> busList;
-    private List<Car> carList;
-    private List<Truck> truckList;
+    OrderService os;
+    private List<ColorDto> colors;
+    private List<ModelDto> models;
+    private List<ManufacturerDto> manufacturers;
+    private List<UserDto> userList;
+    private List<OrderDto> orderList;
+    private List<VehicleDto> busList;
+    private List<VehicleDto> carList;
+    private List<VehicleDto> truckList;
 
     @Produces
     @Named
@@ -80,7 +75,7 @@ public class ListProducer {
     @Produces
     @Named
     @RequestScoped
-    public List<User> getUserList() throws DaoException {
+    public List<UserDto> getUserList() throws DaoException {
         if (userList == null) retrieveAllUsers();
         return userList == null ? new ArrayList<>() : userList;
     }
@@ -88,11 +83,11 @@ public class ListProducer {
     @Produces
     @Named
     @RequestScoped
-    public List<Color> getColors() {
+    public List<ColorDto> getColors() {
         if (colors == null) retrieveAllColors();
         if (colors != null) {
-            if ("ru".equals(ss.getLocale().getLanguage())) colors.sort(Comparator.comparing(Color::getValue_ru));
-            else colors.sort(Comparator.comparing(Color::getValue_en));
+            if ("ru".equals(ss.getLocale().getLanguage())) colors.sort(Comparator.comparing(ColorDto::getValue_ru));
+            else colors.sort(Comparator.comparing(ColorDto::getValue_en));
         }
         return colors == null ? new ArrayList<>() : colors;
     }
@@ -100,7 +95,7 @@ public class ListProducer {
     @Produces
     @Named
     @RequestScoped
-    public List<Model> getModels() {
+    public List<ModelDto> getModels() {
         if (models == null) retrieveAllModels();
         return models == null ? new ArrayList<>() : models;
     }
@@ -108,7 +103,7 @@ public class ListProducer {
     @Produces
     @Named
     @RequestScoped
-    public List<Manufacturer> getManufacturers() {
+    public List<ManufacturerDto> getManufacturers() {
         if (manufacturers == null) retrieveAllManufacturers();
         return manufacturers == null ? new ArrayList<>() : manufacturers;
     }
@@ -116,92 +111,92 @@ public class ListProducer {
     @Produces
     @Named
     @RequestScoped
-    public List<Order> getOrderList() {
+    public List<OrderDto> getOrderList() {
         if (orderList == null) retrieveAllOrders();
         return orderList == null ? new ArrayList<>() : orderList;
     }
 
     @Produces
     @Named
-    public List<Bus> getBusList() {
+    public List<VehicleDto> getBusList() {
         if (busList == null) retrieveAllBuses();
         return busList == null ? new ArrayList<>() : busList;
     }
 
     @Produces
     @Named
-    public List<Car> getCarList() {
+    public List<VehicleDto> getCarList() {
         if (carList == null) retrieveAllCars();
         return carList == null ? new ArrayList<>() : carList;
     }
 
     @Produces
     @Named
-    public List<Truck> getTruckList() {
+    public List<VehicleDto> getTruckList() {
         if (truckList == null) retrieveAllTrucks();
         return truckList == null ? new ArrayList<>() : truckList;
     }
 
     private void retrieveAllUsers() {
         try {
-            userList = userDao.getAll();
-        } catch (DaoException e) {
+            userList = us.getAll();
+        } catch (Exception e) {
             log.error("Cannot retrieve user list: " + e.getMessage());
         }
     }
 
     private void retrieveAllColors() {
         try {
-            colors = colorDao.getAll();
-        } catch (DaoException e) {
+            colors = cs.getAll();
+        } catch (Exception e) {
             log.error("Cannot retrieve color list: " + e.getMessage());
         }
     }
 
     private void retrieveAllModels() {
         try {
-            models = modelDao.getAll();
-        } catch (DaoException e) {
+            models = ms.getAll();
+        } catch (Exception e) {
             log.error("Cannot retrieve model list: " + e.getMessage());
         }
     }
 
     private void retrieveAllManufacturers() {
         try {
-            manufacturers = manufacturerDao.getAll();
-        } catch (DaoException e) {
+            manufacturers = mfs.getAll();
+        } catch (Exception e) {
             log.error("Cannot retrieve manufacturer list: " + e.getMessage());
         }
     }
 
     private void retrieveAllOrders() {
         try {
-            orderList = orderDao.getAll();
-        } catch (DaoException e) {
+            orderList = os.getAll();
+        } catch (Exception e) {
             log.error("Cannot retrieve order list: " + e.getMessage());
         }
     }
 
     private void retrieveAllBuses() {
         try {
-            busList = vehicleDao.getAllBuses();
-        } catch (DaoException e) {
+            busList = vs.getAllBuses();
+        } catch (Exception e) {
             log.error("Cannot retrieve bus list: " + e.getMessage());
         }
     }
 
     private void retrieveAllCars() {
         try {
-            carList = vehicleDao.getAllCars();
-        } catch (DaoException e) {
+            carList = vs.getAllCars();
+        } catch (Exception e) {
             log.error("Cannot retrieve car list: " + e.getMessage());
         }
     }
 
     private void retrieveAllTrucks() {
         try {
-            truckList = vehicleDao.getAllTrucks();
-        } catch (DaoException e) {
+            truckList = vs.getAllTrucks();
+        } catch (Exception e) {
             log.error("Cannot retrieve truck list: " + e.getMessage());
         }
     }
@@ -248,8 +243,8 @@ public class ListProducer {
         retrieveAllTrucks();
         if (ss.getSessionUser().getRole().equals(User.Role.DRIVER))
             try {
-                ss.setSessionUser(userDao.getById(ss.getSessionUser().getId()));
-            } catch (DaoException e) {
+                ss.setSessionUser(us.getById(ss.getSessionUser().getId()).buildLazyEntity());
+            } catch (Exception e) {
                 log.error("Cannot retrieve driver: " + e.getMessage());
             }
     }
