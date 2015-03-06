@@ -1,8 +1,6 @@
 package com.epam.bp.autobase.gwt.client.ui.template;
 
 import com.epam.bp.autobase.gwt.client.activity.Presenter;
-import com.epam.bp.autobase.gwt.client.rpc.FetchListToSelectCallback;
-import com.epam.bp.autobase.gwt.client.rpc.FetchService;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -27,7 +25,6 @@ public class SearchForm extends Composite implements IsWidget {
 
     public SearchForm() {
         initWidget(uiBinder.createAndBindUi(this));
-        FetchService.App.getInstance().fetchModels(new FetchListToSelectCallback(modelSelect));
     }
 
     public Presenter getPresenter() {

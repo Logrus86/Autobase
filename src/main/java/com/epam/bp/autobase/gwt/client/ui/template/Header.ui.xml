@@ -9,12 +9,12 @@
                      url="static/img/logo.jpg"/>
             <b:Form type="INLINE" ui:field="form_login" styleName="loginForms">
                 <b:FieldSet>
-                    <b:FormGroup ui:field="loginInputs">
-                        <b:TextBox ui:field="textBox_username" placeholder="Username"/>
-                        <b:Input type="PASSWORD" ui:field="textBox_password" placeholder="Password"/>
+                    <b:FormGroup ui:field="fg_loginInputs">
+                        <b:TextBox ui:field="input_username" placeholder="Username"/>
+                        <b:Input type="PASSWORD" ui:field="input_password" placeholder="Password"/>
                         <b:Button ui:field="button_login" type="INFO" text="Log-In"/>
                         <b:Button ui:field="button_register" type="PRIMARY" text="Register"/>
-                        <b:HelpBlock iconType="EXCLAMATION_TRIANGLE" ui:field="widget_loginResult"/>
+                        <b:HelpBlock iconType="EXCLAMATION_TRIANGLE" ui:field="hb_loginResult"/>
                     </b:FormGroup>
                 </b:FieldSet>
             </b:Form>
@@ -34,7 +34,7 @@
             <g:Label styleName="title" text="Transport services at the best prices!"/>
             <g:Label styleName="sub_title" text="Hourly and daily hiring of cars and trucks, and buses"/>
         </b:Column>
-        <b:Modal title="Registration" fade="true" dataBackdrop="TRUE" dataKeyboard="true" ui:field="modalRegistration">
+        <b:Modal title="Registration" fade="true" dataBackdrop="TRUE" dataKeyboard="true" ui:field="modal_registration">
             <b:ModalBody>
                 <b:FormGroup ui:field="cg_firstname" styleName="formReg-control">
                     <b:Tooltip title='Must consist of 1 uppercase and up to 19 lowercase letters' trigger="FOCUS"
