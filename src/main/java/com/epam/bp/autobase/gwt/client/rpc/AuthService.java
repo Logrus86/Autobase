@@ -14,7 +14,7 @@ public interface AuthService extends RemoteService {
 
     UserDto loginCheck();
 
-    public static class App {
+    static class App {
         private static AuthServiceAsync ourInstance = GWT.create(AuthService.class);
 
         public static synchronized AuthServiceAsync getInstance() {

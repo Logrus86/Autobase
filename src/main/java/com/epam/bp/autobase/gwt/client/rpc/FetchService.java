@@ -12,7 +12,7 @@ public interface FetchService extends RemoteService {
 
     List<ModelDto> fetchModels();
 
-    public static class App {
+    static class App {
         private static FetchServiceAsync ourInstance = GWT.create(FetchService.class);
 
         public static synchronized FetchServiceAsync getInstance() {
