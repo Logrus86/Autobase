@@ -107,3 +107,7 @@ body {
 .input-group .form-control {
     z-index: initial !important;
 }
+
+.searchCheckbox {
+    width: 100%;
+}
