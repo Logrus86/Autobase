@@ -111,3 +111,9 @@ body {
 .searchCheckbox {
     width: 100%;
 }
+
+.formReg-errorBox {
+    color: red !important;
+    font-size: smaller !important;
+    padding-right: 50px;
+}

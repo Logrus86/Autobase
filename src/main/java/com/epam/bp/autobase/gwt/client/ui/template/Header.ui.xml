@@ -39,42 +39,43 @@
                 <b:FormGroup ui:field="cg_firstname" styleName="formReg-control">
                     <b:Tooltip title='Must consist of 1 uppercase and up to 19 lowercase letters' trigger="FOCUS"
                                placement="RIGHT">
-                        <b:TextBox ui:field="input_firstname" placeholder="Firstname"/>
+                        <b:TextBox ui:field="input_modalFirstname" placeholder="Firstname"/>
                     </b:Tooltip>
                     <b:HelpBlock iconType="EXCLAMATION_TRIANGLE" ui:field="help_firstname" styleName="formReg-helpBox"/>
                 </b:FormGroup>
                 <b:FormGroup ui:field="cg_lastname" styleName="formReg-control">
                     <b:Tooltip title='Must consist of 1 uppercase and up to 19 lowercase letters' trigger="FOCUS"
                                placement="RIGHT">
-                        <b:TextBox ui:field="input_lastname" placeholder="Lastname"/>
+                        <b:TextBox ui:field="input_modalLastname" placeholder="Lastname"/>
                     </b:Tooltip>
                     <b:HelpBlock iconType="EXCLAMATION_TRIANGLE" ui:field="help_lastname" styleName="formReg-helpBox"/>
                 </b:FormGroup>
                 <b:FormGroup ui:field="cg_dob" styleName="formReg-control">
                     <b:Tooltip title='Must be between 01.01.1901 and 31.12.1997' trigger="FOCUS" placement="RIGHT">
-                        <b2:DateTimePicker ui:field="input_dob" autoClose="true" format="dd.mm.yyyy"
-                                           placeholder="Date of birth"
-                                           startDate="01.01.1901" endDate="31.12.1997"/>
+                        <b2:DateTimePicker ui:field="input_modalDob" autoClose="true" format="dd.mm.yyyy"
+                                           minView="MONTH"
+                                           placeholder="Date of birth" startDate="01.01.1901" endDate="31.12.1997"/>
                     </b:Tooltip>
                     <b:HelpBlock iconType="EXCLAMATION_TRIANGLE" ui:field="help_dob" styleName="formReg-helpBox"/>
                 </b:FormGroup>
                 <b:FormGroup ui:field="cg_username" styleName="formReg-control">
                     <b:Tooltip title='Must consist of 4-20 characters' trigger="FOCUS" placement="RIGHT">
-                        <b:TextBox ui:field="input_username" placeholder="Username" validateOnBlur="true"
+                        <b:TextBox ui:field="input_modalUsername" placeholder="Username" validateOnBlur="true"
                                    allowBlank="false"/>
                     </b:Tooltip>
                     <b:HelpBlock iconType="EXCLAMATION_TRIANGLE" ui:field="help_username" styleName="formReg-helpBox"/>
                 </b:FormGroup>
                 <b:FormGroup ui:field="cg_password" styleName="formReg-control">
                     <b:Tooltip title='Must consist of 4-20 characters and digits' trigger="FOCUS" placement="RIGHT">
-                        <b:Input type="PASSWORD" ui:field="input_password" placeholder="Password" validateOnBlur="true"
+                        <b:Input type="PASSWORD" ui:field="input_modalPassword" placeholder="Password"
+                                 validateOnBlur="true"
                                  allowBlank="false"/>
                     </b:Tooltip>
                     <b:HelpBlock iconType="EXCLAMATION_TRIANGLE" ui:field="help_password" styleName="formReg-helpBox"/>
                 </b:FormGroup>
                 <b:FormGroup ui:field="cg_passwordRepeat" styleName="formReg-control">
                     <b:Tooltip title='Must contain the same password' trigger="FOCUS" placement="RIGHT">
-                        <b:Input type="PASSWORD" ui:field="input_passwordRepeat" placeholder="Repeat password"
+                        <b:Input type="PASSWORD" ui:field="input_modalPasswordRepeat" placeholder="Repeat password"
                                  validateOnBlur="true" allowBlank="false"/>
                     </b:Tooltip>
                     <b:HelpBlock iconType="EXCLAMATION_TRIANGLE" ui:field="help_passwordRepeat"
@@ -82,7 +83,7 @@
                 </b:FormGroup>
                 <b:FormGroup ui:field="cg_email" styleName="formReg-control">
                     <b:Tooltip title='Must be a well-formed email address' trigger="FOCUS" placement="RIGHT">
-                        <b:Input type="EMAIL" ui:field="input_email" placeholder="E-mail" validateOnBlur="true"
+                        <b:Input type="EMAIL" ui:field="input_modalEmail" placeholder="E-mail" validateOnBlur="true"
                                  allowBlank="false"/>
                     </b:Tooltip>
                     <b:HelpBlock iconType="EXCLAMATION_TRIANGLE" ui:field="help_email" styleName="formReg-helpBox"/>
@@ -90,6 +91,8 @@
             </b:ModalBody>
             <b:ModalFooter>
                 <b:FormGroup>
+                    <b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" ui:field="help_registration"
+                                       styleName="formReg-errorBox"/>
                     <b:Button type="PRIMARY" ui:field="button_modalRegister" text="Register"/>
                     <b:Button type="DANGER" ui:field="button_modalCancel" text="Cancel"/>
                 </b:FormGroup>
