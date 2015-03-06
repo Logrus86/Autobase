@@ -1,6 +1,7 @@
 package com.epam.bp.autobase.service;
 
 import com.epam.bp.autobase.cdi.SessionState;
+import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.VehicleDao;
 import com.epam.bp.autobase.dao.hibernate.Hibernate;
 import com.epam.bp.autobase.model.dto.VehicleDto;
@@ -10,6 +11,9 @@ import org.jboss.logging.Logger;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Model
 public class VehicleService extends AbstractService<Vehicle, VehicleDto, VehicleDao> {
@@ -32,6 +36,11 @@ public class VehicleService extends AbstractService<Vehicle, VehicleDto, Vehicle
     @Override
     public VehicleDto getById(Integer id) throws ServiceException {
         return getById(id, dao);
+    }
+
+    @Override
+    public List<VehicleDto> getAll() throws ServiceException {
+        return getAll(dao);
     }
 
     @Override
@@ -67,5 +76,29 @@ public class VehicleService extends AbstractService<Vehicle, VehicleDto, Vehicle
     @Override
     public String checkFieldsNotBusyWhileUpdate(Vehicle oldEntity, VehicleDto dtoWithChangedFields) throws ServiceException {
         return "";
+    }
+
+    public List<VehicleDto> getAllBuses() throws ServiceException{
+        try {
+            return dao.getAllBuses().stream().map(this::getDtoFromEntity).collect(Collectors.toCollection(LinkedList::new));
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e.getCause());
+        }
+    }
+
+    public List<VehicleDto> getAllCars() throws ServiceException{
+        try {
+            return dao.getAllCars().stream().map(this::getDtoFromEntity).collect(Collectors.toCollection(LinkedList::new));
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e.getCause());
+        }
+    }
+
+    public List<VehicleDto> getAllTrucks() throws ServiceException{
+        try {
+            return dao.getAllTrucks().stream().map(this::getDtoFromEntity).collect(Collectors.toCollection(LinkedList::new));
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e.getCause());
+        }
     }
 }
