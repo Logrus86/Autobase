@@ -8,7 +8,8 @@ import java.util.Date;
 public class DateParser {
 
     private static final String TIMESTAMP_PATTERN = "yyyy-MM-dd HH:mm:ss";
-    private static final String DATE_PATTERN = "yyyy-MM-dd";
+    private static final String DATE_PATTERN = "dd.MM.yyyy";
+    private static final String DATE_DB_PATTERN = "yyyy-MM-dd";
 
     public static Date dateFromString(String formattedString) {
         if (formattedString == null) return null;
