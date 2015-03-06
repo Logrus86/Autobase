@@ -1,8 +1,9 @@
 package com.epam.bp.autobase.gwt.server;
 
 import com.epam.bp.autobase.gwt.client.rpc.FetchService;
-import com.epam.bp.autobase.model.entity.Model;
-import com.epam.bp.autobase.util.ListProducer;
+import com.epam.bp.autobase.model.dto.ModelDto;
+import com.epam.bp.autobase.service.ModelService;
+import com.epam.bp.autobase.service.ServiceException;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import org.jboss.logging.Logger;
 
@@ -13,11 +14,16 @@ public class FetchServiceImpl extends RemoteServiceServlet implements FetchServi
     @Inject
     private Logger logger;
     @Inject
-    ListProducer listProducer;
+    ModelService ms;
 
     @Override
-    public List<Model> fetchModels() {
-        logger.info("fetching models...");
-        return listProducer.getModels();
+    public List<ModelDto> fetchModels() {
+        logger.debug("fetching models...");
+        try {
+            return ms.getAll();
+        } catch (ServiceException e) {
+            logger.error("Fetching models failure: " + e.getMessage());
+        }
+        return null;
     }
 }
