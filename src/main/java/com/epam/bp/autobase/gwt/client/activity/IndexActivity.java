@@ -1,7 +1,6 @@
 package com.epam.bp.autobase.gwt.client.activity;
 
 import com.epam.bp.autobase.gwt.client.ViewFactory;
-import com.epam.bp.autobase.gwt.client.place.Client;
 import com.epam.bp.autobase.gwt.client.place.Index;
 import com.epam.bp.autobase.gwt.client.rpc.LoginCheckCallback;
 import com.epam.bp.autobase.gwt.client.ui.IndexView;
@@ -34,7 +33,7 @@ public class IndexActivity extends AbstractActivity implements Presenter {
     @Override
     public void goTo(Place place, UserDto user) {
         viewFactory.setUser(user);
-        if (user != null) viewFactory.getPlaceController().goTo(new Client("main"));
+        if (user != null) viewFactory.getPlaceController().goTo(place);
         else viewFactory.getPlaceController().goTo(new Index());
     }
 }
