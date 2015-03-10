@@ -68,6 +68,7 @@ body {
 
 .label_welcome {
     display: inline;
+    padding-right: 8px;
 }
 
 .control-group.error {
