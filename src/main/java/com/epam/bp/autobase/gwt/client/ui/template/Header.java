@@ -161,7 +161,10 @@ public class Header extends Composite implements IsWidget {
 
             @Override
             public void onSuccess(UserDto result) {
-                if (result != null) listener.goTo(new Client("main"), result);
+                if (result != null) {
+                    modal_registration.hide();
+                    listener.goTo(new Client("registered"), result);
+                }
                 else help_registration.setText("User registration isn't completed");
             }
         });
