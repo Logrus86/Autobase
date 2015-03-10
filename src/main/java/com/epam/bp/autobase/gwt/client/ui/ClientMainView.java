@@ -9,7 +9,9 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import org.gwtbootstrap3.client.ui.Panel;
 
 public class ClientMainView extends Composite implements IsWidget {
     private static ThisViewUiBinder uiBinder = GWT.create(ThisViewUiBinder.class);
@@ -17,6 +19,20 @@ public class ClientMainView extends Composite implements IsWidget {
     Header header;
     @UiField
     SearchForm searchForm;
+    @UiField
+    Panel registeredForm;
+    @UiField
+    Label labelFirstname;
+    @UiField
+    Label labelLastname;
+    @UiField
+    Label labelDob;
+    @UiField
+    Label labelUsername;
+    @UiField
+    Label labelPassword;
+    @UiField
+    Label labelEmail;
     private Presenter presenter;
     private String name;
     private UserDto user;
@@ -31,6 +47,24 @@ public class ClientMainView extends Composite implements IsWidget {
 
     public void setName(String name) {
         this.name = name;
+        switch (name) {
+            case "main": {
+                searchForm.setVisible(true);
+                registeredForm.setVisible(false);
+                break;
+            }
+            case "registered": {
+                searchForm.setVisible(false);
+                labelFirstname.setText(user.getFirstname());
+                labelLastname.setText(user.getLastname());
+                labelDob.setText(user.getDob());
+                labelUsername.setText(user.getUsername());
+                labelPassword.setText(user.getPassword() /*"********"*/);
+                labelEmail.setText(user.getEmail());
+                registeredForm.setVisible(true);
+                break;
+            }
+        }
     }
 
     public Presenter getPresenter() {
