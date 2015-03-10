@@ -5,7 +5,6 @@
     <b:Panel type="PRIMARY" styleName="SearchForm">
         <b:PanelHeader>
             <b:Heading size="H3" text="Find appropriate vehicle" alignment="CENTER"/>
-            <b:Button text="test" ui:field="button"/>
         </b:PanelHeader>
         <b:PanelBody>
             <b:NavTabs>
@@ -21,15 +20,26 @@
             </b:InputGroup>
             <b:InputGroup>
                 <b:InputGroupAddon>Vendor</b:InputGroupAddon>
-                <select:Select liveSearch="true" ui:field="vendorSelect"/>
+                <select:Select liveSearch="true" ui:field="vendorSelect">
+                    <select:Option/>
+                </select:Select>
             </b:InputGroup>
             <b:InputGroup>
                 <b:InputGroupAddon>Color</b:InputGroupAddon>
-                <select:Select liveSearch="true" ui:field="colorSelect"/>
+                <select:Select liveSearch="true" ui:field="colorSelect">
+                    <select:Option/>
+                </select:Select>
             </b:InputGroup>
             <b:InputGroup>
                 <b:InputGroupAddon>Fuel type</b:InputGroupAddon>
-                <select:Select liveSearch="true" ui:field="fuelTypeSelect"/>
+                <select:Select liveSearch="true" ui:field="fuelTypeSelect">
+                    <select:Option/>
+                    <select:Option text="Petrol"/>
+                    <select:Option text="Diesel"/>
+                    <select:Option text="Gas"/>
+                    <select:Option text="Gas-Petrol"/>
+                    <select:Option text="Electricity"/>
+                </select:Select>
             </b:InputGroup>
             <b:InputGroup>
                 <b:InputGroupAddon>Not older</b:InputGroupAddon>
