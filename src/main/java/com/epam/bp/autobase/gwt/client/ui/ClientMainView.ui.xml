@@ -1,10 +1,68 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
              xmlns:my='urn:import:com.epam.bp.autobase.gwt.client.ui.template'
+             xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
         >
     <g:HTMLPanel ui:field="root">
         <my:Header ui:field="header"/>
         <my:SearchForm ui:field="searchForm"/>
+        <b:Panel type="PRIMARY" styleName="SearchForm" ui:field="registeredForm">
+            <b:PanelHeader>
+                <b:Heading size="H3" text="Registration complete:" alignment="CENTER"/>
+            </b:PanelHeader>
+            <b:PanelBody>
+                <b:Container fluid="true">
+                    <b:Row>
+                        <b:Column size="MD_6" addStyleNames="text-align-right">
+                            <b:Label>Firstname:</b:Label>
+                        </b:Column>
+                        <b:Column size="MD_3">
+                            <g:Label ui:field="labelFirstname"/>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="MD_6" addStyleNames="text-align-right">
+                            <b:Label>Lastname:</b:Label>
+                        </b:Column>
+                        <b:Column size="MD_3">
+                            <g:Label ui:field="labelLastname"/>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="MD_6" addStyleNames="text-align-right">
+                            <b:Label>Date of birth:</b:Label>
+                        </b:Column>
+                        <b:Column size="MD_3">
+                            <g:Label ui:field="labelDob"/>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="MD_6" addStyleNames="text-align-right">
+                            <b:Label>Username:</b:Label>
+                        </b:Column>
+                        <b:Column size="MD_3">
+                            <g:Label ui:field="labelUsername"/>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="MD_6" addStyleNames="text-align-right">
+                            <b:Label>Password:</b:Label>
+                        </b:Column>
+                        <b:Column size="MD_3">
+                            <g:Label ui:field="labelPassword"/>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="MD_6" addStyleNames="text-align-right">
+                            <b:Label>E-mail:</b:Label>
+                        </b:Column>
+                        <b:Column size="MD_3">
+                            <g:Label ui:field="labelEmail"/>
+                        </b:Column>
+                    </b:Row>
+                </b:Container>
+            </b:PanelBody>
+        </b:Panel>
         <my:Footer/>
     </g:HTMLPanel>
 </ui:UiBinder>
