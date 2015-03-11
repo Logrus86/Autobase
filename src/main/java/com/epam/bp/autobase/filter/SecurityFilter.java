@@ -1,6 +1,6 @@
 package com.epam.bp.autobase.filter;
 
-import com.epam.bp.autobase.cdi.SessionState;
+import com.epam.bp.autobase.ejb.SessionState;
 import com.epam.bp.autobase.model.entity.User;
 import org.jboss.logging.Logger;
 

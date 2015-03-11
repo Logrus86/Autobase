@@ -1,4 +1,4 @@
-package com.epam.bp.autobase.cdi;
+package com.epam.bp.autobase.ejb;
 
 import com.epam.bp.autobase.model.entity.User;
 import org.jboss.logging.Logger;

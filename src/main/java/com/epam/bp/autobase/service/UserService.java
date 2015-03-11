@@ -1,6 +1,6 @@
 package com.epam.bp.autobase.service;
 
-import com.epam.bp.autobase.cdi.SessionState;
+import com.epam.bp.autobase.ejb.SessionState;
 import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.UserDao;
 import com.epam.bp.autobase.dao.hibernate.Hibernate;

@@ -1,6 +1,6 @@
 package com.epam.bp.autobase.jsp.servlet;
 
-import com.epam.bp.autobase.cdi.SessionState;
+import com.epam.bp.autobase.ejb.SessionState;
 import com.epam.bp.autobase.model.dto.*;
 import com.epam.bp.autobase.model.entity.Order;
 import com.epam.bp.autobase.model.entity.User;

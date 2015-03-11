@@ -1,7 +1,7 @@
 package com.epam.bp.autobase.util;
 
-import com.epam.bp.autobase.cdi.SessionState;
 import com.epam.bp.autobase.dao.DaoException;
+import com.epam.bp.autobase.ejb.SessionState;
 import com.epam.bp.autobase.model.dto.*;
 import com.epam.bp.autobase.model.entity.*;
 import com.epam.bp.autobase.service.*;

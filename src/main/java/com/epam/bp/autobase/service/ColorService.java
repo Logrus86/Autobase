@@ -1,8 +1,8 @@
 package com.epam.bp.autobase.service;
 
-import com.epam.bp.autobase.cdi.SessionState;
 import com.epam.bp.autobase.dao.ColorDao;
 import com.epam.bp.autobase.dao.hibernate.Hibernate;
+import com.epam.bp.autobase.ejb.SessionState;
 import com.epam.bp.autobase.model.dto.ColorDto;
 import com.epam.bp.autobase.model.entity.Color;
 

@@ -1,6 +1,6 @@
 package com.epam.bp.autobase.jsp.servlet;
 
-import com.epam.bp.autobase.cdi.SessionState;
+import com.epam.bp.autobase.ejb.SessionState;
 import org.jboss.logging.Logger;
 
 import javax.inject.Inject;

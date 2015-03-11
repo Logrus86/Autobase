@@ -1,9 +1,9 @@
 package com.epam.bp.autobase.service;
 
-import com.epam.bp.autobase.cdi.SessionState;
 import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.VehicleDao;
 import com.epam.bp.autobase.dao.hibernate.Hibernate;
+import com.epam.bp.autobase.ejb.SessionState;
 import com.epam.bp.autobase.model.dto.VehicleDto;
 import com.epam.bp.autobase.model.entity.Vehicle;
 import org.jboss.logging.Logger;
