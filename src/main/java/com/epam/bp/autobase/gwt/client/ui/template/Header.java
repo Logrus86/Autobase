@@ -8,6 +8,8 @@ import com.epam.bp.autobase.gwt.client.rpc.RegisterService;
 import com.epam.bp.autobase.model.dto.UserDto;
 import com.epam.bp.autobase.model.entity.User;
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.editor.client.Editor;
+import com.google.gwt.editor.client.EditorError;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -21,7 +23,12 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import org.gwtbootstrap3.client.ui.*;
 import org.gwtbootstrap3.client.ui.constants.ValidationState;
+import org.gwtbootstrap3.client.ui.form.error.BasicEditorError;
+import org.gwtbootstrap3.client.ui.form.validator.Validator;
 import org.gwtbootstrap3.extras.datetimepicker.client.ui.DateTimePicker;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Header extends Composite implements IsWidget {
     private static ThisViewUiBinder uiBinder = GWT.create(ThisViewUiBinder.class);
@@ -70,6 +77,22 @@ public class Header extends Composite implements IsWidget {
 
     public Header() {
         initWidget(uiBinder.createAndBindUi(this));
+        input_modalPasswordRepeat.addValidator(new Validator() {
+
+            @Override
+            public int getPriority() {
+                return 0;
+            }
+
+            @Override
+            public List<EditorError> validate(Editor editor, Object value) {
+                List<EditorError> result = new ArrayList<EditorError>();
+                if (!input_modalPasswordRepeat.getText().equals(input_modalPassword.getText())) {
+                    result.add(new BasicEditorError(input_modalFirstname, value, "Passwords are not equal."));
+                }
+                return result;
+            }
+        });
     }
 
     public void setPresenter(Presenter presenter) {
