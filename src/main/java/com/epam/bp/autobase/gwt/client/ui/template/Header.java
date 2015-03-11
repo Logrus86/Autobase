@@ -4,11 +4,8 @@ import com.epam.bp.autobase.gwt.client.activity.Presenter;
 import com.epam.bp.autobase.gwt.client.place.Client;
 import com.epam.bp.autobase.gwt.client.place.Index;
 import com.epam.bp.autobase.gwt.client.rpc.AuthService;
-import com.epam.bp.autobase.gwt.client.rpc.RegisterService;
 import com.epam.bp.autobase.model.dto.UserDto;
-import com.epam.bp.autobase.model.entity.User;
 import com.google.gwt.core.shared.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -21,7 +18,6 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import org.gwtbootstrap3.client.ui.*;
 import org.gwtbootstrap3.client.ui.constants.ValidationState;
-import org.gwtbootstrap3.extras.datetimepicker.client.ui.DateTimePicker;
 
 public class Header extends Composite implements IsWidget {
     private static ThisViewUiBinder uiBinder = GWT.create(ThisViewUiBinder.class);
@@ -44,27 +40,7 @@ public class Header extends Composite implements IsWidget {
     @UiField
     Button button_register;
     @UiField
-    Modal modal_registration;
-    @UiField
-    HelpBlock help_registration;
-    @UiField
-    TextBox input_modalFirstname;
-    @UiField
-    TextBox input_modalLastname;
-    @UiField
-    DateTimePicker input_modalDob;
-    @UiField
-    TextBox input_modalUsername;
-    @UiField
-    Input input_modalPassword;
-    @UiField
-    Input input_modalPasswordRepeat;
-    @UiField
-    Input input_modalEmail;
-    @UiField
-    Button button_modalRegister;
-    @UiField
-    Button button_modalCancel;
+    FormRegistration formRegistration;
 
     private Presenter listener;
 
@@ -72,8 +48,9 @@ public class Header extends Composite implements IsWidget {
         initWidget(uiBinder.createAndBindUi(this));
     }
 
-    public void setPresenter(Presenter presenter) {
-        this.listener = presenter;
+    public void setPresenter(Presenter listener) {
+        this.listener = listener;
+        formRegistration.setListener(listener);
     }
 
     public void setLoggedIn(String username) {
@@ -138,45 +115,7 @@ public class Header extends Composite implements IsWidget {
 
     @UiHandler("button_register")
     public void onButtonRegisterClick(ClickEvent e) {
-        modal_registration.show();
-    }
-
-    @UiHandler("button_modalRegister")
-    public void onButtonModalRegisterClick(ClickEvent e) {
-        UserDto userDto = new UserDto()
-                .setFirstname(input_modalFirstname.getText())
-                .setLastname(input_modalLastname.getText())
-                .setDob(input_modalDob.getTextBox().getText())
-                .setUsername(input_modalUsername.getText())
-                .setPassword(input_modalPassword.getText())
-                .setPassword_repeat(input_modalPasswordRepeat.getText())
-                .setEmail(input_modalEmail.getText())
-                .setBalance("0")
-                .setRole(User.Role.CLIENT);
-        RegisterService.App.getInstance().register(userDto, new AsyncCallback<UserDto>() {
-            @Override
-            public void onFailure(Throwable caught) {
-                help_registration.setText("Server-side failure to register user");
-            }
-
-            @Override
-            public void onSuccess(UserDto result) {
-                if (result != null) {
-                    modal_registration.hide();
-                    listener.goTo(new Client("registered"), result);
-                }
-                else help_registration.setText("User registration isn't completed");
-            }
-        });
-    }
-
-    @UiHandler("button_modalCancel")
-    public void onButtonModalCancelClick(ClickEvent e) {
-        modal_registration.hide();
-    }
-
-    @UiHandler("input_modalFirstname")
-    public void onInputFirstnameChanged(ChangeEvent e) {
+        formRegistration.show();
     }
 
     interface ThisViewUiBinder extends UiBinder<Widget, Header> {
