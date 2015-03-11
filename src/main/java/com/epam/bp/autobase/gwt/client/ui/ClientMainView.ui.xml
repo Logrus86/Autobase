@@ -6,7 +6,7 @@
     <g:HTMLPanel ui:field="root">
         <my:Header ui:field="header"/>
         <my:SearchForm ui:field="searchForm"/>
-        <b:Panel type="PRIMARY" styleName="SearchForm" ui:field="registeredForm">
+        <b:Panel type="PRIMARY" styleName="CenterForm" ui:field="registeredForm">
             <b:PanelHeader>
                 <b:Heading size="H3" text="Registration complete:" alignment="CENTER"/>
             </b:PanelHeader>

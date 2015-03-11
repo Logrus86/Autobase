@@ -98,7 +98,7 @@ body {
     font-size: smaller !important;
 }
 
-.SearchForm {
+.CenterForm {
     width: 450px;
     margin: auto auto 30px;
     border: solid 1px #337ab7;
@@ -121,4 +121,8 @@ body {
 
 .text-align-right {
     text-align: right;
+}
+
+.text-align-center {
+    text-align: center;
 }
