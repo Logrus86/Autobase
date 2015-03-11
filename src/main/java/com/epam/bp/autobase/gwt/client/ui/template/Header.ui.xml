@@ -39,14 +39,14 @@
                 <b:FormGroup ui:field="cg_firstname" styleName="formReg-control">
                     <b:Tooltip title='Must consist of 1 uppercase and up to 19 lowercase letters' trigger="FOCUS"
                                placement="RIGHT">
-                        <b:TextBox ui:field="input_modalFirstname" placeholder="Firstname"/>
+                        <b:TextBox ui:field="input_modalFirstname" placeholder="Firstname" validateOnBlur="true"/>
                     </b:Tooltip>
                     <b:HelpBlock iconType="EXCLAMATION_TRIANGLE" ui:field="help_firstname" styleName="formReg-helpBox"/>
                 </b:FormGroup>
                 <b:FormGroup ui:field="cg_lastname" styleName="formReg-control">
                     <b:Tooltip title='Must consist of 1 uppercase and up to 19 lowercase letters' trigger="FOCUS"
                                placement="RIGHT">
-                        <b:TextBox ui:field="input_modalLastname" placeholder="Lastname"/>
+                        <b:TextBox ui:field="input_modalLastname" placeholder="Lastname" validateOnBlur="true"/>
                     </b:Tooltip>
                     <b:HelpBlock iconType="EXCLAMATION_TRIANGLE" ui:field="help_lastname" styleName="formReg-helpBox"/>
                 </b:FormGroup>
