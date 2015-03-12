@@ -18,18 +18,4 @@ public class ServerUtils {
                 .setBalance(user.getBalance())
                 .setRole(user.getRole());
     }
-
-    public static UserDto buildUserDtoGwt(UserDto userDto) {
-        if (userDto == null) return null;
-        return new UserDto()
-                .setId(userDto.getId())
-                .setUsername(userDto.getUsername())
-                .setPassword(userDto.getPassword())
-                .setFirstname(userDto.getFirstname())
-                .setLastname(userDto.getLastname())
-                .setDob(userDto.getDob())
-                .setEmail(userDto.getEmail())
-                .setBalance(userDto.getBalance())
-                .setRole(userDto.getRole());
-    }
 }
