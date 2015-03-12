@@ -12,17 +12,24 @@ import com.google.gwt.user.client.ui.Widget;
 
 
 public class IndexView extends Composite implements IsWidget {
-    interface ThisViewUiBinder extends UiBinder<Widget, IndexView> {}
     private static ThisViewUiBinder uiBinder = GWT.create(ThisViewUiBinder.class);
-    private Presenter presenter;
     @UiField
     Header header;
     @UiField
     SearchForm searchForm;
+    private Presenter presenter;
 
     public IndexView() {
         initWidget(uiBinder.createAndBindUi(this));
         header.setLoggedOut();
+    }
+
+    public Header getHeader() {
+        return header;
+    }
+
+    public SearchForm getSearchForm() {
+        return searchForm;
     }
 
     public Presenter getPresenter() {
@@ -33,5 +40,8 @@ public class IndexView extends Composite implements IsWidget {
         this.presenter = presenter;
         header.setPresenter(presenter);
         searchForm.setPresenter(presenter);
+    }
+
+    interface ThisViewUiBinder extends UiBinder<Widget, IndexView> {
     }
 }
