@@ -77,7 +77,7 @@ public class Header extends Composite implements IsWidget {
 
     public Header() {
         initWidget(uiBinder.createAndBindUi(this));
-        input_modalPasswordRepeat.addValidator(new Validator() {
+        input_modalPasswordRepeat.addValidator(new Validator<String>() {
 
             @Override
             public int getPriority() {
@@ -85,8 +85,8 @@ public class Header extends Composite implements IsWidget {
             }
 
             @Override
-            public List<EditorError> validate(Editor editor, Object value) {
-                List<EditorError> result = new ArrayList<EditorError>();
+            public List<EditorError> validate(Editor<String> editor, String value) {
+                List<EditorError> result = new ArrayList<>();
                 if (!input_modalPasswordRepeat.getText().equals(input_modalPassword.getText())) {
                     result.add(new BasicEditorError(input_modalFirstname, value, "Passwords are not equal."));
                 }
