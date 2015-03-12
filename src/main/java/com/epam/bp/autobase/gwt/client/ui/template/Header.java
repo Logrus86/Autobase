@@ -1,12 +1,11 @@
 package com.epam.bp.autobase.gwt.client.ui.template;
 
+import com.epam.bp.autobase.gwt.client.activity.IndexActivity;
 import com.epam.bp.autobase.gwt.client.activity.Presenter;
 import com.epam.bp.autobase.gwt.client.place.Client;
 import com.epam.bp.autobase.gwt.client.place.Index;
 import com.epam.bp.autobase.gwt.client.rpc.AuthService;
-import com.epam.bp.autobase.gwt.client.rpc.RegisterService;
 import com.epam.bp.autobase.model.dto.UserDto;
-import com.epam.bp.autobase.model.entity.User;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.EditorError;
@@ -95,6 +94,46 @@ public class Header extends Composite implements IsWidget {
         });
     }
 
+    public HelpBlock getHelp_registration() {
+        return help_registration;
+    }
+
+    public TextBox getInput_modalFirstname() {
+        return input_modalFirstname;
+    }
+
+    public TextBox getInput_modalLastname() {
+        return input_modalLastname;
+    }
+
+    public DateTimePicker getInput_modalDob() {
+        return input_modalDob;
+    }
+
+    public TextBox getInput_modalUsername() {
+        return input_modalUsername;
+    }
+
+    public Input getInput_modalPassword() {
+        return input_modalPassword;
+    }
+
+    public Input getInput_modalPasswordRepeat() {
+        return input_modalPasswordRepeat;
+    }
+
+    public Input getInput_modalEmail() {
+        return input_modalEmail;
+    }
+
+    public Button getButton_modalRegister() {
+        return button_modalRegister;
+    }
+
+    public Modal getModal_registration() {
+        return modal_registration;
+    }
+
     public void setPresenter(Presenter presenter) {
         this.listener = presenter;
     }
@@ -166,31 +205,9 @@ public class Header extends Composite implements IsWidget {
 
     @UiHandler("button_modalRegister")
     public void onButtonModalRegisterClick(ClickEvent e) {
-        UserDto userDto = new UserDto()
-                .setFirstname(input_modalFirstname.getText())
-                .setLastname(input_modalLastname.getText())
-                .setDob(input_modalDob.getTextBox().getText())
-                .setUsername(input_modalUsername.getText())
-                .setPassword(input_modalPassword.getText())
-                .setPassword_repeat(input_modalPasswordRepeat.getText())
-                .setEmail(input_modalEmail.getText())
-                .setBalance("0")
-                .setRole(User.Role.CLIENT);
-        RegisterService.App.getInstance().register(userDto, new AsyncCallback<UserDto>() {
-            @Override
-            public void onFailure(Throwable caught) {
-                help_registration.setText("Server-side failure to register user");
-            }
-
-            @Override
-            public void onSuccess(UserDto result) {
-                if (result != null) {
-                    modal_registration.hide();
-                    listener.goTo(new Client("registered"), result);
-                }
-                else help_registration.setText("User registration isn't completed");
-            }
-        });
+        if (listener != null) {
+            ((IndexActivity) listener).onModalRegisterButtonClicked();
+        }
     }
 
     @UiHandler("button_modalCancel")
