@@ -5,26 +5,69 @@ import com.epam.bp.autobase.gwt.client.rpc.FetchService;
 import com.epam.bp.autobase.model.dto.ColorDto;
 import com.epam.bp.autobase.model.dto.ManufacturerDto;
 import com.epam.bp.autobase.model.dto.ModelDto;
+import com.epam.bp.autobase.model.dto.VehicleDto;
+import com.epam.bp.autobase.model.entity.Vehicle;
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
+import org.gwtbootstrap3.client.ui.*;
 import org.gwtbootstrap3.extras.select.client.ui.Option;
 import org.gwtbootstrap3.extras.select.client.ui.Select;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class SearchForm extends Composite implements IsWidget {
     private static ThisViewUiBinder uiBinder = GWT.create(ThisViewUiBinder.class);
     @UiField
-    Select modelSelect;
+    HelpBlock helpBlock_searchError;
     @UiField
-    Select vendorSelect;
+    TabListItem tab_bus;
     @UiField
-    Select colorSelect;
+    TabListItem tab_car;
+    @UiField
+    TabListItem tab_truck;
+    @UiField
+    Select select_model;
+    @UiField
+    Select select_vendor;
+    @UiField
+    Select select_color;
+    @UiField
+    Select select_fuelType;
+    @UiField
+    Input input_notOlder;
+    @UiField
+    Input input_mileage;
+    @UiField
+    Input input_rent;
+    @UiField
+    Input input_busPassSeats;
+    @UiField
+    Input input_busStandPlaces;
+    @UiField
+    Select select_busDoorsNumber;
+    @UiField
+    Select select_carPassSeats;
+    @UiField
+    Select select_carDoorsNumber;
+    @UiField
+    CheckBox checkbox_carConditioner;
+    @UiField
+    Input input_truckPayload;
+    @UiField
+    CheckBox checkbox_truckEnclosed;
+    @UiField
+    CheckBox checkbox_truckTipper;
+    @UiField
+    Button button_search;
+
     private Presenter presenter;
 
     public SearchForm() {
@@ -41,9 +84,9 @@ public class SearchForm extends Composite implements IsWidget {
                     Option option = new Option();
                     option.setText(modelDto.getValue());
                     option.setValue(modelDto.getValue());
-                    modelSelect.add(option);
+                    select_model.add(option);
                 }
-                modelSelect.refresh();
+                select_model.refresh();
             }
         });
         FetchService.App.getInstance().fetchManufacturers(new AsyncCallback<List<ManufacturerDto>>() {
@@ -58,9 +101,9 @@ public class SearchForm extends Composite implements IsWidget {
                     Option option = new Option();
                     option.setText(manufacturerDto.getValue());
                     option.setValue(manufacturerDto.getValue());
-                    vendorSelect.add(option);
+                    select_vendor.add(option);
                 }
-                vendorSelect.refresh();
+                select_vendor.refresh();
             }
         });
         FetchService.App.getInstance().fetchColors(new AsyncCallback<List<ColorDto>>() {
@@ -75,9 +118,9 @@ public class SearchForm extends Composite implements IsWidget {
                     Option option = new Option();
                     option.setText(colorDto.getValue_en());
                     option.setValue(colorDto.getValue_en());
-                    colorSelect.add(option);
+                    select_color.add(option);
                 }
-                colorSelect.refresh();
+                select_color.refresh();
             }
         });
     }
@@ -88,6 +131,47 @@ public class SearchForm extends Composite implements IsWidget {
 
     public void setPresenter(Presenter presenter) {
         this.presenter = presenter;
+    }
+
+    @UiHandler("button_search")
+    public void onButtonSearchClick(ClickEvent e) {
+        VehicleDto dto = new VehicleDto()
+                .setModelDto(new ModelDto(select_model.getValue()))
+                .setManufacturerDto(new ManufacturerDto(select_vendor.getValue()))
+                .setColorDto(new ColorDto(select_color.getValue(), true))
+                .setFuelType(Vehicle.Fuel.valueOf(select_fuelType.getValue()))
+                .setProductionYear(Integer.valueOf(input_notOlder.getValue()))
+                .setMileage(new BigDecimal(input_mileage.getValue()))
+                .setRentPrice(new BigDecimal(input_rent.getValue()));
+        if (tab_car.isActive()) {
+            dto.setType(Vehicle.Type.CAR)
+                    .setPassengerSeatsNumber(Integer.parseInt(select_carPassSeats.getValue()))
+                    .setDoorsNumber(Integer.parseInt(select_carDoorsNumber.getValue()))
+                    .setWithConditioner(checkbox_carConditioner.getValue());
+        } else {
+            if (tab_bus.isActive()) {
+                dto.setType(Vehicle.Type.BUS)
+                        .setPassengerSeatsNumber(Integer.parseInt(input_busPassSeats.getText()))
+                        .setStandingPlacesNumber(Integer.parseInt(input_busStandPlaces.getText()))
+                        .setDoorsNumber(Integer.parseInt(select_busDoorsNumber.getValue()));
+            } else {
+                dto.setType(Vehicle.Type.TRUCK)
+                        .setEnclosed(checkbox_truckEnclosed.getValue())
+                        .setTipper(checkbox_truckTipper.getValue())
+                        .setMaxPayload(new BigDecimal(input_truckPayload.getValue()));
+            }
+        }
+        FetchService.App.getInstance().findVehicle(dto, new AsyncCallback<Vehicle>() {
+            @Override
+            public void onFailure(Throwable caught) {
+
+            }
+
+            @Override
+            public void onSuccess(Vehicle result) {
+
+            }
+        });
     }
 
     interface ThisViewUiBinder extends UiBinder<Widget, SearchForm> {
