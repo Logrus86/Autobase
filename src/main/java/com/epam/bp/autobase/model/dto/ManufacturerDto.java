@@ -14,6 +14,10 @@ public class ManufacturerDto extends AbstractDto<Manufacturer, ManufacturerDto> 
         value = entity.getValue();
     }
 
+    public ManufacturerDto(String value) {
+        this.value = value;
+    }
+
     public String getValue() {
         return value;
     }

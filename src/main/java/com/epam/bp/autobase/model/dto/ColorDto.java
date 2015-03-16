@@ -15,6 +15,11 @@ public class ColorDto extends AbstractDto<Color, ColorDto> {
         value_ru = color.getValue_ru();
     }
 
+    public ColorDto(String value, Boolean isEnglishValue) {
+        if (isEnglishValue) this.value_en = value;
+        else this.value_ru = value;
+    }
+
     public String getValue_en() {
         return value_en;
     }

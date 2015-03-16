@@ -14,6 +14,10 @@ public class ModelDto extends AbstractDto<Model, ModelDto> {
         value = entity.getValue();
     }
 
+    public ModelDto(String value) {
+        this.value = value;
+    }
+
     public String getValue() {
         return value;
     }
