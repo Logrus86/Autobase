@@ -7,32 +7,33 @@
             <b:Heading size="H3" text="Find appropriate vehicle" alignment="CENTER"/>
         </b:PanelHeader>
         <b:PanelBody>
+            <b:HelpBlock iconType="EXCLAMATION_TRIANGLE" addStyleNames="formReg-helpBox" ui:field="helpBlock_searchError" text="aaa!"/>
             <b:NavTabs>
-                <b:TabListItem dataTarget="#tab-bus" text="Bus" width="33%" icon="BUS"/>
-                <b:TabListItem dataTarget="#tab-car" text="Car" width="33%" icon="CAR" active="true"/>
-                <b:TabListItem dataTarget="#tab-truck" text="Truck" width="33%" icon="TRUCK"/>
+                <b:TabListItem dataTarget="#tab-bus" text="Bus" width="33%" icon="BUS" ui:field="tab_bus"/>
+                <b:TabListItem dataTarget="#tab-car" text="Car" width="33%" icon="CAR" ui:field="tab_car" active="true"/>
+                <b:TabListItem dataTarget="#tab-truck" text="Truck" width="33%" icon="TRUCK" ui:field="tab_truck"/>
             </b:NavTabs>
             <b:InputGroup>
                 <b:InputGroupAddon>Model</b:InputGroupAddon>
-                <select:Select liveSearch="true" ui:field="modelSelect">
+                <select:Select liveSearch="true" ui:field="select_model">
                     <select:Option/>
                 </select:Select>
             </b:InputGroup>
             <b:InputGroup>
                 <b:InputGroupAddon>Vendor</b:InputGroupAddon>
-                <select:Select liveSearch="true" ui:field="vendorSelect">
+                <select:Select liveSearch="true" ui:field="select_vendor">
                     <select:Option/>
                 </select:Select>
             </b:InputGroup>
             <b:InputGroup>
                 <b:InputGroupAddon>Color</b:InputGroupAddon>
-                <select:Select liveSearch="true" ui:field="colorSelect">
+                <select:Select liveSearch="true" ui:field="select_color">
                     <select:Option/>
                 </select:Select>
             </b:InputGroup>
             <b:InputGroup>
                 <b:InputGroupAddon>Fuel type</b:InputGroupAddon>
-                <select:Select liveSearch="true" ui:field="fuelTypeSelect">
+                <select:Select liveSearch="true" ui:field="select_fuelType">
                     <select:Option/>
                     <select:Option text="Petrol"/>
                     <select:Option text="Diesel"/>
@@ -43,43 +44,44 @@
             </b:InputGroup>
             <b:InputGroup>
                 <b:InputGroupAddon>Not older</b:InputGroupAddon>
-                <b:Input type="NUMBER" min="1950" max="2015" placeholder="..." autoComplete="false"/>
+                <b:Input type="NUMBER" min="1950" max="2015" placeholder="..." autoComplete="false" ui:field="input_notOlder"/>
                 <b:InputGroupAddon>year of release</b:InputGroupAddon>
             </b:InputGroup>
             <b:InputGroup>
                 <b:InputGroupAddon>Max mileage</b:InputGroupAddon>
-                <b:Input type="NUMBER" min="0" max="10000" placeholder="..." autoComplete="false"/>
+                <b:Input type="NUMBER" min="0" max="10000" placeholder="..." autoComplete="false" ui:field="input_mileage"/>
                 <b:InputGroupAddon>thousands km</b:InputGroupAddon>
             </b:InputGroup>
             <b:InputGroup>
                 <b:InputGroupAddon>Max rent price</b:InputGroupAddon>
-                <b:Input type="NUMBER" min="1" max="10000" placeholder="..." autoComplete="false"/>
+                <b:Input type="NUMBER" min="1" max="10000" placeholder="..." autoComplete="false" ui:field="input_rent"/>
                 <b:InputGroupAddon>$</b:InputGroupAddon>
             </b:InputGroup>
             <b:TabContent>
                 <b:TabPane fade="true" b:id="tab-bus">
                     <b:InputGroup>
                         <b:InputGroupAddon>Passenger seats min.</b:InputGroupAddon>
-                        <b:Input type="NUMBER" min="5" max="200" placeholder="..."/>
+                        <b:Input type="NUMBER" min="5" max="200" placeholder="..." ui:field="input_busPassSeats"/>
                     </b:InputGroup>
                     <b:InputGroup>
-                        <b:InputGroupAddon>Passenger seats min.</b:InputGroupAddon>
-                        <b:Input type="NUMBER" min="5" max="200" placeholder="..."/>
+                        <b:InputGroupAddon>Standing places min.</b:InputGroupAddon>
+                        <b:Input type="NUMBER" min="5" max="200" placeholder="..." ui:field="input_busStandPlaces"/>
                     </b:InputGroup>
                     <b:InputGroup>
                         <b:InputGroupAddon>Doors number</b:InputGroupAddon>
-                        <select:Select liveSearch="true">
+                        <select:Select liveSearch="true" ui:field="select_busDoorsNumber">
                             <select:Option text="2"/>
                             <select:Option text="3"/>
                             <select:Option text="4"/>
                             <select:Option text="5"/>
+                            <select:Option text="6"/>
                         </select:Select>
                     </b:InputGroup>
                 </b:TabPane>
                 <b:TabPane fade="true" b:id="tab-car" in="true" active="true">
                     <b:InputGroup>
                         <b:InputGroupAddon>Passenger seats min.</b:InputGroupAddon>
-                        <select:Select liveSearch="true">
+                        <select:Select liveSearch="true" ui:field="select_carPassSeats">
                             <select:Option text="1"/>
                             <select:Option text="2"/>
                             <select:Option text="3"/>
@@ -91,7 +93,7 @@
                     </b:InputGroup>
                     <b:InputGroup>
                         <b:InputGroupAddon>Doors number</b:InputGroupAddon>
-                        <select:Select liveSearch="true">
+                        <select:Select liveSearch="true" ui:field="select_carDoorsNumber">
                             <select:Option text="2"/>
                             <select:Option text="3"/>
                             <select:Option text="4"/>
@@ -100,31 +102,31 @@
                     </b:InputGroup>
                     <b:InputGroup>
                         <b:InputGroupButton>
-                            <b:CheckBoxButton text="Conditioner" addStyleNames="searchCheckbox"/>
+                            <b:CheckBoxButton text="Conditioner" addStyleNames="searchCheckbox" ui:field="checkbox_carConditioner"/>
                         </b:InputGroupButton>
                     </b:InputGroup>
                 </b:TabPane>
                 <b:TabPane fade="true" b:id="tab-truck">
                     <b:InputGroup>
                         <b:InputGroupAddon>Max payload</b:InputGroupAddon>
-                        <b:Input type="NUMBER" min="0" max="1000" placeholder="..."/>
+                        <b:Input type="NUMBER" min="0" max="1000" placeholder="..." ui:field="input_truckPayload"/>
                         <b:InputGroupAddon>ton</b:InputGroupAddon>
                     </b:InputGroup>
                     <b:InputGroup>
                         <b:InputGroupButton>
-                            <b:CheckBoxButton text="Enclosed" addStyleNames="searchCheckbox"/>
+                            <b:CheckBoxButton text="Enclosed" addStyleNames="searchCheckbox" ui:field="checkbox_truckEnclosed"/>
                         </b:InputGroupButton>
                     </b:InputGroup>
                     <b:InputGroup>
                         <b:InputGroupButton>
-                            <b:CheckBoxButton text="Tipper" addStyleNames="searchCheckbox"/>
+                            <b:CheckBoxButton text="Tipper" addStyleNames="searchCheckbox" ui:field="checkbox_truckTipper"/>
                         </b:InputGroupButton>
                     </b:InputGroup>
                 </b:TabPane>
             </b:TabContent>
         </b:PanelBody>
         <b:PanelFooter addStyleNames="text-align-center">
-            <b:Button type="PRIMARY" text="Search"/>
+            <b:Button type="PRIMARY" text="Search" ui:field="button_search"/>
         </b:PanelFooter>
     </b:Panel>
 </ui:UiBinder>
