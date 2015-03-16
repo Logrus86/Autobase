@@ -4,10 +4,9 @@ import com.epam.bp.autobase.gwt.client.rpc.FetchService;
 import com.epam.bp.autobase.model.dto.ColorDto;
 import com.epam.bp.autobase.model.dto.ManufacturerDto;
 import com.epam.bp.autobase.model.dto.ModelDto;
-import com.epam.bp.autobase.service.ColorService;
-import com.epam.bp.autobase.service.ManufacturerService;
-import com.epam.bp.autobase.service.ModelService;
-import com.epam.bp.autobase.service.ServiceException;
+import com.epam.bp.autobase.model.dto.VehicleDto;
+import com.epam.bp.autobase.model.entity.Vehicle;
+import com.epam.bp.autobase.service.*;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import org.jboss.logging.Logger;
 
@@ -23,6 +22,8 @@ public class FetchServiceImpl extends RemoteServiceServlet implements FetchServi
     ManufacturerService mfs;
     @Inject
     ColorService cs;
+    @Inject
+    VehicleService vs;
 
     @Override
     public List<ModelDto> fetchModels() {
@@ -53,6 +54,17 @@ public class FetchServiceImpl extends RemoteServiceServlet implements FetchServi
             return cs.getAll();
         } catch (ServiceException e) {
             logger.error("Fetching colors failure: " + e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public Vehicle findVehicle(VehicleDto dto) {
+        logger.debug("searching for vehicle: " + dto);
+        try {
+            return vs.findVehicle(dto);
+        } catch (ServiceException e) {
+            logger.error("Searching for required vehicle error: " + e.getMessage());
         }
         return null;
     }
