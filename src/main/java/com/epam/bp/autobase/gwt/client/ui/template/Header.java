@@ -4,11 +4,8 @@ import com.epam.bp.autobase.gwt.client.activity.Presenter;
 import com.epam.bp.autobase.gwt.client.place.Client;
 import com.epam.bp.autobase.gwt.client.place.Index;
 import com.epam.bp.autobase.gwt.client.rpc.AuthService;
-import com.epam.bp.autobase.gwt.client.rpc.RegisterService;
 import com.epam.bp.autobase.model.dto.UserDto;
-import com.epam.bp.autobase.model.entity.User;
 import com.google.gwt.core.shared.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -21,7 +18,6 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import org.gwtbootstrap3.client.ui.*;
 import org.gwtbootstrap3.client.ui.constants.ValidationState;
-import org.gwtbootstrap3.extras.datetimepicker.client.ui.DateTimePicker;
 
 public class Header extends Composite implements IsWidget {
     private static ThisViewUiBinder uiBinder = GWT.create(ThisViewUiBinder.class);
@@ -45,32 +41,19 @@ public class Header extends Composite implements IsWidget {
     Button button_register;
     @UiField
     FormRegistration formRegistration;
-
-    private Presenter listener;
+    private Presenter presenter;
 
     public Header() {
         initWidget(uiBinder.createAndBindUi(this));
-        input_modalPasswordRepeat.addValidator(new Validator<String>() {
+    }
 
-            @Override
-            public int getPriority() {
-                return 0;
-            }
-
-            @Override
-            public List<EditorError> validate(Editor<String> editor, String value) {
-                List<EditorError> result = new ArrayList<>();
-                if (!input_modalPasswordRepeat.getText().equals(input_modalPassword.getText())) {
-                    result.add(new BasicEditorError(input_modalFirstname, value, "Passwords are not equal."));
-                }
-                return result;
-            }
-        });
+    public FormRegistration getFormRegistration() {
+        return formRegistration;
     }
 
     public void setPresenter(Presenter listener) {
-        this.listener = listener;
-        formRegistration.setListener(listener);
+        this.presenter = listener;
+        formRegistration.setPresenter(listener);
     }
 
     public void setLoggedIn(String username) {
@@ -104,7 +87,7 @@ public class Header extends Composite implements IsWidget {
 
                     @Override
                     public void onSuccess(UserDto result) {
-                        if (result != null) listener.goTo(new Client("main"), result);
+                        if (result != null) presenter.goTo(new Client("main"), result);
                         else {
                             fg_loginInputs.setValidationState(ValidationState.ERROR);
                             hb_loginResult.setText("User with such credentials wasn't found");
@@ -115,7 +98,7 @@ public class Header extends Composite implements IsWidget {
 
     @UiHandler("logo")
     public void onImageClick(ClickEvent e) {
-        listener.goTo(new Index());
+        presenter.goTo(new Index());
     }
 
     @UiHandler("button_logout")
@@ -128,7 +111,7 @@ public class Header extends Composite implements IsWidget {
 
             @Override
             public void onSuccess(Void result) {
-                listener.goTo(new Index());
+                presenter.goTo(new Index());
             }
         });
     }

@@ -35,7 +35,7 @@ public class IndexActivity extends AbstractActivity implements Presenter {
     }
 
     private void bind() {
-        indexView.getHeader().getButton_modalRegister().addClickHandler(new ClickHandler() {
+        indexView.getHeader().getFormRegistration().getButton_modalRegister().addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 IndexActivity.this.doRegister();
@@ -61,27 +61,27 @@ public class IndexActivity extends AbstractActivity implements Presenter {
 
     private void doRegister() {
         UserDto userDto = new UserDto()
-                .setFirstname(indexView.getHeader().getInput_modalFirstname().getText())
-                .setLastname(indexView.getHeader().getInput_modalLastname().getText())
-                .setDob(indexView.getHeader().getInput_modalDob().getTextBox().getText())
-                .setUsername(indexView.getHeader().getInput_modalUsername().getText())
-                .setPassword(indexView.getHeader().getInput_modalPassword().getText())
-                .setPassword_repeat(indexView.getHeader().getInput_modalPasswordRepeat().getText())
-                .setEmail(indexView.getHeader().getInput_modalEmail().getText())
+                .setFirstname(indexView.getHeader().getFormRegistration().getInput_modalFirstname().getText())
+                .setLastname(indexView.getHeader().getFormRegistration().getInput_modalLastname().getText())
+                .setDob(indexView.getHeader().getFormRegistration().getInput_modalDob().getTextBox().getText())
+                .setUsername(indexView.getHeader().getFormRegistration().getInput_modalUsername().getText())
+                .setPassword(indexView.getHeader().getFormRegistration().getInput_modalPassword().getText())
+                .setPassword_repeat(indexView.getHeader().getFormRegistration().getInput_modalPasswordRepeat().getText())
+                .setEmail(indexView.getHeader().getFormRegistration().getInput_modalEmail().getText())
                 .setBalance("0")
                 .setRole(User.Role.CLIENT);
         RegisterService.App.getInstance().register(userDto, new AsyncCallback<UserDto>() {
             @Override
             public void onFailure(Throwable caught) {
-                indexView.getHeader().getHelp_registration().setText("Server-side failure to register user");
+                indexView.getHeader().getFormRegistration().getHelp_registration().setText("Server-side failure to register user");
             }
 
             @Override
             public void onSuccess(UserDto result) {
                 if (result != null) {
-                    indexView.getHeader().getModal_registration().hide();
+                    indexView.getHeader().getFormRegistration().getModal_registration().hide();
                     goTo(new Client("registered"), result);
-                } else indexView.getHeader().getHelp_registration().setText("User registration isn't completed");
+                } else indexView.getHeader().getFormRegistration().getHelp_registration().setText("User registration isn't completed");
             }
         });
     }
