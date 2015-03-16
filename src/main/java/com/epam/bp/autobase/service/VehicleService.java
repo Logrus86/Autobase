@@ -78,7 +78,7 @@ public class VehicleService extends AbstractService<Vehicle, VehicleDto, Vehicle
         return "";
     }
 
-    public List<VehicleDto> getAllBuses() throws ServiceException{
+    public List<VehicleDto> getAllBuses() throws ServiceException {
         try {
             return dao.getAllBuses().stream().map(this::getDtoFromEntity).collect(Collectors.toCollection(LinkedList::new));
         } catch (DaoException e) {
@@ -86,7 +86,7 @@ public class VehicleService extends AbstractService<Vehicle, VehicleDto, Vehicle
         }
     }
 
-    public List<VehicleDto> getAllCars() throws ServiceException{
+    public List<VehicleDto> getAllCars() throws ServiceException {
         try {
             return dao.getAllCars().stream().map(this::getDtoFromEntity).collect(Collectors.toCollection(LinkedList::new));
         } catch (DaoException e) {
@@ -94,9 +94,17 @@ public class VehicleService extends AbstractService<Vehicle, VehicleDto, Vehicle
         }
     }
 
-    public List<VehicleDto> getAllTrucks() throws ServiceException{
+    public List<VehicleDto> getAllTrucks() throws ServiceException {
         try {
             return dao.getAllTrucks().stream().map(this::getDtoFromEntity).collect(Collectors.toCollection(LinkedList::new));
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e.getCause());
+        }
+    }
+
+    public Vehicle findVehicle(VehicleDto dto) throws ServiceException {
+        try {
+            return dao.find(dto);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e.getCause());
         }
