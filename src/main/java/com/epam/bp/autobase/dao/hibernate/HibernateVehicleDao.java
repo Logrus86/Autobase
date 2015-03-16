@@ -2,7 +2,11 @@ package com.epam.bp.autobase.dao.hibernate;
 
 import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.VehicleDao;
+import com.epam.bp.autobase.model.dto.VehicleDto;
 import com.epam.bp.autobase.model.entity.*;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Example;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -97,6 +101,19 @@ public class HibernateVehicleDao extends AbstractHibernateDao<Vehicle> implement
     public List<Truck> getAllTrucks() throws DaoException {
         TypedQuery<Truck> query = em.createNamedQuery("Truck.getAll", Truck.class);
         return query.getResultList();
+    }
+
+    @Override
+    public Vehicle find(VehicleDto dto) throws DaoException {
+        try {
+            Session session = (Session) em.getDelegate();
+            Criteria criteria = session.createCriteria(Vehicle.class);
+            criteria.add(Example.create(dto.buildLazyEntity()));
+            if (criteria.list().isEmpty()) return null;
+            return (Vehicle) criteria.list().get(0) ;
+        } catch (Exception e) {
+            throw new DaoException(e.getMessage(), e.getCause());
+        }
     }
 }
 
