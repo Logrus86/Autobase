@@ -11,6 +11,8 @@ import com.epam.bp.autobase.gwt.server.AuthServiceImpl;
 import com.epam.bp.autobase.model.dto.UserDto;
 import com.epam.bp.autobase.model.entity.User;
 import com.google.gwt.activity.shared.AbstractActivity;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -33,7 +35,12 @@ public class IndexActivity extends AbstractActivity implements Presenter {
     }
 
     private void bind() {
-        indexView.getHeader().getButton_modalRegister().addClickHandler(event -> doRegister());
+        indexView.getHeader().getButton_modalRegister().addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                IndexActivity.this.doRegister();
+            }
+        });
     }
 
     public void onModalRegisterButtonClicked() {
