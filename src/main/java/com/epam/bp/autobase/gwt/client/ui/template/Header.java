@@ -1,14 +1,13 @@
 package com.epam.bp.autobase.gwt.client.ui.template;
 
-import com.epam.bp.autobase.gwt.client.activity.IndexActivity;
 import com.epam.bp.autobase.gwt.client.activity.Presenter;
 import com.epam.bp.autobase.gwt.client.place.Client;
 import com.epam.bp.autobase.gwt.client.place.Index;
 import com.epam.bp.autobase.gwt.client.rpc.AuthService;
+import com.epam.bp.autobase.gwt.client.rpc.RegisterService;
 import com.epam.bp.autobase.model.dto.UserDto;
+import com.epam.bp.autobase.model.entity.User;
 import com.google.gwt.core.shared.GWT;
-import com.google.gwt.editor.client.Editor;
-import com.google.gwt.editor.client.EditorError;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -22,12 +21,7 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import org.gwtbootstrap3.client.ui.*;
 import org.gwtbootstrap3.client.ui.constants.ValidationState;
-import org.gwtbootstrap3.client.ui.form.error.BasicEditorError;
-import org.gwtbootstrap3.client.ui.form.validator.Validator;
 import org.gwtbootstrap3.extras.datetimepicker.client.ui.DateTimePicker;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Header extends Composite implements IsWidget {
     private static ThisViewUiBinder uiBinder = GWT.create(ThisViewUiBinder.class);
@@ -50,27 +44,7 @@ public class Header extends Composite implements IsWidget {
     @UiField
     Button button_register;
     @UiField
-    Modal modal_registration;
-    @UiField
-    HelpBlock help_registration;
-    @UiField
-    TextBox input_modalFirstname;
-    @UiField
-    TextBox input_modalLastname;
-    @UiField
-    DateTimePicker input_modalDob;
-    @UiField
-    TextBox input_modalUsername;
-    @UiField
-    Input input_modalPassword;
-    @UiField
-    Input input_modalPasswordRepeat;
-    @UiField
-    Input input_modalEmail;
-    @UiField
-    Button button_modalRegister;
-    @UiField
-    Button button_modalCancel;
+    FormRegistration formRegistration;
 
     private Presenter listener;
 
@@ -94,48 +68,9 @@ public class Header extends Composite implements IsWidget {
         });
     }
 
-    public HelpBlock getHelp_registration() {
-        return help_registration;
-    }
-
-    public TextBox getInput_modalFirstname() {
-        return input_modalFirstname;
-    }
-
-    public TextBox getInput_modalLastname() {
-        return input_modalLastname;
-    }
-
-    public DateTimePicker getInput_modalDob() {
-        return input_modalDob;
-    }
-
-    public TextBox getInput_modalUsername() {
-        return input_modalUsername;
-    }
-
-    public Input getInput_modalPassword() {
-        return input_modalPassword;
-    }
-
-    public Input getInput_modalPasswordRepeat() {
-        return input_modalPasswordRepeat;
-    }
-
-    public Input getInput_modalEmail() {
-        return input_modalEmail;
-    }
-
-    public Button getButton_modalRegister() {
-        return button_modalRegister;
-    }
-
-    public Modal getModal_registration() {
-        return modal_registration;
-    }
-
-    public void setPresenter(Presenter presenter) {
-        this.listener = presenter;
+    public void setPresenter(Presenter listener) {
+        this.listener = listener;
+        formRegistration.setListener(listener);
     }
 
     public void setLoggedIn(String username) {
@@ -200,23 +135,7 @@ public class Header extends Composite implements IsWidget {
 
     @UiHandler("button_register")
     public void onButtonRegisterClick(ClickEvent e) {
-        modal_registration.show();
-    }
-
-    @UiHandler("button_modalRegister")
-    public void onButtonModalRegisterClick(ClickEvent e) {
-        if (listener != null) {
-            ((IndexActivity) listener).onModalRegisterButtonClicked();
-        }
-    }
-
-    @UiHandler("button_modalCancel")
-    public void onButtonModalCancelClick(ClickEvent e) {
-        modal_registration.hide();
-    }
-
-    @UiHandler("input_modalFirstname")
-    public void onInputFirstnameChanged(ChangeEvent e) {
+        formRegistration.show();
     }
 
     interface ThisViewUiBinder extends UiBinder<Widget, Header> {

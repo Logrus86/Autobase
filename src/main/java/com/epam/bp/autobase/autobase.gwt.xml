@@ -8,7 +8,11 @@
     <inherits name="org.gwtbootstrap3.extras.select.Select"/>
     <inherits name="com.google.gwt.activity.Activity"/>
     <inherits name="com.google.gwt.place.Place"/>
+    <inherits name="org.hibernate.validator.HibernateValidator"/>
 
+    <replace-with class="com.epam.bp.autobase.gwt.ValidatorFactory">
+        <when-type-is class="javax.validation.ValidatorFactory"/>
+    </replace-with>
     <replace-with class="com.epam.bp.autobase.gwt.util.DateParser">
         <when-type-is class="com.epam.bp.autobase.util.DateParser"/>
     </replace-with>
