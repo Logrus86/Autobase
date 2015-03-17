@@ -102,9 +102,9 @@ public class VehicleService extends AbstractService<Vehicle, VehicleDto, Vehicle
         }
     }
 
-    public List<Vehicle> findByParams(VehicleDto dto) throws ServiceException {
+    public List<VehicleDto> findByParams(VehicleDto dto) throws ServiceException {
         try {
-            return dao.findByParams(dto);
+            return dao.findByParams(dto.buildLazyEntity()).stream().map(VehicleDto::new).collect(Collectors.toCollection(LinkedList::new));
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e.getCause());
         }
