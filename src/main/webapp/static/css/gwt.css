@@ -130,5 +130,5 @@ body {
 .errorBlock {
     color: red !important;
     font-size: smaller !important;
-    text-align: center !important;
+    margin-left: 0 !important;
 }
