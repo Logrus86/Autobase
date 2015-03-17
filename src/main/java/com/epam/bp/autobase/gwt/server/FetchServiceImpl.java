@@ -5,7 +5,6 @@ import com.epam.bp.autobase.model.dto.ColorDto;
 import com.epam.bp.autobase.model.dto.ManufacturerDto;
 import com.epam.bp.autobase.model.dto.ModelDto;
 import com.epam.bp.autobase.model.dto.VehicleDto;
-import com.epam.bp.autobase.model.entity.Vehicle;
 import com.epam.bp.autobase.service.*;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import org.jboss.logging.Logger;
@@ -59,10 +58,9 @@ public class FetchServiceImpl extends RemoteServiceServlet implements FetchServi
     }
 
     @Override
-    public Vehicle findVehicle(VehicleDto dto) {
-        logger.debug("searching for vehicle: " + dto);
+    public List<VehicleDto> findVehicles(VehicleDto dto) {
         try {
-            return vs.findVehicle(dto);
+            return vs.findByParams(dto);
         } catch (ServiceException e) {
             logger.error("Searching for required vehicle error: " + e.getMessage());
         }
