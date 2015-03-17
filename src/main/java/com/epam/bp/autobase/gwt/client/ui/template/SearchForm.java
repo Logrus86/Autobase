@@ -1,6 +1,7 @@
 package com.epam.bp.autobase.gwt.client.ui.template;
 
 import com.epam.bp.autobase.gwt.client.activity.Presenter;
+import com.epam.bp.autobase.gwt.client.place.Client;
 import com.epam.bp.autobase.gwt.client.rpc.FetchService;
 import com.epam.bp.autobase.model.dto.ColorDto;
 import com.epam.bp.autobase.model.dto.ManufacturerDto;
@@ -135,41 +136,40 @@ public class SearchForm extends Composite implements IsWidget {
 
     @UiHandler("button_search")
     public void onButtonSearchClick(ClickEvent e) {
-        VehicleDto dto = new VehicleDto()
-                .setModelDto(new ModelDto(select_model.getValue()))
-                .setManufacturerDto(new ManufacturerDto(select_vendor.getValue()))
-                .setColorDto(new ColorDto(select_color.getValue(), true))
-                .setFuelType(Vehicle.Fuel.valueOf(select_fuelType.getValue()))
-                .setProductionYear(Integer.valueOf(input_notOlder.getValue()))
-                .setMileage(new BigDecimal(input_mileage.getValue()))
-                .setRentPrice(new BigDecimal(input_rent.getValue()));
+        VehicleDto dto = new VehicleDto();
+        if (!"".equals(select_model.getValue())) dto.setModelDto(new ModelDto(select_model.getValue()));
+        if (!"".equals(select_vendor.getValue())) dto.setManufacturerDto(new ManufacturerDto(select_vendor.getValue()));
+        if (!"".equals(select_color.getValue())) dto.setColorDto(new ColorDto(select_color.getValue(), true));
+        if (!"".equals(select_fuelType.getValue())) dto.setFuelType(Vehicle.Fuel.valueOf(select_fuelType.getValue().toUpperCase()));
+        if (input_notOlder.getValue() != null) dto.setProductionYear(Integer.valueOf(input_notOlder.getValue()));
+        if (input_mileage.getValue() != null) dto.setMileage(new BigDecimal(input_mileage.getValue()));
+        if (input_rent.getValue() != null) dto.setRentPrice(new BigDecimal(input_rent.getValue()));
         if (tab_car.isActive()) {
             dto.setType(Vehicle.Type.CAR)
+                    .setWithConditioner(checkbox_carConditioner.getValue())
                     .setPassengerSeatsNumber(Integer.parseInt(select_carPassSeats.getValue()))
-                    .setDoorsNumber(Integer.parseInt(select_carDoorsNumber.getValue()))
-                    .setWithConditioner(checkbox_carConditioner.getValue());
+                    .setDoorsNumber(Integer.parseInt(select_carDoorsNumber.getValue()));
+        } else if (tab_bus.isActive()) {
+            dto.setType(Vehicle.Type.BUS)
+                    .setDoorsNumber(Integer.parseInt(select_busDoorsNumber.getValue()));
+            if (input_busPassSeats.getValue() != null) dto.setPassengerSeatsNumber(Integer.parseInt(input_busPassSeats.getValue()));
+            if (input_busStandPlaces.getValue() != null) dto.setStandingPlacesNumber(Integer.parseInt(input_busStandPlaces.getValue()));
         } else {
-            if (tab_bus.isActive()) {
-                dto.setType(Vehicle.Type.BUS)
-                        .setPassengerSeatsNumber(Integer.parseInt(input_busPassSeats.getText()))
-                        .setStandingPlacesNumber(Integer.parseInt(input_busStandPlaces.getText()))
-                        .setDoorsNumber(Integer.parseInt(select_busDoorsNumber.getValue()));
-            } else {
-                dto.setType(Vehicle.Type.TRUCK)
-                        .setEnclosed(checkbox_truckEnclosed.getValue())
-                        .setTipper(checkbox_truckTipper.getValue())
-                        .setMaxPayload(new BigDecimal(input_truckPayload.getValue()));
-            }
+            dto.setType(Vehicle.Type.TRUCK)
+                    .setEnclosed(checkbox_truckEnclosed.getValue())
+                    .setTipper(checkbox_truckTipper.getValue());
+            if (input_truckPayload.getValue() != null) dto.setMaxPayload(new BigDecimal(input_truckPayload.getValue()));
         }
-        FetchService.App.getInstance().findVehicle(dto, new AsyncCallback<Vehicle>() {
+        FetchService.App.getInstance().findVehicles(dto, new AsyncCallback<List<VehicleDto>>() {
             @Override
             public void onFailure(Throwable caught) {
-
+                helpBlock_searchError.setText("Search error on server: " + caught.getMessage());
             }
 
             @Override
-            public void onSuccess(Vehicle result) {
-
+            public void onSuccess(List<VehicleDto> result) {
+                if (result == null) helpBlock_searchError.setText("Nothing was found. Try again.");
+                else presenter.goTo(new Client("search_result"));
             }
         });
     }
