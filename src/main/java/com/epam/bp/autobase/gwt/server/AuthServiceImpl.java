@@ -49,7 +49,7 @@ public class AuthServiceImpl extends RemoteServiceServlet implements AuthService
             resultLog = "User '" + userDto.getUsername() + "' with password '" + userDto.getPassword() + "' wasn't found.";
         ss.setSessionUser(user);
         logger.info(resultLog);
-        return ServerUtils.buildUserDtoGwt(user);
+        return ServerUtils.buildUserDto(user);
     }
 
     @Override
@@ -95,6 +95,6 @@ public class AuthServiceImpl extends RemoteServiceServlet implements AuthService
             if (user == null) resultLog = "User isn't logged in, going to main page";
         }
         logger.info(resultLog);
-        return ServerUtils.buildUserDtoGwt(user);
+        return ServerUtils.buildUserDto(user);
     }
 }

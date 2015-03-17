@@ -5,7 +5,7 @@ import com.epam.bp.autobase.model.entity.User;
 import com.epam.bp.autobase.util.DateParser;
 
 public class ServerUtils {
-    public static UserDto buildUserDtoGwt(User user) {
+    public static UserDto buildUserDto(User user) {
         if (user == null) return null;
         return new UserDto()
                 .setId(user.getId())
