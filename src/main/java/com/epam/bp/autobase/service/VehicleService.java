@@ -102,9 +102,9 @@ public class VehicleService extends AbstractService<Vehicle, VehicleDto, Vehicle
         }
     }
 
-    public Vehicle findVehicle(VehicleDto dto) throws ServiceException {
+    public List<Vehicle> findByParams(VehicleDto dto) throws ServiceException {
         try {
-            return dao.find(dto);
+            return dao.findByParams(dto);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e.getCause());
         }

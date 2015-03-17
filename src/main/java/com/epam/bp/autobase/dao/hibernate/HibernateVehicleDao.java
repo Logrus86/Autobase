@@ -104,13 +104,13 @@ public class HibernateVehicleDao extends AbstractHibernateDao<Vehicle> implement
     }
 
     @Override
-    public Vehicle find(VehicleDto dto) throws DaoException {
+    public List<Vehicle> findByParams(VehicleDto dto) throws DaoException {
         try {
             Session session = (Session) em.getDelegate();
             Criteria criteria = session.createCriteria(Vehicle.class);
             criteria.add(Example.create(dto.buildLazyEntity()));
             if (criteria.list().isEmpty()) return null;
-            return (Vehicle) criteria.list().get(0) ;
+            return criteria.list();
         } catch (Exception e) {
             throw new DaoException(e.getMessage(), e.getCause());
         }

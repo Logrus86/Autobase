@@ -17,5 +17,5 @@ public interface VehicleDao extends BaseDao<Vehicle>{
 
     List<Truck> getAllTrucks() throws DaoException;
 
-    Vehicle find(VehicleDto dto) throws DaoException;
+    List<Vehicle> findByParams(VehicleDto dto) throws DaoException;
 }
