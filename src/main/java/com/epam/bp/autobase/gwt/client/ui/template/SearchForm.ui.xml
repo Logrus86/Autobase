@@ -7,7 +7,6 @@
             <b:Heading size="H3" text="Find appropriate vehicle" alignment="CENTER"/>
         </b:PanelHeader>
         <b:PanelBody>
-            <b:HelpBlock iconType="EXCLAMATION_TRIANGLE" addStyleNames="formReg-helpBox" ui:field="helpBlock_searchError" text="aaa!"/>
             <b:NavTabs>
                 <b:TabListItem dataTarget="#tab-bus" text="Bus" width="33%" icon="BUS" ui:field="tab_bus"/>
                 <b:TabListItem dataTarget="#tab-car" text="Car" width="33%" icon="CAR" ui:field="tab_car" active="true"/>
@@ -126,6 +125,7 @@
             </b:TabContent>
         </b:PanelBody>
         <b:PanelFooter addStyleNames="text-align-center">
+            <b:HelpBlock iconType="EXCLAMATION_TRIANGLE" addStyleNames="errorBlock" ui:field="helpBlock_searchError"/>
             <b:Button type="PRIMARY" text="Search" ui:field="button_search"/>
         </b:PanelFooter>
     </b:Panel>

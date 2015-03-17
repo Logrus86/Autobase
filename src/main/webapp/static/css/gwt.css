@@ -126,3 +126,9 @@ body {
 .text-align-center {
     text-align: center;
 }
+
+.errorBlock {
+    color: red !important;
+    font-size: smaller !important;
+    text-align: center !important;
+}
