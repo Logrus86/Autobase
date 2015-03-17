@@ -2,7 +2,6 @@ package com.epam.bp.autobase.dao.hibernate;
 
 import com.epam.bp.autobase.dao.DaoException;
 import com.epam.bp.autobase.dao.VehicleDao;
-import com.epam.bp.autobase.model.dto.VehicleDto;
 import com.epam.bp.autobase.model.entity.*;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -104,11 +103,11 @@ public class HibernateVehicleDao extends AbstractHibernateDao<Vehicle> implement
     }
 
     @Override
-    public List<Vehicle> findByParams(VehicleDto dto) throws DaoException {
+    public List<Vehicle> findByParams(Vehicle example) throws DaoException {
         try {
             Session session = (Session) em.getDelegate();
             Criteria criteria = session.createCriteria(Vehicle.class);
-            criteria.add(Example.create(dto.buildLazyEntity()));
+            criteria.add(Example.create(example));
             if (criteria.list().isEmpty()) return null;
             return criteria.list();
         } catch (Exception e) {
