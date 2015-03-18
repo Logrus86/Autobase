@@ -6,6 +6,7 @@ import com.epam.bp.autobase.model.entity.*;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Restrictions;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -107,6 +108,40 @@ public class HibernateVehicleDao extends AbstractHibernateDao<Vehicle> implement
         try {
             Session session = (Session) em.getDelegate();
             Criteria criteria = session.createCriteria(Vehicle.class);
+            if (example.getMileage() != null) {
+                criteria.add(Restrictions.le("MILEAGE",example.getMileage()));
+                example.setMileage(null);
+            }
+            if (example.getRentPrice() != null) {
+                criteria.add(Restrictions.le("RENT_PRICE",example.getRentPrice()));
+                example.setRentPrice(null);
+            }
+            if (example.getType().equals(Vehicle.Type.BUS)) {
+                Bus bus = (Bus) example;
+                if (bus.getPassengerSeatsNumber() != null) {
+                    criteria.add(Restrictions.ge("PASSENGER_SEATS_NUMBER", bus.getPassengerSeatsNumber()));
+                    bus.setPassengerSeatsNumber(null);
+                }
+                if (bus.getStandingPlacesNumber() != null) {
+                    criteria.add(Restrictions.ge("STANDING_PLACES_NUMBER", bus.getStandingPlacesNumber()));
+                    bus.setStandingPlacesNumber(null);
+                }
+            } else {
+                if (example.getType().equals(Vehicle.Type.CAR)) {
+                    Car car = (Car) example;
+                    if (car.getPassengerSeatsNumber() != null) {
+                        criteria.add(Restrictions.ge("PASSENGER_SEATS_NUMBER", car.getPassengerSeatsNumber()));
+                        car.setPassengerSeatsNumber(null);
+                    }
+                }
+                else {
+                    Truck truck = (Truck) example;
+                    if (truck.getMaxPayload() != null) {
+                        criteria.add(Restrictions.le("MAX_PAYLOAD",truck.getMaxPayload()));
+                        truck.setMaxPayload(null);
+                    }
+                }
+            }
             criteria.add(Example.create(example));
             return criteria.list();
         } catch (Exception e) {

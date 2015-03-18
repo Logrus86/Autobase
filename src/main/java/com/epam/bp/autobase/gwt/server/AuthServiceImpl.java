@@ -33,7 +33,6 @@ public class AuthServiceImpl extends RemoteServiceServlet implements AuthService
             user = us.findByCredentials(userDto);
         } catch (ServiceException e) {
             logger.error(e.getMessage(), e.getCause());
-            throw new RuntimeException(e);
         }
         if (user != null) {
             user.setUuid(String.valueOf(UUID.randomUUID()));
@@ -41,7 +40,6 @@ public class AuthServiceImpl extends RemoteServiceServlet implements AuthService
                 us.update(user);
             } catch (ServiceException e) {
                 logger.error(e.getMessage(), e.getCause());
-                throw new RuntimeException(e);
             }
             Cookie uuidCookie = new Cookie(AutobaseCookies.NAME_UUID, String.valueOf(user.getUuid()));
             uuidCookie.setMaxAge(AutobaseCookies.MAX_AGE_UUID);
@@ -51,7 +49,7 @@ public class AuthServiceImpl extends RemoteServiceServlet implements AuthService
             resultLog = "User '" + userDto.getUsername() + "' with password '" + userDto.getPassword() + "' wasn't found.";
         ss.setSessionUser(user);
         logger.info(resultLog);
-        return new UserDto(user);
+        return ServerUtil.buildUserDtoGwt(user);
     }
 
     @Override
@@ -64,7 +62,6 @@ public class AuthServiceImpl extends RemoteServiceServlet implements AuthService
                 us.update(user);
             } catch (ServiceException e) {
                 logger.error("Cannot update user to remove UUID");
-                throw new RuntimeException(e);
             }
             resultLog = "User '" + user.getUsername() + "' have logged-out";
         } else resultLog = "No user was logged in.";
@@ -91,7 +88,6 @@ public class AuthServiceImpl extends RemoteServiceServlet implements AuthService
                         ss.setSessionUser(user);
                     } catch (ServiceException e) {
                         logger.error("Cannot retrieve user by UUID: " + cookie.getValue());
-                        throw new RuntimeException(e);
                     }
                     break;
                 }
@@ -99,6 +95,6 @@ public class AuthServiceImpl extends RemoteServiceServlet implements AuthService
             if (user == null) resultLog = "User isn't logged in, going to main page";
         }
         logger.info(resultLog);
-        return new UserDto(user);
+        return ServerUtil.buildUserDtoGwt(user);
     }
 }
