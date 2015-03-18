@@ -73,7 +73,7 @@ public class IndexActivity extends AbstractActivity implements Presenter {
         RegisterService.App.getInstance().register(userDto, new AsyncCallback<UserDto>() {
             @Override
             public void onFailure(Throwable caught) {
-                indexView.getHeader().getFormRegistration().getHelp_registration().setText("Server-side failure to register user");
+                indexView.getHeader().getFormRegistration().getHelp_registration().setText("Registration error on server-side: "+caught.getMessage());
             }
 
             @Override
