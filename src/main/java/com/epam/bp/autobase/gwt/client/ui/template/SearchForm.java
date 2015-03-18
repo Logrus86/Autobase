@@ -12,6 +12,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -88,7 +89,7 @@ public class SearchForm extends Composite implements IsWidget {
         FetchService.App.getInstance().fetchModels(new AsyncCallback<List<ModelDto>>() {
             @Override
             public void onFailure(Throwable caught) {
-
+                Window.alert("Models fetching failed: "+caught.getMessage());
             }
 
             @Override
@@ -105,7 +106,7 @@ public class SearchForm extends Composite implements IsWidget {
         FetchService.App.getInstance().fetchManufacturers(new AsyncCallback<List<ManufacturerDto>>() {
             @Override
             public void onFailure(Throwable caught) {
-
+                Window.alert("Vendors fetching failed: "+caught.getLocalizedMessage());
             }
 
             @Override
@@ -122,7 +123,7 @@ public class SearchForm extends Composite implements IsWidget {
         FetchService.App.getInstance().fetchColors(new AsyncCallback<List<ColorDto>>() {
             @Override
             public void onFailure(Throwable caught) {
-
+                Window.alert("Colors fetching failed: " + caught.getMessage());
             }
 
             @Override
