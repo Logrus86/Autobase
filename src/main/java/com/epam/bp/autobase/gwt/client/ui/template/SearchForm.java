@@ -1,7 +1,6 @@
 package com.epam.bp.autobase.gwt.client.ui.template;
 
 import com.epam.bp.autobase.gwt.client.activity.Presenter;
-import com.epam.bp.autobase.gwt.client.place.Client;
 import com.epam.bp.autobase.gwt.client.rpc.FetchService;
 import com.epam.bp.autobase.model.dto.ColorDto;
 import com.epam.bp.autobase.model.dto.ManufacturerDto;
@@ -18,6 +17,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import org.gwtbootstrap3.client.ui.*;
+import org.gwtbootstrap3.client.ui.constants.ListGroupItemType;
 import org.gwtbootstrap3.extras.select.client.ui.Option;
 import org.gwtbootstrap3.extras.select.client.ui.Select;
 
@@ -68,6 +68,18 @@ public class SearchForm extends Composite implements IsWidget {
     CheckBox checkbox_truckTipper;
     @UiField
     Button button_search;
+    @UiField
+    Heading heading_panelHeader;
+    @UiField
+    PanelBody panelBody_searchForm;
+    @UiField
+    PanelBody panelBody_searchResult;
+    @UiField
+    ListGroup listGroup_searchResult;
+    @UiField
+    Panel panel_searchForm;
+    @UiField
+    PanelFooter panelFooter;
 
     private Presenter presenter;
 
@@ -140,7 +152,8 @@ public class SearchForm extends Composite implements IsWidget {
         if (!"".equals(select_model.getValue())) dto.setModelDto(new ModelDto(select_model.getValue()));
         if (!"".equals(select_vendor.getValue())) dto.setManufacturerDto(new ManufacturerDto(select_vendor.getValue()));
         if (!"".equals(select_color.getValue())) dto.setColorDto(new ColorDto(select_color.getValue(), true));
-        if (!"".equals(select_fuelType.getValue())) dto.setFuelType(Vehicle.Fuel.valueOf(select_fuelType.getValue().toUpperCase()));
+        if (!"".equals(select_fuelType.getValue()))
+            dto.setFuelType(Vehicle.Fuel.valueOf(select_fuelType.getValue().toUpperCase()));
         if (input_notOlder.getValue() != null) dto.setProductionYear(Integer.valueOf(input_notOlder.getValue()));
         if (input_mileage.getValue() != null) dto.setMileage(new BigDecimal(input_mileage.getValue()));
         if (input_rent.getValue() != null) dto.setRentPrice(new BigDecimal(input_rent.getValue()));
@@ -152,8 +165,10 @@ public class SearchForm extends Composite implements IsWidget {
         } else if (tab_bus.isActive()) {
             dto.setType(Vehicle.Type.BUS)
                     .setDoorsNumber(Integer.parseInt(select_busDoorsNumber.getValue()));
-            if (input_busPassSeats.getValue() != null) dto.setPassengerSeatsNumber(Integer.parseInt(input_busPassSeats.getValue()));
-            if (input_busStandPlaces.getValue() != null) dto.setStandingPlacesNumber(Integer.parseInt(input_busStandPlaces.getValue()));
+            if (input_busPassSeats.getValue() != null)
+                dto.setPassengerSeatsNumber(Integer.parseInt(input_busPassSeats.getValue()));
+            if (input_busStandPlaces.getValue() != null)
+                dto.setStandingPlacesNumber(Integer.parseInt(input_busStandPlaces.getValue()));
         } else {
             dto.setType(Vehicle.Type.TRUCK)
                     .setEnclosed(checkbox_truckEnclosed.getValue())
@@ -168,8 +183,28 @@ public class SearchForm extends Composite implements IsWidget {
 
             @Override
             public void onSuccess(List<VehicleDto> result) {
-                if ((result == null) || (result.isEmpty())) helpBlock_searchError.setText("Nothing was found. Try again.");
-                else presenter.goTo(new Client("search_result"));
+                if ((result == null) || (result.isEmpty()))
+                    helpBlock_searchError.setText("Nothing was found. Try again.");
+                else {
+                    // proper way: presenter.goTo(new SearchResult("search_params"));
+                    // it required separate view (place), taking search parameters and working like permalink
+                    // short way:
+                    heading_panelHeader.setText("Find "+result.size()+" vehicle(s):");
+                    panelBody_searchForm.setVisible(false);
+                    panelBody_searchResult.setVisible(true);
+                    boolean isColored = false;
+                    for (VehicleDto vehicleDto : result) {
+                        ListGroupItem item = new ListGroupItem();
+                        item.setText(vehicleDto.buildLazyEntity().toString());
+                        if (!isColored) {
+                            item.setType(ListGroupItemType.INFO);
+                            isColored = true;
+                        } else isColored = false;
+                        listGroup_searchResult.add(item);
+                    }
+                    panelFooter.setVisible(false);
+                    panel_searchForm.setWidth("85%");
+                }
             }
         });
     }

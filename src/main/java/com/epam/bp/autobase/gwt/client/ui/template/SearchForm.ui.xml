@@ -2,11 +2,11 @@
              xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
              xmlns:select="urn:import:org.gwtbootstrap3.extras.select.client.ui"
         >
-    <b:Panel type="PRIMARY" styleName="CenterForm">
+    <b:Panel type="PRIMARY" styleName="CenterForm" ui:field="panel_searchForm">
         <b:PanelHeader>
-            <b:Heading size="H3" text="Find appropriate vehicle" alignment="CENTER"/>
+            <b:Heading size="H3" text="Find appropriate vehicle" alignment="CENTER" ui:field="heading_panelHeader"/>
         </b:PanelHeader>
-        <b:PanelBody>
+        <b:PanelBody ui:field="panelBody_searchForm">
             <b:NavTabs>
                 <b:TabListItem dataTarget="#tab-bus" text="Bus" width="33%" icon="BUS" ui:field="tab_bus"/>
                 <b:TabListItem dataTarget="#tab-car" text="Car" width="33%" icon="CAR" ui:field="tab_car" active="true"/>
@@ -124,7 +124,10 @@
                 </b:TabPane>
             </b:TabContent>
         </b:PanelBody>
-        <b:PanelFooter addStyleNames="text-align-center">
+        <b:PanelBody visible="false" ui:field="panelBody_searchResult">
+            <b:ListGroup ui:field="listGroup_searchResult"/>
+        </b:PanelBody>
+        <b:PanelFooter addStyleNames="text-align-center" ui:field="panelFooter">
             <b:HelpBlock iconType="EXCLAMATION_TRIANGLE" addStyleNames="errorBlock" ui:field="helpBlock_searchError"/>
             <b:Button type="PRIMARY" text="Search" ui:field="button_search"/>
         </b:PanelFooter>
