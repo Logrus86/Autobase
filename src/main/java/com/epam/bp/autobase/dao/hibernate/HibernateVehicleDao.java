@@ -108,7 +108,6 @@ public class HibernateVehicleDao extends AbstractHibernateDao<Vehicle> implement
             Session session = (Session) em.getDelegate();
             Criteria criteria = session.createCriteria(Vehicle.class);
             criteria.add(Example.create(example));
-            if (criteria.list().isEmpty()) return null;
             return criteria.list();
         } catch (Exception e) {
             throw new DaoException(e.getMessage(), e.getCause());
