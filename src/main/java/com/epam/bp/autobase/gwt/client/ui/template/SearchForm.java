@@ -168,7 +168,7 @@ public class SearchForm extends Composite implements IsWidget {
 
             @Override
             public void onSuccess(List<VehicleDto> result) {
-                if (result == null) helpBlock_searchError.setText("Nothing was found. Try again.");
+                if ((result == null) || (result.isEmpty())) helpBlock_searchError.setText("Nothing was found. Try again.");
                 else presenter.goTo(new Client("search_result"));
             }
         });
