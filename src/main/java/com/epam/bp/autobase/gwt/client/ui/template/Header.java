@@ -106,7 +106,7 @@ public class Header extends Composite implements IsWidget {
         AuthService.App.getInstance().logout(new AsyncCallback<Void>() {
             @Override
             public void onFailure(Throwable caught) {
-                label_welcome.setText("Logout error on server side.");
+                label_welcome.setText("Logout error on server side: "+caught.getMessage());
             }
 
             @Override
