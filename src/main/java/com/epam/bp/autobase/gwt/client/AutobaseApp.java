@@ -8,13 +8,15 @@ import com.epam.bp.autobase.gwt.server.AuthServiceImpl;
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.shared.GWT;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.UmbrellaException;
 
 public class AutobaseApp implements EntryPoint {
 
@@ -24,6 +26,19 @@ public class AutobaseApp implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
+        GWT.setUncaughtExceptionHandler(
+                new GWT.UncaughtExceptionHandler() {
+                    public void onUncaughtException(Throwable e) {
+                        if (e instanceof UmbrellaException) {
+                            UmbrellaException ue = (UmbrellaException) e;
+                            if (ue.getCauses().size() == 1) {
+                                Window.alert("Uncaught unwrapped exception! " + ue.getCauses().iterator().next().getMessage());
+                            }
+                        } else Window.alert("Uncaught exception! " + e.getMessage());
+                    }
+                }
+        );
+
         ViewFactory viewFactory = GWT.create(ViewFactory.class);
         EventBus eventBus = viewFactory.getEventBus();
         PlaceController placeController = viewFactory.getPlaceController();
@@ -39,8 +54,6 @@ public class AutobaseApp implements EntryPoint {
         historyHandler.register(placeController, eventBus, defaultPlace);
 
         RootPanel.get().add(appWidget);
-        // Goes to place represented on URL or default place
-        //historyHandler.handleCurrentHistory();
 
         AuthServiceImpl.App.getInstance().loginCheck(new LoginCheckCallback(viewFactory, new Index()));
     }
