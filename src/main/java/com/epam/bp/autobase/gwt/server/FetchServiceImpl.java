@@ -30,9 +30,9 @@ public class FetchServiceImpl extends RemoteServiceServlet implements FetchServi
         try {
             return ms.getAll();
         } catch (ServiceException e) {
-            logger.error("Fetching models failure: " + e.getMessage());
+            logger.error("Models fetching failed: " + e.getMessage());
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     @Override
@@ -41,9 +41,9 @@ public class FetchServiceImpl extends RemoteServiceServlet implements FetchServi
         try {
             return mfs.getAll();
         } catch (ServiceException e) {
-            logger.error("Fetching vendors failure: " + e.getMessage());
+            logger.error("Vendors fetching failed: " + e.getMessage());
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     @Override
@@ -52,9 +52,9 @@ public class FetchServiceImpl extends RemoteServiceServlet implements FetchServi
         try {
             return cs.getAll();
         } catch (ServiceException e) {
-            logger.error("Fetching colors failure: " + e.getMessage());
+            logger.error("Colors fetching failed: " + e.getMessage());
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     @Override
@@ -65,8 +65,8 @@ public class FetchServiceImpl extends RemoteServiceServlet implements FetchServi
             logger.info("Found: "+result.size()+" vehicle(s)");
             return result;
         } catch (ServiceException e) {
-            logger.error("Searching for vehicle error: " + e.getMessage());
+            logger.error("Vehicle searching failed: " + e.getMessage());
+            throw new RuntimeException(e);
         }
-        return null;
     }
 }

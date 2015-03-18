@@ -47,7 +47,7 @@ public class RegisterServiceImpl extends RemoteServiceServlet implements Registe
             return userDto;
         } catch (Exception e) {
             logger.error("Registration error: " + e.getMessage());
-            return null;
+            throw new RuntimeException(e);
         }
     }
 }
