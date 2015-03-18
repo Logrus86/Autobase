@@ -149,12 +149,12 @@ public class SearchForm extends Composite implements IsWidget {
 
     @UiHandler("button_search")
     public void onButtonSearchClick(ClickEvent e) {
+        // constructing dto
         VehicleDto dto = new VehicleDto();
         if (!"".equals(select_model.getValue())) dto.setModelDto(new ModelDto(select_model.getValue()));
         if (!"".equals(select_vendor.getValue())) dto.setManufacturerDto(new ManufacturerDto(select_vendor.getValue()));
         if (!"".equals(select_color.getValue())) dto.setColorDto(new ColorDto(select_color.getValue(), true));
-        if (!"".equals(select_fuelType.getValue()))
-            dto.setFuelType(Vehicle.Fuel.valueOf(select_fuelType.getValue().toUpperCase()));
+        if (!"".equals(select_fuelType.getValue())) dto.setFuelType(Vehicle.Fuel.valueOf(select_fuelType.getValue().toUpperCase()));
         if (input_notOlder.getValue() != null) dto.setProductionYear(Integer.valueOf(input_notOlder.getValue()));
         if (input_mileage.getValue() != null) dto.setMileage(new BigDecimal(input_mileage.getValue()));
         if (input_rent.getValue() != null) dto.setRentPrice(new BigDecimal(input_rent.getValue()));
@@ -176,6 +176,7 @@ public class SearchForm extends Composite implements IsWidget {
                     .setTipper(checkbox_truckTipper.getValue());
             if (input_truckPayload.getValue() != null) dto.setMaxPayload(new BigDecimal(input_truckPayload.getValue()));
         }
+        //trying to find vehicle with the same field values with dto
         FetchService.App.getInstance().findVehicles(dto, new AsyncCallback<List<VehicleDto>>() {
             @Override
             public void onFailure(Throwable caught) {
