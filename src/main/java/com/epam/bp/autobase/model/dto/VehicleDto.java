@@ -41,24 +41,27 @@ public class VehicleDto extends AbstractDto<Vehicle, VehicleDto> {
         modelDto = new ModelDto(vehicle.getModel());
         manufacturerDto = new ManufacturerDto((vehicle.getManufacturer()));
         switch (type) {
-            case BUS:
+            case BUS: {
                 Bus bus = (Bus) vehicle;
                 standingPlacesNumber = bus.getStandingPlacesNumber();
                 passengerSeatsNumber = bus.getPassengerSeatsNumber();
                 doorsNumber = bus.getDoorsNumber();
                 break;
-            case CAR:
+            }
+            case CAR: {
                 Car car = (Car) vehicle;
                 passengerSeatsNumber = car.getPassengerSeatsNumber();
                 doorsNumber = car.getDoorsNumber();
                 withConditioner = car.isWithConditioner();
                 break;
-            case TRUCK:
+            }
+            case TRUCK: {
                 Truck truck = (Truck) vehicle;
                 maxPayload = truck.getMaxPayload();
                 enclosed = truck.isEnclosed();
                 tipper = truck.isTipper();
                 break;
+            }
         }
     }
 
@@ -224,26 +227,30 @@ public class VehicleDto extends AbstractDto<Vehicle, VehicleDto> {
     public Vehicle buildLazyEntity() {
         Vehicle vehicle = null;
         if (type != null) {
-        switch (type) {
-            case BUS:
-                vehicle = new Bus()
-                        .setPassengerSeatsNumber(passengerSeatsNumber)
-                        .setStandingPlacesNumber(standingPlacesNumber)
-                        .setDoorsNumber(doorsNumber);
-                break;
-            case CAR:
-                vehicle = new Car()
-                        .setPassengerSeatsNumber(passengerSeatsNumber)
-                        .setDoorsNumber(doorsNumber)
-                        .setWithConditioner(withConditioner);
-                break;
-            case TRUCK:
-                vehicle = new Truck()
-                        .setEnclosed(enclosed)
-                        .setMaxPayload(maxPayload)
-                        .setTipper(tipper);
-                break;
-        }}
+            switch (type) {
+                case BUS: {
+                    vehicle = new Bus()
+                            .setPassengerSeatsNumber(passengerSeatsNumber)
+                            .setStandingPlacesNumber(standingPlacesNumber)
+                            .setDoorsNumber(doorsNumber);
+                    break;
+                }
+                case CAR: {
+                    vehicle = new Car()
+                            .setPassengerSeatsNumber(passengerSeatsNumber)
+                            .setDoorsNumber(doorsNumber)
+                            .setWithConditioner(withConditioner);
+                    break;
+                }
+                case TRUCK: {
+                    vehicle = new Truck()
+                            .setEnclosed(enclosed)
+                            .setMaxPayload(maxPayload)
+                            .setTipper(tipper);
+                    break;
+                }
+            }
+        }
         if (vehicle != null) {
             vehicle.setId(getId());
             vehicle.setType(type);

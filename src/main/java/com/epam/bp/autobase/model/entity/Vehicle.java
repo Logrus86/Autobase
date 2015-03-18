@@ -76,7 +76,7 @@ public abstract class Vehicle<T extends Vehicle> implements Identifiable<Vehicle
         return this;
     }
 
-    public int getProductionYear() {
+    public Integer getProductionYear() {
         return productionYear;
     }
 
@@ -112,11 +112,11 @@ public abstract class Vehicle<T extends Vehicle> implements Identifiable<Vehicle
         return this;
     }
 
-    public boolean isOperable() {
+    public Boolean isOperable() {
         return operable;
     }
 
-    public Vehicle setOperable(boolean operable) {
+    public Vehicle setOperable(Boolean operable) {
         this.operable = operable;
         return this;
     }

@@ -59,11 +59,24 @@ public class Bus extends Vehicle<Bus> {
 
     @Override
     public String toString() {
-        return "Bus {Id: " + getId() + ", PassSeatsNumber: " + getPassengerSeatsNumber() + ", stPlacesNumber: " + getStandingPlacesNumber()
-                + ", doorsNumber: " + getDoorsNumber() + ", rentPrice: " + getRentPrice() + ", operable: " + isOperable()
-                + ", model: " + getModel().getValue() + ", manufacturer: " + getManufacturer().getValue() + ", driver: "
-                + getDriver().getId() + ", prodYear: " + getProductionYear() + ", color: " + getColor().getValue_en() + ", mileage: "
-                + getMileage() + ", fuelType: " + getFuelType() + "}";
+        StringBuilder result = new StringBuilder();
+        result.append("Vehicle{");
+        if (getType() != null) result.append("type=").append(getType());
+        if (getId() != null) result.append(", id=").append(getId());
+        if (getModel() != null) result.append(", model=").append(getModel().getValue());
+        if (getManufacturer() != null) result.append(", manufacturer=").append(getManufacturer().getValue());
+        if (getColor() != null) result.append(", color=").append(getColor().getValue_en());
+        if (getDriver() != null) result.append(", driver=").append(getDriver().getId());
+        if (getProductionYear() != null) result.append(", productionYear=").append(getProductionYear());
+        if (getMileage() != null) result.append(", mileage=").append(getMileage());
+        if (isOperable() != null) result.append(", operable=").append(isOperable());
+        if (getFuelType() != null) result.append(", fuelType=").append(getFuelType());
+        if (getRentPrice() != null) result.append(", rentPrice=").append(getRentPrice());
+        if (getPassengerSeatsNumber() != null) result.append(", passSeatsNumber=").append(getPassengerSeatsNumber());
+        if (getStandingPlacesNumber() != null) result.append(", stPlacesNumber=").append(getStandingPlacesNumber());
+        if (getDoorsNumber() != null) result.append(", doorsNumber=").append(getDoorsNumber());
+        result.append("}");
+        return result.toString();
     }
 
 }
