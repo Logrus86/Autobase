@@ -60,9 +60,12 @@ public class FetchServiceImpl extends RemoteServiceServlet implements FetchServi
     @Override
     public List<VehicleDto> findVehicles(VehicleDto dto) {
         try {
-            return vs.findByParams(dto);
+            logger.info("Searching for vehicle: "+dto.buildLazyEntity().toString());
+            List<VehicleDto> result = vs.findByParams(dto);
+            logger.info("Found: "+result.size()+" vehicle(s)");
+            return result;
         } catch (ServiceException e) {
-            logger.error("Searching for required vehicle error: " + e.getMessage());
+            logger.error("Searching for vehicle error: " + e.getMessage());
         }
         return null;
     }
