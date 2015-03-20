@@ -49,7 +49,7 @@ public class Car extends Vehicle<Car> {
         return withConditioner;
     }
 
-    public Car setWithConditioner(boolean withConditioner) {
+    public Car setWithConditioner(Boolean withConditioner) {
         this.withConditioner = withConditioner;
         return this;
     }

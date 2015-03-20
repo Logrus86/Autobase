@@ -38,7 +38,7 @@ public class Truck extends Vehicle<Truck> {
         return enclosed;
     }
 
-    public Truck setEnclosed(boolean enclosed) {
+    public Truck setEnclosed(Boolean enclosed) {
         this.enclosed = enclosed;
         return this;
     }
@@ -47,7 +47,7 @@ public class Truck extends Vehicle<Truck> {
         return tipper;
     }
 
-    public Truck setTipper(boolean tipper) {
+    public Truck setTipper(Boolean tipper) {
         this.tipper = tipper;
         return this;
     }
