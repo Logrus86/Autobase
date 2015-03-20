@@ -46,16 +46,16 @@
         <c:forEach items="${foundedList}" var="vehicle" varStatus="i">
             <tr>
                 <td>${i.count}</td>
-                <td>${vehicle.model.value}</td>
-                <td>${vehicle.manufacturer.value}</td>
+                <td>${vehicle.modelDto.value}</td>
+                <td>${vehicle.manufacturerDto.value}</td>
                 <td>${vehicle.productionYear}</td>
-                <td><c:if test="${sessionState.locale.language=='ru'}">${vehicle.color.value_ru}</c:if>
-                    <c:if test="${sessionState.locale.language=='en'}">${vehicle.color.value_en}</c:if>
+                <td><c:if test="${sessionState.locale.language=='ru'}">${vehicle.colorDto.value_ru}</c:if>
+                    <c:if test="${sessionState.locale.language=='en'}">${vehicle.colorDto.value_en}</c:if>
                 </td>
                 <td><fmt:message key="default.${vehicle.fuelType}"/></td>
                 <td>${vehicle.mileage}</td>
                 <td>${vehicle.rentPrice}</td>
-                <td>${vehicle.driver.lastname} ${vehicle.driver.firstname}</td>
+                <td>${vehicle.driverDto.lastname} ${vehicle.driverDto.firstname}</td>
                 <c:choose>
                     <c:when test="${foundedList[0].type == vehicleTypes[0]}">
                         <td>${vehicle.doorsNumber}</td>

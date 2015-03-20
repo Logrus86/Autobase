@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <form method="get" id="search-form" action="search">
-    <input id="vhType" name="vhType" type="hidden" value="">
+    <input id="vhType" name="type" type="hidden" value="">
 
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -27,7 +27,7 @@
                                 <span class="input-group-addon"><input type="checkbox" id="isModel"> <fmt:message
                                         key="default.model"/></span>
                                 <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true"
-                                        name="modelId" id="modelId">
+                                        name="modelDto" id="modelId">
                                     <c:forEach items="${models}" var="model">
                                         <option value="${model.id}">
                                                 ${model.value}
@@ -43,7 +43,7 @@
                                 <span class="input-group-addon"><input type="checkbox" id="isManuf"> <fmt:message
                                         key="default.manufacturer"/></span>
                                 <select class="selectpicker show-menu-arrow" data-width="auto" data-live-search="true"
-                                        name="manufId" id="manufId">
+                                        name="manufacturerDto" id="manufId">
                                     <c:forEach items="${manufacturers}" var="manufacturer">
                                         <option value="${manufacturer.id}">
                                                 ${manufacturer.value}
@@ -75,7 +75,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><input type="checkbox" id="isFuel"> <fmt:message
                                         key="default.fuel"/></span>
-                                <select class="selectpicker show-menu-arrow" data-width="auto" name="fuel" id="fuel">
+                                <select class="selectpicker show-menu-arrow" data-width="auto" name="fuelType" id="fuel">
                                     <c:forEach items="${fuelTypes}" var="fuel">
                                         <option value="${fuel}">
                                             <fmt:message key="default.${fuel}"/>
@@ -101,7 +101,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><input type="checkbox" id="isNotOlder"> <fmt:message
                                         key="default.not-older"/></span>
-                                <input type="number" min="1980" max="2014" class="form-control" name="notOlder"
+                                <input type="number" min="1980" max="2014" class="form-control" name="productionYear"
                                        id="notOlder" placeholder="..." value="1990">
                                 <span class="input-group-addon"> <fmt:message key="default.of-year-prod"/></span>
                             </div>
@@ -112,7 +112,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><input type="checkbox" id="isRent"> <fmt:message
                                         key="default.not-pricey"/></span>
-                                <input type="number" min="1000" max="100000" class="form-control" name="rent" id="rent"
+                                <input type="number" min="1000" max="100000" class="form-control" name="rentPrice" id="rent"
                                        placeholder="..." value="10000">
                                 <span class="input-group-addon"> <fmt:message key="default.currency"/></span>
                             </div>
@@ -126,7 +126,7 @@
                                 <span class="input-group-addon"><input type="checkbox" id="isPassNbus">
                                     <fmt:message key="default.passengerSeatsNumber"/>
                                 </span>
-                                        <input type="number" min="0" max="200" class="form-control" name="passNbus"
+                                        <input type="number" min="0" max="200" class="form-control" name="passengerSeatsNumber"
                                                id="passNbus" value="20">
                                     </div>
                                 </div>
@@ -137,7 +137,7 @@
                                 <span class="input-group-addon"><input type="checkbox" id="isStandN">
                                     <fmt:message key="default.standingPlacesNumber"/>
                                 </span>
-                                        <input type="number" min="0" max="200" class="form-control" name="standN"
+                                        <input type="number" min="0" max="200" class="form-control" name="standingPlacesNumber"
                                                id="standN" value="20">
                                     </div>
                                 </div>
@@ -148,7 +148,7 @@
                                 <span class="input-group-addon"><input type="checkbox" id="isDoorsBus">
                                     <fmt:message key="default.doorsNumber"/>
                                 </span>
-                                        <select class="selectpicker show-menu-arrow" data-width="auto" name="doorsBus"
+                                        <select class="selectpicker show-menu-arrow" data-width="auto" name="doorsNumber"
                                                 id="doorsBus">
                                             <c:forEach var="i" begin="2" end="5">
                                                 <option>${i}</option>
@@ -165,7 +165,7 @@
                                 <span class="input-group-addon"><input type="checkbox" id="isPassNcar">
                                     <fmt:message key="default.passengerSeatsNumber"/>
                                 </span>
-                                        <select class="selectpicker show-menu-arrow" data-width="auto" name="passNcar"
+                                        <select class="selectpicker show-menu-arrow" data-width="auto" name="passengerSeatsNumber"
                                                 id="passNcar">
                                             <c:forEach var="i" begin="1" end="7">
                                                 <option>${i}</option>
@@ -180,7 +180,7 @@
                                 <span class="input-group-addon"><input type="checkbox" id="isDoorsCar">
                                     <fmt:message key="default.doorsNumber"/>
                                 </span>
-                                        <select class="selectpicker show-menu-arrow" data-width="auto" name="doorsCar"
+                                        <select class="selectpicker show-menu-arrow" data-width="auto" name="doorsNumber"
                                                 id="doorsCar">
                                             <c:forEach var="i" begin="2" end="5">
                                                 <option>${i}</option>
@@ -192,7 +192,7 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="input-group">
-                                        <span class="input-group-addon"><input type="checkbox" name="condit"></span>
+                                        <span class="input-group-addon"><input type="checkbox" name="withConditioner"></span>
                                         <span class="form-control"><fmt:message key="default.conditioner"/></span>
                                     </div>
                                 </div>
@@ -206,7 +206,7 @@
                                     <fmt:message key="default.maxPayload"/>
                                 </span>
                                         <input type="number" class="form-control" placeholder="..." value="10" min="0"
-                                               max="1000" name="payload" id="payload">
+                                               max="1000" name="maxPayload" id="payload">
                                     </div>
                                 </div>
                             </div>
