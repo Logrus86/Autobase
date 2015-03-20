@@ -33,7 +33,7 @@
                         <div class="col-lg-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><fmt:message key="order.dateEnd"/></span>
-                                <input type="text" class="form-control" value="${order.dateEndString}" readonly>
+                                <input type="text" class="form-control" value="${order.dateEnd}" readonly>
                             </div>
                         </div>
                     </div>

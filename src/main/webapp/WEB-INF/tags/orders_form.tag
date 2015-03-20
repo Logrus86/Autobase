@@ -37,9 +37,9 @@
                         </c:if>
                         <td>${order.vehicle.manufacturer.value} ${order.vehicle.model.value}</td>
                         <td>${order.sum} <fmt:message key="default.currency"/></td>
-                        <td>${order.dateOrdered}</td>
+                        <td>${order.dateTimeOrdered}</td>
                         <td>${order.dateStart}</td>
-                        <td>${order.dateEndString}</td>
+                        <td>${order.dateEnd}</td>
                         <td>${order.dayCount} <fmt:message key="order.days"/></td>
                         <td>
                             <c:choose>

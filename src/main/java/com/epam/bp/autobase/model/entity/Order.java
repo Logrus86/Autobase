@@ -1,5 +1,7 @@
 package com.epam.bp.autobase.model.entity;
 
+import com.epam.bp.autobase.util.DateParser;
+
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
@@ -105,6 +107,10 @@ public class Order implements Identifiable<Order> {
     public Order setDateStart(Date dateStart) {
         this.dateStart = dateStart;
         return this;
+    }
+
+    public Date getDateEnd() {
+        return DateParser.dateWithOffset(dateStart, dayCount);
     }
 
     public Date getDateTimeOrdered() {
