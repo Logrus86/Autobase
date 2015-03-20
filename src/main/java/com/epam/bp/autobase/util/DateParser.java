@@ -2,6 +2,7 @@ package com.epam.bp.autobase.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 @SuppressWarnings("NonJREEmulationClassesInClientCode")
@@ -44,5 +45,12 @@ public class DateParser {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public static Date dateWithOffset(Date startDate, Integer offsetDaysCount) {
+        Calendar result = Calendar.getInstance();
+        result.setTime(startDate);
+        result.add(Calendar.DATE, offsetDaysCount);
+        return result.getTime();
     }
 }
