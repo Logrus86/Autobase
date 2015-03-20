@@ -109,35 +109,35 @@ public class HibernateVehicleDao extends AbstractHibernateDao<Vehicle> implement
             Session session = (Session) em.getDelegate();
             Criteria criteria = session.createCriteria(Vehicle.class);
             if (example.getMileage() != null) {
-                criteria.add(Restrictions.le("MILEAGE",example.getMileage()));
+                criteria.add(Restrictions.le("mileage",example.getMileage()));
                 example.setMileage(null);
             }
             if (example.getRentPrice() != null) {
-                criteria.add(Restrictions.le("RENT_PRICE",example.getRentPrice()));
+                criteria.add(Restrictions.le("rentPrice",example.getRentPrice()));
                 example.setRentPrice(null);
             }
             if (example.getType().equals(Vehicle.Type.BUS)) {
                 Bus bus = (Bus) example;
                 if (bus.getPassengerSeatsNumber() != null) {
-                    criteria.add(Restrictions.ge("PASSENGER_SEATS_NUMBER", bus.getPassengerSeatsNumber()));
+                    criteria.add(Restrictions.ge("passengerSeatsNumber", bus.getPassengerSeatsNumber()));
                     bus.setPassengerSeatsNumber(null);
                 }
                 if (bus.getStandingPlacesNumber() != null) {
-                    criteria.add(Restrictions.ge("STANDING_PLACES_NUMBER", bus.getStandingPlacesNumber()));
+                    criteria.add(Restrictions.ge("standingPlacesNumber", bus.getStandingPlacesNumber()));
                     bus.setStandingPlacesNumber(null);
                 }
             } else {
                 if (example.getType().equals(Vehicle.Type.CAR)) {
                     Car car = (Car) example;
                     if (car.getPassengerSeatsNumber() != null) {
-                        criteria.add(Restrictions.ge("PASSENGER_SEATS_NUMBER", car.getPassengerSeatsNumber()));
+                        criteria.add(Restrictions.ge("passengerSeatsNumber", car.getPassengerSeatsNumber()));
                         car.setPassengerSeatsNumber(null);
                     }
                 }
                 else {
                     Truck truck = (Truck) example;
                     if (truck.getMaxPayload() != null) {
-                        criteria.add(Restrictions.le("MAX_PAYLOAD",truck.getMaxPayload()));
+                        criteria.add(Restrictions.le("maxPayload",truck.getMaxPayload()));
                         truck.setMaxPayload(null);
                     }
                 }
