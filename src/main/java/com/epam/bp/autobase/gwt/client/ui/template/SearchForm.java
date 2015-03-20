@@ -194,7 +194,7 @@ public class SearchForm extends Composite implements IsWidget {
                     heading_panelHeader.setText("Find "+result.size()+" vehicle(s):");
                     panelBody_searchForm.setVisible(false);
                     panelBody_searchResult.setVisible(true);
-                    boolean isColored = false;
+                    boolean isColored = true;
                     for (VehicleDto vehicleDto : result) {
                         ListGroupItem item = new ListGroupItem();
                         item.setText(vehicleDto.buildLazyEntity().toString());
